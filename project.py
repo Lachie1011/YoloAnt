@@ -41,9 +41,9 @@ class Project:
         """ Private funtction to create a  project"""
         # create a folder wihtin yoloant's 'projects' dir TODO: this could be read from yoloants config
         os.makedirs(os.getcwd() + "/projects/" + project_name)
-
+        
         # create project yaml
         open(os.getcwd() + "/projects/" + project_name + "/project.yaml", "x")
-
+        
         # TODO: write projects name to yaml
         # TODO: get input from user to point towards images
