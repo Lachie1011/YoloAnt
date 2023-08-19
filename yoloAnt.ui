@@ -309,7 +309,7 @@ background-color: rgb(45, 45, 45);</string>
      </widget>
     </item>
     <item>
-     <widget class="QWidget" name="mainWindowContainer" native="true">
+     <widget class="QWidget" name="annotationWindowContainer" native="true">
       <property name="enabled">
        <bool>true</bool>
       </property>
