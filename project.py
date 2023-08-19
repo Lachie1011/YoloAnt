@@ -11,13 +11,15 @@ class Project:
     """
         gets project related information and provides related functionality
     """
-    def __init__(self, project_name: str) -> None:
+    def __init__(self, new_project: bool, project_name: str) -> None:
         """ init function"""
-        # attempt to load project
-        self.project_metadata = self.__load_project(project_name)
-        if project_name is None:
+        if new_project:
             self.project_metadata = self.__create_project(project_name)
-        
+        else:         
+            self.project_metadata = self.__load_project(project_name)
+            if self.project_metadata is None:
+                return None  # TODO: indication to user that no project exists
+
         # TODO: assign project values to class
 
     def __load_project(self, project_name: str) -> Any:
