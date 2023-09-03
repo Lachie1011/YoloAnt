@@ -9,20 +9,21 @@ from typing import Any
 
 class Project:
     """
-        gets project related information and provides related functionality
+        Gets project related information and provides related functionality
     """
     def __init__(self, new_project: bool, project_name: str) -> None:
         """ init function"""
         if new_project:
-            self.project_metadata = self.__create_project(project_name)
-        else:         
-            self.project_metadata = self.__load_project(project_name)
-            if self.project_metadata is None:
-                return None  # TODO: indication to user that no project exists
+            self.__createProject(project_name)
+
+        self.project_metadata = self.__loadProject(project_name)
+        
+        if self.project_metadata is None: 
+            return None
 
         # TODO: assign project values to class
 
-    def __load_project(self, project_name: str) -> Any:
+    def __loadProject(self, project_name: str) -> Any:
         """ Private function to load a project's metadata """
         # check if project exists
         project_path = os.getcwd() + "/projects/" + project_name
@@ -37,8 +38,13 @@ class Project:
             except Exception as exc:
                 print(exc)
 
-    def __create_project(self, project_name: str) -> Any:
+    def __createProject(self, project_name: str) -> None:
         """ Private funtction to create a  project"""
+        # check that project doesnt exist
+        project_path = os.getcwd() + "/projects/" + project_name
+        if os.path.exists(project_path):
+            return None
+        
         # create a folder wihtin yoloant's 'projects' dir TODO: this could be read from yoloants config
         os.makedirs(os.getcwd() + "/projects/" + project_name)
         

@@ -88,7 +88,7 @@ QPushButton{
       </property>
       <property name="minimumSize">
        <size>
-        <width>40</width>
+        <width>50</width>
         <height>635</height>
        </size>
       </property>
@@ -129,7 +129,7 @@ background-color: rgb(45, 45, 45);</string>
            <number>0</number>
           </property>
           <item>
-           <widget class="QPushButton" name="mousePointer">
+           <widget class="QPushButton" name="annotTabBtn">
             <property name="toolTip">
              <string>Selection tool to select annotation</string>
             </property>
@@ -138,7 +138,8 @@ background-color: rgb(45, 45, 45);</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/icons8-pencil-50.png</normaloff>icons/icons8-pencil-50.png</iconset>
+              <normaloff>icons/icons8-pencil-50.png</normaloff>
+              <normalon>icons/icons8-pencil-50-selected.png</normalon>icons/icons8-pencil-50.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -147,6 +148,9 @@ background-color: rgb(45, 45, 45);</string>
              </size>
             </property>
             <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
              <bool>false</bool>
             </property>
            </widget>
@@ -179,7 +183,7 @@ background-color: rgb(45, 45, 45);</string>
            <number>0</number>
           </property>
           <item>
-           <widget class="QPushButton" name="projectsTab">
+           <widget class="QPushButton" name="projectsTabBtn">
             <property name="minimumSize">
              <size>
               <width>50</width>
@@ -191,7 +195,8 @@ background-color: rgb(45, 45, 45);</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/icons8-project-50.png</normaloff>icons/icons8-project-50.png</iconset>
+              <normaloff>icons/icons8-project-50.png</normaloff>
+              <normalon>icons/icons8-project-50-selected.png</normalon>icons/icons8-project-50.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -200,7 +205,7 @@ background-color: rgb(45, 45, 45);</string>
              </size>
             </property>
             <property name="checkable">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -223,7 +228,7 @@ background-color: rgb(45, 45, 45);</string>
            <number>0</number>
           </property>
           <item>
-           <widget class="QPushButton" name="mlTab">
+           <widget class="QPushButton" name="mlTabBtn">
             <property name="minimumSize">
              <size>
               <width>50</width>
@@ -235,7 +240,8 @@ background-color: rgb(45, 45, 45);</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/icons8-ant-head-50.png</normaloff>icons/icons8-ant-head-50.png</iconset>
+              <normaloff>icons/icons8-ant-head-50.png</normaloff>
+              <normalon>icons/icons8-ant-head-50-selected.png</normalon>icons/icons8-ant-head-50.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -244,7 +250,7 @@ background-color: rgb(45, 45, 45);</string>
              </size>
             </property>
             <property name="checkable">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -289,7 +295,7 @@ background-color: rgb(45, 45, 45);</string>
            <number>0</number>
           </property>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="infoBtn">
             <property name="minimumSize">
              <size>
               <width>50</width>
@@ -318,7 +324,7 @@ background-color: rgb(45, 45, 45);</string>
      </widget>
     </item>
     <item>
-     <widget class="QWidget" name="annotationWindowContainer" native="true">
+     <widget class="QWidget" name="mainWindowContainer" native="true">
       <property name="enabled">
        <bool>true</bool>
       </property>
@@ -342,8 +348,8 @@ background-color: rgb(45, 45, 45);</string>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="minimumSize">
           <size>
-           <width>700</width>
-           <height>400</height>
+           <width>862</width>
+           <height>660</height>
           </size>
          </property>
          <property name="accessibleDescription">
@@ -361,10 +367,233 @@ background-color: rgb(45, 45, 45);</string>
          <property name="currentIndex">
           <number>0</number>
          </property>
-         <widget class="QWidget" name="entryPage"/>
-         <widget class="QWidget" name="annotationPage"/>
-         <widget class="QWidget" name="projectPage"/>
-         <widget class="QWidget" name="machineLearningPage"/>
+         <widget class="QWidget" name="entryPage">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QFrame" name="createProjectFrame">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <item>
+               <spacer name="verticalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="createProjectBtn">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>icons/createProject.png</normaloff>icons/createProject.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>100</width>
+                  <height>100</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="createProjectLbl">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Create Project</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="openProjectFrame">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <property name="lineWidth">
+              <number>1</number>
+             </property>
+             <layout class="QVBoxLayout" name="_2">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="sizeConstraint">
+               <enum>QLayout::SetDefaultConstraint</enum>
+              </property>
+              <item>
+               <spacer name="verticalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="openProjecBtn">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>icons/openProject.png</normaloff>icons/openProject.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>100</width>
+                  <height>100</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="openProjectLbl">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="lineWidth">
+                 <number>1</number>
+                </property>
+                <property name="text">
+                 <string>Open Project</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="annotationPage">
+          <widget class="QLabel" name="label">
+           <property name="geometry">
+            <rect>
+             <x>390</x>
+             <y>250</y>
+             <width>67</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>annot page</string>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="projectPage">
+          <widget class="QLabel" name="label_2">
+           <property name="geometry">
+            <rect>
+             <x>480</x>
+             <y>330</y>
+             <width>67</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>proj Page</string>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="machineLearningPage">
+          <widget class="QLabel" name="label_3">
+           <property name="geometry">
+            <rect>
+             <x>310</x>
+             <y>320</y>
+             <width>67</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>ML Page</string>
+           </property>
+          </widget>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -380,6 +609,12 @@ background-color: rgb(45, 45, 45);</string>
      <width>862</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>25</width>
+     <height>0</height>
+    </size>
    </property>
    <property name="palette">
     <palette>
