@@ -40,7 +40,7 @@ class YoloAnt(QMainWindow):
         self.__connectNavigationButtons()
         self.__connectIconHoverFunc()
 
-        self.startPage = StartPage(self.ui)
+        self.startPage = StartPage(self)
         # Connecting signals and slots for the annotation page
         # Connecting signals and slots for the projects page
         # Connecting signals and slots for the machine learning page
@@ -59,6 +59,7 @@ class YoloAnt(QMainWindow):
         self.ui.projectsTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.ProjectPage))
         self.ui.mlTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.MachineLearningPage))
 
+
     def __updateStateOfNavigationButtons(self, page: Pages) -> None:
         """ Updates the state of the navigation buttons """
         if(page is Pages.AnnotationPage):
@@ -75,8 +76,20 @@ class YoloAnt(QMainWindow):
             self.ui.projectsTabBtn.setChecked(False)
 
     def __connectIconHoverFunc(self) -> None:
-        """ Connects the hover over functionality to icons """
-        pass
+        """ Updates stylesheet to reflect hovering"""
+        # updating stylesheets initially
+        self.ui.createProjectBtn.setStyleSheet("QPushButton::hover"
+                                                "{"
+                                                "background-color : #61635e;"
+                                                "border-radius: 20px;"
+                                                "}")
+        
+        self.ui.openProjecBtn.setStyleSheet("QPushButton::hover"
+                                        "{"
+                                        "background-color : #61635e;"
+                                        "border-radius: 20px;"
+                                        "}")
+
 
 def main() -> None:
     """
