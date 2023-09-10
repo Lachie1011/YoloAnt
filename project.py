@@ -15,9 +15,10 @@ class Project:
         """ init """
         self.projectValidated = False
         self.projectName = None
+        self.imageDir = None
 
-    def loadProject(self, projectName: str) -> Any:
-        """ Private function to load a project's metadata """
+    def loadProject(self, projectName: str) -> None:
+        """ Function to load a project's metadata """
         # check if project exists
         projectPath = os.getcwd() + "/projects/" + projectName
         if not os.path.exists(projectPath):
@@ -27,25 +28,31 @@ class Project:
         with open(projectPath + "/project.yaml", "r") as stream:
             try:
                 project = yaml.safe_load(stream)
-                return project
+                self.projectName = project["ProjectName"]
+                self.imageDir = project["Images"]
+                self.projectValidated = True
             except Exception as exc:
                 print(exc)
         
-        # TODO: update member values with values from yaml
-        self.projectValidated = True
 
-    def createProject(self, projectName: str, image_dir: str) -> None:
-        """ Private funtction to create a  project"""
+    def createProject(self, projectName: str, imageDir: str) -> None:
+        """ Function to create a  project"""
         # check that project doesnt exist
         projectPath = os.getcwd() + "/projects/" + projectName
         if os.path.exists(projectPath):
             return None
-        
-        # create a folder wihtin yoloant's 'projects' dir TODO: this could be read from yoloants config
+
+        # create a folder within yoloant's 'projects' dir
         os.makedirs(os.getcwd() + "/projects/" + projectName)
+
+        # create project yaml and write project name and image dir to file
+        project = {"Images": imageDir, "ProjectName": projectName}
+        with open(os.getcwd() + "/projects/" + projectName + "/project.yaml", "x") as file:
+            try:
+                yaml.dump(project, file)
+            except Exception as exc:
+                print(exc)
         
-        # create project yaml
-        open(os.getcwd() + "/projects/" + projectName + "/project.yaml", "x")
-        
-        # TODO: write to yaml 
-        # TODO: call load project
+        self.projectName = projectName
+        self.imageDir = imageDir
+        self.projectValidated = True

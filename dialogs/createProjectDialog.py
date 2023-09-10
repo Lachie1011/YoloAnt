@@ -47,18 +47,35 @@ class CreateProjectDialog(QDialog):
         projectName = self.ui.nameInput.text()
         imageDirectory = self.ui.imageDirInput.text()
 
-        # validating input        
-        if projectName is None:
-            return
+        # validating input
+        valid = True   
+        if projectName == "":
+            self.ui.nameInput.setStyleSheet("QLineEdit"
+                                "{"
+                                "border : 1px solid red;"
+                                "}")
+            valid = False
+        else: 
+            self.ui.nameInput.setStyleSheet("QLineEdit"
+                    "{"
+                    "border : 1px solid #373737;"
+                    "}")
 
-        if imageDirectory is None: 
-            return
-
-        # verifying that the image directory given exists
-        if not os.path.isdir(imageDirectory):
+        if imageDirectory == "" or not os.path.isdir(imageDirectory): 
+            self.ui.imageDirInput.setStyleSheet("QLineEdit"
+                                "{"
+                                "border : 1px solid red;"
+                                "}")
+            valid = False
+        else: 
+            self.ui.imageDirInput.setStyleSheet("QLineEdit"
+                    "{"
+                    "border : 1px solid #373737;"
+                    "}")
+        if not valid:
             return
         
         self.projectName = projectName
         self.imageDirectory = imageDirectory
 
-        return self.done(0)
+        return self.done(1)

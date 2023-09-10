@@ -36,21 +36,26 @@ class StartPage():
 
     def __handleProject(self, createProject: bool) -> None:
         """ handles the flow of project operation"""
+        self.project = Project()
         if(createProject):
             # opens a new dialog to set up the project
             createProjectDialog = CreateProjectDialog()
             createProjectDialog.exec()
-            
-            if createProjectDialog.result() == 0 :
-                self.project = Project(True, createProjectDialog.projectName)
+            if createProjectDialog.result() == 1:
+                self.project.createProject(createProjectDialog.projectName, createProjectDialog.imageDirectory)
+                self.app.project = self.project
+                # update navigation panel and switch dir TODO: create functions that wrap the navigation as below
+                self.ui.mlTabBtn.setChecked(False)
+                self.ui.annotTabBtn.setChecked(False)
+                self.ui.projectsTabBtn.setChecked(True)
+                self.ui.stackedWidget.setCurrentIndex(2)
         else:
             # opens file explorer
             file = QFileDialog.getOpenFileName(self.app, 'Open file', os.getcwd())
-            print(file)
-            if file[0] is not '':
-                self.project = Project(False, file[0])
-
-                # update navigation panel and switch dir
+            if file[0] == "project.yaml":
+                self.project.loadProject(file[0])
+                self.app.project = self.project
+                # update navigation panel and switch dir TODO: create functions that wrap the navigation as below
                 self.ui.mlTabBtn.setChecked(False)
                 self.ui.annotTabBtn.setChecked(False)
                 self.ui.projectsTabBtn.setChecked(True)

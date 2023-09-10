@@ -34,6 +34,7 @@ class YoloAnt(QMainWindow):
         
         # Setting up some member variables
         self.currentPage = Pages.StartPage
+        self.project = None
         
         # Connecting signals and slots for the application
         self.__connectNavigationButtons()
