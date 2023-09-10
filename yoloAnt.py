@@ -1,6 +1,5 @@
 """
     yoloAnt.py
-    WIP: main entry point for the yoloant application
 """
 
 import sys
@@ -24,7 +23,7 @@ class Pages(Enum):
 
 class YoloAnt(QMainWindow):
     """
-        Class that creates and runs the yoloant application
+        Class that creates the yoloant application
     """
     def __init__(self) -> None:
         """ init """
@@ -77,19 +76,7 @@ class YoloAnt(QMainWindow):
 
     def __connectIconHoverFunc(self) -> None:
         """ Updates stylesheet to reflect hovering"""
-        # updating stylesheets initially
-        self.ui.createProjectBtn.setStyleSheet("QPushButton::hover"
-                                                "{"
-                                                "background-color : #61635e;"
-                                                "border-radius: 20px;"
-                                                "}")
-        
-        self.ui.openProjecBtn.setStyleSheet("QPushButton::hover"
-                                        "{"
-                                        "background-color : #61635e;"
-                                        "border-radius: 20px;"
-                                        "}")
-
+        pass
 
 def main() -> None:
     """

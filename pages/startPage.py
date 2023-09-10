@@ -9,6 +9,8 @@ from project import Project
 from PyQt6.QtWidgets import QFileDialog
 
 from yoloAnt_ui import Ui_MainWindow
+from dialogs.createProjectDialog import CreateProjectDialog
+
 
 class StartPage():
     """
@@ -36,7 +38,11 @@ class StartPage():
         """ handles the flow of project operation"""
         if(createProject):
             # opens a new dialog to set up the project
-            self.project = Project(True, "todo")
+            createProjectDialog = CreateProjectDialog()
+            createProjectDialog.exec()
+            
+            if createProjectDialog.result() == 0 :
+                self.project = Project(True, createProjectDialog.projectName)
         else:
             # opens file explorer
             file = QFileDialog.getOpenFileName(self.app, 'Open file', os.getcwd())
@@ -52,4 +58,15 @@ class StartPage():
 
     def __connectIconHoverFunc(self) -> None:
         """ Connects the hover over functionality to icons """
-        pass
+        # updating stylesheets initially
+        self.ui.createProjectBtn.setStyleSheet("QPushButton::hover"
+                                                "{"
+                                                "background-color : #61635e;"
+                                                "border-radius: 20px;"
+                                                "}")
+        
+        self.ui.openProjecBtn.setStyleSheet("QPushButton::hover"
+                                        "{"
+                                        "background-color : #61635e;"
+                                        "border-radius: 20px;"
+                                        "}")
