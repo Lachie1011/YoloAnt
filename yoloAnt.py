@@ -5,6 +5,7 @@
 import sys
 from enum import Enum
 from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow
+from PyQt6.QtCore import QObject, QEvent
 
 from yoloAnt_ui import Ui_MainWindow
 
@@ -13,6 +14,7 @@ from pages.projectPage import ProjectPage
 from pages.annotationPage import AnnotationPage
 from pages.machineLearningPage import MachineLearningPage
 
+from events.hoverEvent import HoverEvent
 
 class Pages(Enum):
     """ Enum to represent the pages within the application"""
@@ -41,9 +43,25 @@ class YoloAnt(QMainWindow):
         self.__connectIconHoverFunc()
 
         self.startPage = StartPage(self)
+        self.annotationPage = AnnotationPage(self)
+
         # Connecting signals and slots for the annotation page
+
+        # Applying hover event to annotTabBtn
+        self.annotTabHoverEvent = HoverEvent(self.ui.annotTabBtn, "icons/icons8-pencil-50.png", "icons/icons8-pencil-50-selected.png")
+        self.ui.annotTabBtn.installEventFilter(self.annotTabHoverEvent)
+
         # Connecting signals and slots for the projects page
+
+        # Applying hover event to projectsTabBtn
+        self.projectsTabHoverEvent = HoverEvent(self.ui.projectsTabBtn, "icons/icons8-project-50.png", "icons/icons8-project-50-selected.png")
+        self.ui.projectsTabBtn.installEventFilter(self.projectsTabHoverEvent)
+
         # Connecting signals and slots for the machine learning page
+
+        # Applying hover event to mlTabBtn
+        self.mlTabHoverEvent = HoverEvent(self.ui.mlTabBtn, "icons/icons8-ant-head-50.png", "icons/icons8-ant-head-50-selected.png")
+        self.ui.mlTabBtn.installEventFilter(self.mlTabHoverEvent)
 
         self.show()
     
@@ -78,6 +96,11 @@ class YoloAnt(QMainWindow):
     def __connectIconHoverFunc(self) -> None:
         """ Updates stylesheet to reflect hovering"""
         pass
+
+    def eventFilter(self, object, event):
+        if event.type() == QEvent.Type.Enter:
+            print("hello") 
+        return super().eventFilter(object, event)
 
 def main() -> None:
     """
