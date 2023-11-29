@@ -39,11 +39,9 @@ color: rgb(255, 255, 255);</string>
     <string notr="true">*{
 	color: rgb(255, 255, 255);
 	border: none;
-	background-colour: transparent;
 	background: none;
 	padding: 0;
 	margin: 0;
-	colour: #ffffff;
 }
 
 #centralwidget{
