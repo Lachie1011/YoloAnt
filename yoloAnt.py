@@ -5,6 +5,8 @@
 import sys
 from enum import Enum
 from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow
+from PyQt6.QtGui import QCursor
+from PyQt6 import QtCore
 from PyQt6.QtCore import QObject, QEvent
 
 from yoloAnt_ui import Ui_MainWindow
@@ -47,19 +49,22 @@ class YoloAnt(QMainWindow):
 
         # Connecting signals and slots for the annotation page
 
-        # Applying hover event to annotTabBtn
+        # Applying hover event and cursor change to annotTabBtn
+        self.ui.annotTabBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.annotTabHoverEvent = HoverEvent(self.ui.annotTabBtn, "icons/icons8-pencil-50.png", "icons/icons8-pencil-50-selected.png")
         self.ui.annotTabBtn.installEventFilter(self.annotTabHoverEvent)
 
         # Connecting signals and slots for the projects page
 
-        # Applying hover event to projectsTabBtn
+        # Applying hover event and cursor change to projectsTabBtn
+        self.ui.projectsTabBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.projectsTabHoverEvent = HoverEvent(self.ui.projectsTabBtn, "icons/icons8-project-50.png", "icons/icons8-project-50-selected.png")
         self.ui.projectsTabBtn.installEventFilter(self.projectsTabHoverEvent)
 
         # Connecting signals and slots for the machine learning page
 
-        # Applying hover event to mlTabBtn
+        # Applying hover event and cursor change to mlTabBtn
+        self.ui.mlTabBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.mlTabHoverEvent = HoverEvent(self.ui.mlTabBtn, "icons/icons8-ant-head-50.png", "icons/icons8-ant-head-50-selected.png")
         self.ui.mlTabBtn.installEventFilter(self.mlTabHoverEvent)
 
