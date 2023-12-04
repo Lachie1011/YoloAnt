@@ -5,6 +5,7 @@
 import sys
 from yoloAnt_ui import Ui_MainWindow
 from events.hoverEvent import HoverEvent
+from events.resizeEvent import ResizeEvent
 
 from PyQt6.QtGui import QCursor
 from PyQt6 import QtCore
@@ -20,9 +21,11 @@ class AnnotationPage():
 
         # Connecting signals and slots for the page
 
-        # Applying hover events and cursor change to QObjects
+        # Applying resize event for the image lbl TODO: revisit for image resizing
+        # self.imageFrameResizeEvent = ResizeEvent(self.ui.imageFrame)
+        # self.ui.imageFrame.installEventFilter(self.imageFrameResizeEvent)
 
-        # Navigation Buttons
+        # Applying hover events and cursor change to Navigation Buttons
         self.ui.prevUnannoImageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.prevUnannoBtnHoverEvent = HoverEvent(self.ui.prevUnannoImageBtn, "icons/icons8-chevron-prev-30.png", "icons/icons8-chevron-prev-30-selected.png")
         self.ui.prevUnannoImageBtn.installEventFilter(self.prevUnannoBtnHoverEvent)
@@ -38,8 +41,8 @@ class AnnotationPage():
         self.ui.nextUnannoImageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.nextUnannoBtnHoverEvent = HoverEvent(self.ui.nextUnannoImageBtn, "icons/icons8-chevron-next-30.png", "icons/icons8-chevron--next-30-selected.png")
         self.ui.nextUnannoImageBtn.installEventFilter(self.nextUnannoBtnHoverEvent)
-
-        # Tool Selection Buttons
+      
+        # Applying hover events and cursor change to Tool Selection Buttons 
         self.ui.mouseToolBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.mouseBtnHoverEvent = HoverEvent(self.ui.mouseToolBtn, "icons/cursor-inactive.png", "icons/cursor-active.png")
         self.ui.mouseToolBtn.installEventFilter(self.mouseBtnHoverEvent)

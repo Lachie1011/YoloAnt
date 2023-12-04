@@ -34,6 +34,7 @@ class YoloAnt(QMainWindow):
         super().__init__()
 
         self.ui = Ui_MainWindow()
+        
         self.ui.setupUi(self)
         
         # Setting up some member variables
@@ -46,27 +47,6 @@ class YoloAnt(QMainWindow):
 
         self.startPage = StartPage(self)
         self.annotationPage = AnnotationPage(self)
-
-        # Connecting signals and slots for the annotation page
-
-        # Applying hover event and cursor change to annotTabBtn
-        self.ui.annotTabBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.annotTabHoverEvent = HoverEvent(self.ui.annotTabBtn, "icons/icons8-pencil-50.png", "icons/icons8-pencil-50-selected.png")
-        self.ui.annotTabBtn.installEventFilter(self.annotTabHoverEvent)
-
-        # Connecting signals and slots for the projects page
-
-        # Applying hover event and cursor change to projectsTabBtn
-        self.ui.projectsTabBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.projectsTabHoverEvent = HoverEvent(self.ui.projectsTabBtn, "icons/icons8-project-50.png", "icons/icons8-project-50-selected.png")
-        self.ui.projectsTabBtn.installEventFilter(self.projectsTabHoverEvent)
-
-        # Connecting signals and slots for the machine learning page
-
-        # Applying hover event and cursor change to mlTabBtn
-        self.ui.mlTabBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.mlTabHoverEvent = HoverEvent(self.ui.mlTabBtn, "icons/icons8-ant-head-50.png", "icons/icons8-ant-head-50-selected.png")
-        self.ui.mlTabBtn.installEventFilter(self.mlTabHoverEvent)
 
         self.show()
     
@@ -81,7 +61,6 @@ class YoloAnt(QMainWindow):
         self.ui.annotTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.AnnotationPage))
         self.ui.projectsTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.ProjectPage))
         self.ui.mlTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.MachineLearningPage))
-
 
     def __updateStateOfNavigationButtons(self, page: Pages) -> None:
         """ Updates the state of the navigation buttons """
@@ -99,20 +78,32 @@ class YoloAnt(QMainWindow):
             self.ui.projectsTabBtn.setChecked(False)
 
     def __connectIconHoverFunc(self) -> None:
-        """ Updates stylesheet to reflect hovering"""
-        pass
+        """ 
+            Installs the hover event filter onto navigation btns and
+            updates the cursor icon on hover
+        """
+        # Applying hover event and cursor change to annotTabBtn
+        self.ui.annotTabBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.annotTabHoverEvent = HoverEvent(self.ui.annotTabBtn, "icons/icons8-pencil-50.png", "icons/icons8-pencil-50-selected.png")
+        self.ui.annotTabBtn.installEventFilter(self.annotTabHoverEvent)
 
-    def eventFilter(self, object, event):
-        if event.type() == QEvent.Type.Enter:
-            print("hello") 
-        return super().eventFilter(object, event)
+        # Applying hover event and cursor change to projectsTabBtn
+        self.ui.projectsTabBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.projectsTabHoverEvent = HoverEvent(self.ui.projectsTabBtn, "icons/icons8-project-50.png", "icons/icons8-project-50-selected.png")
+        self.ui.projectsTabBtn.installEventFilter(self.projectsTabHoverEvent)
+
+        # Applying hover event and cursor change to mlTabBtn
+        self.ui.mlTabBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.mlTabHoverEvent = HoverEvent(self.ui.mlTabBtn, "icons/icons8-ant-head-50.png", "icons/icons8-ant-head-50-selected.png")
+        self.ui.mlTabBtn.installEventFilter(self.mlTabHoverEvent)
+
 
 def main() -> None:
     """
         main entry point
     """
     app = QApplication(sys.argv)
-    main_window = YoloAnt()
+    YoloAnt()
 
     sys.exit(app.exec())
 
