@@ -27,15 +27,15 @@ class StartPage():
 
         # Connecting signals and slots for the page
         self.__connectProjectButtons()
-        self.__connectIconHoverFunc()
+        self.__connectIconHover()
 
     def __connectProjectButtons(self) -> None:
-        """ connects the create and open project buttons"""
+        """ Connects the create and open project buttons"""
         self.ui.createProjectBtn.clicked.connect(lambda: self.__handleProject(True))
         self.ui.openProjecBtn.clicked.connect(lambda: self.__handleProject(False))
 
     def __handleProject(self, createProject: bool) -> None:
-        """ handles the flow of project operation"""
+        """ Handles the flow of project operation"""
         self.project = Project()
         if(createProject):
             # opens a new dialog to set up the project
@@ -61,7 +61,7 @@ class StartPage():
                 self.ui.projectsTabBtn.setChecked(True)
                 self.ui.stackedWidget.setCurrentIndex(2)
 
-    def __connectIconHoverFunc(self) -> None:
+    def __connectIconHover(self) -> None:
         """ Connects the hover over functionality to icons """
         # updating stylesheets initially
         self.ui.createProjectBtn.setStyleSheet("QPushButton::hover"

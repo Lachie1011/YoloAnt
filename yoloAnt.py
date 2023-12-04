@@ -18,12 +18,14 @@ from pages.machineLearningPage import MachineLearningPage
 
 from events.hoverEvent import HoverEvent
 
+
 class Pages(Enum):
     """ Enum to represent the pages within the application"""
     StartPage=0
     AnnotationPage=1
     ProjectPage=2
     MachineLearningPage=3
+
 
 class YoloAnt(QMainWindow):
     """
@@ -43,7 +45,7 @@ class YoloAnt(QMainWindow):
         
         # Connecting signals and slots for the application
         self.__connectNavigationButtons()
-        self.__connectIconHoverFunc()
+        self.__connectIconHover()
 
         self.startPage = StartPage(self)
         self.annotationPage = AnnotationPage(self)
@@ -51,7 +53,7 @@ class YoloAnt(QMainWindow):
         self.show()
     
     def __connectNavigationButtons(self) -> None:
-        """ Connects the navigation buttons to update the current page of the stacked widget """
+        """ Connects the navigation buttons to update the current page of the stacked widget and updates checked state """
         # updates stacked widget index
         self.ui.annotTabBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))    
         self.ui.projectsTabBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(2))    
@@ -84,10 +86,10 @@ class YoloAnt(QMainWindow):
             self.ui.projectsTabBtn.setChecked(False)
             self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
 
-    def __connectIconHoverFunc(self) -> None:
+    def __connectIconHover(self) -> None:
         """ 
-            Installs the hover event filter onto navigation btns and
-            updates the cursor icon on hover
+            Installs the hover event filter onto the application navigation buttons
+            and updates the cursor icon on hover.
         """
         # Applying hover event and cursor change to annotTabBtn
         self.ui.annotTabBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))

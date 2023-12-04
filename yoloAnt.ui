@@ -665,13 +665,17 @@ border-radius: 5px;</string>
                    </property>
                    <property name="icon">
                     <iconset>
-                     <normaloff>icons/cursor-inactive.png</normaloff>icons/cursor-inactive.png</iconset>
+                     <normaloff>icons/cursor-inactive.png</normaloff>
+                     <normalon>icons/cursor-active.png</normalon>icons/cursor-inactive.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
                      <width>30</width>
                      <height>30</height>
                     </size>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -682,13 +686,17 @@ border-radius: 5px;</string>
                    </property>
                    <property name="icon">
                     <iconset>
-                     <normaloff>icons/bounding-inactive.png</normaloff>icons/bounding-inactive.png</iconset>
+                     <normaloff>icons/bounding-inactive.png</normaloff>
+                     <normalon>icons/bounding-active.png</normalon>icons/bounding-inactive.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
                      <width>30</width>
                      <height>30</height>
                     </size>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>

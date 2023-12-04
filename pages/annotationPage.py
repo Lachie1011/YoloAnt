@@ -3,12 +3,22 @@
 """
 
 import sys
+from enum import Enum
+
+from PyQt6 import QtCore
+from PyQt6.QtGui import QCursor, QIcon
+from PyQt6.QtWidgets import QApplication
+
 from yoloAnt_ui import Ui_MainWindow
 from events.hoverEvent import HoverEvent
 from events.resizeEvent import ResizeEvent
 
-from PyQt6.QtGui import QCursor
-from PyQt6 import QtCore
+
+class Tools(Enum):
+    """ Enum to represent the annotation tools within the page"""
+    mouseTool=0
+    annotationTool=1
+
 
 class AnnotationPage():
     """
@@ -20,12 +30,19 @@ class AnnotationPage():
         self.ui = app.ui
 
         # Connecting signals and slots for the page
+        self.__connectIconHover()
+        self.__connectAnnotationToolButtons()
 
         # Applying resize event for the image lbl TODO: revisit for image resizing
         # self.imageFrameResizeEvent = ResizeEvent(self.ui.imageFrame)
-        # self.ui.imageFrame.installEventFilter(self.imageFrameResizeEvent)
+        # self.ui.imageFrame.installEventFilter(self.imageFrameResizeEvent)    
 
-        # Applying hover events and cursor change to Navigation Buttons
+    def __connectIconHover(self) -> None:
+        """ 
+            Installs the hover event filter onto the image navigation buttons
+            and the annotation tool buttons.
+        """
+         # Applying hover events and cursor change to Navigation Buttons
         self.ui.prevUnannoImageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.prevUnannoBtnHoverEvent = HoverEvent(self.ui.prevUnannoImageBtn, "icons/icons8-chevron-prev-30.png", "icons/icons8-chevron-prev-30-selected.png")
         self.ui.prevUnannoImageBtn.installEventFilter(self.prevUnannoBtnHoverEvent)
@@ -50,4 +67,25 @@ class AnnotationPage():
         self.ui.annotateToolBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.annotateBtnHoverEvent = HoverEvent(self.ui.annotateToolBtn, "icons/bounding-inactive.png", "icons/bounding-active.png")
         self.ui.annotateToolBtn.installEventFilter(self.annotateBtnHoverEvent)
+    
+    def __connectAnnotationToolButtons(self) -> None:
+        """ Connects the annotation buttons to update the mouse icon as well as checked state """
+        self.ui.mouseToolBtn.clicked.connect(lambda: self.__connectAnnotationToolSelected(Tools.mouseTool))
+        self.ui.annotateToolBtn.clicked.connect(lambda: self.__connectAnnotationToolSelected(Tools.annotationTool))
 
+    def __connectAnnotationToolSelected(self, tool: Tools) -> None:
+        """ Updates the mouse icon based on selected tool """
+        if tool is Tools.mouseTool:
+            # updating checked state
+            self.ui.annotateToolBtn.setChecked(False)
+            self.ui.annotateToolBtn.setIcon(QIcon("icons/bounding-inactive.png"))
+            # update mouse icon
+            # QApplication.setOverrideCursor(QtCore.Qt.CursorShape.ArrowCursor)
+            QApplication.restoreOverrideCursor()
+
+        if tool is Tools.annotationTool:
+            # updating checked state
+            self.ui.mouseToolBtn.setChecked(False)
+            self.ui.mouseToolBtn.setIcon(QIcon("icons/cursor-inactive.png"))
+            # update mouse icon
+            QApplication.setOverrideCursor(QtCore.Qt.CursorShape.CrossCursor)
