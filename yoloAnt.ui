@@ -885,13 +885,7 @@ border-radius: 5px;</string>
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="prevUnannoImageBtn">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
+                  <widget class="QPushButton" name="nextUnannoImageBtn">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -903,7 +897,7 @@ border-radius: 5px;</string>
                    </property>
                    <property name="icon">
                     <iconset>
-                     <normaloff>icons/icons8-chevron-prev-30.png</normaloff>icons/icons8-chevron-prev-30.png</iconset>
+                     <normaloff>icons/icons8-chevron-next-30.png</normaloff>icons/icons8-chevron-next-30.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -915,51 +909,6 @@ border-radius: 5px;</string>
                  </item>
                  <item>
                   <spacer name="horizontalSpacer_6">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>30</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="prevImageBtn">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>30</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset>
-                     <normaloff>icons/icons8-chevron-left-30.png</normaloff>icons/icons8-chevron-left-30.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>30</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_7">
                    <property name="orientation">
                     <enum>Qt::Horizontal</enum>
                    </property>
@@ -1004,6 +953,51 @@ border-radius: 5px;</string>
                   </widget>
                  </item>
                  <item>
+                  <spacer name="horizontalSpacer_7">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Fixed</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>30</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="prevImageBtn">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>icons/icons8-chevron-left-30.png</normaloff>icons/icons8-chevron-left-30.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <spacer name="horizontalSpacer_8">
                    <property name="orientation">
                     <enum>Qt::Horizontal</enum>
@@ -1020,7 +1014,13 @@ border-radius: 5px;</string>
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="nextUnannoImageBtn">
+                  <widget class="QPushButton" name="prevUnannoImageBtn">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1032,7 +1032,7 @@ border-radius: 5px;</string>
                    </property>
                    <property name="icon">
                     <iconset>
-                     <normaloff>icons/icons8-chevron-next-30.png</normaloff>icons/icons8-chevron-next-30.png</iconset>
+                     <normaloff>icons/icons8-chevron-prev-30.png</normaloff>icons/icons8-chevron-prev-30.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>

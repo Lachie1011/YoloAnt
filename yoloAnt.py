@@ -69,18 +69,21 @@ class YoloAnt(QMainWindow):
         if(page is Pages.AnnotationPage):
             self.currentPage = Pages.AnnotationPage
             # Because of hover event, update check and also icon TODO: explore a cleaner alternative to checking / unchecking
+            self.ui.annotTabBtn.setChecked(True)
             self.ui.projectsTabBtn.setChecked(False)
             self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
             self.ui.mlTabBtn.setChecked(False)
             self.ui.mlTabBtn.setIcon(QIcon("icons/icons8-ant-head-50.png"))
         elif(page is Pages.ProjectPage):
             self.currentPage = Pages.ProjectPage
+            self.ui.projectsTabBtn.setChecked(True)
             self.ui.annotTabBtn.setChecked(False)
             self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
             self.ui.mlTabBtn.setChecked(False)
             self.ui.mlTabBtn.setIcon(QIcon("icons/icons8-ant-head-50.png"))
         elif(page is Pages.MachineLearningPage):
             self.currentPage = Pages.MachineLearningPage
+            self.ui.mlTabBtn.setChecked(True)
             self.ui.annotTabBtn.setChecked(False)
             self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
             self.ui.projectsTabBtn.setChecked(False)
