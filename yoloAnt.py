@@ -5,7 +5,7 @@
 import sys
 from enum import Enum
 from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow
-from PyQt6.QtGui import QCursor
+from PyQt6.QtGui import QCursor, QIcon
 from PyQt6 import QtCore
 from PyQt6.QtCore import QObject, QEvent
 
@@ -66,16 +66,23 @@ class YoloAnt(QMainWindow):
         """ Updates the state of the navigation buttons """
         if(page is Pages.AnnotationPage):
             self.currentPage = Pages.AnnotationPage
+            # Because of hover event, update check and also icon TODO: explore a cleaner alternative to checking / unchecking
             self.ui.projectsTabBtn.setChecked(False)
+            self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
             self.ui.mlTabBtn.setChecked(False)
+            self.ui.mlTabBtn.setIcon(QIcon("icons/icons8-ant-head-50.png"))
         elif(page is Pages.ProjectPage):
             self.currentPage = Pages.ProjectPage
             self.ui.annotTabBtn.setChecked(False)
+            self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
             self.ui.mlTabBtn.setChecked(False)
+            self.ui.mlTabBtn.setIcon(QIcon("icons/icons8-ant-head-50.png"))
         elif(page is Pages.MachineLearningPage):
             self.currentPage = Pages.MachineLearningPage
             self.ui.annotTabBtn.setChecked(False)
+            self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
             self.ui.projectsTabBtn.setChecked(False)
+            self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
 
     def __connectIconHoverFunc(self) -> None:
         """ 

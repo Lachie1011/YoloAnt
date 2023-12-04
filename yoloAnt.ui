@@ -742,10 +742,10 @@ border-radius: 5px;</string>
                <enum>QLayout::SetNoConstraint</enum>
               </property>
               <property name="topMargin">
-               <number>50</number>
+               <number>80</number>
               </property>
               <property name="bottomMargin">
-               <number>50</number>
+               <number>100</number>
               </property>
               <item>
                <widget class="QFrame" name="imageFrame">
@@ -806,7 +806,7 @@ border-radius: 5px;</string>
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>500</width>
+                     <width>475</width>
                      <height>475</height>
                     </size>
                    </property>
