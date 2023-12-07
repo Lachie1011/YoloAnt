@@ -4,10 +4,11 @@
 
 import sys
 from enum import Enum
-from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow
-from PyQt6.QtGui import QCursor, QIcon
+
 from PyQt6 import QtCore
+from PyQt6.QtGui import QCursor, QIcon
 from PyQt6.QtCore import QObject, QEvent
+from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow
 
 from yoloAnt_ui import Ui_MainWindow
 
@@ -15,6 +16,8 @@ from pages.startPage import StartPage
 from pages.projectPage import ProjectPage
 from pages.annotationPage import AnnotationPage
 from pages.machineLearningPage import MachineLearningPage
+
+from dialogs.infoDialog import InfoDialog
 
 from events.hoverEvent import HoverEvent
 
@@ -46,6 +49,7 @@ class YoloAnt(QMainWindow):
         # Connecting signals and slots for the application
         self.__connectNavigationButtons()
         self.__connectIconHover()
+        self.__connectRemainingButtons()
 
         self.startPage = StartPage(self)
         self.annotationPage = AnnotationPage(self)
@@ -62,7 +66,7 @@ class YoloAnt(QMainWindow):
         # updates the state of the navigation buttons
         self.ui.annotTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.AnnotationPage))
         self.ui.projectsTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.ProjectPage))
-        self.ui.mlTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.MachineLearningPage))
+        self.ui.mlTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.MachineLearningPage)) 
 
     def __updateStateOfNavigationButtons(self, page: Pages) -> None:
         """ Updates the state of the navigation buttons """
@@ -74,6 +78,8 @@ class YoloAnt(QMainWindow):
             self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
             self.ui.mlTabBtn.setChecked(False)
             self.ui.mlTabBtn.setIcon(QIcon("icons/icons8-ant-head-50.png"))
+            self.ui.infoBtn.setChecked(False)
+            self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
         elif(page is Pages.ProjectPage):
             self.currentPage = Pages.ProjectPage
             self.ui.projectsTabBtn.setChecked(True)
@@ -81,6 +87,8 @@ class YoloAnt(QMainWindow):
             self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
             self.ui.mlTabBtn.setChecked(False)
             self.ui.mlTabBtn.setIcon(QIcon("icons/icons8-ant-head-50.png"))
+            self.ui.infoBtn.setChecked(False)
+            self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
         elif(page is Pages.MachineLearningPage):
             self.currentPage = Pages.MachineLearningPage
             self.ui.mlTabBtn.setChecked(True)
@@ -88,6 +96,19 @@ class YoloAnt(QMainWindow):
             self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
             self.ui.projectsTabBtn.setChecked(False)
             self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
+            self.ui.infoBtn.setChecked(False)
+            self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
+
+    def __connectRemainingButtons(self) -> None:
+        """ Connects the info button """
+        self.ui.infoBtn.clicked.connect(lambda: self.__handleInfoDialog(True))
+
+    def __handleInfoDialog(self, displayInfoDialog: bool) -> None:
+        """ Handles the display of the info dialog box"""
+        self.infoDialog = InfoDialog()
+        
+        if(displayInfoDialog and not self.infoDialog.isVisible()):
+            self.infoDialog.exec()    
 
     def __connectIconHover(self) -> None:
         """ 
@@ -108,6 +129,11 @@ class YoloAnt(QMainWindow):
         self.ui.mlTabBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.mlTabHoverEvent = HoverEvent(self.ui.mlTabBtn, "icons/icons8-ant-head-50.png", "icons/icons8-ant-head-50-selected.png")
         self.ui.mlTabBtn.installEventFilter(self.mlTabHoverEvent)
+
+        # Applying hover event and cursor change to infoBtn
+        self.ui.infoBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.infoBtnEvent = HoverEvent(self.ui.infoBtn, "icons/icons8-information-50.png", "icons/icons8-information-50-selected.png")
+        self.ui.infoBtn.installEventFilter(self.infoBtnEvent)
 
 
 def main() -> None:

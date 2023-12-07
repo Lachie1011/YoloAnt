@@ -311,12 +311,12 @@ background-color: rgb(45, 45, 45);</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/infoicon.png</normaloff>icons/infoicon.png</iconset>
+              <normaloff>icons/icons8-information-50.png</normaloff>icons/icons8-information-50.png</iconset>
             </property>
             <property name="iconSize">
              <size>
-              <width>20</width>
-              <height>20</height>
+              <width>30</width>
+              <height>30</height>
              </size>
             </property>
            </widget>
@@ -369,7 +369,7 @@ background-color: rgb(45, 45, 45);</string>
           <enum>QFrame::Raised</enum>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="entryPage">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -2105,8 +2105,7 @@ border-radius: 5px;</string>
                  <item>
                   <widget class="QFrame" name="classesFrame">
                    <property name="styleSheet">
-                    <string notr="true">
-</string>
+                    <string notr="true"/>
                    </property>
                    <property name="frameShape">
                     <enum>QFrame::StyledPanel</enum>

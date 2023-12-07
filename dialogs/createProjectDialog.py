@@ -1,12 +1,12 @@
 """
-    createProject.py
+    createProjectDialog.py
 """
 
-import os
+from PyQt6 import QtCore
 from PyQt6.QtWidgets import QFileDialog
 from PyQt6.QtWidgets import QApplication, QWidget, QDialog
 
-from dialogs.ui.createProjectDialog import Ui_MainDialog
+from dialogs.ui.createProjectDialog_ui import Ui_MainDialog
 
 
 class CreateProjectDialog(QDialog):
@@ -19,8 +19,7 @@ class CreateProjectDialog(QDialog):
 
         self.ui = Ui_MainDialog()
         self.ui.setupUi(self)
-
-        self.setModal = True
+        self.setModal(True)
 
         self.projectName = ""
         self.imageDirectory = ""
