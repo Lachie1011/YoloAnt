@@ -2,9 +2,9 @@
     createProjectDialog.py
 """
 
-from PyQt6 import QtCore
+import os
 from PyQt6.QtWidgets import QFileDialog
-from PyQt6.QtWidgets import QApplication, QWidget, QDialog
+from PyQt6.QtWidgets import QDialog
 
 from dialogs.ui.createProjectDialog_ui import Ui_MainDialog
 

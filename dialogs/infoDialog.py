@@ -2,10 +2,9 @@
     infoDialog.py
 """
 
-import os
 import yaml
 from PyQt6.QtGui import QPixmap 
-from PyQt6.QtWidgets import QApplication, QWidget, QDialog
+from PyQt6.QtWidgets import QDialog
 
 from dialogs.ui.infoDialog_ui import Ui_MainDialog
 
@@ -28,13 +27,14 @@ class InfoDialog(QDialog):
         """
             Populates widgets with YoloAnt information and sets image
         """
-
         # Load yoloAnt data for information dialog
         with open('information.yaml', 'r') as file:
-            self.informationData = yaml.safe_load(file)
-
-        self.ui.versionTxt.setText(self.informationData["info"]["version"])
-        self.ui.githubTxt.setText(self.informationData["info"]["githubURL"])
-        self.ui.documentsTxt.setText(self.informationData["info"]["documentsURL"])
-        self.ui.developersTxt.setText(self.informationData["info"]["developers"])
-        self.ui.antHeadLbl.setPixmap(QPixmap("icons/icons8-ant-head-96.png"))
+            try:
+                self.informationData = yaml.safe_load(file)
+                self.ui.versionTxt.setText(self.informationData["info"]["version"])
+                self.ui.githubTxt.setText(self.informationData["info"]["githubURL"])
+                self.ui.developersTxt.setText(self.informationData["info"]["developers"])
+                # Label image is set here too, as the dialog loses designer pathing
+                self.ui.antHeadLbl.setPixmap(QPixmap("icons/icons8-ant-head-96.png")) 
+            except Exception as exc:
+                print(exc)

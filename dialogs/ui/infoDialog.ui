@@ -126,7 +126,7 @@ color: rgb(255, 255, 255);</string>
               <property name="font">
                <font>
                 <family>Sans</family>
-                <pointsize>18</pointsize>
+                <pointsize>12</pointsize>
                </font>
               </property>
               <property name="text">
@@ -139,7 +139,7 @@ color: rgb(255, 255, 255);</string>
               <property name="font">
                <font>
                 <family>Sans</family>
-                <pointsize>18</pointsize>
+                <pointsize>12</pointsize>
                </font>
               </property>
               <property name="text">
@@ -186,50 +186,6 @@ color: rgb(255, 255, 255);</string>
             </item>
             <item>
              <widget class="QLabel" name="githubTxt">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QFrame" name="documentsFrame">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item>
-             <widget class="QLabel" name="documentsLbl">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="font">
-               <font>
-                <family>Sans</family>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Documents:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="documentsTxt">
               <property name="text">
                <string/>
               </property>
