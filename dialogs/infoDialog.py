@@ -28,7 +28,7 @@ class InfoDialog(QDialog):
             Populates widgets with YoloAnt information and sets image
         """
         # Load yoloAnt data for information dialog
-        with open('information.yaml', 'r') as file:
+        with open('yoloAnt.yaml', 'r') as file:
             try:
                 self.informationData = yaml.safe_load(file)
                 self.ui.versionTxt.setText(self.informationData["info"]["version"])
