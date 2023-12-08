@@ -937,6 +937,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.bottomBarFrame.sizePolicy().hasHeightForWidth())
         self.bottomBarFrame.setSizePolicy(sizePolicy)
         self.bottomBarFrame.setMinimumSize(QtCore.QSize(0, 25))
+        self.bottomBarFrame.setStyleSheet("background-color: rgb(55, 55, 55);")
         self.bottomBarFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.bottomBarFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.bottomBarFrame.setObjectName("bottomBarFrame")
