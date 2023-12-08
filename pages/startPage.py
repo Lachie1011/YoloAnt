@@ -51,9 +51,9 @@ class StartPage():
                 self.ui.stackedWidget.setCurrentIndex(2)
         else:
             # opens file explorer
-            file = QFileDialog.getOpenFileName(self.app, 'Open file', os.getcwd())
-            if file[0] == "project.yaml":
-                self.project.loadProject(file[0])
+            projectPath = QFileDialog.getOpenFileName(self.app, 'Open file', os.getcwd())[0]
+            if "project.yaml" in projectPath:
+                self.project.loadProject(projectPath)  # attempt to load project
                 self.app.project = self.project
                 # update navigation panel and switch dir TODO: create functions that wrap the navigation as below
                 self.ui.mlTabBtn.setChecked(False)

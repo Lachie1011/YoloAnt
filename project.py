@@ -17,15 +17,14 @@ class Project:
         self.projectName = None
         self.imageDir = None
 
-    def loadProject(self, projectName: str) -> None:
+    def loadProject(self, projectPath: str) -> None:
         """ Function to load a project's metadata """
         # check if project exists
-        projectPath = os.getcwd() + "/projects/" + projectName
         if not os.path.exists(projectPath):
             return None
         
         # attempt to load project yaml
-        with open(projectPath + "/project.yaml", "r") as stream:
+        with open(projectPath, "r") as stream:
             try:
                 project = yaml.safe_load(stream)
                 self.projectName = project["ProjectName"]
