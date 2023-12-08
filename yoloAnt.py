@@ -7,8 +7,7 @@ from enum import Enum
 
 from PyQt6 import QtCore
 from PyQt6.QtGui import QCursor, QIcon
-from PyQt6.QtCore import QObject, QEvent
-from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow
+from PyQt6.QtWidgets import QApplication, QMainWindow
 
 from yoloAnt_ui import Ui_MainWindow
 
@@ -18,6 +17,8 @@ from pages.annotationPage import AnnotationPage
 from pages.machineLearningPage import MachineLearningPage
 
 from dialogs.infoDialog import InfoDialog
+
+from notificationManager import NotificationManager
 
 from events.hoverEvent import HoverEvent
 
@@ -54,7 +55,11 @@ class YoloAnt(QMainWindow):
         self.startPage = StartPage(self)
         self.annotationPage = AnnotationPage(self)
 
+        # Starting the notification manager
+        self.notificationManager = NotificationManager()
+
         self.show()
+        self.notificationManager.raiseNotification("test")
     
     def __connectNavigationButtons(self) -> None:
         """ Connects the navigation buttons to update the current page of the stacked widget and updates checked state """
