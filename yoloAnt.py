@@ -135,6 +135,11 @@ class YoloAnt(QMainWindow):
         self.infoBtnEvent = HoverEvent(self.ui.infoBtn, "icons/icons8-information-50.png", "icons/icons8-information-50-selected.png")
         self.ui.infoBtn.installEventFilter(self.infoBtnEvent)
 
+        # Applying hover event and cursor change to notificationBtn
+        self.ui.notificationBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.notificationBtnEvent = HoverEvent(self.ui.notificationBtn, "icons/icons8-notification-bell-30-inactive.png", "icons/icons8-notification-bell-30-active.png")
+        self.ui.notificationBtn.installEventFilter(self.notificationBtnEvent)
+
 
 def main() -> None:
     """
