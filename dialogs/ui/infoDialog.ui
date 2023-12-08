@@ -125,7 +125,7 @@ color: rgb(255, 255, 255);</string>
               </property>
               <property name="font">
                <font>
-                <family>Sans</family>
+                <family>Sans Serif</family>
                 <pointsize>12</pointsize>
                </font>
               </property>
@@ -138,8 +138,8 @@ color: rgb(255, 255, 255);</string>
              <widget class="QLabel" name="versionTxt">
               <property name="font">
                <font>
-                <family>Sans</family>
-                <pointsize>12</pointsize>
+                <family>Sans Serif</family>
+                <pointsize>11</pointsize>
                </font>
               </property>
               <property name="text">
@@ -175,7 +175,7 @@ color: rgb(255, 255, 255);</string>
               </property>
               <property name="font">
                <font>
-                <family>Sans</family>
+                <family>Sans Serif</family>
                 <pointsize>12</pointsize>
                </font>
               </property>
@@ -186,6 +186,11 @@ color: rgb(255, 255, 255);</string>
             </item>
             <item>
              <widget class="QLabel" name="githubTxt">
+              <property name="font">
+               <font>
+                <family>Sans Serif</family>
+               </font>
+              </property>
               <property name="text">
                <string/>
               </property>
@@ -219,7 +224,7 @@ color: rgb(255, 255, 255);</string>
               </property>
               <property name="font">
                <font>
-                <family>Sans</family>
+                <family>Sans Serif</family>
                 <pointsize>12</pointsize>
                </font>
               </property>
@@ -230,6 +235,11 @@ color: rgb(255, 255, 255);</string>
             </item>
             <item>
              <widget class="QLabel" name="developersTxt">
+              <property name="font">
+               <font>
+                <family>Sans Serif</family>
+               </font>
+              </property>
               <property name="text">
                <string/>
               </property>
