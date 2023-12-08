@@ -11,12 +11,17 @@ from dialogs.notificationDialog import State
 from dialogs.notificationDialog import NotificationDialog
 from dialogs.notificationDialog import NotificationLevel
 
+WIDTH_PADDING = 104
+HEIGHT_PADDING = 35
+
+
 class NotificationManager:
     """
         Creates a notifier object and sets up related functionality.
     """
-    def __init__(self) -> None:
+    def __init__(self, app) -> None:
         """ init """
+        self.app = app
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.__updateNotifications)
         self.notifications = []  # Notifications are reset per application start, TODO: may have persistence in future??
@@ -30,6 +35,7 @@ class NotificationManager:
             if notification.shown == False:
                 # Only one notification can exist at a time
                 self.__closeNotifications()
+                # Set notification geometry to bottom right TODO: do resizing of notifications on resize event
                 notification.show()
                 notification.shown = True
                 notification.state = State.Active
@@ -43,6 +49,7 @@ class NotificationManager:
     def raiseNotification(self, text: str, notifLevel: NotificationLevel = NotificationLevel.Info) -> None:
         """ Raises a notifcation with a specified notification level, defaulting to info """
         notification = NotificationDialog(text, notifLevel)
+        notification.setGeometry(self.app.width() - notification.width() + WIDTH_PADDING, self.app.height() + notification.height() - HEIGHT_PADDING, notification.width(), notification.height())
         self.notifications.append(notification)
     
     def __closeNotifications(self):

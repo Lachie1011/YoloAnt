@@ -47,6 +47,9 @@ class YoloAnt(QMainWindow):
         self.currentPage = Pages.StartPage
         self.project = None
         
+        # Starting the notification manager
+        self.notificationManager = NotificationManager(self)
+
         # Connecting signals and slots for the application
         self.__connectNavigationButtons()
         self.__connectIconHover()
@@ -55,11 +58,7 @@ class YoloAnt(QMainWindow):
         self.startPage = StartPage(self)
         self.annotationPage = AnnotationPage(self)
 
-        # Starting the notification manager
-        self.notificationManager = NotificationManager()
-
         self.show()
-        self.notificationManager.raiseNotification("test")
     
     def __connectNavigationButtons(self) -> None:
         """ Connects the navigation buttons to update the current page of the stacked widget and updates checked state """
@@ -71,7 +70,7 @@ class YoloAnt(QMainWindow):
         # updates the state of the navigation buttons
         self.ui.annotTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.AnnotationPage))
         self.ui.projectsTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.ProjectPage))
-        self.ui.mlTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.MachineLearningPage)) 
+        self.ui.mlTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.MachineLearningPage))
 
     def __updateStateOfNavigationButtons(self, page: Pages) -> None:
         """ Updates the state of the navigation buttons """
@@ -111,6 +110,7 @@ class YoloAnt(QMainWindow):
     def __handleInfoDialog(self, displayInfoDialog: bool) -> None:
         """ Handles the display of the info dialog box"""
         self.infoDialog = InfoDialog()
+        self.notificationManager.raiseNotification("test")
         
         if(displayInfoDialog and not self.infoDialog.isVisible()):
             self.infoDialog.exec()    

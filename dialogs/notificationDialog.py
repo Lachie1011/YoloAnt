@@ -4,6 +4,7 @@
 
 import time
 from enum import Enum
+from PyQt6 import QtCore
 from datetime import datetime
 from PyQt6.QtWidgets import QDialog
 
@@ -34,6 +35,7 @@ class NotificationDialog(QDialog):
 
         self.ui = Ui_MainDialog()
         self.ui.setupUi(self)
+        self.setWindowFlag(QtCore.Qt.WindowType.FramelessWindowHint)   
 
         self.shown = False
         self.state = State.Inactive
@@ -48,7 +50,8 @@ class NotificationDialog(QDialog):
         """
             Populates the widgets text and colout
         """
-        self.ui.notificationLbl.setText(f"[{datetime.now()}]  " + self.text)
+        timeNow = datetime.now()
+        self.ui.notificationLbl.setText(f"[{timeNow.hour}:{timeNow.minute}:{timeNow.second}]  " + self.text)
         backgroundColour = "#0096FF"
         if self.notificationLevel == NotificationLevel.Warning:
             backgroundColour = "#FFC300"
