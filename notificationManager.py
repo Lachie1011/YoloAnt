@@ -34,7 +34,7 @@ class NotificationManager:
             # Always bring forward new notifications
             if notification.shown == False:
                 # Only one notification can exist at a time
-                self.__closeNotifications()
+                self.closeNotifications()
                 # Set notification geometry to bottom right TODO: do resizing of notifications on resize event
                 notification.show()
                 notification.shown = True
@@ -49,10 +49,11 @@ class NotificationManager:
     def raiseNotification(self, text: str, notifLevel: NotificationLevel = NotificationLevel.Info) -> None:
         """ Raises a notifcation with a specified notification level, defaulting to info """
         notification = NotificationDialog(text, notifLevel)
-        notification.setGeometry(self.app.width() - notification.width() + WIDTH_PADDING, self.app.height() + notification.height() - HEIGHT_PADDING, notification.width(), notification.height())
+
+        notification.setGeometry(self.app.ui.centralwidget.width() - notification.width() + WIDTH_PADDING, self.app.ui.centralwidget.height() , notification.width(), notification.height())
         self.notifications.append(notification)
     
-    def __closeNotifications(self):
+    def closeNotifications(self):
         """ Closes all notifications """
         for notification in self.notifications:
             notification.close()

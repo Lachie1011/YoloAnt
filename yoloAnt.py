@@ -60,6 +60,14 @@ class YoloAnt(QMainWindow):
 
         self.show()
     
+    def closeEvent(self, event) -> None:
+        """ Overrides the close event on the main window """
+        # Ensure all notifications are closed
+        self.notificationManager.closeNotifications()
+        # For now manually close info dialog TODO: have this close nicer
+        self.infoDialog.close()
+        event.accept()
+
     def __connectNavigationButtons(self) -> None:
         """ Connects the navigation buttons to update the current page of the stacked widget and updates checked state """
         # updates stacked widget index
