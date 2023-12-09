@@ -28,7 +28,7 @@ class NotificationDialog(QDialog):
     """
         Class that creates a dialog window to inform user of information about YoloAnt
     """
-    def __init__(self, text: str, notifLevel: NotificationLevel = NotificationLevel.Info) -> None:
+    def __init__(self, text: str, notifLevel: NotificationLevel = NotificationLevel.Info, persistent: bool = False) -> None:
         """ init """
         # We dont show the notification on init
         super().__init__()
@@ -39,6 +39,7 @@ class NotificationDialog(QDialog):
 
         self.shown = False
         self.state = State.Inactive
+        self.persistent = persistent
         self.notificationTime = time.time()
 
         self.text = text

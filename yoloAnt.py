@@ -6,6 +6,7 @@ import sys
 from enum import Enum
 
 from PyQt6 import QtCore
+from PyQt6.QtCore import QEvent
 from PyQt6.QtGui import QCursor, QIcon
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
@@ -53,13 +54,24 @@ class YoloAnt(QMainWindow):
         # Connecting signals and slots for the application
         self.__connectNavigationButtons()
         self.__connectIconHover()
-        self.__connectRemainingButtons()
+        self.__connectInformationButton()
+        self.__connectNotificationButton()
 
         self.startPage = StartPage(self)
         self.annotationPage = AnnotationPage(self)
 
+        self.installEventFilter(self)
+
         self.show()
     
+    def eventFilter(self, object, event):
+        """ Application level event filter """
+        if event.type() == QEvent.Type.Resize:
+            # resize notifications
+            self.notificationManager.resizeNotifications()
+            return False
+        return True
+
     def closeEvent(self, event) -> None:
         """ Overrides the close event on the main window """
         # Ensure all notifications are closed
@@ -111,17 +123,25 @@ class YoloAnt(QMainWindow):
             self.ui.infoBtn.setChecked(False)
             self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
 
-    def __connectRemainingButtons(self) -> None:
+    def __connectInformationButton(self) -> None:
         """ Connects the info button """
-        self.ui.infoBtn.clicked.connect(lambda: self.__handleInfoDialog(True))
+        self.ui.infoBtn.clicked.connect(lambda: self.__openInfoDialog(True))
 
-    def __handleInfoDialog(self, displayInfoDialog: bool) -> None:
+    def __openInfoDialog(self, displayInfoDialog: bool) -> None:
         """ Handles the display of the info dialog box"""
         self.infoDialog = InfoDialog()
         self.notificationManager.raiseNotification("test")
         
         if(displayInfoDialog and not self.infoDialog.isVisible()):
             self.infoDialog.exec()    
+
+    def __connectNotificationButton(self) -> None: 
+        """ Connects the notification button """
+        self.ui.notificationBtn.clicked.connect(lambda: self.__openNotificationViewer)
+    
+    def __openNotificationViewer(self) -> None:
+        """ Opens the notification viewer """
+        self.notificationManager.openNotificationViewer()
 
     def __connectIconHover(self) -> None:
         """ 

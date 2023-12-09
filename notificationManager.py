@@ -26,33 +26,54 @@ class NotificationManager:
         self.timer.timeout.connect(self.__updateNotifications)
         self.notifications = []  # Notifications are reset per application start, TODO: may have persistence in future??
 
-        self.timer.start(1000)
+        self.timer.start(100)
 
-    def __updateNotifications(self):
+    def __updateNotifications(self) -> None:
         """ Iterates through notifications and closes / raises appropriately """
         for notification in self.notifications:
             # Always bring forward new notifications
             if notification.shown == False:
                 # Only one notification can exist at a time
                 self.closeNotifications()
-                # Set notification geometry to bottom right TODO: do resizing of notifications on resize event
                 notification.show()
                 notification.shown = True
                 notification.state = State.Active
                 break
-
+            
+            # Closing notifications after 5 seconds. TODO: maybe a setting?
+            if notification.persistent:
+                return
             delta = time.time() - notification.notificationTime
             if ((delta > 5) and (notification.state == State.Active)):
                 notification.state = State.Inactive
                 notification.close()
 
-    def raiseNotification(self, text: str, notifLevel: NotificationLevel = NotificationLevel.Info) -> None:
-        """ Raises a notifcation with a specified notification level, defaulting to info """
-        notification = NotificationDialog(text, notifLevel)
+    def calculateNotificationGeometry(self, notification) -> tuple:
+        """ Calculates the geometry for a notification based off the application windoe """
+        x = self.app.x() + self.app.ui.centralwidget.width() - notification.width()
+        y = self.app.y() + self.app.ui.centralwidget.height() - notification.height()
+        width = notification.width()
+        height = notification.height()
+        return x, y, width, height
 
-        notification.setGeometry(self.app.ui.centralwidget.width() - notification.width() + WIDTH_PADDING, self.app.ui.centralwidget.height() , notification.width(), notification.height())
+    def raiseNotification(self, text: str, notifLevel: NotificationLevel = NotificationLevel.Info, persistent: bool = False) -> None:
+        """ Raises a notifcation with a specified notification level, defaulting to info """
+        notification = NotificationDialog(text, notifLevel, persistent)
+        x, y, width, height = self.calculateNotificationGeometry(notification)
+        notification.setGeometry(x, y, width, height)
         self.notifications.append(notification)
-    
+
+    def resizeNotifications(self) -> None: 
+        """ Resize all notifications based off of the application's geometry """
+        for notification in self.notifications: 
+            if notification.state == State.Active:
+                x, y, width, height = self.calculateNotificationGeometry(notification)
+                notification.setGeometry(x, y, width, height)
+
+    # def openNotificationViewer(self):
+    #     """ Opens the notification viewer """
+    #     pass    
+
     def closeNotifications(self):
         """ Closes all notifications """
         for notification in self.notifications:
