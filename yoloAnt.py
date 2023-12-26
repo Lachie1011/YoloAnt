@@ -47,6 +47,7 @@ class YoloAnt(QMainWindow):
         # Setting up some member variables
         self.currentPage = Pages.StartPage
         self.project = None
+        self.infoDialog = None
         
         # Starting the notification manager
         self.notificationManager = NotificationManager(self)
@@ -77,7 +78,8 @@ class YoloAnt(QMainWindow):
         # Ensure all notifications are closed
         self.notificationManager.closeNotifications()
         # For now manually close info dialog TODO: have this close nicer
-        self.infoDialog.close()
+        if self.infoDialog:
+            self.infoDialog.close()
         event.accept()
 
     def __connectNavigationButtons(self) -> None:
