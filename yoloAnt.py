@@ -84,12 +84,15 @@ class YoloAnt(QMainWindow):
 
     def __connectNavigationButtons(self) -> None:
         """ Connects the navigation buttons to update the current page of the stacked widget and updates checked state """
-        # updates stacked widget index
+        # Connects the currentChanged signal for the stacked widget
+        self.ui.stackedWidget.currentChanged.connect(self.__onPageChange)
+
+        # Updates stacked widget index
         self.ui.annotTabBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))    
         self.ui.projectsTabBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(2))    
         self.ui.mlTabBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(3))
 
-        # updates the state of the navigation buttons
+        # Updates the state of the navigation buttons
         self.ui.annotTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.AnnotationPage))
         self.ui.projectsTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.ProjectPage))
         self.ui.mlTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.MachineLearningPage))
@@ -124,6 +127,12 @@ class YoloAnt(QMainWindow):
             self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
             self.ui.infoBtn.setChecked(False)
             self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
+
+    def __onPageChange(self) -> None: 
+        """ Resets some application attributes on a page change """
+        # Reset mouse cursor
+        QApplication.restoreOverrideCursor()
+
 
     def __connectInformationButton(self) -> None:
         """ Connects the info button """
