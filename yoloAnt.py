@@ -61,6 +61,7 @@ class YoloAnt(QMainWindow):
         self.__connectNotificationButton()
 
         self.startPage = StartPage(self)
+        self.projectPage = ProjectPage(self)
         self.annotationPage = AnnotationPage(self)
 
         self.installEventFilter(self)

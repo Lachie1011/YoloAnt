@@ -14,8 +14,9 @@ class Project:
     def __init__(self) -> None:
         """ init """
         self.projectValidated = False
-        self.projectName = None
-        self.imageDir = None
+        self.name = None
+        self.dataset = None
+        self.description = None
 
     def loadProject(self, projectPath: str) -> None:
         """ Function to load a project's metadata """
@@ -27,31 +28,32 @@ class Project:
         with open(projectPath, "r") as stream:
             try:
                 project = yaml.safe_load(stream)
-                self.projectName = project["ProjectName"]
-                self.imageDir = project["Images"]
+                self.name = project["name"]
+                self.dataset = project["dataset"]
+                self.description = project["description"]
                 self.projectValidated = True
             except Exception as exc:
                 print(exc)
         
 
-    def createProject(self, projectName: str, imageDir: str) -> None:
+    def createProject(self, name: str, dataset: str) -> None:
         """ Function to create a  project"""
         # check that project doesnt exist
-        projectPath = os.getcwd() + "/projects/" + projectName
+        projectPath = os.getcwd() + "/projects/" + name
         if os.path.exists(projectPath):
             return None
 
         # create a folder within yoloant's 'projects' dir
-        os.makedirs(os.getcwd() + "/projects/" + projectName)
+        os.makedirs(os.getcwd() + "/projects/" + name)
 
-        # create project yaml and write project name and image dir to file
-        project = {"Images": imageDir, "ProjectName": projectName}
-        with open(os.getcwd() + "/projects/" + projectName + "/project.yaml", "x") as file:
+        # create project yaml and write project name and image dir to file, desc at this point is nothing
+        project = {"name": name, "dataset": dataset, "description": ""}
+        with open(os.getcwd() + "/projects/" + name + "/project.yaml", "x") as file:
             try:
-                yaml.dump(project, file)
+                yaml.dump(project, file, sort_keys=False)  # Dont want sorting present
             except Exception as exc:
                 print(exc)
         
-        self.projectName = projectName
-        self.imageDir = imageDir
+        self.name = name
+        self.dataset = dataset
         self.projectValidated = True
