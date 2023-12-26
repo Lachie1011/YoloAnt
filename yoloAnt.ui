@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1100</width>
+    <width>1102</width>
     <height>822</height>
    </rect>
   </property>
@@ -1297,6 +1297,18 @@ border-radius: 5px;</string>
            </property>
            <item>
             <widget class="QFrame" name="descriptionMLFrame">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>700</width>
+               <height>16777215</height>
+              </size>
+             </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -1341,10 +1353,16 @@ border-radius: 5px;</string>
                  <enum>QFrame::Raised</enum>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_17">
+                 <property name="topMargin">
+                  <number>9</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>9</number>
+                 </property>
                  <item>
                   <widget class="QLabel" name="projectNameLbl">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
@@ -1352,12 +1370,12 @@ border-radius: 5px;</string>
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
-                     <height>40</height>
+                     <height>0</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>16777215</width>
+                     <width>200</width>
                      <height>16777215</height>
                     </size>
                    </property>
@@ -1370,7 +1388,10 @@ border-radius: 5px;</string>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">font-weight: bold;</string>
+                    <string notr="true">background-color: rgb(85, 87, 83);
+border : 1px solid;
+border-radius: 5px;
+border-color:  rgb(85, 87, 83);</string>
                    </property>
                    <property name="text">
                     <string>Project Name</string>
@@ -1379,23 +1400,7 @@ border-radius: 5px;</string>
                     <enum>Qt::PlainText</enum>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="Line" name="line_3">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(255, 255, 255);</string>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
+                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                    </property>
                   </widget>
                  </item>
@@ -1415,7 +1420,7 @@ border-radius: 5px;</string>
                    </property>
                    <property name="font">
                     <font>
-                     <family>Sans</family>
+                     <family>MS Shell Dlg 2</family>
                      <pointsize>10</pointsize>
                      <weight>50</weight>
                      <bold>false</bold>
@@ -1429,7 +1434,7 @@ border-radius: 5px;</string>
                     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu';&quot;&gt;Project description here&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                   </widget>
@@ -1465,13 +1470,19 @@ p, li { white-space: pre-wrap; }
                       </property>
                       <property name="minimumSize">
                        <size>
-                        <width>100</width>
+                        <width>50</width>
                         <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>50</width>
+                        <height>16777215</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
-                        <family>Sans</family>
+                        <family>MS Shell Dlg 2</family>
                         <pointsize>10</pointsize>
                         <weight>50</weight>
                         <bold>false</bold>
@@ -1483,52 +1494,26 @@ p, li { white-space: pre-wrap; }
                      </widget>
                     </item>
                     <item>
-                     <widget class="QTextEdit" name="datasetPathTxt">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>30</height>
-                       </size>
-                      </property>
+                     <widget class="QLabel" name="datasetPathLbl">
                       <property name="font">
                        <font>
-                        <family>DejaVu Sans</family>
                         <pointsize>10</pointsize>
                        </font>
                       </property>
-                      <property name="cursor" stdset="0">
-                       <cursorShape>ArrowCursor</cursorShape>
-                      </property>
                       <property name="styleSheet">
                        <string notr="true">background-color: rgb(85, 87, 83);
-border: 1px solid white;
+border : 1px solid;
 border-radius: 5px;
-</string>
+border-color:  rgb(85, 87, 83);</string>
                       </property>
-                      <property name="lineWrapMode">
-                       <enum>QTextEdit::NoWrap</enum>
+                      <property name="lineWidth">
+                       <number>1</number>
                       </property>
-                      <property name="readOnly">
-                       <bool>true</bool>
+                      <property name="midLineWidth">
+                       <number>0</number>
                       </property>
-                      <property name="html">
-                       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'DejaVu Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu';&quot;&gt;/.../.../.../.../.../../&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      <property name="text">
+                       <string>../../../../../../../../../../../</string>
                       </property>
                      </widget>
                     </item>
@@ -1542,7 +1527,7 @@ p, li { white-space: pre-wrap; }
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>40</width>
+                        <width>20</width>
                         <height>16777215</height>
                        </size>
                       </property>
@@ -1555,8 +1540,8 @@ p, li { white-space: pre-wrap; }
                       </property>
                       <property name="iconSize">
                        <size>
-                        <width>16</width>
-                        <height>16</height>
+                        <width>12</width>
+                        <height>12</height>
                        </size>
                       </property>
                      </widget>
@@ -1605,15 +1590,30 @@ border-radius: 5px;</string>
                  <property name="spacing">
                   <number>6</number>
                  </property>
+                 <property name="bottomMargin">
+                  <number>9</number>
+                 </property>
                  <item>
                   <widget class="QLabel" name="mlFrameLbl">
+                   <property name="maximumSize">
+                    <size>
+                     <width>200</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
                      <family>MS Shell Dlg 2</family>
-                     <pointsize>12</pointsize>
+                     <pointsize>14</pointsize>
                      <weight>75</weight>
                      <bold>true</bold>
                     </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(85, 87, 83);
+border : 1px solid;
+border-radius: 5px;
+border-color:  rgb(85, 87, 83);</string>
                    </property>
                    <property name="text">
                     <string>Machine Learning</string>
@@ -1621,17 +1621,7 @@ border-radius: 5px;</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="Line" name="line_4">
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(255, 255, 255);</string>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QFrame" name="frame">
+                  <widget class="QFrame" name="mdlFrame">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -1657,6 +1647,9 @@ border-radius: 5px;</string>
                     <enum>QFrame::Raised</enum>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_9">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
                     <item>
                      <widget class="QLabel" name="mdlSelLbl">
                       <property name="sizePolicy">
@@ -1667,18 +1660,24 @@ border-radius: 5px;</string>
                       </property>
                       <property name="minimumSize">
                        <size>
-                        <width>140</width>
+                        <width>0</width>
                         <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>90</width>
+                        <height>16777215</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
-                        <family>DejaVu Sans</family>
+                        <family>MS Shell Dlg 2</family>
                         <pointsize>10</pointsize>
                        </font>
                       </property>
                       <property name="text">
-                       <string>Select Model:</string>
+                       <string> Select Model:</string>
                       </property>
                      </widget>
                     </item>
@@ -1700,13 +1699,18 @@ border-radius: 5px;</string>
                        <font>
                         <family>Sans</family>
                         <pointsize>10</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
                        </font>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">background-color: rgb(85, 87, 83);
-
+border : 1px solid;
 border-radius: 5px;
-</string>
+border-color:  rgb(85, 87, 83);</string>
+                      </property>
+                      <property name="currentText">
+                       <string>Custom</string>
                       </property>
                       <item>
                        <property name="text">
@@ -1735,31 +1739,28 @@ border-radius: 5px;
                   </widget>
                  </item>
                  <item>
-                  <widget class="QFrame" name="frame_3">
-                   <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                  <widget class="PlotWidget" name="graphWidget" native="true">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
-                   <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>350</height>
+                    </size>
                    </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_11">
-                    <item>
-                     <widget class="QLabel" name="label_5">
-                      <property name="minimumSize">
-                       <size>
-                        <width>480</width>
-                        <height>300</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="pixmap">
-                       <pixmap>icons/training-loss-graph.png</pixmap>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>600</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(0, 85, 255);</string>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -1770,6 +1771,12 @@ border-radius: 5px;
            </item>
            <item>
             <widget class="QFrame" name="healthFrame">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="styleSheet">
               <string notr="true"/>
              </property>
@@ -1800,13 +1807,25 @@ border-radius: 5px;</string>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_18">
                  <item>
-                  <widget class="QLabel" name="label">
+                  <widget class="QLabel" name="healthLbl">
+                   <property name="maximumSize">
+                    <size>
+                     <width>200</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="font">
                     <font>
-                     <pointsize>12</pointsize>
+                     <pointsize>14</pointsize>
                      <weight>75</weight>
                      <bold>true</bold>
                     </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(85, 87, 83);
+border : 1px solid;
+border-radius: 5px;
+border-color:  rgb(85, 87, 83);</string>
                    </property>
                    <property name="text">
                     <string>Dataset health </string>
@@ -1814,19 +1833,9 @@ border-radius: 5px;</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="Line" name="line_5">
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(255, 255, 255);</string>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
                   <widget class="QFrame" name="annotationInfoFrame">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
@@ -1846,8 +1855,21 @@ border-radius: 5px;</string>
                    <layout class="QHBoxLayout" name="horizontalLayout_8">
                     <item>
                      <widget class="QFrame" name="imageCountFrame">
+                      <property name="minimumSize">
+                       <size>
+                        <width>130</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>60</height>
+                       </size>
+                      </property>
                       <property name="styleSheet">
-                       <string notr="true">background-color: rgb(85, 87, 83);</string>
+                       <string notr="true">background-color: rgb(85, 87, 83);
+background-color: rgb(0, 104, 152);</string>
                       </property>
                       <property name="frameShape">
                        <enum>QFrame::StyledPanel</enum>
@@ -1861,7 +1883,7 @@ border-radius: 5px;</string>
                          <property name="font">
                           <font>
                            <family>Sans</family>
-                           <pointsize>12</pointsize>
+                           <pointsize>10</pointsize>
                           </font>
                          </property>
                          <property name="text">
@@ -1877,7 +1899,7 @@ border-radius: 5px;</string>
                          <property name="font">
                           <font>
                            <family>Sans</family>
-                           <pointsize>12</pointsize>
+                           <pointsize>10</pointsize>
                            <weight>75</weight>
                            <bold>true</bold>
                           </font>
@@ -1897,25 +1919,22 @@ border-radius: 5px;</string>
                      </widget>
                     </item>
                     <item>
-                     <spacer name="horizontalSpacer_4">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType">
-                       <enum>QSizePolicy::Fixed</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
+                     <widget class="QFrame" name="annotatedCountFrame">
+                      <property name="minimumSize">
                        <size>
-                        <width>20</width>
-                        <height>20</height>
+                        <width>130</width>
+                        <height>0</height>
                        </size>
                       </property>
-                     </spacer>
-                    </item>
-                    <item>
-                     <widget class="QFrame" name="annotatedCountFrame">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>60</height>
+                       </size>
+                      </property>
                       <property name="styleSheet">
-                       <string notr="true">background-color: rgb(85, 87, 83);</string>
+                       <string notr="true">background-color: rgb(85, 87, 83);
+background-color: rgb(0, 145, 106);</string>
                       </property>
                       <property name="frameShape">
                        <enum>QFrame::StyledPanel</enum>
@@ -1929,7 +1948,7 @@ border-radius: 5px;</string>
                          <property name="font">
                           <font>
                            <family>Sans</family>
-                           <pointsize>12</pointsize>
+                           <pointsize>10</pointsize>
                           </font>
                          </property>
                          <property name="text">
@@ -1945,7 +1964,7 @@ border-radius: 5px;</string>
                          <property name="font">
                           <font>
                            <family>Sans</family>
-                           <pointsize>12</pointsize>
+                           <pointsize>10</pointsize>
                            <weight>75</weight>
                            <bold>true</bold>
                           </font>
@@ -1965,25 +1984,22 @@ border-radius: 5px;</string>
                      </widget>
                     </item>
                     <item>
-                     <spacer name="horizontalSpacer_5">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeType">
-                       <enum>QSizePolicy::Fixed</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
+                     <widget class="QFrame" name="unannotatedCountFrame">
+                      <property name="minimumSize">
                        <size>
-                        <width>20</width>
-                        <height>20</height>
+                        <width>130</width>
+                        <height>0</height>
                        </size>
                       </property>
-                     </spacer>
-                    </item>
-                    <item>
-                     <widget class="QFrame" name="unannotatedCountFrame">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>60</height>
+                       </size>
+                      </property>
                       <property name="styleSheet">
-                       <string notr="true">background-color: rgb(85, 87, 83);</string>
+                       <string notr="true">background-color: rgb(85, 87, 83);
+background-color: rgb(195, 65, 0);</string>
                       </property>
                       <property name="frameShape">
                        <enum>QFrame::StyledPanel</enum>
@@ -1997,7 +2013,7 @@ border-radius: 5px;</string>
                          <property name="font">
                           <font>
                            <family>Sans</family>
-                           <pointsize>12</pointsize>
+                           <pointsize>10</pointsize>
                           </font>
                          </property>
                          <property name="text">
@@ -2013,7 +2029,7 @@ border-radius: 5px;</string>
                          <property name="font">
                           <font>
                            <family>Sans</family>
-                           <pointsize>12</pointsize>
+                           <pointsize>10</pointsize>
                            <weight>75</weight>
                            <bold>true</bold>
                           </font>
@@ -2032,32 +2048,103 @@ border-radius: 5px;</string>
                       </layout>
                      </widget>
                     </item>
+                    <item>
+                     <spacer name="horizontalSpacer_4">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
                    </layout>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QFrame" name="classBalanceFrame">
-                   <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                  <widget class="QListWidget" name="classListWidget">
+                   <property name="alternatingRowColors">
+                    <bool>false</bool>
                    </property>
-                   <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                   <property name="spacing">
+                    <number>1</number>
                    </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_19">
-                    <item>
-                     <widget class="QLabel" name="classBalanceExampleLbl">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="pixmap">
-                       <pixmap>icons/class_balance_example.png</pixmap>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
+                   <item>
+                    <property name="text">
+                     <string>Test</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                    <property name="textAlignment">
+                     <set>AlignCenter</set>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Test</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Test</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Test</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Test</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Test</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Test</string>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                  <item>
@@ -2071,21 +2158,7 @@ border-radius: 5px;</string>
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
                    </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_23">
-                    <item>
-                     <spacer name="verticalSpacer_11">
-                      <property name="orientation">
-                       <enum>Qt::Vertical</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>20</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
+                   <layout class="QVBoxLayout" name="verticalLayout_23"/>
                   </widget>
                  </item>
                 </layout>
@@ -2195,7 +2268,7 @@ border-radius: 5px;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1100</width>
+     <width>1102</width>
      <height>21</height>
     </rect>
    </property>
@@ -2620,6 +2693,14 @@ border-radius: 5px;</string>
    <addaction name="menutest"/>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header>pyqtgraph</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
