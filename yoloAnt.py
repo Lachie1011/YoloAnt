@@ -3,6 +3,7 @@
 """
 
 import sys
+import signal
 from enum import Enum
 
 from PyQt6 import QtCore
@@ -23,6 +24,7 @@ from notificationManager import NotificationManager
 
 from events.hoverEvent import HoverEvent
 
+app = None
 
 class Pages(Enum):
     """ Enum to represent the pages within the application"""
@@ -130,9 +132,8 @@ class YoloAnt(QMainWindow):
 
     def __onPageChange(self) -> None: 
         """ Resets some application attributes on a page change """
-        # Reset mouse cursor
+        # Reset cursor icon
         QApplication.restoreOverrideCursor()
-
 
     def __connectInformationButton(self) -> None:
         """ Connects the info button """
@@ -185,11 +186,26 @@ class YoloAnt(QMainWindow):
         self.ui.notificationBtn.installEventFilter(self.notificationBtnEvent)
 
 
+def signal_handler(sig, frame) -> None:
+    """ Handles unix signals """
+    # At the moment we are just worried about sigint and sigterm and both signals are handled the same
+    global app
+    app.exit(-1)  # Any non-typical exit is an error -1 
+
+
 def main() -> None:
     """
         main entry point
-    """
+    """ 
+    
+    # Handling application signals that are not handled by QT
+    signal.signal(signal.SIGINT, signal_handler)  # SIGINT
+    signal.signal(signal.SIGTERM, signal_handler)  # SIGTERM
+
+    # Starting application
+    global app  # Using a global reference for the signal handling - might be something better here
     app = QApplication(sys.argv)
+
     YoloAnt()
 
     sys.exit(app.exec())
