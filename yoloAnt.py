@@ -70,7 +70,7 @@ class YoloAnt(QMainWindow):
             # resize notifications
             self.notificationManager.resizeNotifications()
             return False
-        return True
+        return False
 
     def closeEvent(self, event) -> None:
         """ Overrides the close event on the main window """
