@@ -59,8 +59,8 @@ class YoloAnt(QMainWindow):
 
         self.startPage = StartPage(self)
         self.annotationPage = AnnotationPage(self)
-
-        self.installEventFilter(self)
+        
+        # self.installEventFilter(self)
 
         self.show()
     
@@ -77,7 +77,7 @@ class YoloAnt(QMainWindow):
         # Ensure all notifications are closed
         self.notificationManager.closeNotifications()
         # For now manually close info dialog TODO: have this close nicer
-        self.infoDialog.close()
+        # self.infoDialog.close()
         event.accept()
 
     def __connectNavigationButtons(self) -> None:
