@@ -1370,28 +1370,31 @@ border-radius: 5px;</string>
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
-                     <height>0</height>
+                     <height>30</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>200</width>
+                     <width>210</width>
                      <height>16777215</height>
                     </size>
                    </property>
                    <property name="font">
                     <font>
-                     <family>MS Shell Dlg 2</family>
+                     <family>Gotham Rounded</family>
                      <pointsize>14</pointsize>
                      <weight>75</weight>
+                     <italic>false</italic>
                      <bold>true</bold>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">background-color: rgb(85, 87, 83);
-border : 1px solid;
+                    <string notr="true">border : 1px solid;
+background-color: rgb(85, 85, 85);
 border-radius: 5px;
-border-color:  rgb(85, 87, 83);</string>
+border-color:  rgb(85, 85, 85);
+font: 75 bold 14pt &quot;Gotham Rounded&quot;;
+color: rgb(255, 255, 255);</string>
                    </property>
                    <property name="text">
                     <string>Project Name</string>
@@ -1400,7 +1403,7 @@ border-color:  rgb(85, 87, 83);</string>
                     <enum>Qt::PlainText</enum>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                    <set>Qt::AlignCenter</set>
                    </property>
                   </widget>
                  </item>
@@ -1595,6 +1598,12 @@ border-radius: 5px;</string>
                  </property>
                  <item>
                   <widget class="QLabel" name="mlFrameLbl">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>30</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
                      <width>200</width>
@@ -1603,20 +1612,25 @@ border-radius: 5px;</string>
                    </property>
                    <property name="font">
                     <font>
-                     <family>MS Shell Dlg 2</family>
+                     <family>Gotham Rounded</family>
                      <pointsize>14</pointsize>
                      <weight>75</weight>
+                     <italic>false</italic>
                      <bold>true</bold>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">background-color: rgb(85, 87, 83);
+                    <string notr="true">background-color: rgb(80, 80, 80);
 border : 1px solid;
 border-radius: 5px;
-border-color:  rgb(85, 87, 83);</string>
+border-color:  rgb(80, 80, 80);
+font: 75 bold 14pt &quot;Gotham Rounded&quot;;</string>
                    </property>
                    <property name="text">
                     <string>Machine Learning</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
                    </property>
                   </widget>
                  </item>
@@ -1808,27 +1822,39 @@ border-radius: 5px;</string>
                 <layout class="QVBoxLayout" name="verticalLayout_18">
                  <item>
                   <widget class="QLabel" name="healthLbl">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>30</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
-                     <width>200</width>
+                     <width>170</width>
                      <height>16777215</height>
                     </size>
                    </property>
                    <property name="font">
                     <font>
+                     <family>Gotham Rounded</family>
                      <pointsize>14</pointsize>
                      <weight>75</weight>
+                     <italic>false</italic>
                      <bold>true</bold>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">background-color: rgb(85, 87, 83);
+                    <string notr="true">background-color: rgb(80, 80, 80);
 border : 1px solid;
 border-radius: 5px;
-border-color:  rgb(85, 87, 83);</string>
+border-color:  rgb(80, 80, 80);
+font: 75 bold 14pt &quot;Gotham Rounded&quot;;</string>
                    </property>
                    <property name="text">
-                    <string>Dataset health </string>
+                    <string>Dataset health</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
                    </property>
                   </widget>
                  </item>
@@ -2269,7 +2295,7 @@ background-color: rgb(195, 65, 0);</string>
      <x>0</x>
      <y>0</y>
      <width>1102</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="minimumSize">
@@ -2344,6 +2370,15 @@ background-color: rgb(195, 65, 0);</string>
         </color>
        </brush>
       </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
      </active>
      <inactive>
       <colorrole role="WindowText">
@@ -2409,6 +2444,15 @@ background-color: rgb(195, 65, 0);</string>
         </color>
        </brush>
       </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
      </inactive>
      <disabled>
       <colorrole role="WindowText">
@@ -2471,6 +2515,15 @@ background-color: rgb(195, 65, 0);</string>
          <red>186</red>
          <green>189</green>
          <blue>182</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="PlaceholderText">
+       <brush brushstyle="NoBrush">
+        <color alpha="128">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -2547,6 +2600,15 @@ background-color: rgb(195, 65, 0);</string>
          </color>
         </brush>
        </colorrole>
+       <colorrole role="PlaceholderText">
+        <brush brushstyle="NoBrush">
+         <color alpha="128">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
       </active>
       <inactive>
        <colorrole role="WindowText">
@@ -2609,6 +2671,15 @@ background-color: rgb(195, 65, 0);</string>
           <red>186</red>
           <green>189</green>
           <blue>182</blue>
+         </color>
+        </brush>
+       </colorrole>
+       <colorrole role="PlaceholderText">
+        <brush brushstyle="NoBrush">
+         <color alpha="128">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
          </color>
         </brush>
        </colorrole>
@@ -2677,6 +2748,15 @@ background-color: rgb(195, 65, 0);</string>
          </color>
         </brush>
        </colorrole>
+       <colorrole role="PlaceholderText">
+        <brush brushstyle="NoBrush">
+         <color alpha="128">
+          <red>255</red>
+          <green>255</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </colorrole>
       </disabled>
      </palette>
     </property>
@@ -2701,6 +2781,8 @@ background-color: rgb(195, 65, 0);</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="assets/fonts/gotham-rounded.qrc"/>
+ </resources>
  <connections/>
 </ui>
