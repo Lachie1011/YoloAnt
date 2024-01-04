@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1102</width>
-    <height>822</height>
+    <height>823</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1153,7 +1153,7 @@ border-radius: 5px;</string>
                     <enum>Qt::RightToLeft</enum>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 75 12pt &quot;Gotham Rounded&quot;;</string>
+                    <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
                    </property>
                    <property name="text">
                     <string>Class Information</string>
@@ -1213,7 +1213,7 @@ border-radius: 5px;</string>
                  <item>
                   <widget class="QLabel" name="label_4">
                    <property name="styleSheet">
-                    <string notr="true">font: 75 12pt &quot;Gotham Rounded&quot;;</string>
+                    <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
                    </property>
                    <property name="text">
                     <string>Image Information</string>
@@ -1361,8 +1361,10 @@ border-radius: 5px;</string>
                    <property name="styleSheet">
                     <string notr="true">border : 1px solid;
 background-color: rgb(85, 85, 85);
+background-color: rgb(65, 66, 64);
 border-radius: 5px;
 border-color:  rgb(85, 85, 85);
+border-color: rgb(65, 66, 64);
 font: 75 bold 14pt &quot;Gotham Rounded&quot;;
 color: rgb(255, 255, 255);</string>
                    </property>
@@ -1373,7 +1375,7 @@ color: rgb(255, 255, 255);</string>
                     <enum>Qt::PlainText</enum>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignCenter</set>
+                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                    </property>
                   </widget>
                  </item>
@@ -1602,11 +1604,14 @@ border-radius: 5px;</string>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">background-color: rgb(80, 80, 80);
-border : 1px solid;
+                    <string notr="true">border : 1px solid;
+background-color: rgb(85, 85, 85);
+background-color: rgb(65, 66, 64);
 border-radius: 5px;
-border-color:  rgb(80, 80, 80);
-font: 75 bold 14pt &quot;Gotham Rounded&quot;;</string>
+border-color:  rgb(85, 85, 85);
+border-color: rgb(65, 66, 64);
+font: 75 bold 14pt &quot;Gotham Rounded&quot;;
+color: rgb(255, 255, 255);</string>
                    </property>
                    <property name="text">
                     <string>Machine Learning</string>
@@ -1836,11 +1841,14 @@ border-radius: 5px;</string>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">background-color: rgb(80, 80, 80);
-border : 1px solid;
+                    <string notr="true">border : 1px solid;
+background-color: rgb(85, 85, 85);
+background-color: rgb(65, 66, 64);
 border-radius: 5px;
-border-color:  rgb(80, 80, 80);
-font: 75 bold 14pt &quot;Gotham Rounded&quot;;</string>
+border-color:  rgb(85, 85, 85);
+border-color: rgb(65, 66, 64);
+font: 75 bold 14pt &quot;Gotham Rounded&quot;;
+color: rgb(255, 255, 255);</string>
                    </property>
                    <property name="text">
                     <string>Dataset health</string>
@@ -2102,79 +2110,6 @@ background-color: rgb(195, 65, 0);</string>
                    <property name="spacing">
                     <number>1</number>
                    </property>
-                   <item>
-                    <property name="text">
-                     <string>Test</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>10</pointsize>
-                     </font>
-                    </property>
-                    <property name="textAlignment">
-                     <set>AlignCenter</set>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Test</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>10</pointsize>
-                     </font>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Test</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>10</pointsize>
-                     </font>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Test</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>10</pointsize>
-                     </font>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Test</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>10</pointsize>
-                     </font>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Test</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>10</pointsize>
-                     </font>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Test</string>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>10</pointsize>
-                     </font>
-                    </property>
-                   </item>
                   </widget>
                  </item>
                  <item>
