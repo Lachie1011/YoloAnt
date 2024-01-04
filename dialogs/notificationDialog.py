@@ -31,7 +31,7 @@ class NotificationDialog(QDialog):
     def __init__(self, text: str, notifLevel: NotificationLevel = NotificationLevel.Info, persistent: bool = False) -> None:
         """ init """
         # We dont show the notification on init
-        super().__init__()
+        super().__init__(None, QtCore.Qt.WindowType.WindowStaysOnTopHint)
 
         self.ui = Ui_MainDialog()
         self.ui.setupUi(self)

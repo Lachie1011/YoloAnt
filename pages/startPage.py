@@ -49,6 +49,7 @@ class StartPage():
                 self.ui.annotTabBtn.setChecked(False)
                 self.ui.projectsTabBtn.setChecked(True)
                 self.ui.stackedWidget.setCurrentIndex(2)
+                self.app.projectPage.loadPage()
         else:
             # opens file explorer
             projectPath = QFileDialog.getOpenFileName(self.app, 'Open file', os.getcwd())[0]
@@ -60,6 +61,7 @@ class StartPage():
                 self.ui.annotTabBtn.setChecked(False)
                 self.ui.projectsTabBtn.setChecked(True)
                 self.ui.stackedWidget.setCurrentIndex(2)
+                self.app.projectPage.loadPage()
 
     def __connectIconHover(self) -> None:
         """ Connects the hover over functionality to icons """
