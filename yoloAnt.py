@@ -64,13 +64,13 @@ class YoloAnt(QMainWindow):
         self.projectPage = ProjectPage(self)
         self.annotationPage = AnnotationPage(self)
         
-        # self.installEventFilter(self)
+        self.installEventFilter(self)
 
         self.show()
     
     def eventFilter(self, object, event):
         """ Application level event filter """
-        if event.type() == QEvent.Type.Resize:
+        if event.type() == QEvent.Type.Resize or event.type() == QEvent.Type.Move:
             # resize notifications
             self.notificationManager.resizeNotifications()
             return False

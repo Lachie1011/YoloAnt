@@ -1352,7 +1352,7 @@ border-radius: 5px;</string>
                    <property name="font">
                     <font>
                      <family>Gotham Rounded</family>
-                     <pointsize>14</pointsize>
+                     <pointsize>16</pointsize>
                      <weight>75</weight>
                      <italic>false</italic>
                      <bold>true</bold>
@@ -1365,7 +1365,7 @@ background-color: rgb(65, 66, 64);
 border-radius: 5px;
 border-color:  rgb(85, 85, 85);
 border-color: rgb(65, 66, 64);
-font: 75 bold 14pt &quot;Gotham Rounded&quot;;
+font: 75 bold 16pt &quot;Gotham Rounded&quot;;
 color: rgb(255, 255, 255);</string>
                    </property>
                    <property name="text">
@@ -1410,7 +1410,7 @@ color: rgb(255, 255, 255);</string>
                     <set>QTextEdit::AutoBulletList</set>
                    </property>
                    <property name="readOnly">
-                    <bool>false</bool>
+                    <bool>true</bool>
                    </property>
                    <property name="html">
                     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -1590,14 +1590,14 @@ border-radius: 5px;</string>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>200</width>
+                     <width>250</width>
                      <height>16777215</height>
                     </size>
                    </property>
                    <property name="font">
                     <font>
                      <family>Gotham Rounded</family>
-                     <pointsize>14</pointsize>
+                     <pointsize>16</pointsize>
                      <weight>75</weight>
                      <italic>false</italic>
                      <bold>true</bold>
@@ -1610,14 +1610,14 @@ background-color: rgb(65, 66, 64);
 border-radius: 5px;
 border-color:  rgb(85, 85, 85);
 border-color: rgb(65, 66, 64);
-font: 75 bold 14pt &quot;Gotham Rounded&quot;;
+font: 75 bold 16pt &quot;Gotham Rounded&quot;;
 color: rgb(255, 255, 255);</string>
                    </property>
                    <property name="text">
                     <string>Machine Learning</string>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignCenter</set>
+                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                    </property>
                   </widget>
                  </item>
@@ -1827,14 +1827,14 @@ border-radius: 5px;</string>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>170</width>
+                     <width>210</width>
                      <height>16777215</height>
                     </size>
                    </property>
                    <property name="font">
                     <font>
                      <family>Gotham Rounded</family>
-                     <pointsize>14</pointsize>
+                     <pointsize>16</pointsize>
                      <weight>75</weight>
                      <italic>false</italic>
                      <bold>true</bold>
@@ -1847,14 +1847,14 @@ background-color: rgb(65, 66, 64);
 border-radius: 5px;
 border-color:  rgb(85, 85, 85);
 border-color: rgb(65, 66, 64);
-font: 75 bold 14pt &quot;Gotham Rounded&quot;;
+font: 75 bold 16pt &quot;Gotham Rounded&quot;;
 color: rgb(255, 255, 255);</string>
                    </property>
                    <property name="text">
                     <string>Dataset health</string>
                    </property>
                    <property name="alignment">
-                    <set>Qt::AlignCenter</set>
+                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                    </property>
                   </widget>
                  </item>

@@ -538,7 +538,7 @@ class Ui_MainWindow(object):
         self.projectNameLbl.setMaximumSize(QtCore.QSize(210, 16777215))
         font = QtGui.QFont()
         font.setFamily("Gotham Rounded")
-        font.setPointSize(14)
+        font.setPointSize(16)
         font.setBold(True)
         font.setItalic(False)
         font.setWeight(75)
@@ -549,7 +549,7 @@ class Ui_MainWindow(object):
 "border-radius: 5px;\n"
 "border-color:  rgb(85, 85, 85);\n"
 "border-color: rgb(65, 66, 64);\n"
-"font: 75 bold 14pt \"Gotham Rounded\";\n"
+"font: 75 bold 16pt \"Gotham Rounded\";\n"
 "color: rgb(255, 255, 255);")
         self.projectNameLbl.setTextFormat(QtCore.Qt.TextFormat.PlainText)
         self.projectNameLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
@@ -572,7 +572,7 @@ class Ui_MainWindow(object):
         self.projectDescriptionEdit.setFont(font)
         self.projectDescriptionEdit.setStyleSheet("font: 75 11pt \"Gotham Rounded\";")
         self.projectDescriptionEdit.setAutoFormatting(QtWidgets.QTextEdit.AutoFormattingFlag.AutoBulletList)
-        self.projectDescriptionEdit.setReadOnly(False)
+        self.projectDescriptionEdit.setReadOnly(True)
         self.projectDescriptionEdit.setObjectName("projectDescriptionEdit")
         self.verticalLayout_17.addWidget(self.projectDescriptionEdit)
         self.datasetPathFrame = QtWidgets.QFrame(parent=self.descriptionFrame)
@@ -647,10 +647,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_24.setObjectName("verticalLayout_24")
         self.mlFrameLbl = QtWidgets.QLabel(parent=self.mlInfoFrame)
         self.mlFrameLbl.setMinimumSize(QtCore.QSize(0, 30))
-        self.mlFrameLbl.setMaximumSize(QtCore.QSize(200, 16777215))
+        self.mlFrameLbl.setMaximumSize(QtCore.QSize(250, 16777215))
         font = QtGui.QFont()
         font.setFamily("Gotham Rounded")
-        font.setPointSize(14)
+        font.setPointSize(16)
         font.setBold(True)
         font.setItalic(False)
         font.setWeight(75)
@@ -661,9 +661,9 @@ class Ui_MainWindow(object):
 "border-radius: 5px;\n"
 "border-color:  rgb(85, 85, 85);\n"
 "border-color: rgb(65, 66, 64);\n"
-"font: 75 bold 14pt \"Gotham Rounded\";\n"
+"font: 75 bold 16pt \"Gotham Rounded\";\n"
 "color: rgb(255, 255, 255);")
-        self.mlFrameLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.mlFrameLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.mlFrameLbl.setObjectName("mlFrameLbl")
         self.verticalLayout_24.addWidget(self.mlFrameLbl)
         self.mdlFrame = QtWidgets.QFrame(parent=self.mlInfoFrame)
@@ -755,10 +755,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_18.setObjectName("verticalLayout_18")
         self.healthLbl = QtWidgets.QLabel(parent=self.healthInfoFrame)
         self.healthLbl.setMinimumSize(QtCore.QSize(0, 30))
-        self.healthLbl.setMaximumSize(QtCore.QSize(170, 16777215))
+        self.healthLbl.setMaximumSize(QtCore.QSize(210, 16777215))
         font = QtGui.QFont()
         font.setFamily("Gotham Rounded")
-        font.setPointSize(14)
+        font.setPointSize(16)
         font.setBold(True)
         font.setItalic(False)
         font.setWeight(75)
@@ -769,9 +769,9 @@ class Ui_MainWindow(object):
 "border-radius: 5px;\n"
 "border-color:  rgb(85, 85, 85);\n"
 "border-color: rgb(65, 66, 64);\n"
-"font: 75 bold 14pt \"Gotham Rounded\";\n"
+"font: 75 bold 16pt \"Gotham Rounded\";\n"
 "color: rgb(255, 255, 255);")
-        self.healthLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.healthLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.healthLbl.setObjectName("healthLbl")
         self.verticalLayout_18.addWidget(self.healthLbl)
         self.annotationInfoFrame = QtWidgets.QFrame(parent=self.healthInfoFrame)
