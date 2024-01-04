@@ -10,6 +10,8 @@ from PyQt6 import QtCore
 from dialogs.notificationDialog import State
 from dialogs.notificationDialog import NotificationDialog
 from dialogs.notificationDialog import NotificationLevel
+from dialogs.notificationManagerDialog import NotificationManagerDialog
+
 
 WIDTH_PADDING = 104
 HEIGHT_PADDING = 35
@@ -24,6 +26,9 @@ class NotificationManager:
         self.app = app
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.__updateNotifications)
+    
+        self.notifcationManagerDialog = None
+
         self.notifications = []  # Notifications are reset per application start, TODO: may have persistence in future??
 
         self.timer.start(100)
@@ -70,9 +75,9 @@ class NotificationManager:
                 x, y, width, height = self.calculateNotificationGeometry(notification)
                 notification.setGeometry(x, y, width, height)
 
-    # def openNotificationViewer(self):
-    #     """ Opens the notification viewer """
-    #     pass    
+    def openNotificationManager(self):
+        """ Opens the notification viewer """
+        self.notifcationManagerDialog = NotificationManagerDialog()
 
     def closeNotifications(self):
         """ Closes all notifications """

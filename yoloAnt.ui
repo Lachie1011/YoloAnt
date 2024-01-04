@@ -7,8 +7,17 @@
     <x>0</x>
     <y>0</y>
     <width>1102</width>
-    <height>823</height>
+    <height>824</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Gotham Rounded</family>
+    <pointsize>11</pointsize>
+    <weight>9</weight>
+    <italic>false</italic>
+    <bold>false</bold>
+   </font>
   </property>
   <property name="windowTitle">
    <string>YoloAnt</string>
@@ -2206,8 +2215,7 @@ background-color: rgb(195, 65, 0);</string>
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>icons/icons8-notification-bell-30-inactive.png</normaloff>
-              <normalon>icons/icons8-notification-bell-30-active.png</normalon>icons/icons8-notification-bell-30-inactive.png</iconset>
+              <normaloff>icons/icons8-notification-bell-30-inactive.png</normaloff>icons/icons8-notification-bell-30-inactive.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2234,7 +2242,7 @@ background-color: rgb(195, 65, 0);</string>
      <x>0</x>
      <y>0</y>
      <width>1102</width>
-     <height>23</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="minimumSize">

@@ -83,6 +83,9 @@ class YoloAnt(QMainWindow):
         # For now manually close info dialog TODO: have this close nicer
         if self.infoDialog:
             self.infoDialog.close()
+
+        if self.notificationManager.notifcationManagerDialog:
+            self.notificationManager.notifcationManagerDialog.close()
         event.accept()
 
     def __connectNavigationButtons(self) -> None:
@@ -137,9 +140,8 @@ class YoloAnt(QMainWindow):
         QApplication.restoreOverrideCursor()
 
     def __connectInformationButton(self) -> None:
-        """ Connects the info button """
         self.ui.infoBtn.clicked.connect(lambda: self.__openInfoDialog(True))
-
+    
     def __openInfoDialog(self, displayInfoDialog: bool) -> None:
         """ Handles the display of the info dialog box"""
         self.infoDialog = InfoDialog()
@@ -150,11 +152,11 @@ class YoloAnt(QMainWindow):
 
     def __connectNotificationButton(self) -> None: 
         """ Connects the notification button """
-        self.ui.notificationBtn.clicked.connect(lambda: self.__openNotificationViewer)
+        self.ui.notificationBtn.clicked.connect(lambda: self.__openNotificationManager())
     
-    def __openNotificationViewer(self) -> None:
+    def __openNotificationManager(self) -> None:
         """ Opens the notification viewer """
-        self.notificationManager.openNotificationViewer()
+        self.notificationManager.openNotificationManager()
 
     def __connectIconHover(self) -> None:
         """ 
