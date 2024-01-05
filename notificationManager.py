@@ -27,7 +27,7 @@ class NotificationManager:
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.__updateNotifications)
     
-        self.notifcationManagerDialog = None
+        self.notifcationManagerDialog = NotificationManagerDialog()
 
         self.notifications = []  # Notifications are reset per application start, TODO: may have persistence in future??
 
@@ -48,6 +48,7 @@ class NotificationManager:
             # Closing notifications after 5 seconds. TODO: maybe a setting?
             if notification.persistent:
                 return
+
             delta = time.time() - notification.notificationTime
             if ((delta > 5) and (notification.state == State.Active)):
                 notification.state = State.Inactive
@@ -70,14 +71,28 @@ class NotificationManager:
 
     def resizeNotifications(self) -> None: 
         """ Resize all notifications based off of the application's geometry """
+        if self.notifcationManagerDialog.state == State.Active:
+            x, y, width, height = self.calculateNotificationGeometry(self.notifcationManagerDialog)
+            self.notifcationManagerDialog.setGeometry(x, y, width, height)
+            # return as only the manager or a notification can be present at a time
+            return
+
         for notification in self.notifications: 
             if notification.state == State.Active:
                 x, y, width, height = self.calculateNotificationGeometry(notification)
                 notification.setGeometry(x, y, width, height)
 
     def openNotificationManager(self):
-        """ Opens the notification viewer """
-        self.notifcationManagerDialog = NotificationManagerDialog()
+        """ Opens the notification viewer and applys geometry updates similar to notifs"""
+        # sets geometry up for manager
+        x, y, width, height = self.calculateNotificationGeometry(self.notifcationManagerDialog)
+        self.notifcationManagerDialog.setGeometry(x, y, width, height)
+
+        # close any existing notification
+        self.closeNotifications()
+
+        self.notifcationManagerDialog.state = State.Active
+        self.notifcationManagerDialog.show()
 
     def closeNotifications(self):
         """ Closes all notifications """

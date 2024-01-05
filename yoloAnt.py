@@ -185,9 +185,11 @@ class YoloAnt(QMainWindow):
 
         # Applying hover event and cursor change to notificationBtn
         self.ui.notificationBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.notificationBtnEvent = HoverEvent(self.ui.notificationBtn, "icons/icons8-notification-bell-30-inactive.png", "icons/icons8-notification-bell-30-active.png")
-        self.ui.notificationBtn.installEventFilter(self.notificationBtnEvent)
-
+        self.ui.notificationBtn.setStyleSheet("QPushButton::hover"
+                                "{"
+                                "background-color : #61635e;"
+                                "border-radius: 20px;"
+                                "}")
 
 def signal_handler(sig, frame) -> None:
     """ Handles unix signals """

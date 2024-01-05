@@ -379,7 +379,7 @@ background-color: rgb(45, 45, 45);</string>
           <enum>QFrame::Raised</enum>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="entryPage">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -1368,11 +1368,7 @@ border-radius: 5px;</string>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border : 1px solid;
-background-color: rgb(85, 85, 85);
-background-color: rgb(65, 66, 64);
-border-radius: 5px;
-border-color:  rgb(85, 85, 85);
+                    <string notr="true">background-color: rgb(65, 66, 64);
 border-color: rgb(65, 66, 64);
 font: 75 bold 16pt &quot;Gotham Rounded&quot;;
 color: rgb(255, 255, 255);</string>
@@ -1385,6 +1381,9 @@ color: rgb(255, 255, 255);</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                   </property>
+                   <property name="margin">
+                    <number>3</number>
                    </property>
                   </widget>
                  </item>
@@ -1613,11 +1612,7 @@ border-radius: 5px;</string>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border : 1px solid;
-background-color: rgb(85, 85, 85);
-background-color: rgb(65, 66, 64);
-border-radius: 5px;
-border-color:  rgb(85, 85, 85);
+                    <string notr="true">background-color: rgb(65, 66, 64);
 border-color: rgb(65, 66, 64);
 font: 75 bold 16pt &quot;Gotham Rounded&quot;;
 color: rgb(255, 255, 255);</string>
@@ -1627,6 +1622,9 @@ color: rgb(255, 255, 255);</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                   </property>
+                   <property name="margin">
+                    <number>3</number>
                    </property>
                   </widget>
                  </item>
@@ -1850,11 +1848,7 @@ border-radius: 5px;</string>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border : 1px solid;
-background-color: rgb(85, 85, 85);
-background-color: rgb(65, 66, 64);
-border-radius: 5px;
-border-color:  rgb(85, 85, 85);
+                    <string notr="true">background-color: rgb(65, 66, 64);
 border-color: rgb(65, 66, 64);
 font: 75 bold 16pt &quot;Gotham Rounded&quot;;
 color: rgb(255, 255, 255);</string>
@@ -1864,6 +1858,9 @@ color: rgb(255, 255, 255);</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                   </property>
+                   <property name="margin">
+                    <number>3</number>
                    </property>
                   </widget>
                  </item>
@@ -2210,6 +2207,18 @@ background-color: rgb(195, 65, 0);</string>
           </item>
           <item>
            <widget class="QPushButton" name="notificationBtn">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>27</width>
+              <height>27</height>
+             </size>
+            </property>
             <property name="text">
              <string/>
             </property>

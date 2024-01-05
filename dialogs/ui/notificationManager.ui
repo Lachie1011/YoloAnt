@@ -155,13 +155,17 @@ font: 75 bold 10pt &quot;Gotham Rounded&quot;;</string>
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>icons/icons8-do-not-disturb-30.png</normaloff>icons/icons8-do-not-disturb-30.png</iconset>
+          <normaloff>icons/icons8-notification-bell-30-inactive.png</normaloff>
+          <normalon>icons/icons8-do-not-disturb-30.png</normalon>icons/icons8-notification-bell-30-inactive.png</iconset>
         </property>
         <property name="iconSize">
          <size>
           <width>20</width>
           <height>20</height>
          </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
