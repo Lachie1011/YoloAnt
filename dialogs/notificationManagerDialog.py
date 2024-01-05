@@ -18,13 +18,15 @@ class NotificationManagerDialog(QDialog):
     """
         Class that creates a notification manager dialog to capture all of the dialogs
     """
-    def __init__(self) -> None:
+    def __init__(self, app) -> None:
         """ init """
         super().__init__()
 
         self.ui = Ui_MainDialog()
         self.ui.setupUi(self)
         self.setWindowFlag(QtCore.Qt.WindowType.FramelessWindowHint)
+
+        self.app = app
 
         self.state = State.Inactive
         self.numberNotifications = 0
@@ -87,10 +89,12 @@ class NotificationManagerDialog(QDialog):
         self.doNotDisturb = not self.doNotDisturb
 
         # updating icon
-        if self.doNotDisturb: 
+        if self.doNotDisturb:
             self.ui.doNotDisturbBtn.setIcon(QIcon("dialogs/ui/icons/icons8-do-not-disturb-30.png"))
+            self.app.ui.notificationBtn.setIcon(QIcon("dialogs/ui/icons/icons8-do-not-disturb-30.png"))
         else: 
             self.ui.doNotDisturbBtn.setIcon(QIcon("dialogs/ui/icons/icons8-notification-bell-30-inactive.png"))
+            self.app.ui.notificationBtn.setIcon(QIcon("dialogs/ui/icons/icons8-notification-bell-30-inactive.png"))
 
     def addNotification(self, notification: str, level: NotificationLevel) -> None:
         """ Adds a notification to the list widget """

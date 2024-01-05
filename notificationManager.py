@@ -23,7 +23,7 @@ class NotificationManager:
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.__updateNotifications)
     
-        self.notifcationManagerDialog = NotificationManagerDialog()
+        self.notifcationManagerDialog = NotificationManagerDialog(self.app)
 
         self.notifications = []  # Notifications are reset per application start, TODO: may have persistence in future??
 

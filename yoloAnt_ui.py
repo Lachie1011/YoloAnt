@@ -550,11 +550,7 @@ class Ui_MainWindow(object):
         font.setItalic(False)
         font.setWeight(75)
         self.projectNameLbl.setFont(font)
-        self.projectNameLbl.setStyleSheet("border : 1px solid;\n"
-"background-color: rgb(85, 85, 85);\n"
-"background-color: rgb(65, 66, 64);\n"
-"border-radius: 5px;\n"
-"border-color:  rgb(85, 85, 85);\n"
+        self.projectNameLbl.setStyleSheet("background-color: rgb(65, 66, 64);\n"
 "border-color: rgb(65, 66, 64);\n"
 "font: 75 bold 16pt \"Gotham Rounded\";\n"
 "color: rgb(255, 255, 255);")
@@ -662,11 +658,7 @@ class Ui_MainWindow(object):
         font.setItalic(False)
         font.setWeight(75)
         self.mlFrameLbl.setFont(font)
-        self.mlFrameLbl.setStyleSheet("border : 1px solid;\n"
-"background-color: rgb(85, 85, 85);\n"
-"background-color: rgb(65, 66, 64);\n"
-"border-radius: 5px;\n"
-"border-color:  rgb(85, 85, 85);\n"
+        self.mlFrameLbl.setStyleSheet("background-color: rgb(65, 66, 64);\n"
 "border-color: rgb(65, 66, 64);\n"
 "font: 75 bold 16pt \"Gotham Rounded\";\n"
 "color: rgb(255, 255, 255);")
@@ -770,11 +762,7 @@ class Ui_MainWindow(object):
         font.setItalic(False)
         font.setWeight(75)
         self.healthLbl.setFont(font)
-        self.healthLbl.setStyleSheet("border : 1px solid;\n"
-"background-color: rgb(85, 85, 85);\n"
-"background-color: rgb(65, 66, 64);\n"
-"border-radius: 5px;\n"
-"border-color:  rgb(85, 85, 85);\n"
+        self.healthLbl.setStyleSheet("background-color: rgb(65, 66, 64);\n"
 "border-color: rgb(65, 66, 64);\n"
 "font: 75 bold 16pt \"Gotham Rounded\";\n"
 "color: rgb(255, 255, 255);")
@@ -945,12 +933,12 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.notificationBtn.sizePolicy().hasHeightForWidth())
         self.notificationBtn.setSizePolicy(sizePolicy)
-        self.notificationBtn.setMaximumSize(QtCore.QSize(27, 27))
+        self.notificationBtn.setMaximumSize(QtCore.QSize(25, 25))
         self.notificationBtn.setText("")
         icon14 = QtGui.QIcon()
         icon14.addPixmap(QtGui.QPixmap("icons/icons8-notification-bell-30-inactive.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.notificationBtn.setIcon(icon14)
-        self.notificationBtn.setIconSize(QtCore.QSize(27, 27))
+        self.notificationBtn.setIconSize(QtCore.QSize(20, 20))
         self.notificationBtn.setCheckable(True)
         self.notificationBtn.setObjectName("notificationBtn")
         self.horizontalLayout_12.addWidget(self.notificationBtn)
