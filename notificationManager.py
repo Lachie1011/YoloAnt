@@ -55,7 +55,7 @@ class NotificationManager:
         self.notifcationManagerDialog.addNotification(notification.time + notification.text, notification.notificationLevel)
         self.resizeNotificationManger()
 
-        if self.notifcationManagerDialog.state == State.Inactive:
+        if (self.notifcationManagerDialog.state == State.Inactive) and (self.notifcationManagerDialog.doNotDisturb == False):
             notification.show()        
 
     def calculateNotificationGeometry(self, notification) -> tuple:

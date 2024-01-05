@@ -251,7 +251,9 @@ font: 75 bold 10pt &quot;Gotham Rounded&quot;;</string>
       <string notr="true">background-color: rgb(85, 87, 83);
 color: rgb(255, 255, 255);
 border : 1px solid; 
-border-color: rgb(85, 87, 83);</string>
+border-color: rgb(85, 87, 83);
+selection-background-color: rgb(85, 87, 83);
+selection-color: rgb(85, 87, 83);</string>
      </property>
      <property name="verticalScrollBarPolicy">
       <enum>Qt::ScrollBarAlwaysOff</enum>

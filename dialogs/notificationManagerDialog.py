@@ -42,6 +42,7 @@ class NotificationManagerDialog(QDialog):
     def __updateUi(self) -> None:
         """ Updates stylesheets on the dialog"""
         # Adding hover stylesheet to both do not disturb and hide buttons
+
         self.ui.doNotDisturbBtn.setStyleSheet("QPushButton::hover"
                                         "{"
                                         "background-color : #61635e;"

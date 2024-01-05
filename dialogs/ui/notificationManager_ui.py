@@ -112,7 +112,9 @@ class Ui_MainDialog(object):
         self.notificationListWidget.setStyleSheet("background-color: rgb(85, 87, 83);\n"
 "color: rgb(255, 255, 255);\n"
 "border : 1px solid; \n"
-"border-color: rgb(85, 87, 83);")
+"border-color: rgb(85, 87, 83);\n"
+"selection-background-color: rgb(85, 87, 83);\n"
+"selection-color: rgb(85, 87, 83);")
         self.notificationListWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.notificationListWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.notificationListWidget.setObjectName("notificationListWidget")
