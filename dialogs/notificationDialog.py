@@ -43,6 +43,10 @@ class NotificationDialog(QDialog):
         self.notificationTime = time.time()
 
         self.text = text
+
+        timeNow = datetime.now()
+        self.time = f"[{timeNow.hour}:{timeNow.minute}:{timeNow.second}]  "
+
         self.notificationLevel = notifLevel
 
         self.__populateWidgets()
@@ -51,8 +55,8 @@ class NotificationDialog(QDialog):
         """
             Populates the widgets text and colout
         """
-        timeNow = datetime.now()
-        self.ui.notificationLbl.setText(f"[{timeNow.hour}:{timeNow.minute}:{timeNow.second}]  " + self.text)
+
+        self.ui.notificationLbl.setText(self.time + self.text)
         backgroundColour = "#0096FF"
         if self.notificationLevel == NotificationLevel.Warning:
             backgroundColour = "#FFC300"

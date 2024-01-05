@@ -4,11 +4,14 @@
 
 import yaml
 from PyQt6 import QtCore
-from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QDialog
+from PyQt6.QtGui import QIcon, QColor
+from PyQt6.QtWidgets import QDialog, QListWidgetItem
 
 from dialogs.notificationDialog import State
+from dialogs.notificationDialog import NotificationLevel
 from dialogs.ui.notificationManager_ui import Ui_MainDialog
+
+from customWidgets.notificationListItemWidget import NotificationListItemWidget
 
 
 class NotificationManagerDialog(QDialog):
@@ -24,15 +27,17 @@ class NotificationManagerDialog(QDialog):
         self.setWindowFlag(QtCore.Qt.WindowType.FramelessWindowHint)
 
         self.state = State.Inactive
+        self.numberNotifications = 0
+        self.expanded = False
+        self.minimised = True
 
         self.doNotDisturb = False
 
         self.__updateUi()
 
         self.__connectCloseBtn()
+        self.__connectClearNotifsBtn()
         self.__connectDoNotDisturbBtn()
-
-        # self.show()
 
     def __updateUi(self) -> None:
         """ Updates stylesheets on the dialog"""
@@ -48,16 +53,23 @@ class NotificationManagerDialog(QDialog):
                                         "background-color : #61635e;"
                                         "border-radius: 20px;"
                                         "}")
+        self.ui.clearNotifsBtn.setStyleSheet("QPushButton::hover"
+                                        "{"
+                                        "background-color : #61635e;"
+                                        "border-radius: 20px;"
+                                        "}")
 
-        # styling for the list widget items
-        # self.ui.notificationListWidget.setStyleSheet("QListView::item"
-        #                           "{"
-        #                           "border : 1px solid; border-color: rgb(65, 66, 64); border-radius : 5px;"
-        #                           "}"
-        #                           )
+    def __connectClearNotifsBtn(self) -> None:
+        """ Connects the clear notifs btn """
+        self.ui.clearNotifsBtn.clicked.connect(lambda: self.clearNotifications())
+
+    def clearNotifications(self): 
+        """ Clears all notifications """
+        self.ui.notificationListWidget.clear()
+        self.numberNotifications = 0
 
     def __connectCloseBtn(self) -> None:
-        """ Connects the notification manager close functionality """
+        """ Connects the notification manager close btn """
         self.ui.hideBtn.clicked.connect(lambda: self.__closeNotificationManager())
 
     def __closeNotificationManager(self) -> None:
@@ -79,5 +91,26 @@ class NotificationManagerDialog(QDialog):
         else: 
             self.ui.doNotDisturbBtn.setIcon(QIcon("dialogs/ui/icons/icons8-notification-bell-30-inactive.png"))
 
-        print(self.doNotDisturb)
+    def addNotification(self, notification: str, level: NotificationLevel) -> None:
+        """ Adds a notification to the list widget """
+        # Updating notification header
+        self.numberNotifications = self.numberNotifications + 1
+        self.ui.notificationLbl.setText("NOTIFICATIONS")
 
+        # Creating custom widget to add to list
+        notificationListItem = NotificationListItemWidget(notification, level)
+        notificationListItemWidget = QListWidgetItem(self.ui.notificationListWidget)
+        notificationListItemWidget.setSizeHint(notificationListItem.sizeHint())
+
+        self.ui.notificationListWidget.addItem(notificationListItemWidget)
+        self.ui.notificationListWidget.setItemWidget(notificationListItemWidget, notificationListItem)
+
+    def showNotificationManager(self) -> None:
+        """ Shows the notification manager """
+        if self.numberNotifications > 0:
+            self.ui.notificationLbl.setText("NOTIFICATIONS")
+        
+        if self.numberNotifications == 0:
+            self.ui.notificationLbl.setText("NO NEW NOTIFICATIONS")
+        
+        self.show()
