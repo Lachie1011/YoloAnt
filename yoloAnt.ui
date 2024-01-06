@@ -1405,14 +1405,14 @@ color: rgb(255, 255, 255);</string>
                     <font>
                      <family>Gotham Rounded</family>
                      <pointsize>11</pointsize>
-                     <weight>9</weight>
+                     <weight>75</weight>
                      <italic>false</italic>
-                     <bold>false</bold>
+                     <bold>true</bold>
                      <kerning>true</kerning>
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">font: 75 11pt &quot;Gotham Rounded&quot;;</string>
+                    <string notr="true">font: 75 bold 11pt &quot;Gotham Rounded&quot;;</string>
                    </property>
                    <property name="autoFormatting">
                     <set>QTextEdit::AutoBulletList</set>
@@ -1424,7 +1424,7 @@ color: rgb(255, 255, 255);</string>
                     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Gotham Rounded'; font-size:11pt; font-weight:72; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Gotham Rounded'; font-size:11pt; font-weight:600; font-style:normal;&quot;&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:96;&quot;&gt;Project description here&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                   </widget>
@@ -1671,7 +1671,7 @@ color: rgb(255, 255, 255);</string>
                       </property>
                       <property name="minimumSize">
                        <size>
-                        <width>105</width>
+                        <width>120</width>
                         <height>0</height>
                        </size>
                       </property>
@@ -1685,13 +1685,13 @@ color: rgb(255, 255, 255);</string>
                        <font>
                         <family>Gotham Rounded</family>
                         <pointsize>11</pointsize>
-                        <weight>9</weight>
+                        <weight>75</weight>
                         <italic>false</italic>
-                        <bold>false</bold>
+                        <bold>true</bold>
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">font: 75  11pt &quot;Gotham Rounded&quot;;</string>
+                       <string notr="true">font: 75 bold  11pt &quot;Gotham Rounded&quot;;</string>
                       </property>
                       <property name="text">
                        <string> Select Model:</string>
