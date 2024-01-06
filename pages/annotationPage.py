@@ -42,7 +42,8 @@ class AnnotationPage():
             Installs the hover event filter onto the image navigation buttons
             and the annotation tool buttons.
         """
-         # Applying hover events and cursor change to Navigation Buttons
+        
+        # Applying hover events and cursor change to Navigation Buttons
         self.ui.prevUnannoImageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.prevUnannoBtnHoverEvent = HoverEvent(self.ui.prevUnannoImageBtn, "icons/icons8-chevron-prev-30.png", "icons/icons8-chevron-prev-30-selected.png")
         self.ui.prevUnannoImageBtn.installEventFilter(self.prevUnannoBtnHoverEvent)
