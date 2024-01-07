@@ -6,7 +6,7 @@
 from PyQt6 import QtCore, QtWidgets
 from PyQt6 import QtGui
 from PyQt6.QtGui import QFont
-from PyQt6.QtWidgets import QWidget, QLabel, QHBoxLayout, QListWidgetItem, QProgressBar, QSpacerItem, QSizePolicy, QPushButton
+from PyQt6.QtWidgets import QWidget, QLabel, QHBoxLayout, QListWidgetItem, QLineEdit, QProgressBar, QSpacerItem, QSizePolicy, QPushButton
 
 class ClassManager:
 
@@ -29,7 +29,11 @@ class ClassManager:
         self.ui.classListWidget.addItem(self.classListWidgetItem)
         self.ui.classListWidget.setItemWidget(self.classListWidgetItem, self.classListItem)
 
-        self.ui.classListWidget.setStyleSheet("QListView::item:hover {background-color: rgb(0,0,0);}")
+        self.ui.classListWidget.setStyleSheet("QListView::item:hover {border: 5px solid;"
+                                              "border-color:  rgb(85, 87, 83);"
+                                              "}"
+                                              "QListWidget::item:selected{"
+                                              "background: rgb(85, 87, 83);}")
 
 class ClassListItem (QWidget):
     """
@@ -39,45 +43,67 @@ class ClassListItem (QWidget):
         super(ClassListItem, self).__init__(parent)
 
         # Class name label
-        classItemLbl = QLabel(className)
-        classItemLbl.setStyleSheet("QLabel{font: 14pt 'Gotham Rounded Light';}")
-        classItemLbl.setMinimumSize(100, 20)
-        classItemLbl.setMaximumSize(300, 20)
-        classItemLbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        self.classItemLbl = QLabel(className)
+        self.classItemLbl.setStyleSheet("QLabel{font: 14pt 'Gotham Rounded Light';" 
+                                        "border-radius: 10px;"
+                                        "border: 2px solid rgb(65, 66, 64);}")
+        self.classItemLbl.setMinimumSize(100, 30)
+        self.classItemLbl.setMaximumSize(300, 30)
+        self.classItemLbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
 
-        # Colour picker button
-        classColourButton = QPushButton()
-        classColourButton.setStyleSheet("QPushButton{"
+        # Class name line edit, not visible by default
+        self.classItemLineEdit = QLineEdit()
+        self.classItemLineEdit.setStyleSheet("QLineEdit{font: 14pt 'Gotham Rounded Light';"  
+                                             "background-color: rgb(105, 105, 105);"
+                                             "border-radius: 10px;"
+                                             "border: 2px solid rgb(85, 87, 83)}")
+        self.classItemLineEdit.setText(className)
+        self.classItemLineEdit.setMinimumSize(100, 30)
+        self.classItemLineEdit.setMaximumSize(300, 30)
+        self.classItemLineEdit.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        self.classItemLineEdit.setVisible(False)
+
+        # Colour picker label
+        self.classColourLbl = QLabel()
+        self.classColourLbl.setStyleSheet("QLabel{"
                                         "background-color: rgb(0, 201, 0);"
                                         "border-radius: 4px;"
                                         "border: 2px solid rgb(105, 105, 105)"
                                         "}")
-        classColourButton.setFixedWidth(16)
-        classColourButton.setFixedHeight(16)
+        self.classColourLbl.setFixedWidth(16)
+        self.classColourLbl.setFixedHeight(16)
 
-        
+        # Colour picker button
+        self.classColourButton = QPushButton()
+        self.classColourButton.setStyleSheet("QPushButton{"
+                                        "background-color: rgb(0, 201, 0);"
+                                        "border-radius: 4px;"
+                                        "border: 2px solid rgb(105, 105, 105)"
+                                        "}")
+        self.classColourButton.setFixedWidth(16)
+        self.classColourButton.setFixedHeight(16)
+        self.classColourButton.setVisible(False)
 
         # Numer of annotations for class
-        numClassItemLbl = QLabel(str(numClass))
-        numClassItemLbl.setStyleSheet("QLabel{font: 14pt 'Gotham Rounded Light';}")
-        numClassItemLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignVCenter)
-        numClassItemLbl.setMinimumSize(100, 20)
-        numClassItemLbl.setMaximumSize(200, 20)
-        numClassItemLbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        self.numClassItemLbl = QLabel(str(numClass))
+        self.numClassItemLbl.setStyleSheet("QLabel{font: 14pt 'Gotham Rounded Light';}")
+        self.numClassItemLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.numClassItemLbl.setMinimumSize(100, 20)
+        self.numClassItemLbl.setMaximumSize(200, 20)
+        self.numClassItemLbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
 
         # Horizontal spacers
-        classColourhorizontalSpacer = QSpacerItem(15, 5, QSizePolicy.Policy.Fixed)
-        deleteBtnSpacer = QSpacerItem(20, 5, QSizePolicy.Policy.Fixed)
+        self.classColourhorizontalSpacer = QSpacerItem(15, 5, QSizePolicy.Policy.Fixed)
+        self.deleteBtnSpacer = QSpacerItem(20, 5, QSizePolicy.Policy.Fixed)
 
         # Class imbalance bar
-        classNumBar = QProgressBar()
-        classNumBar.setMinimum(0)
-        classNumBar.setMaximum(numOfClasses)
-        classNumBar.setValue(numClass)
-        classNumBar.setTextVisible(False)
-        classNumBar.setFixedHeight(15)
-
-        classNumBar.setStyleSheet("QProgressBar::chunk{"
+        self.classNumBar = QProgressBar()
+        self.classNumBar.setMinimum(0)
+        self.classNumBar.setMaximum(numOfClasses)
+        self.classNumBar.setValue(numClass)
+        self.classNumBar.setTextVisible(False)
+        self.classNumBar.setFixedHeight(15)
+        self.classNumBar.setStyleSheet("QProgressBar::chunk{"
                                        "background-color: rgb(0, 201, 0);"
                                        "border-radius: 3px;"
                                        "}"
@@ -88,12 +114,14 @@ class ClassListItem (QWidget):
 
         
         # Setting layout of custom widget 
-        classItemWidetLayout = QHBoxLayout()
-        classItemWidetLayout.addWidget(classColourButton)
-        classItemWidetLayout.addItem(classColourhorizontalSpacer)
-        classItemWidetLayout.addWidget(classItemLbl)
-        classItemWidetLayout.addWidget(numClassItemLbl)
-        classItemWidetLayout.addWidget(classNumBar)
-        classItemWidetLayout.addItem(deleteBtnSpacer)
+        self.classItemWidetLayout = QHBoxLayout()
+        self.classItemWidetLayout.addWidget(self.classColourLbl)
+        self.classItemWidetLayout.addWidget(self.classColourButton)
+        self.classItemWidetLayout.addItem(self.classColourhorizontalSpacer)
+        self.classItemWidetLayout.addWidget(self.classItemLbl)
+        self.classItemWidetLayout.addWidget(self.classItemLineEdit)
+        self.classItemWidetLayout.addWidget(self.numClassItemLbl)
+        self.classItemWidetLayout.addWidget(self.classNumBar)
+        self.classItemWidetLayout.addItem(self.deleteBtnSpacer)
 
-        self.setLayout(classItemWidetLayout)
+        self.setLayout(self.classItemWidetLayout)

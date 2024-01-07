@@ -907,7 +907,9 @@ class Ui_MainWindow(object):
 "border : 1px solid;\n"
 "border-radius: 10px;\n"
 "border-color:  rgb(85, 87, 83);\n"
-"font: 75 bold 12pt \"Gotham Rounded\";")
+"font: 75 bold 12pt \"Gotham Rounded\";\n"
+"\n"
+"QPushButton::hover{background-color : rgb(105, 105, 105); }")
         self.addClassBtn.setObjectName("addClassBtn")
         self.horizontalLayout_10.addWidget(self.addClassBtn)
         spacerItem21 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Minimum)

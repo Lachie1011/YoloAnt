@@ -4,13 +4,13 @@
 
 import sys
 
-from PyQt6 import QtWidgets, QtCore
+from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtGui import QCursor
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
 from yoloAnt_ui import Ui_MainWindow
-from events.hoverEvent import BackgroundHoverEvent
+from events.selectedItemEvent import SelectedItemEvent
 from classManager import ClassManager
 
 class ProjectPage():
@@ -26,7 +26,11 @@ class ProjectPage():
         self.classManager.addClassToImbalanceList("Test2", 13, 30, '0, 201, 52')
         self.classManager.addClassToImbalanceList("Test3", 18, 30, '0, 201, 52')
         self.classManager.addClassToImbalanceList("Test4", 1, 30, '0, 201, 52')
-        self.__connectHover()
+        self.__connectButtonHover()
+        
+        self.__connectClassList()
+        self.currentWidgetSelectedItem = None
+
 
     def __populateFields(self) -> None:
         """ Populates the fields for the project page from the project.yaml """
@@ -55,16 +59,50 @@ class ProjectPage():
         self.ui.graphWidget.plotItem.getAxis('bottom').setPen(pen)
         self.ui.graphWidget.plot(xData, yData, pen=pen)
 
-    def __connectHover(self) -> None:
+    def __connectButtonHover(self) -> None:
         """ 
             Installs the hover event filter onto the project page buttons.
         """
     
         # Applying hover events and cursor change to Navigation Buttons
         self.ui.addClassBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.btnBackgroundHoverEvent = BackgroundHoverEvent(self.ui.addClassBtn, "105, 105, 105", "85, 87, 83")
-        self.ui.addClassBtn.installEventFilter(self.btnBackgroundHoverEvent)
+        self.ui.addClassBtn.setStyleSheet("QPushButton{background-color: rgb(85, 87, 83);"
+                                          "border : 1px solid;"
+                                          "border-radius: 10px;"
+                                          "border-color:  rgb(85, 87, 83);"
+                                          "font: 75 bold 12pt 'Gotham Rounded';}"
+                                          "QPushButton::hover{background-color : rgb(105, 105, 105);"
+                                          "border : 1px solid rgb(105, 105, 105);}")
 
+
+        # self.listItembackgroundHoverEvent = SelectedItemEvent(self.ui.addClassBtn, "65, 66, 64", "85, 87, 83")
+        # self.ui.classListWidget.installEventFilter(self.listItembackgroundHoverEvent)
+
+    def __connectClassList(self) -> None:
         self.ui.classListWidget.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.listItembackgroundHoverEvent = BackgroundHoverEvent(self.ui.addClassBtn, "65, 66, 64", "85, 87, 83")
-        self.ui.classListWidget.installEventFilter(self.listItembackgroundHoverEvent)
+        # classListPalette = QtGui.QPalette() 
+        # classListPalette.setColor(QtGui.QPalette.Highlight, self.ui.classListWidget.palette().color(QPalette.Base))
+
+        # palette.setColor(QPalette::HighlightedText, listWidget->palette().color(QPalette::Text));
+        # listWidget->setPalette(palette)
+        self.ui.classListWidget.itemSelectionChanged.connect(lambda: self.enabledEditMode(self.ui.classListWidget))
+
+    def enabledEditMode(self, object):
+
+        # Change previously selected item to normal mode
+        if self.currentWidgetSelectedItem:
+            self.currentWidgetSelectedItem.setStyleSheet(self.currentWidgetSelectedItem.styleSheet() + "background: rgb(65, 66, 64);")
+            self.currentWidgetSelectedItem.classItemLbl.setVisible(True)
+            self.currentWidgetSelectedItem.classItemLineEdit.setVisible(False)
+            self.currentWidgetSelectedItem.classItemLbl.setVisible(True)
+            self.currentWidgetSelectedItem.classItemLineEdit.setVisible(False)
+
+        # Change current selected item to editable mode
+        listItem = object.currentItem()
+        widgetInItem = object.itemWidget(listItem)
+        widgetInItem.setStyleSheet(widgetInItem.styleSheet() + "background: rgb(85, 87, 83);")
+        widgetInItem.classItemLbl.setVisible(False)
+        widgetInItem.classItemLineEdit.setVisible(True)
+
+        # Save current selected item
+        self.currentWidgetSelectedItem = widgetInItem
