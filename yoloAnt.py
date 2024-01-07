@@ -60,9 +60,11 @@ class YoloAnt(QMainWindow):
         self.__connectInformationButton()
         self.__connectNotificationButton()
 
+        # Creating pages
         self.startPage = StartPage(self)
         self.projectPage = ProjectPage(self)
         self.annotationPage = AnnotationPage(self)
+        self.machineLearningPage = MachineLearningPage(self)
         
         self.installEventFilter(self)
 

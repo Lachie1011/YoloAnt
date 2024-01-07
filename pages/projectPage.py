@@ -2,10 +2,6 @@
     projectPage.py
 """
 
-import sys
-
-from PyQt6 import QtWidgets
-from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
 from yoloAnt_ui import Ui_MainWindow
