@@ -379,7 +379,7 @@ background-color: rgb(45, 45, 45);</string>
           <enum>QFrame::Raised</enum>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="entryPage">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -840,6 +840,12 @@ border-radius: 5px;</string>
                  </property>
                  <item>
                   <widget class="AnnotationCanvasWidget" name="widget" native="true">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="minimumSize">
                     <size>
                      <width>475</width>
@@ -1078,7 +1084,7 @@ border-radius: 5px;</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>0</width>
+               <width>350</width>
                <height>0</height>
               </size>
              </property>
