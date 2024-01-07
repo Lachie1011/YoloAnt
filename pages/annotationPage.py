@@ -11,7 +11,7 @@ from PyQt6.QtWidgets import QApplication
 
 from yoloAnt_ui import Ui_MainWindow
 from events.hoverEvent import HoverEvent
-from events.resizeEvent import ResizeEvent
+# from events.resizeEvent import ResizeEvent
 
 
 class Tools(Enum):
@@ -25,13 +25,16 @@ class AnnotationPage():
         Class to set up the functionality for the annotation page
     """
     def __init__(self, app) -> None:
-        # TODO: fix up app type to yoloant app involes add futyure annotations and some if typing
+        # TODO: fix up app type to yoloant app involes add future annotations and some if typing
         self.app = app
         self.ui = app.ui
 
         # Connecting signals and slots for the page
         self.__connectIconHover()
         self.__connectAnnotationToolButtons()
+
+        # Add annotation canvas
+        self.__addAnnotationCanvasWidget()
 
         # Applying resize event for the image lbl TODO: revisit for image resizing
         # self.imageFrameResizeEvent = ResizeEvent(self.ui.imageFrame)
@@ -80,7 +83,6 @@ class AnnotationPage():
             self.ui.annotateToolBtn.setChecked(False)
             self.ui.annotateToolBtn.setIcon(QIcon("icons/bounding-inactive.png"))
             # update mouse icon
-            # QApplication.setOverrideCursor(QtCore.Qt.CursorShape.ArrowCursor)
             QApplication.restoreOverrideCursor()
 
         if tool is Tools.annotationTool:
@@ -89,3 +91,6 @@ class AnnotationPage():
             self.ui.mouseToolBtn.setIcon(QIcon("icons/cursor-inactive.png"))
             # update mouse icon
             QApplication.setOverrideCursor(QtCore.Qt.CursorShape.CrossCursor)
+
+    def __addAnnotationCanvasWidget(self):
+        """ Creates and adds the annotation canvas widget """

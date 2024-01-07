@@ -839,39 +839,12 @@ border-radius: 5px;</string>
                   <number>30</number>
                  </property>
                  <item>
-                  <widget class="QLabel" name="imageLbl">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
+                  <widget class="AnnotationCanvasWidget" name="widget" native="true">
                    <property name="minimumSize">
                     <size>
                      <width>475</width>
                      <height>475</height>
                     </size>
-                   </property>
-                   <property name="layoutDirection">
-                    <enum>Qt::RightToLeft</enum>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                   <property name="lineWidth">
-                    <number>1</number>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="pixmap">
-                    <pixmap>icons/testImage.jpg</pixmap>
-                   </property>
-                   <property name="scaledContents">
-                    <bool>false</bool>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
                    </property>
                   </widget>
                  </item>
@@ -4040,6 +4013,12 @@ font: 75 11pt &quot;Gotham Rounded&quot;;</string>
    <class>PlotWidget</class>
    <extends>QWidget</extends>
    <header>pyqtgraph</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AnnotationCanvasWidget</class>
+   <extends>QWidget</extends>
+   <header>customWidgets/annotationCanvasWidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
