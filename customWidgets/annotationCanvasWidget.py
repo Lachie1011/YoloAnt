@@ -5,10 +5,10 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtCore import QPoint, QRect
 from PyQt6.QtGui import QPixmap, QPixmap, QPainter, QPen, QColor, QCursor
-from PyQt6.QtWidgets import QWidget, QLabel, QHBoxLayout
+from PyQt6.QtWidgets import QWidget, QLabel, QHBoxLayout, QGraphicsView, QGraphicsScene
 
 
-class AnnotationCanvasWidget(QWidget):
+class AnnotationCanvasWidget(QGraphicsView):
     """ A custom widget for the annotation canvas used for drawing bounding boxes """
     def __init__(self, parent):
         super(AnnotationCanvasWidget, self).__init__(parent)
@@ -18,53 +18,53 @@ class AnnotationCanvasWidget(QWidget):
         self.rectEnd = QPoint()
         self.currentImagePath = "/home/lachie/extractedImages/1029.jpg"  #TODO: this will need to be on each new image 
 
-        ## TO BE CHANGED
-        self.pixmap_image = QPixmap(self.currentImagePath)
+        # Setting alignment
+        self.setAlignm
 
-        # set rectangle color and thickness TODO: this will be based off of a class colour
-        self.penRectangle = QPen(QColor(0, 0, 0))
-        self.penRectangle.setWidth(3)
-        ## END TO BE CHANGED
+        # Creating the graphics view and scene
+        self.scene = QGraphicsScene()
+        self.scene.setBackgroundBrush(QColor(255,255,255))
 
-        # Constructing the widget
-        self.canvasLabel = QLabel()
-        self.canvasLabel.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        self.canvasLabel.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        self.setScene(self.scene)
 
-        # Construcing the layout
-        self.canvasLayout = QHBoxLayout()
-        self.canvasLayout.addWidget(self.canvasLabel)
-
-        self.setLayout(self.canvasLayout)
-
-    def paintEvent(self, event):
-        """ A paint event to draw rectangles """
-        # Update image pixmap to reset canvas
-        self.pixmap_image = QPixmap(self.currentImagePath)
+    # def paintEvent(self, event):
+    #     """ A paint event to draw rectangles """
+    #     # Update image pixmap to reset canvas
+    #     self.pixmap_image = QPixmap(self.currentImagePath)
         
-        # Create painter instance with pixmap
-        painterInstance = QPainter(self.pixmap_image)
+    #     # Create painter instance with pixmap
+    #     painterInstance = QPainter(self.pixmap_image)
 
-        # Draw rectangle on painter
-        painterInstance.setPen(self.penRectangle)
-        painterInstance.drawRect(QRect(self.rectBegin, self.rectEnd))
+    #     # Draw rectangle on painter
+    #     painterInstance.setPen(self.penRectangle)
+    #     painterInstance.drawRect(QRect(self.rectBegin, self.rectEnd))
 
-        # Set pixmap onto the label widget
-        self.canvasLabel.setPixmap(self.pixmap_image)
+    #     # Set pixmap onto the label widget
+    #     self.canvasLabel.setPixmap(self.pixmap_image)
+
+    # self.scene.addRect(-0,-0, 200,200)
 
     def mousePressEvent(self, event):
         """ Event to capture mouse press and update rect coords """
-        self.rectBegin = event.pos()
-        self.rectEnd = event.pos()
-        self.update()
+        self.rectBegin = self.mapToScene(event.pos())
+        self.rectEnd = self.mapToScene(event.pos())
 
     def mouseMoveEvent(self, event):
         """ Event to capture mouse move and update rect coords """
-        self.rectEnd = event.pos()
-        self.update()
+        self.rectEnd = self.mapToScene(event.pos())
+        self.scene.clear()
+        print(self.rectBegin.x())
+        print(self.rectBegin.y())
+        print(self.rectEnd.x())
+        print(self.rectEnd.y())
+        print("width: " + str(abs(self.rectEnd.x() - self.rectBegin.x())))
+        print("height: " + str(abs(self.rectEnd.y() - self.rectBegin.y())))
+
+
+        self.scene.addRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()))
 
     def mouseReleaseEvent(self, event):
         """ Event to capture mouse release and update rect coords """
-        self.rectBegin = event.pos()
-        self.rectEnd = event.pos()
-        self.update()
+        self.rectEnd = self.mapToScene(event.pos())
+        self.scene.clear()
+        self.scene.addRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()))
