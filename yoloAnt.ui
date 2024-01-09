@@ -2184,21 +2184,18 @@ QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QListWidget" name="classListWidget">
-                   <property name="mouseTracking">
-                    <bool>true</bool>
+                  <widget class="QFrame" name="classListFrame">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
                    </property>
-                   <property name="alternatingRowColors">
-                    <bool>false</bool>
-                   </property>
-                   <property name="selectionMode">
-                    <enum>QAbstractItemView::SingleSelection</enum>
-                   </property>
-                   <property name="spacing">
-                    <number>1</number>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
                    </property>
                   </widget>
                  </item>

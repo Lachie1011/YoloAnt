@@ -5,13 +5,13 @@
 import sys
 
 from PyQt6 import QtWidgets, QtCore, QtGui
-from PyQt6.QtGui import QCursor
+from PyQt6.QtWidgets import QListWidget, QSizePolicy, QVBoxLayout, QSpacerItem
+from PyQt6.QtGui import QCursor 
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
 from yoloAnt_ui import Ui_MainWindow
-from events.selectedItemEvent import SelectedItemEvent
-from classManager import ClassManager
+from classManager import ClassListWidget
 
 class ProjectPage():
     """
@@ -21,15 +21,24 @@ class ProjectPage():
         # TODO: fix up app type to yoloant app involes add futyure annotations and some if typing
         self.app = app
         self.ui = app.ui
-        self.classManager = ClassManager(self)
-        self.classManager.addClassToImbalanceList("Test", 10, 30, '0, 201, 52')
-        self.classManager.addClassToImbalanceList("Test2", 13, 30, '0, 201, 52')
-        self.classManager.addClassToImbalanceList("Test3", 18, 30, '0, 201, 52')
-        self.classManager.addClassToImbalanceList("Test4", 1, 30, '0, 201, 52')
+
         self.__connectButtonHover()
-        
         self.__connectClassList()
-        self.currentWidgetSelectedItem = None
+
+        self.classListWidget.addItemToListWidget("Test", 10, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test2", 13, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test3", 18, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test4", 1, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test5", 10, 30, '0, 201, 52')
+        # self.classManager.addClassToImbalanceList(self.classListWidget, "Test6", 13, 30, '0, 201, 52')
+        # self.classManager.addClassToImbalanceList(self.classListWidget, "Test7", 18, 30, '0, 201, 52')
+        # self.classManager.addClassToImbalanceList(self.classListWidget, "Test8", 1, 30, '0, 201, 52')
+        # self.classManager.addClassToImbalanceList(self.classListWidget, "Test9", 10, 30, '0, 201, 52')
+        # self.classManager.addClassToImbalanceList(self.classListWidget, "Test10", 13, 30, '0, 201, 52')
+        # self.classManager.addClassToImbalanceList(self.classListWidget, "Test11", 18, 30, '0, 201, 52')
+        # self.classManager.addClassToImbalanceList(self.classListWidget, "Test12", 1, 30, '0, 201, 52')
+
+
 
 
     def __populateFields(self) -> None:
@@ -74,35 +83,16 @@ class ProjectPage():
                                           "QPushButton::hover{background-color : rgb(105, 105, 105);"
                                           "border : 1px solid rgb(105, 105, 105);}")
 
-
-        # self.listItembackgroundHoverEvent = SelectedItemEvent(self.ui.addClassBtn, "65, 66, 64", "85, 87, 83")
-        # self.ui.classListWidget.installEventFilter(self.listItembackgroundHoverEvent)
-
     def __connectClassList(self) -> None:
-        self.ui.classListWidget.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        # classListPalette = QtGui.QPalette() 
-        # classListPalette.setColor(QtGui.QPalette.Highlight, self.ui.classListWidget.palette().color(QPalette.Base))
+        self.classListWidget = ClassListWidget()
+        self.classListWidget.setObjectName("classListProjectPageWidget")
+        self.veritcalSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.classListLayout = QVBoxLayout()
+        self.classListLayout.addWidget(self.classListWidget)
+        self.classListLayout.addItem(self.veritcalSpacer)
+        self.ui.classListFrame.setLayout(self.classListLayout)
 
-        # palette.setColor(QPalette::HighlightedText, listWidget->palette().color(QPalette::Text));
-        # listWidget->setPalette(palette)
-        self.ui.classListWidget.itemSelectionChanged.connect(lambda: self.enabledEditMode(self.ui.classListWidget))
 
-    def enabledEditMode(self, object):
+        
 
-        # Change previously selected item to normal mode
-        if self.currentWidgetSelectedItem:
-            self.currentWidgetSelectedItem.setStyleSheet(self.currentWidgetSelectedItem.styleSheet() + "background: rgb(65, 66, 64);")
-            self.currentWidgetSelectedItem.classItemLbl.setVisible(True)
-            self.currentWidgetSelectedItem.classItemLineEdit.setVisible(False)
-            self.currentWidgetSelectedItem.classItemLbl.setVisible(True)
-            self.currentWidgetSelectedItem.classItemLineEdit.setVisible(False)
 
-        # Change current selected item to editable mode
-        listItem = object.currentItem()
-        widgetInItem = object.itemWidget(listItem)
-        widgetInItem.setStyleSheet(widgetInItem.styleSheet() + "background: rgb(85, 87, 83);")
-        widgetInItem.classItemLbl.setVisible(False)
-        widgetInItem.classItemLineEdit.setVisible(True)
-
-        # Save current selected item
-        self.currentWidgetSelectedItem = widgetInItem
