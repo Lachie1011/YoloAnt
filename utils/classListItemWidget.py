@@ -1,0 +1,206 @@
+"""
+    classListItemWidget.py
+"""
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QCursor 
+from PyQt6.QtWidgets import (QFrame, QLabel, QHBoxLayout, QLineEdit, QProgressBar, 
+                             QSpacerItem, QSizePolicy, QPushButton)
+
+class ClassListItemWidget (QFrame):
+    """
+        Class that creates a custom class item widget for class list
+
+        params:
+            className - Name of class
+            numClassAnnotations  - Number of annotataions in dataset of this class type
+            numOfAnnotations - Number of classes in the dataset 
+            colour - Annotation colour of class in RGB format: _,_,_ 
+    """
+    def __init__(self, className, numClassAnnotations, numOfAnnotations, colour, parent=None):
+        super(ClassListItemWidget, self).__init__(parent)
+
+        # Hover style sheet
+        self.parentSelected = False
+        self.className = className
+        self.numClassAnnotations = numClassAnnotations
+        self.numOfAnnotations = numOfAnnotations
+        self.colour = colour
+        self.__setupStyleSheet()
+
+    def __setupStyleSheet(self) -> None:
+        """ Sets up style sheet of item widget """
+        # Colour picker label
+        self.classColourLbl = QLabel()
+        self.classColourLbl.setStyleSheet("QLabel{"
+                                          f"background-color: rgb({self.colour});"
+                                          "border-radius: 4px;"
+                                          "border: 3px solid rgb(105, 105, 105)}")
+        self.classColourLbl.setFixedWidth(18)
+        self.classColourLbl.setFixedHeight(18)
+
+        # Colour picker button
+        self.classColourButton = QPushButton()
+        self.classColourButton.setStyleSheet("QPushButton{"
+                                             f"background-color: rgb({self.colour});"
+                                             "border-radius: 4px;"
+                                             "border: 3px solid rgb(105, 105, 105)}"
+                                             "QPushButton:hover{border-color: rgb(165, 165, 165)}"
+                                             )
+        self.classColourButton.setFixedWidth(18)
+        self.classColourButton.setFixedHeight(18)
+        self.classColourButton.setVisible(False)
+        self.classColourButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+
+        # Class name label
+        self.classItemLbl = QLabel(self.className)
+        self.classItemLbl.setStyleSheet("QLabel{font: 14pt 'Gotham Rounded Light';}")
+        self.classItemLbl.setMinimumSize(100, 30)
+        self.classItemLbl.setMaximumSize(300, 30)
+        self.classItemLbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+
+        # Class name line edit, not visible by default
+        self.classItemLineEdit = WidgetItemLineEdit()
+
+        # self.classItemLineEdit = QLineEdit()
+        self.classItemLineEdit.editingFinished.connect(lambda: self.setClassName(self.classItemLineEdit.text()))
+        self.classItemLineEdit.setStyleSheet("QLineEdit{"
+                                             "font: 14pt 'Gotham Rounded Light';}"
+                                             "QLineEdit:hover{"
+                                             "background-color: rgb(105, 105, 105);}")
+        self.classItemLineEdit.setText(self.className)
+        self.classItemLineEdit.setMinimumSize(100, 30)
+        self.classItemLineEdit.setMaximumSize(300, 30)
+        self.classItemLineEdit.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        self.classItemLineEdit.setVisible(False)
+
+        # Numer of annotations for class
+        self.numClassItemLbl = QLabel(str(self.numClassAnnotations))
+        self.numClassItemLbl.setStyleSheet("QLabel{font: 14pt 'Gotham Rounded Light';}")
+        self.numClassItemLbl.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        self.numClassItemLbl.setMinimumSize(100, 20)
+        self.numClassItemLbl.setMaximumSize(200, 20)
+        self.numClassItemLbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+
+        # Horizontal spacers
+        self.classColourhorizontalSpacer = QSpacerItem(15, 5, QSizePolicy.Policy.Fixed)
+
+        # Delete Label placeholder picker label
+        self.classDeleteLbl = QLabel()
+        self.classDeleteLbl.setStyleSheet("QLabel{"
+                                          "background-color: transparent;}")
+        self.classDeleteLbl.setFixedWidth(15)
+        self.classDeleteLbl.setFixedHeight(15)
+
+        # Delete button
+        self.classDeleteButton = QPushButton()
+        self.classDeleteButton.setStyleSheet("QPushButton{"
+                                             "background-color: rgb(232, 93, 84);}"
+                                             "QPushButton:hover{background-color: rgb(255, 43, 28)}")
+        self.classDeleteButton.setFixedWidth(15)
+        self.classDeleteButton.setFixedHeight(15)
+        self.classDeleteButton.setVisible(False)
+        self.classDeleteButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+
+        # Class imbalance bar
+        self.classNumBar = QProgressBar()
+        self.classNumBar.setMinimum(0)
+        self.classNumBar.setMaximum(self.numOfAnnotations)
+        self.classNumBar.setValue(self.numClassAnnotations)
+        self.classNumBar.setTextVisible(False)
+        self.classNumBar.setFixedHeight(15)
+        self.classNumBar.setStyleSheet("QProgressBar::chunk{"
+                                       f"background-color: rgb({self.warningColour()});"
+                                       "border-radius: 3px;}"
+                                       "QProgressBar{"
+                                       "background: rgb(105, 105, 105);"
+                                       "border-radius: 3px;}")
+        
+        # Setting layout of custom widget 
+        self.classItemWidetLayout = QHBoxLayout()
+        self.classItemWidetLayout.addWidget(self.classColourLbl)
+        self.classItemWidetLayout.addWidget(self.classColourButton)
+        self.classItemWidetLayout.addItem(self.classColourhorizontalSpacer)
+        self.classItemWidetLayout.addWidget(self.classItemLbl)
+        self.classItemWidetLayout.addWidget(self.classItemLineEdit)
+        self.classItemWidetLayout.addWidget(self.numClassItemLbl)
+        self.classItemWidetLayout.addWidget(self.classNumBar)
+        self.classItemWidetLayout.addWidget(self.classDeleteLbl)
+        self.classItemWidetLayout.addWidget(self.classDeleteButton)
+
+        self.setLayout(self.classItemWidetLayout)
+        self.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+
+    def enableEdit(self) -> None:
+        """ Sets the item widget to edit mode """
+        self.parentSelected = True
+        self.setStyleSheet(self.styleSheet() + "background: rgb(85, 87, 83);")
+        self.classItemLbl.setVisible(False)
+        self.classItemLineEdit.setVisible(True)
+        self.classColourLbl.setVisible(False)
+        self.classColourButton.setVisible(True)
+        self.classDeleteLbl.setVisible(False)
+        self.classDeleteButton.setVisible(True)
+        self.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
+        
+    def disableEdit(self) -> None:
+        """ Disables edit mode of item widget """
+        self.parentSelected = False
+        self.setStyleSheet(self.styleSheet() + "background: rgb(65, 66, 64);")
+        self.classItemLbl.setVisible(True)
+        self.classItemLineEdit.setVisible(False)
+        self.classColourLbl.setVisible(True)
+        self.classColourButton.setVisible(False)
+        self.classDeleteLbl.setVisible(True)
+        self.classDeleteButton.setVisible(False)
+        self.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+
+    def setClassName(self, text: str) -> None:
+        self.className = text
+        self.classItemLbl.setText(text)
+        self.classItemLineEdit.setText(text)
+
+        if self.classItemLineEdit.hasFocus():
+            self.classItemLineEdit.clearFocus()
+
+    def enterEvent(self, event) -> None:
+        """ Sets background of widget when mouse enters item widget """
+        if not self.parentSelected:
+            self.setStyleSheet("background: rgb(85, 87, 83);")
+
+    def leaveEvent(self, event) -> None:
+        """ Sets background of widget when mouse leaves item widget """
+        if not self.parentSelected:
+            self.setStyleSheet("background: rgb(65, 66, 64);")
+
+    def warningColour(self) -> str:
+        """ Determins the warning colour to be displayed on the progress bar """
+
+        if self.numClassAnnotations < round(self.numOfAnnotations/3):
+            return "255, 0, 0"
+
+        if self.numClassAnnotations > round(self.numOfAnnotations*3/4):
+            return "242, 186, 2"
+        
+        else:
+            return "0, 201, 0"
+
+
+class WidgetItemLineEdit(QLineEdit):
+    def __init__(self):
+        super().__init__()
+   
+    def focusInEvent(self, event):
+        super(WidgetItemLineEdit, self).focusInEvent(event)
+        self.setStyleSheet("QLineEdit{"
+                           "font: 14pt 'Gotham Rounded Light';"
+                           "background-color: rgb(105,105,105);}"
+                           "QLineEdit:hover{"
+                           "background-color: rgb(105, 105, 105);}")
+
+    def focusOutEvent(self, event):
+        super(WidgetItemLineEdit, self).focusOutEvent(event)
+        self.setStyleSheet("QLineEdit{"
+                           "font: 14pt 'Gotham Rounded Light';"
+                           "background-color: rgb(85, 87, 83);}"
+                           "QLineEdit:hover{"
+                           "background-color: rgb(105, 105, 105);}")

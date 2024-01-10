@@ -11,7 +11,7 @@ from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
 from yoloAnt_ui import Ui_MainWindow
-from classManager import ClassListWidget
+from utils.classListWidget import ClassListWidget
 
 class ProjectPage():
     """
@@ -29,14 +29,18 @@ class ProjectPage():
         self.classListWidget.addItemToListWidget("Test2", 13, 30, '0, 201, 52')
         self.classListWidget.addItemToListWidget("Test3", 18, 30, '0, 201, 52')
         self.classListWidget.addItemToListWidget("Test4", 1, 30, '0, 201, 52')
-        self.classListWidget.addItemToListWidget("Test5", 10, 30, '0, 201, 52')
-        # self.classManager.addClassToImbalanceList(self.classListWidget, "Test6", 13, 30, '0, 201, 52')
-        # self.classManager.addClassToImbalanceList(self.classListWidget, "Test7", 18, 30, '0, 201, 52')
-        # self.classManager.addClassToImbalanceList(self.classListWidget, "Test8", 1, 30, '0, 201, 52')
-        # self.classManager.addClassToImbalanceList(self.classListWidget, "Test9", 10, 30, '0, 201, 52')
-        # self.classManager.addClassToImbalanceList(self.classListWidget, "Test10", 13, 30, '0, 201, 52')
-        # self.classManager.addClassToImbalanceList(self.classListWidget, "Test11", 18, 30, '0, 201, 52')
-        # self.classManager.addClassToImbalanceList(self.classListWidget, "Test12", 1, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test5", 27, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test6", 13, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test7", 18, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test8", 6, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test9", 10, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test10", 13, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test11", 18, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test12", 4, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test13", 10, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test14", 13, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test15", 18, 30, '0, 201, 52')
+        self.classListWidget.addItemToListWidget("Test16", 4, 30, '0, 201, 52')
 
 
 
