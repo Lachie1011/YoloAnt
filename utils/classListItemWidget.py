@@ -190,6 +190,7 @@ class WidgetItemLineEdit(QLineEdit):
         super().__init__()
    
     def focusInEvent(self, event):
+        """ Sets background colour of widget when it is focused """
         super(WidgetItemLineEdit, self).focusInEvent(event)
         self.setStyleSheet("QLineEdit{"
                            "font: 14pt 'Gotham Rounded Light';"
@@ -198,6 +199,7 @@ class WidgetItemLineEdit(QLineEdit):
                            "background-color: rgb(105, 105, 105);}")
 
     def focusOutEvent(self, event):
+        """ Sets background colour of widget when it loses focus """
         super(WidgetItemLineEdit, self).focusOutEvent(event)
         self.setStyleSheet("QLineEdit{"
                            "font: 14pt 'Gotham Rounded Light';"

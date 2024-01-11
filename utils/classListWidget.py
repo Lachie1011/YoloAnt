@@ -18,7 +18,7 @@ class ClassListWidget (QListWidget):
         self.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
         self.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
         self.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
-        
+        self.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.setStyleSheet("QScrollBar:vertical{"
                            "border: none;"
                            "width: 10px;"
@@ -38,8 +38,6 @@ class ClassListWidget (QListWidget):
                            "border: none;"
                            "background: none;"
                            "color: none;}")               
-
-        self.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         # Store selected item in list
         self.itemSelected = None
