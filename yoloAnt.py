@@ -8,7 +8,7 @@ from enum import Enum
 
 from PyQt6 import QtCore
 from PyQt6.QtCore import QEvent
-from PyQt6.QtGui import QCursor, QIcon
+from PyQt6.QtGui import QCursor, QIcon, QFontDatabase
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
 from yoloAnt_ui import Ui_MainWindow
@@ -65,6 +65,10 @@ class YoloAnt(QMainWindow):
         self.annotationPage = AnnotationPage(self)
         
         self.installEventFilter(self)
+
+        # Add application font to database
+        QFontDatabase.addApplicationFont("assets/fonts/gothamrnd_light.ttf")
+        QFontDatabase.addApplicationFont("assets/fonts/gothamrnd_bold.ttf")
 
         self.show()
     

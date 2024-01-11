@@ -1479,6 +1479,9 @@ p, li { white-space: pre-wrap; }
                         <bold>false</bold>
                        </font>
                       </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
                       <property name="text">
                        <string>Dataset:</string>
                       </property>
@@ -1583,7 +1586,7 @@ border-radius: 5px;</string>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_24">
                  <property name="spacing">
-                  <number>6</number>
+                  <number>0</number>
                  </property>
                  <property name="bottomMargin">
                   <number>9</number>
@@ -1599,7 +1602,7 @@ border-radius: 5px;</string>
                    <property name="maximumSize">
                     <size>
                      <width>250</width>
-                     <height>16777215</height>
+                     <height>30</height>
                     </size>
                    </property>
                    <property name="font">
@@ -1678,7 +1681,7 @@ color: rgb(255, 255, 255);</string>
                       <property name="maximumSize">
                        <size>
                         <width>0</width>
-                        <height>16777215</height>
+                        <height>22</height>
                        </size>
                       </property>
                       <property name="font">
@@ -2109,17 +2112,7 @@ background-color: rgb(195, 65, 0);</string>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QListWidget" name="classListWidget">
-                   <property name="alternatingRowColors">
-                    <bool>false</bool>
-                   </property>
-                   <property name="spacing">
-                    <number>1</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QFrame" name="classesFrame">
+                  <widget class="QFrame" name="addClassFrame">
                    <property name="styleSheet">
                     <string notr="true"/>
                    </property>
@@ -2129,7 +2122,81 @@ background-color: rgb(195, 65, 0);</string>
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
                    </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_23"/>
+                   <layout class="QHBoxLayout" name="horizontalLayout_10">
+                    <item>
+                     <spacer name="horizontalSpacer_5">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="addClassBtn">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>110</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color: rgb(85, 87, 83);
+border : 1px solid;
+border-radius: 10px;
+border-color:  rgb(85, 87, 83);
+font: 75 bold 12pt &quot;Gotham Rounded&quot;;
+
+QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
+                      </property>
+                      <property name="text">
+                       <string>+ Add Class</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_12">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeType">
+                       <enum>QSizePolicy::Fixed</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>20</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="classListFrame">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -2251,7 +2318,7 @@ background-color: rgb(195, 65, 0);</string>
      <x>0</x>
      <y>0</y>
      <width>1102</width>
-     <height>24</height>
+     <height>23</height>
     </rect>
    </property>
    <property name="minimumSize">

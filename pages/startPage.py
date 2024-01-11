@@ -66,11 +66,6 @@ class StartPage():
     def __connectIconHover(self) -> None:
         """ Connects the hover over functionality to icons """
         # updating stylesheets initially
-        self.ui.createProjectBtn.setStyleSheet("QPushButton::hover"
-                                                "{"
-                                                "background-color : #61635e;"
-                                                "border-radius: 20px;"
-                                                "}")
         
         self.ui.openProjecBtn.setStyleSheet("QPushButton::hover"
                                         "{"
