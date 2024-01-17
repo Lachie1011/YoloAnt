@@ -12,6 +12,7 @@ import pyqtgraph as pg
 
 from yoloAnt_ui import Ui_MainWindow
 from utils.classListWidget import ClassListWidget
+from dialogs.createClassDialog import CreateClassDialog
 
 class ProjectPage():
     """
@@ -22,9 +23,10 @@ class ProjectPage():
         self.app = app
         self.ui = app.ui
 
+        self.__createClassList()
         self.__connectButtonHover()
-        self.__connectClassList()
 
+        self.numOfClasses = 30
         self.classListWidget.addItemToListWidget("Test", 10, 30, (0, 201, 52))
         self.classListWidget.addItemToListWidget("Test2", 13, 30, (0, 201, 52))
         self.classListWidget.addItemToListWidget("Test3", 18, 30, (0, 201, 52))
@@ -42,8 +44,8 @@ class ProjectPage():
         self.classListWidget.addItemToListWidget("Test15", 18, 30,(0, 201, 52))
         self.classListWidget.addItemToListWidget("Test16", 4, 30, (0, 201, 52))
 
-
-
+        # Connect signals and slots
+        self.ui.addClassBtn.clicked.connect(lambda: self.__instanciateCreateClassDialog())
 
     def __populateFields(self) -> None:
         """ Populates the fields for the project page from the project.yaml """
@@ -72,6 +74,17 @@ class ProjectPage():
         self.ui.graphWidget.plotItem.getAxis('bottom').setPen(pen)
         self.ui.graphWidget.plot(xData, yData, pen=pen)
 
+    def __createClassList(self) -> None:
+        """ Creates the class list """
+
+        self.classListWidget = ClassListWidget()
+        self.classListWidget.setObjectName("classListProjectPageWidget")
+        self.veritcalSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.classListLayout = QVBoxLayout()
+        self.classListLayout.addWidget(self.classListWidget)
+        self.classListLayout.addItem(self.veritcalSpacer)
+        self.ui.classListFrame.setLayout(self.classListLayout)
+
     def __connectButtonHover(self) -> None:
         """ 
             Installs the hover event filter onto the project page buttons.
@@ -87,14 +100,12 @@ class ProjectPage():
                                           "QPushButton::hover{background-color : rgb(105, 105, 105);"
                                           "border : 1px solid rgb(105, 105, 105);}")
 
-    def __connectClassList(self) -> None:
-        self.classListWidget = ClassListWidget()
-        self.classListWidget.setObjectName("classListProjectPageWidget")
-        self.veritcalSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        self.classListLayout = QVBoxLayout()
-        self.classListLayout.addWidget(self.classListWidget)
-        self.classListLayout.addItem(self.veritcalSpacer)
-        self.ui.classListFrame.setLayout(self.classListLayout)
+
+
+    def __instanciateCreateClassDialog(self) -> None:
+        """ Instanciates the create class dialog """
+        self.createClassDialog = CreateClassDialog(self.classListWidget, self.numOfClasses)
+
 
 
         

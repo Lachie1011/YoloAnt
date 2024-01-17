@@ -6,7 +6,7 @@ from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QFrame, QLabel, QHBoxLayout, QLineEdit, QProgressBar, 
                              QSpacerItem, QSizePolicy, QPushButton)
 
-from dialogs.colourSelectorDialog import getColor
+from dialogs.colourSelectorDialog import getColour
 
 
 class ClassListItemWidget (QFrame):
@@ -27,7 +27,7 @@ class ClassListItemWidget (QFrame):
         self.className = className
         self.numClassAnnotations = numClassAnnotations
         self.numOfAnnotations = numOfAnnotations
-        self.colour = (0, 201, 52)
+        self.colour = colour
         self.r, self.g, self.b = self.colour
         self.__setupStyleSheet()
         self.classColourButton.clicked.connect(lambda: self.selectColour())
@@ -87,7 +87,9 @@ class ClassListItemWidget (QFrame):
         self.numClassItemLbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
 
         # Horizontal spacers
-        self.classColourhorizontalSpacer = QSpacerItem(15, 5, QSizePolicy.Policy.Fixed)
+        self.padSpacer = QSpacerItem(5, 5, QSizePolicy.Policy.Fixed)
+        self.classColourhorizontalSpacer = QSpacerItem(38, 5, QSizePolicy.Policy.Fixed)
+        
 
         # Delete Label placeholder picker label
         self.classDeleteLbl = QLabel()
@@ -122,6 +124,7 @@ class ClassListItemWidget (QFrame):
         
         # Setting layout of custom widget 
         self.classItemWidetLayout = QHBoxLayout()
+        self.classItemWidetLayout.addItem(self.padSpacer)
         self.classItemWidetLayout.addWidget(self.classColourLbl)
         self.classItemWidetLayout.addWidget(self.classColourButton)
         self.classItemWidetLayout.addItem(self.classColourhorizontalSpacer)
@@ -190,7 +193,7 @@ class ClassListItemWidget (QFrame):
             return "0, 201, 0"
 
     def selectColour(self) -> None:
-        self.colour = getColor(self.colour)
+        self.colour = getColour(self.colour)
         self.r, self.g, self.b = self.colour
 
         self.classColourLbl.setStyleSheet("QLabel{"

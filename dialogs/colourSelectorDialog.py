@@ -2,12 +2,14 @@
     colourSelectorDialog.py
 """
 
+""" Source: https://github.com/nlfmt/pyqt-colorpicker """
+
 import colorsys
 from typing import Union
 
 from PyQt6.QtGui import QColor
-from PyQt6.QtCore import (QPoint, Qt)
-from PyQt6.QtWidgets import (QApplication, QDialog, QGraphicsDropShadowEffect)
+from PyQt6.QtCore import QPoint, Qt
+from PyQt6.QtWidgets import QApplication, QDialog, QGraphicsDropShadowEffect
 
 from dialogs.ui.colourSelector_ui import Ui_colourSelector
 
@@ -16,17 +18,13 @@ class ColourSelectorDialog(QDialog):
     def __init__(self):
         """ Class that creates a colour selector dialog instance """
 
-        # # auto-create QApplication if it doesn't exist yet
-        # self.app = QApplication.instance()
-        # if self.app is None: self.app = QApplication([])
-
         super(ColourSelectorDialog, self).__init__()
         self.ui = Ui_colourSelector()
         self.ui.setupUi(self)
 
         # Remove frame from dialog
         self.setWindowTitle("Colour Selector")
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
+        self.setWindowFlags(Qt.WindowType.Tool | Qt.WindowType.FramelessWindowHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
 
 
@@ -58,34 +56,34 @@ class ColourSelectorDialog(QDialog):
         self.ui.acceptButton.clicked.connect(self.accept)
         self.ui.rejectButton.clicked.connect(self.reject)
 
-        self.lastcolor = (0, 0, 0)
+        self.lastColour = (0, 0, 0)
         self.color = (0, 0, 0)
         self.alpha = 100
 
-    def getColor(self, lc: tuple = None):
+    def getColour(self, lastColour: tuple = None):
         """Open the UI and get a color from the user.
 
-        :param lc: The color to show as previous color.
+        :param lastColour: The color to show as previous color.
         :return: The selected color.
         """
         
-        if lc != None:
-            lc = lc
-        if lc == None: lc = self.lastcolor
-        else: self.lastcolor = lc
+        if lastColour != None:
+         lastColour = lastColour
+        if lastColour == None: lastColour = self.lastColour
+        else: self.lastColour = lastColour
 
-        self.setHSV(self.lastcolor)
-        self.setRGB(lc)
+        self.setHSV(self.lastColour)
+        self.setRGB(lastColour)
         self.rgbChanged()
-        r,g,b = lc
+        r,g,b = lastColour
 
         if self.exec():
             r, g, b = hsv2rgb(self.color)
-            self.lastcolor = (r,g,b)
+            self.lastColour = (r,g,b)
             return (r,g,b)
 
         else:
-            return self.lastcolor
+            return self.lastColour
 
     # Update Functions
     def hsvChanged(self):
@@ -330,10 +328,10 @@ def useLightTheme(value=True) -> None:
     __lightTheme = value
 
 
-def getColor(lc: tuple = None) -> tuple:
+def getColour (lastColour: tuple = None) -> tuple:
     """Shows the ColourSelectorDialog and returns the picked color.
 
-    :param lc: The color to display as previous color.
+    :param lastColour: The color to display as previous color.
     :return: The picked color.
     """
 
@@ -342,4 +340,4 @@ def getColor(lc: tuple = None) -> tuple:
     if __instance is None:
         __instance = ColourSelectorDialog()
 
-    return __instance.getColor(lc)
+    return __instance.getColour(lastColour)
