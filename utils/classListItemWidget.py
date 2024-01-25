@@ -6,6 +6,9 @@ from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QFrame, QLabel, QHBoxLayout, QLineEdit, QProgressBar, 
                              QSpacerItem, QSizePolicy, QPushButton)
 
+from dialogs.colourSelectorDialog import getColour
+
+
 class ClassListItemWidget (QFrame):
     """
         Class that creates a custom class item widget for class list
@@ -25,14 +28,16 @@ class ClassListItemWidget (QFrame):
         self.numClassAnnotations = numClassAnnotations
         self.numOfAnnotations = numOfAnnotations
         self.colour = colour
+        self.r, self.g, self.b = self.colour
         self.__setupStyleSheet()
+        self.classColourButton.clicked.connect(lambda: self.selectColour())
 
     def __setupStyleSheet(self) -> None:
         """ Sets up style sheet of item widget """
         # Colour picker label
         self.classColourLbl = QLabel()
         self.classColourLbl.setStyleSheet("QLabel{"
-                                          f"background-color: rgb({self.colour});"
+                                          f"background-color: rgb({self.r}, {self.g}, {self.b});"
                                           "border-radius: 4px;"
                                           "border: 3px solid rgb(105, 105, 105)}")
         self.classColourLbl.setFixedWidth(18)
@@ -41,7 +46,7 @@ class ClassListItemWidget (QFrame):
         # Colour picker button
         self.classColourButton = QPushButton()
         self.classColourButton.setStyleSheet("QPushButton{"
-                                             f"background-color: rgb({self.colour});"
+                                             f"background-color: rgb({self.r}, {self.g}, {self.b});"
                                              "border-radius: 4px;"
                                              "border: 3px solid rgb(105, 105, 105)}"
                                              "QPushButton:hover{border-color: rgb(165, 165, 165)}"
@@ -82,7 +87,9 @@ class ClassListItemWidget (QFrame):
         self.numClassItemLbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
 
         # Horizontal spacers
-        self.classColourhorizontalSpacer = QSpacerItem(15, 5, QSizePolicy.Policy.Fixed)
+        self.padSpacer = QSpacerItem(5, 5, QSizePolicy.Policy.Fixed)
+        self.classColourhorizontalSpacer = QSpacerItem(38, 5, QSizePolicy.Policy.Fixed)
+        
 
         # Delete Label placeholder picker label
         self.classDeleteLbl = QLabel()
@@ -117,6 +124,7 @@ class ClassListItemWidget (QFrame):
         
         # Setting layout of custom widget 
         self.classItemWidetLayout = QHBoxLayout()
+        self.classItemWidetLayout.addItem(self.padSpacer)
         self.classItemWidetLayout.addWidget(self.classColourLbl)
         self.classItemWidetLayout.addWidget(self.classColourButton)
         self.classItemWidetLayout.addItem(self.classColourhorizontalSpacer)
@@ -184,6 +192,23 @@ class ClassListItemWidget (QFrame):
         else:
             return "0, 201, 0"
 
+    def selectColour(self) -> None:
+        self.colour = getColour(self.colour)
+        self.r, self.g, self.b = self.colour
+
+        self.classColourLbl.setStyleSheet("QLabel{"
+                                    f"background-color: rgb({self.r}, {self.g}, {self.b});"
+                                    "border-radius: 4px;"
+                                    "border: 3px solid rgb(105, 105, 105)}")
+
+        self.classColourButton.setStyleSheet("QPushButton{"
+                                        f"background-color: rgb({self.r}, {self.g}, {self.b});"
+                                        "border-radius: 4px;"
+                                        "border: 3px solid rgb(105, 105, 105)}"
+                                        "QPushButton:hover{border-color: rgb(165, 165, 165)}"
+                                        )
+        self.classColourLbl.repaint()
+        self.classColourButton.repaint()
 
 class WidgetItemLineEdit(QLineEdit):
     def __init__(self):
