@@ -11,7 +11,7 @@ from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
 from yoloAnt_ui import Ui_MainWindow
-from utils.classListWidget import ClassListWidget
+from customWidgets.projectClassListWidget import ProjectClassListWidget
 from dialogs.createClassDialog import CreateClassDialog
 
 class ProjectPage():
@@ -77,7 +77,7 @@ class ProjectPage():
     def __createClassList(self) -> None:
         """ Creates the class list """
 
-        self.classListWidget = ClassListWidget()
+        self.classListWidget = ProjectClassListWidget()
         self.classListWidget.setObjectName("classListProjectPageWidget")
         self.veritcalSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.classListLayout = QVBoxLayout()

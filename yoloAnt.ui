@@ -379,7 +379,7 @@ background-color: rgb(45, 45, 45);</string>
           <enum>QFrame::Raised</enum>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="entryPage">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -1136,7 +1136,7 @@ border-radius: 5px;</string>
                 <property name="minimumSize">
                  <size>
                   <width>140</width>
-                  <height>475</height>
+                  <height>390</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -1260,7 +1260,7 @@ color: rgb(255, 255, 255);</string>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>16777215</height>
+                  <height>140</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -1278,6 +1278,18 @@ border : 1px solid rgb(255, 93, 93);</string>
                  <property name="spacing">
                   <number>0</number>
                  </property>
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
                  <item>
                   <widget class="QLabel" name="label_4">
                    <property name="styleSheet">
@@ -1287,17 +1299,103 @@ font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
                    <property name="text">
                     <string>PictureOfDog.png</string>
                    </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_6">
+                  <widget class="QFrame" name="frame_7">
                    <property name="styleSheet">
-                    <string notr="true">border : 1px solid rgb(65, 66, 64);
-font: 75 12pt &quot;Gotham Rounded&quot;;</string>
+                    <string notr="true">border : 1px solid rgb(65, 66, 64)</string>
                    </property>
-                   <property name="text">
-                    <string>Image Size:    640 x 480</string>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
                    </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_15">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="label_6">
+                      <property name="text">
+                       <string>Image Size:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_9">
+                      <property name="text">
+                       <string>640 x 480</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="frame_8">
+                   <property name="styleSheet">
+                    <string notr="true">border : 1px solid rgb(65, 66, 64)</string>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_16">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="label_10">
+                      <property name="text">
+                       <string>Status</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_11">
+                      <property name="text">
+                       <string>UnAnnotated</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </widget>
                  </item>
                  <item>
@@ -1321,6 +1419,19 @@ font: 75 12pt &quot;Gotham Rounded&quot;;</string>
                        <string>Further Work:</string>
                       </property>
                      </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_16">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
                     </item>
                     <item>
                      <widget class="QCheckBox" name="checkBox">
@@ -1362,10 +1473,13 @@ font: 75 12pt &quot;Gotham Rounded&quot;;</string>
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
-                  <height>40</height>
+                  <height>80</height>
                  </size>
                 </property>
                </spacer>

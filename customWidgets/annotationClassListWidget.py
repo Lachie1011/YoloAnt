@@ -3,8 +3,8 @@
 """
 
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import (QAbstractItemView, QListWidgetItem, QSizePolicy, QListWidget, QAbstractScrollArea)
-from utils.classListItemWidget import ClassListItemWidget 
+from PyQt6.QtWidgets import (QAbstractItemView, QListWidgetItem, QSizePolicy, QListWidget, QAbstractScrollArea, QListView)
+from classListItemWidget import ClassListItemWidget 
 
 class ClassListWidget (QListWidget):
     """
@@ -15,8 +15,9 @@ class ClassListWidget (QListWidget):
 
         # Setup list widget
         self.setMinimumSize(0, 0)
-        self.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        self.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+        self.setResizeMode(QListView.ResizeMode.Adjust)
         self.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
         self.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.setStyleSheet("QScrollBar:vertical{"
@@ -87,8 +88,9 @@ class ClassListWidget (QListWidget):
         classListItem.setSizeHint(classListItemWidget.sizeHint())
 
         # Connect delete button
-        classListItemWidget.classDeleteButton.clicked.connect(lambda: self.removeItemFromListWidget(classListItem))
-
+        # classListItemWidget.classDeleteButton.clicked.connect(lambda: self.removeItemFromListWidget(classListItem))
+        classListItemWidget.setParentItem(classListItem)
+        
         # Add class item to list
         self.addItem(classListItem)
         self.setItemWidget(classListItem, classListItemWidget)

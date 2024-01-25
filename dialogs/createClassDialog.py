@@ -5,7 +5,7 @@
 from PyQt6.QtWidgets import QDialog, QListWidget
 
 from dialogs.ui.createClassDialog_ui import Ui_createClassDialog
-from utils.classListWidget import ClassListWidget
+from customWidgets.projectClassListWidget import ProjectClassListWidget
 from dialogs.colourSelectorDialog import getColour
 
 class CreateClassDialog(QDialog):

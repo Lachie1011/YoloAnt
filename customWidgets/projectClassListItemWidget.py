@@ -9,7 +9,7 @@ from PyQt6.QtWidgets import (QFrame, QLabel, QHBoxLayout, QLineEdit, QProgressBa
 from dialogs.colourSelectorDialog import getColour
 
 
-class ClassListItemWidget (QFrame):
+class ProjectClassListItemWidget (QFrame):
     """
         Class that creates a custom class item widget for class list
 
@@ -20,7 +20,7 @@ class ClassListItemWidget (QFrame):
             colour - Annotation colour of class in RGB format: _,_,_ 
     """
     def __init__(self, className, numClassAnnotations, numOfAnnotations, colour, parent=None):
-        super(ClassListItemWidget, self).__init__(parent)
+        super(ProjectClassListItemWidget, self).__init__(parent)
 
         # Hover style sheet
         self.parentSelected = False
