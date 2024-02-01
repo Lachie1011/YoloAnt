@@ -7,11 +7,14 @@ from enum import Enum
 
 from PyQt6 import QtCore
 from PyQt6.QtGui import QCursor, QIcon
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication, QHBoxLayout, QLabel, QVBoxLayout
 
 from yoloAnt_ui import Ui_MainWindow
 from events.hoverEvent import HoverEvent
 from events.resizeEvent import ResizeEvent
+from utils.switch import Switch
+from customWidgets.customQObjects import CustomClassQListWidget
+from customWidgets.annoPageListWidgetItem import AnnoPageListWidgetItem
 
 
 class Tools(Enum):
@@ -28,14 +31,69 @@ class AnnotationPage():
         # TODO: fix up app type to yoloant app involes add futyure annotations and some if typing
         self.app = app
         self.ui = app.ui
+        self.__setupStyleSheet()
 
         # Connecting signals and slots for the page
         self.__connectIconHover()
         self.__connectAnnotationToolButtons()
 
+        self.__createClassSelectionList()
+
+        annoPageListWidgetItem = AnnoPageListWidgetItem("Dog", (0, 201, 52)) 
+        annoPageListWidgetItem2 = AnnoPageListWidgetItem("Cat", (0, 90, 255)) 
+        annoPageListWidgetItem3 = AnnoPageListWidgetItem("Aeroplane", (255, 2, 60)) 
+        annoPageListWidgetItem4 = AnnoPageListWidgetItem("Person-on-bicycle", (223, 100, 120)) 
+        self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem)
+        self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem2)
+        self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem3)
+        self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem4)
+
+        # Connect signals and slots
+        self.editSwitchBtn.toggled.connect(lambda toggled: self.__editableMode(toggled))
+
         # Applying resize event for the image lbl TODO: revisit for image resizing
         # self.imageFrameResizeEvent = ResizeEvent(self.ui.imageFrame)
         # self.ui.imageFrame.installEventFilter(self.imageFrameResizeEvent)    
+
+    def __setupStyleSheet(self) -> None:
+        
+        # Setting up edit switch
+        # Edit label
+        self.editSwtichLbl = QLabel('Edit')
+        self.editSwtichLbl.setStyleSheet("QLabel{"
+                                          "color: rgb(255, 255, 255);}")
+        self.editSwtichLbl.setFixedHeight(18)
+
+        self.ui.classAddAnnoPageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.ui.classAddAnnoPageBtn.setStyleSheet("QPushButton{"
+                                                  "background-color: rgb(85, 87, 83);"
+                                                  "border-radius: 8px;}"
+                                                  "QPushButton::hover{"
+                                                  "background-color : rgb(105, 105, 105);"
+                                                  "color: rgb(255, 255, 255);}")
+
+        # Edit switch Btn
+        self.editSwitchBtn = Switch()
+
+        self.editSwitchLayout = QHBoxLayout()
+        self.editSwitchLayout.addWidget(self.editSwtichLbl)
+        self.editSwitchLayout.addWidget(self.editSwitchBtn)
+        self.editSwitchLayout.setContentsMargins(5,5,0,7)
+        self.ui.editSwitchFrame.setLayout(self.editSwitchLayout)
+
+        # Move text margins of LineEdit
+        self.ui.classSearchLineEdit.setTextMargins(5,0,5,0)
+
+    def __createClassSelectionList(self) -> None:
+        """ Creates the class list """
+
+        self.classSelectionListWidget = CustomClassQListWidget()
+        self.classSelectionListWidget.setSpacing(2)
+        self.classSelectionListWidget.setObjectName("annotationClassListWidget")
+        self.classSelectionListLayout = QVBoxLayout()
+        self.classSelectionListLayout.addWidget(self.classSelectionListWidget)
+        self.classSelectionListLayout.setContentsMargins(0,0,0,0)
+        self.ui.classSelectAnnoPageFrame.setLayout(self.classSelectionListLayout)
 
     def __connectIconHover(self) -> None:
         """ 
@@ -90,3 +148,15 @@ class AnnotationPage():
             self.ui.mouseToolBtn.setIcon(QIcon("icons/cursor-inactive.png"))
             # update mouse icon
             QApplication.setOverrideCursor(QtCore.Qt.CursorShape.CrossCursor)
+
+    def __editableMode(self, toggled: bool) -> None:
+
+        for listItemIndex in range(0,self.classSelectionListWidget.count()):
+            listItem = self.classSelectionListWidget.item(listItemIndex)
+            widgetInItem = self.classSelectionListWidget.itemWidget(listItem)
+
+            if toggled:
+                widgetInItem.enableEdit()
+            
+            else:
+                widgetInItem.disableEdit()

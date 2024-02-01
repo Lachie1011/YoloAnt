@@ -12,7 +12,7 @@ class ExpandingFrame(QFrame):
         params:
             contentLayout - Layout that will be inside the expanding/shrinking frame
     """
-    def __init__(self, contentLayout, parent=None, animationDuration=100):
+    def __init__(self, contentLayout, parent=None, animationDuration=0):
         super().__init__()
 
         # Expanding/shrinking animation variables
@@ -25,15 +25,15 @@ class ExpandingFrame(QFrame):
         self.setMaximumHeight(0)
 
         # Expand and shrink frame with contents
-        self.toggleAnimation.addAnimation(QPropertyAnimation(self.expandFrame, b"maximumHeight"))
+        self.toggleAnimation.addAnimation(QPropertyAnimation(self, b"maximumHeight"))
         self.__setFrameLayout()
-        
+
     def __setFrameLayout(self):
         """
             Set the layout of the expanding/shrinking frame
         """
-        self.expandFrame.destroy()
-        self.expandFrame.setLayout(self.contentLayout)
+        self.destroy()
+        self.setLayout(self.contentLayout)
 
         collapsedHeight = 0
         contentHeight = self.contentLayout.sizeHint().height()

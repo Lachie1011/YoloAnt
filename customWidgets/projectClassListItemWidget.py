@@ -6,10 +6,10 @@ from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QFrame, QLabel, QHBoxLayout, QLineEdit, QProgressBar, 
                              QSpacerItem, QSizePolicy, QPushButton)
 
+from customWidgets.customQObjects import *
 from dialogs.colourSelectorDialog import getColour
 
-
-class ProjectClassListItemWidget (QFrame):
+class ProjectClassListItemWidget (CustomWidgetItemQFrame):
     """
         Class that creates a custom class item widget for class list
 
@@ -17,20 +17,28 @@ class ProjectClassListItemWidget (QFrame):
             className - Name of class
             numClassAnnotations  - Number of annotataions in dataset of this class type
             numOfAnnotations - Number of classes in the dataset 
-            colour - Annotation colour of class in RGB format: _,_,_ 
+            colour - Annotation colour of class in RGB format: (_,_,_) 
     """
-    def __init__(self, className, numClassAnnotations, numOfAnnotations, colour, parent=None):
-        super(ProjectClassListItemWidget, self).__init__(parent)
+    def __init__(self, className: str, numClassAnnotations: int, numOfAnnotations: int, colour: tuple, parent=None):
+        """ init """
 
-        # Hover style sheet
-        self.parentSelected = False
-        self.className = className
-        self.numClassAnnotations = numClassAnnotations
-        self.numOfAnnotations = numOfAnnotations
+        # Member variables
         self.colour = colour
+        self.className = className
+        self.numOfAnnotations = numOfAnnotations
+        self.numClassAnnotations = numClassAnnotations
+
+        self.parentItem = None
+        self.parentSelected = False
         self.r, self.g, self.b = self.colour
+        super().__init__(self.parentSelected, (105,105,105), (65, 66, 64))
+
+        # Setup stylesheet
         self.__setupStyleSheet()
+
+        # Connect signals and slots
         self.classColourButton.clicked.connect(lambda: self.selectColour())
+        self.classDeleteButton.clicked.connect(lambda: self.parent().parent().removeItemFromListWidget(self.parentItem))
 
     def __setupStyleSheet(self) -> None:
         """ Sets up style sheet of item widget """
@@ -64,7 +72,7 @@ class ProjectClassListItemWidget (QFrame):
         self.classItemLbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
 
         # Class name line edit, not visible by default
-        self.classItemLineEdit = WidgetItemLineEdit()
+        self.classItemLineEdit = CustomQLineEdit()
 
         # self.classItemLineEdit = QLineEdit()
         self.classItemLineEdit.editingFinished.connect(lambda: self.setClassName(self.classItemLineEdit.text()))
@@ -163,6 +171,7 @@ class ProjectClassListItemWidget (QFrame):
         self.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
     def setClassName(self, text: str) -> None:
+        """ Sets the name of the class from user input """
         self.className = text
         self.classItemLbl.setText(text)
         self.classItemLineEdit.setText(text)
@@ -170,19 +179,8 @@ class ProjectClassListItemWidget (QFrame):
         if self.classItemLineEdit.hasFocus():
             self.classItemLineEdit.clearFocus()
 
-    def enterEvent(self, event) -> None:
-        """ Sets background of widget when mouse enters item widget """
-        if not self.parentSelected:
-            self.setStyleSheet("background: rgb(85, 87, 83);")
-
-    def leaveEvent(self, event) -> None:
-        """ Sets background of widget when mouse leaves item widget """
-        if not self.parentSelected:
-            self.setStyleSheet("background: rgb(65, 66, 64);")
-
     def warningColour(self) -> str:
         """ Determins the warning colour to be displayed on the progress bar """
-
         if self.numClassAnnotations < round(self.numOfAnnotations/3):
             return "255, 0, 0"
 
@@ -193,41 +191,19 @@ class ProjectClassListItemWidget (QFrame):
             return "0, 201, 0"
 
     def selectColour(self) -> None:
+        """ Gets a selected colour from the user """
         self.colour = getColour(self.colour)
         self.r, self.g, self.b = self.colour
 
         self.classColourLbl.setStyleSheet("QLabel{"
-                                    f"background-color: rgb({self.r}, {self.g}, {self.b});"
-                                    "border-radius: 4px;"
-                                    "border: 3px solid rgb(105, 105, 105)}")
+                                          f"background-color: rgb({self.r}, {self.g}, {self.b});"
+                                          "border-radius: 4px;"
+                                          "border: 3px solid rgb(105, 105, 105)}")
 
         self.classColourButton.setStyleSheet("QPushButton{"
-                                        f"background-color: rgb({self.r}, {self.g}, {self.b});"
-                                        "border-radius: 4px;"
-                                        "border: 3px solid rgb(105, 105, 105)}"
-                                        "QPushButton:hover{border-color: rgb(165, 165, 165)}"
-                                        )
+                                             f"background-color: rgb({self.r}, {self.g}, {self.b});"
+                                             "border-radius: 4px;"
+                                             "border: 3px solid rgb(105, 105, 105)}"
+                                             "QPushButton:hover{border-color: rgb(165, 165, 165)}")
         self.classColourLbl.repaint()
         self.classColourButton.repaint()
-
-class WidgetItemLineEdit(QLineEdit):
-    def __init__(self):
-        super().__init__()
-   
-    def focusInEvent(self, event):
-        """ Sets background colour of widget when it is focused """
-        super(WidgetItemLineEdit, self).focusInEvent(event)
-        self.setStyleSheet("QLineEdit{"
-                           "font: 14pt 'Gotham Rounded Light';"
-                           "background-color: rgb(105,105,105);}"
-                           "QLineEdit:hover{"
-                           "background-color: rgb(105, 105, 105);}")
-
-    def focusOutEvent(self, event):
-        """ Sets background colour of widget when it loses focus """
-        super(WidgetItemLineEdit, self).focusOutEvent(event)
-        self.setStyleSheet("QLineEdit{"
-                           "font: 14pt 'Gotham Rounded Light';"
-                           "background-color: rgb(85, 87, 83);}"
-                           "QLineEdit:hover{"
-                           "background-color: rgb(105, 105, 105);}")
