@@ -839,7 +839,7 @@ border-radius: 5px;</string>
                   <number>30</number>
                  </property>
                  <item>
-                  <widget class="AnnotationCanvasWidget" name="widget" native="true">
+                  <widget class="AnnotationCanvasWidget" name="annotationCanvasWidget" native="true">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                      <horstretch>0</horstretch>

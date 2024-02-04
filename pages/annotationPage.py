@@ -85,12 +85,18 @@ class AnnotationPage():
             # update mouse icon
             QApplication.restoreOverrideCursor()
 
+            # Updating annotationCanvasWidget mode
+            self.ui.annotationCanvasWidget.mode = Tools.mouseTool
+
         if tool is Tools.annotationTool:
             # updating checked state
             self.ui.mouseToolBtn.setChecked(False)
             self.ui.mouseToolBtn.setIcon(QIcon("icons/cursor-inactive.png"))
             # update mouse icon
             QApplication.setOverrideCursor(QtCore.Qt.CursorShape.CrossCursor)
+
+            # Updating annotationCanvasWidget mode
+            self.ui.annotationCanvasWidget.mode = Tools.annotationTool
 
     def __addAnnotationCanvasWidget(self):
         """ Creates and adds the annotation canvas widget """
