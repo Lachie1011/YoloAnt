@@ -2,7 +2,8 @@
     customQObjects.py
 """
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import (QFrame, QLineEdit, QAbstractItemView, QListWidgetItem, 
+from PyQt6.QtGui import QPalette, QBrush
+from PyQt6.QtWidgets import (QDialog, QFrame, QLineEdit, QAbstractItemView, QListWidgetItem, 
                              QSizePolicy, QListWidget, QAbstractScrollArea, QListView)
 
 class CustomWidgetItemQFrame(QFrame):
@@ -50,12 +51,53 @@ class CustomQLineEdit(QLineEdit):
                            "QLineEdit:hover{"
                            "background-color: rgb(105, 105, 105);}")
 
+class CustomKeySelectionDialog(QDialog):
+    """
+        Class that creates a nearly invisiable dialog to read keyboard input
+    """
+    def __init__(self):
+        super().__init__()
+        self.setModal(True)
+        self.show()
+        self.setWindowFlags(Qt.WindowType.Tool | Qt.WindowType.FramelessWindowHint)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.setFixedHeight(1)
+        self.setFixedWidth(1)
+
+    def getKeyInput(self):
+        self.exec()
+        return self.keyInput
+
+    def keyPressEvent(self, event):
+        """ Read key input from user """
+        try:
+            if event.key() == Qt.Key.Key_Escape:
+                self.keyInput = None
+                self.done(1)
+
+            self.keyInput = chr(event.key())
+            self.done(1)
+
+        except Exception as exc:
+                print("Not a valid hotkey.")
+                self.done(1)
+
+def getKeyInput() -> chr:
+    """ Sets application to modal and gets a key input """
+    __customKeySelectionDialog = CustomKeySelectionDialog()
+
+    return __customKeySelectionDialog.getKeyInput()
+
+
 class CustomClassQListWidget (QListWidget):
     """
         Class that creates a custom list widget for classes
     """
-    def __init__(self):
+    def __init__(self, selectionEdit=False):
         super().__init__()
+
+        # Member variables
+        self.selectionEdit = selectionEdit
 
         # Setup style sheet
         self.__setupStyleSheet()
@@ -65,7 +107,7 @@ class CustomClassQListWidget (QListWidget):
 
         # Connect signals and slots
         self.itemClicked.connect(lambda item: self.__selectItem(item))
-        self.itemSelectionChanged.connect(lambda: self.__enabledWidgetEditMode())
+        # self.itemSelectionChanged.connect(lambda: )
 
     def mouseMoveEvent(object, event):
         # Disables selection with mouse click + drag
@@ -101,28 +143,31 @@ class CustomClassQListWidget (QListWidget):
     def __selectItem(self, item: QListWidgetItem) -> None:
         """ Set the chosen item to selected """
         self.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
+        self.__clearSelection()
         self.setCurrentItem(item)
+        self.itemSelected = item
         self.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
+
+        if self.selectionEdit:
+            self.__enabledWidgetEditMode()
 
     def __clearSelection(self) -> None:
         """ clears the list of selected items """
         if self.itemSelected:
             widgetInItem = self.itemWidget(self.itemSelected)
-            widgetInItem.disableEdit()
+            
+            if self.selectionEdit:
+                widgetInItem.disableEdit()
 
         self.clearSelection()
 
     def __enabledWidgetEditMode(self):
         """ Sets the widget in item to edit mode """
-        self.__clearSelection()
-
         # Change selected item to edit mode
         listItem = self.currentItem()
         widgetInItem = self.itemWidget(listItem)
         widgetInItem.enableEdit()
 
-        # Save selected item
-        self.itemSelected = listItem
 
     def addItemToListWidget(self, listWidgetItem: QListWidgetItem) -> None:
         """ Adds item widget to list widget """ 

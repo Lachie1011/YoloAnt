@@ -62,7 +62,7 @@ class ProjectPage():
     def __createClassList(self) -> None:
         """ Creates the class list """
 
-        self.classListWidget = CustomClassQListWidget()
+        self.classListWidget = CustomClassQListWidget(True)
         self.classListWidget.setObjectName("classListProjectPageWidget")
         self.veritcalSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.classListLayout = QVBoxLayout()
