@@ -8,6 +8,8 @@ from PyQt6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, 
 
 from boundingBox import BoundingBox
 from pages.annotationPage import Tools
+from customWidgets.customRectangleWidget import CustomRectangleWidget
+
 
 class AnnotationCanvasWidget(QGraphicsView):
     """ A custom widget for the annotation canvas used for drawing bounding boxes """
@@ -66,7 +68,9 @@ class AnnotationCanvasWidget(QGraphicsView):
         self.rectPen.setColor(self.classColour)
 
         # Creating the rectangle
-        rect = self.scene.addRect(x, y, width, height)
+        # rect = self.scene.addRect(x, y, width, height)
+        rect = CustomRectangleWidget(x, y, width, height, self.scene)
+        self.scene.addItem(rect)
         rect.setPen(self.rectPen)
         rect.setFlags(QGraphicsItem.GraphicsItemFlag.ItemIsMovable | QGraphicsItem.GraphicsItemFlag.ItemIsSelectable)
 
@@ -97,3 +101,9 @@ class AnnotationCanvasWidget(QGraphicsView):
         if self.mode == Tools.annotationTool:
             self.resetScene()
             self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), True)
+
+    def itemChange(self, change, value):
+        """ Handles changes to an item """
+        super(AnnotationCanvasWidget, self).itemChange(change, value)
+        if change == QGraphicsItem.ItemSelectedChanged: 
+            print("yooo")
