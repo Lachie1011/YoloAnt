@@ -43,14 +43,16 @@ class AnnotationPage():
         annoPageListWidgetItem2 = AnnoPageListWidgetItem("Cat", (0, 90, 255)) 
         annoPageListWidgetItem3 = AnnoPageListWidgetItem("Aeroplane", (255, 2, 60)) 
         annoPageListWidgetItem4 = AnnoPageListWidgetItem("Person-on-bicycle", (223, 100, 120)) 
+        annoPageListWidgetItem5 = AnnoPageListWidgetItem("Can", (223, 100, 120)) 
         self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem)
         self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem2)
         self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem3)
         self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem4)
+        self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem5)
 
         # Connect signals and slots
         self.editSwitchBtn.toggled.connect(lambda toggled: self.__editableMode(toggled))
-
+        self.ui.classSearchLineEdit.textChanged.connect(lambda newText: self.__searchForClass(newText))
         # Applying resize event for the image lbl TODO: revisit for image resizing
         # self.imageFrameResizeEvent = ResizeEvent(self.ui.imageFrame)
         # self.ui.imageFrame.installEventFilter(self.imageFrameResizeEvent)    
@@ -58,7 +60,6 @@ class AnnotationPage():
     def __setupStyleSheet(self) -> None:
         
         # Setting up edit switch
-        # Edit label
         self.editSwtichLbl = QLabel('Edit')
         self.editSwtichLbl.setStyleSheet("QLabel{"
                                           "color: rgb(255, 255, 255);}")
@@ -72,7 +73,6 @@ class AnnotationPage():
                                                   "background-color : rgb(105, 105, 105);"
                                                   "color: rgb(255, 255, 255);}")
 
-        # Edit switch Btn
         self.editSwitchBtn = Switch()
 
         self.editSwitchLayout = QHBoxLayout()
@@ -82,17 +82,30 @@ class AnnotationPage():
         self.ui.editSwitchFrame.setLayout(self.editSwitchLayout)
 
         # Move text margins of LineEdit
+        self.ui.classSearchLineEdit.editingFinished.connect(lambda: self.ui.classSearchLineEdit.clearFocus())
         self.ui.classSearchLineEdit.setTextMargins(5,0,5,0)
+
+        # Status combobox style
+        self.ui.statusComboBox.setStyleSheet("QComboBox{"
+                                             "background-color: rgb(45, 45, 45);}"
+                                             "QComboBox::drop-down:button{"
+                                             "background-color: rgb(45, 45, 45);"
+                                             "border-radius: 5px}"
+                                             "QComboBox::drop-down{"
+                                             "color: rgb(45, 45, 45);}"
+                                             "QComboBox::down-arrow{"
+                                             "image: url(icons/icons8-drop-down-arrow-10.png)}")
+
+
 
     def __createClassSelectionList(self) -> None:
         """ Creates the class list """
-
         self.classSelectionListWidget = CustomClassQListWidget()
-        self.classSelectionListWidget.setSpacing(2)
-        self.classSelectionListWidget.setObjectName("annotationClassListWidget")
+        self.classSelectionListWidget.setObjectName("annoPageClassListWidget")
+        self.classSelectionListWidget.setSpacing(3)
         self.classSelectionListLayout = QVBoxLayout()
         self.classSelectionListLayout.addWidget(self.classSelectionListWidget)
-        self.classSelectionListLayout.setContentsMargins(0,0,0,0)
+        self.classSelectionListLayout.setContentsMargins(3,3,3,3)
         self.ui.classSelectAnnoPageFrame.setLayout(self.classSelectionListLayout)
 
     def __connectIconHover(self) -> None:
@@ -150,7 +163,7 @@ class AnnotationPage():
             QApplication.setOverrideCursor(QtCore.Qt.CursorShape.CrossCursor)
 
     def __editableMode(self, toggled: bool) -> None:
-
+        """ Sets the class selection list widget into editable mode """
         for listItemIndex in range(0,self.classSelectionListWidget.count()):
             listItem = self.classSelectionListWidget.item(listItemIndex)
             widgetInItem = self.classSelectionListWidget.itemWidget(listItem)
@@ -160,3 +173,15 @@ class AnnotationPage():
             
             else:
                 widgetInItem.disableEdit()
+
+    def __searchForClass(self, newText: str) -> None:
+        """ Searches and shows the classes that correspond to text """
+        for listItemIndex in range(0,self.classSelectionListWidget.count()):
+            listItem = self.classSelectionListWidget.item(listItemIndex)
+            widgetInItem = self.classSelectionListWidget.itemWidget(listItem)
+        
+            if not newText:
+                listItem.setHidden(False)
+
+            elif newText.lower() not in widgetInItem.className.lower():
+                listItem.setHidden(True)
