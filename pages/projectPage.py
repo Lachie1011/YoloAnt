@@ -11,7 +11,8 @@ from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
 from yoloAnt_ui import Ui_MainWindow
-from utils.classListWidget import ClassListWidget
+from customWidgets.customQObjects import CustomClassQListWidget
+from customWidgets.projectClassListItemWidget import ProjectClassListItemWidget
 from dialogs.createClassDialog import CreateClassDialog
 
 class ProjectPage():
@@ -27,25 +28,9 @@ class ProjectPage():
         self.__connectButtonHover()
 
         self.numOfClasses = 30
-        self.classListWidget.addItemToListWidget("Test", 10, 30, (0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test2", 13, 30, (0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test3", 18, 30, (0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test4", 1, 30, (0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test5", 27, 30, (0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test6", 13, 30, (0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test7", 18, 30, (0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test8", 6, 30, (0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test9", 10, 30, (0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test10", 13, 30,(0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test11", 18, 30,(0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test12", 4, 30, (0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test13", 10, 30,(0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test14", 13, 30,(0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test15", 18, 30,(0, 201, 52))
-        self.classListWidget.addItemToListWidget("Test16", 4, 30, (0, 201, 52))
 
         # Connect signals and slots
-        self.ui.addClassBtn.clicked.connect(lambda: self.__instanciateCreateClassDialog())
+        self.ui.addClassBtn.clicked.connect(lambda: self.__instantiateCreateClassDialog())
 
     def __populateFields(self) -> None:
         """ Populates the fields for the project page from the project.yaml """
@@ -77,7 +62,7 @@ class ProjectPage():
     def __createClassList(self) -> None:
         """ Creates the class list """
 
-        self.classListWidget = ClassListWidget()
+        self.classListWidget = CustomClassQListWidget(True)
         self.classListWidget.setObjectName("classListProjectPageWidget")
         self.veritcalSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.classListLayout = QVBoxLayout()
@@ -92,7 +77,8 @@ class ProjectPage():
     
         # Applying hover events and cursor change to Navigation Buttons
         self.ui.addClassBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.ui.addClassBtn.setStyleSheet("QPushButton{background-color: rgb(85, 87, 83);"
+        self.ui.addClassBtn.setStyleSheet("QPushButton{"
+                                          "background-color: rgb(85, 87, 83);"
                                           "border : 1px solid;"
                                           "border-radius: 10px;"
                                           "border-color:  rgb(85, 87, 83);"
@@ -102,7 +88,7 @@ class ProjectPage():
 
 
 
-    def __instanciateCreateClassDialog(self) -> None:
+    def __instantiateCreateClassDialog(self) -> None:
         """ Instanciates the create class dialog """
         self.createClassDialog = CreateClassDialog(self.classListWidget, self.numOfClasses)
 

@@ -7,11 +7,14 @@ from enum import Enum
 
 from PyQt6 import QtCore
 from PyQt6.QtGui import QCursor, QIcon
-from PyQt6.QtWidgets import QApplication
+from PyQt6.QtWidgets import QApplication, QHBoxLayout, QLabel, QVBoxLayout
 
 from yoloAnt_ui import Ui_MainWindow
 from events.hoverEvent import HoverEvent
 from events.resizeEvent import ResizeEvent
+from utils.switch import Switch
+from customWidgets.customQObjects import CustomClassQListWidget
+from customWidgets.annoPageListWidgetItem import AnnoPageListWidgetItem
 
 
 class Tools(Enum):
@@ -28,14 +31,82 @@ class AnnotationPage():
         # TODO: fix up app type to yoloant app involes add futyure annotations and some if typing
         self.app = app
         self.ui = app.ui
+        self.__setupStyleSheet()
 
         # Connecting signals and slots for the page
         self.__connectIconHover()
         self.__connectAnnotationToolButtons()
 
+        self.__createClassSelectionList()
+
+        annoPageListWidgetItem = AnnoPageListWidgetItem("Dog", (0, 201, 52)) 
+        annoPageListWidgetItem2 = AnnoPageListWidgetItem("Cat", (0, 90, 255)) 
+        annoPageListWidgetItem3 = AnnoPageListWidgetItem("Aeroplane", (255, 2, 60)) 
+        annoPageListWidgetItem4 = AnnoPageListWidgetItem("Person-on-bicycle", (223, 100, 120)) 
+        annoPageListWidgetItem5 = AnnoPageListWidgetItem("Can", (223, 100, 120)) 
+        self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem)
+        self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem2)
+        self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem3)
+        self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem4)
+        self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem5)
+
+        # Connect signals and slots
+        self.editSwitchBtn.toggled.connect(lambda toggled: self.__editableMode(toggled))
+        self.ui.classSearchLineEdit.textChanged.connect(lambda newText: self.__searchForClass(newText))
         # Applying resize event for the image lbl TODO: revisit for image resizing
         # self.imageFrameResizeEvent = ResizeEvent(self.ui.imageFrame)
         # self.ui.imageFrame.installEventFilter(self.imageFrameResizeEvent)    
+
+    def __setupStyleSheet(self) -> None:
+        
+        # Setting up edit switch
+        self.editSwtichLbl = QLabel('Edit')
+        self.editSwtichLbl.setStyleSheet("QLabel{"
+                                          "color: rgb(255, 255, 255);}")
+        self.editSwtichLbl.setFixedHeight(18)
+
+        self.ui.classAddAnnoPageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.ui.classAddAnnoPageBtn.setStyleSheet("QPushButton{"
+                                                  "background-color: rgb(85, 87, 83);"
+                                                  "border-radius: 8px;}"
+                                                  "QPushButton::hover{"
+                                                  "background-color : rgb(105, 105, 105);"
+                                                  "color: rgb(255, 255, 255);}")
+
+        self.editSwitchBtn = Switch()
+
+        self.editSwitchLayout = QHBoxLayout()
+        self.editSwitchLayout.addWidget(self.editSwtichLbl)
+        self.editSwitchLayout.addWidget(self.editSwitchBtn)
+        self.editSwitchLayout.setContentsMargins(5,5,0,7)
+        self.ui.editSwitchFrame.setLayout(self.editSwitchLayout)
+
+        # Move text margins of LineEdit
+        self.ui.classSearchLineEdit.editingFinished.connect(lambda: self.ui.classSearchLineEdit.clearFocus())
+        self.ui.classSearchLineEdit.setTextMargins(5,0,5,0)
+
+        # Status combobox style
+        self.ui.statusComboBox.setStyleSheet("QComboBox{"
+                                             "background-color: rgb(45, 45, 45);}"
+                                             "QComboBox::drop-down:button{"
+                                             "background-color: rgb(45, 45, 45);"
+                                             "border-radius: 5px}"
+                                             "QComboBox::drop-down{"
+                                             "color: rgb(45, 45, 45);}"
+                                             "QComboBox::down-arrow{"
+                                             "image: url(icons/icons8-drop-down-arrow-10.png)}")
+
+
+
+    def __createClassSelectionList(self) -> None:
+        """ Creates the class list """
+        self.classSelectionListWidget = CustomClassQListWidget()
+        self.classSelectionListWidget.setObjectName("annoPageClassListWidget")
+        self.classSelectionListWidget.setSpacing(3)
+        self.classSelectionListLayout = QVBoxLayout()
+        self.classSelectionListLayout.addWidget(self.classSelectionListWidget)
+        self.classSelectionListLayout.setContentsMargins(3,3,3,3)
+        self.ui.classSelectAnnoPageFrame.setLayout(self.classSelectionListLayout)
 
     def __connectIconHover(self) -> None:
         """ 
@@ -90,3 +161,27 @@ class AnnotationPage():
             self.ui.mouseToolBtn.setIcon(QIcon("icons/cursor-inactive.png"))
             # update mouse icon
             QApplication.setOverrideCursor(QtCore.Qt.CursorShape.CrossCursor)
+
+    def __editableMode(self, toggled: bool) -> None:
+        """ Sets the class selection list widget into editable mode """
+        for listItemIndex in range(0,self.classSelectionListWidget.count()):
+            listItem = self.classSelectionListWidget.item(listItemIndex)
+            widgetInItem = self.classSelectionListWidget.itemWidget(listItem)
+
+            if toggled:
+                widgetInItem.enableEdit()
+            
+            else:
+                widgetInItem.disableEdit()
+
+    def __searchForClass(self, newText: str) -> None:
+        """ Searches and shows the classes that correspond to text """
+        for listItemIndex in range(0,self.classSelectionListWidget.count()):
+            listItem = self.classSelectionListWidget.item(listItemIndex)
+            widgetInItem = self.classSelectionListWidget.itemWidget(listItem)
+        
+            if not newText:
+                listItem.setHidden(False)
+
+            elif newText.lower() not in widgetInItem.className.lower():
+                listItem.setHidden(True)

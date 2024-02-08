@@ -5,7 +5,8 @@
 from PyQt6.QtWidgets import QDialog, QListWidget
 
 from dialogs.ui.createClassDialog_ui import Ui_createClassDialog
-from utils.classListWidget import ClassListWidget
+from customWidgets.customQObjects import CustomClassQListWidget
+from customWidgets.projectClassListItemWidget import ProjectClassListItemWidget
 from dialogs.colourSelectorDialog import getColour
 
 class CreateClassDialog(QDialog):
@@ -92,5 +93,6 @@ class CreateClassDialog(QDialog):
     def createClass(self, numOfClasses) -> None:
         """ Creats a user specified class if inputs are valid """
         if self.__validateDialogInputs():
-            self.classListWidget.addItemToListWidget(self.className, 0, numOfClasses, self.selectedColour)
+            classListItemWidget = ProjectClassListItemWidget(self.className, 0, numOfClasses, self.selectedColour) 
+            self.classListWidget.addItemToListWidget(classListItemWidget)
             self.done(1)
