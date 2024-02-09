@@ -72,3 +72,7 @@ class StartPage():
                                         "background-color : #61635e;"
                                         "border-radius: 20px;"
                                         "}")
+
+    def __setupPageStyleSheet(self) -> None:
+        self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() + 
+                                                   f'background: {DarkThemePalette.panelColour.value};')

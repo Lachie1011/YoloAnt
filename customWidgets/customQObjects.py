@@ -19,12 +19,12 @@ class CustomWidgetItemQFrame(QFrame):
     def enterEvent(self, event) -> None:
         """ Sets background of widget when mouse enters item widget """
         if not self.parentSelected:
-            self.setStyleSheet(f"background: rgb{self.hoverColour};")
+            self.setStyleSheet(f"background: {self.hoverColour};")
 
     def leaveEvent(self, event) -> None:
         """ Sets background of widget when mouse leaves item widget """
         if not self.parentSelected:
-            self.setStyleSheet(f"background: rgb{self.backgroundColour};")
+            self.setStyleSheet(f"background: {self.backgroundColour};")
 
 class CustomQLineEdit(QLineEdit):
     """

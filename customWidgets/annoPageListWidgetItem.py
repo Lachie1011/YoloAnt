@@ -60,7 +60,7 @@ class AnnoPageListWidgetItem (QFrame):
         """ Sets up style sheet for class selection frame """
 
         # Class selection frame
-        self.classSelectionFrame = CustomWidgetItemQFrame(self.parentSelected, (105, 105, 105), (80, 80, 80))
+        self.classSelectionFrame = CustomWidgetItemQFrame(self.parentSelected, '#535353', '#404040')
         self.classSelectionFrame.setStyleSheet("QFrame{background-color: rgb(80,80,80);}")
         self.classSelectionFrame.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.classSelectionFrame.setFixedHeight(60)
@@ -252,6 +252,7 @@ class AnnoPageListWidgetItem (QFrame):
 
     def enableEdit(self) -> None:
         """ Sets the item widget to edit mode """
+        self.classSelectionFrame.setStyleSheet(self.classSelectionFrame.styleSheet() + "background: #5d5d5d;")
         self.parentSelected = True
         self.spacerWidget.setVisible(True)
         self.classColourLbl.setVisible(False)

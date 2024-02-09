@@ -80,12 +80,22 @@ class Ui_MainWindow(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, -1)
         self.verticalLayout.setObjectName("verticalLayout")
         self.selectorsWidget = QtWidgets.QFrame(parent=self.leftMenuSubContainer)
+        self.selectorsWidget.setMinimumSize(QtCore.QSize(50, 50))
         self.selectorsWidget.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.selectorsWidget.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.selectorsWidget.setObjectName("selectorsWidget")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.selectorsWidget)
-        self.verticalLayout_3.setContentsMargins(0, -1, 0, -1)
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.horizontalLayout_19 = QtWidgets.QHBoxLayout(self.selectorsWidget)
+        self.horizontalLayout_19.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_19.setSpacing(0)
+        self.horizontalLayout_19.setObjectName("horizontalLayout_19")
+        self.annotTabIndicatorFrame = QtWidgets.QFrame(parent=self.selectorsWidget)
+        self.annotTabIndicatorFrame.setMinimumSize(QtCore.QSize(3, 0))
+        self.annotTabIndicatorFrame.setMaximumSize(QtCore.QSize(3, 16777215))
+        self.annotTabIndicatorFrame.setStyleSheet("background-color: #151515;")
+        self.annotTabIndicatorFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.annotTabIndicatorFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.annotTabIndicatorFrame.setObjectName("annotTabIndicatorFrame")
+        self.horizontalLayout_19.addWidget(self.annotTabIndicatorFrame)
         self.annotTabBtn = QtWidgets.QPushButton(parent=self.selectorsWidget)
         self.annotTabBtn.setText("")
         icon1 = QtGui.QIcon()
@@ -96,18 +106,27 @@ class Ui_MainWindow(object):
         self.annotTabBtn.setCheckable(True)
         self.annotTabBtn.setChecked(False)
         self.annotTabBtn.setObjectName("annotTabBtn")
-        self.verticalLayout_3.addWidget(self.annotTabBtn)
+        self.horizontalLayout_19.addWidget(self.annotTabBtn)
         self.verticalLayout.addWidget(self.selectorsWidget)
         self.projectsWidget = QtWidgets.QFrame(parent=self.leftMenuSubContainer)
         self.projectsWidget.setMinimumSize(QtCore.QSize(50, 50))
         self.projectsWidget.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.projectsWidget.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.projectsWidget.setObjectName("projectsWidget")
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.projectsWidget)
-        self.verticalLayout_4.setContentsMargins(0, 9, 0, -1)
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.horizontalLayout_20 = QtWidgets.QHBoxLayout(self.projectsWidget)
+        self.horizontalLayout_20.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_20.setSpacing(0)
+        self.horizontalLayout_20.setObjectName("horizontalLayout_20")
+        self.projectsTabIndicatorFrame = QtWidgets.QFrame(parent=self.projectsWidget)
+        self.projectsTabIndicatorFrame.setMinimumSize(QtCore.QSize(3, 0))
+        self.projectsTabIndicatorFrame.setMaximumSize(QtCore.QSize(3, 16777215))
+        self.projectsTabIndicatorFrame.setStyleSheet("background-color: #151515;")
+        self.projectsTabIndicatorFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.projectsTabIndicatorFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.projectsTabIndicatorFrame.setObjectName("projectsTabIndicatorFrame")
+        self.horizontalLayout_20.addWidget(self.projectsTabIndicatorFrame)
         self.projectsTabBtn = QtWidgets.QPushButton(parent=self.projectsWidget)
-        self.projectsTabBtn.setMinimumSize(QtCore.QSize(50, 50))
+        self.projectsTabBtn.setMinimumSize(QtCore.QSize(0, 0))
         self.projectsTabBtn.setText("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap("icons/icons8-project-50.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
@@ -116,17 +135,27 @@ class Ui_MainWindow(object):
         self.projectsTabBtn.setIconSize(QtCore.QSize(30, 30))
         self.projectsTabBtn.setCheckable(True)
         self.projectsTabBtn.setObjectName("projectsTabBtn")
-        self.verticalLayout_4.addWidget(self.projectsTabBtn)
+        self.horizontalLayout_20.addWidget(self.projectsTabBtn)
         self.verticalLayout.addWidget(self.projectsWidget)
         self.mlWidget = QtWidgets.QFrame(parent=self.leftMenuSubContainer)
+        self.mlWidget.setMinimumSize(QtCore.QSize(50, 50))
         self.mlWidget.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.mlWidget.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.mlWidget.setObjectName("mlWidget")
-        self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.mlWidget)
-        self.verticalLayout_10.setContentsMargins(0, -1, 0, -1)
-        self.verticalLayout_10.setObjectName("verticalLayout_10")
+        self.horizontalLayout_21 = QtWidgets.QHBoxLayout(self.mlWidget)
+        self.horizontalLayout_21.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_21.setSpacing(0)
+        self.horizontalLayout_21.setObjectName("horizontalLayout_21")
+        self.mlTabIndicatorFrame = QtWidgets.QFrame(parent=self.mlWidget)
+        self.mlTabIndicatorFrame.setMinimumSize(QtCore.QSize(3, 0))
+        self.mlTabIndicatorFrame.setMaximumSize(QtCore.QSize(3, 16777215))
+        self.mlTabIndicatorFrame.setStyleSheet("background-color: #151515;")
+        self.mlTabIndicatorFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.mlTabIndicatorFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.mlTabIndicatorFrame.setObjectName("mlTabIndicatorFrame")
+        self.horizontalLayout_21.addWidget(self.mlTabIndicatorFrame)
         self.mlTabBtn = QtWidgets.QPushButton(parent=self.mlWidget)
-        self.mlTabBtn.setMinimumSize(QtCore.QSize(50, 50))
+        self.mlTabBtn.setMinimumSize(QtCore.QSize(0, 0))
         self.mlTabBtn.setText("")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap("icons/icons8-ant-head-50.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
@@ -135,7 +164,7 @@ class Ui_MainWindow(object):
         self.mlTabBtn.setIconSize(QtCore.QSize(35, 35))
         self.mlTabBtn.setCheckable(True)
         self.mlTabBtn.setObjectName("mlTabBtn")
-        self.verticalLayout_10.addWidget(self.mlTabBtn)
+        self.horizontalLayout_21.addWidget(self.mlTabBtn)
         self.verticalLayout.addWidget(self.mlWidget)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.verticalLayout.addItem(spacerItem)
@@ -491,7 +520,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_17.setObjectName("horizontalLayout_17")
         self.classSearchLineEdit = QtWidgets.QLineEdit(parent=self.classSearchAddFrame)
         self.classSearchLineEdit.setMaximumSize(QtCore.QSize(170, 25))
-        self.classSearchLineEdit.setStyleSheet("background-color: #9c9c9c;\n"
+        self.classSearchLineEdit.setStyleSheet("background-color: #787878;\n"
 "\n"
 "font: 75 12pt \"Gotham Rounded\";\n"
 "color: rgb(255, 255, 255);\n"
@@ -501,7 +530,7 @@ class Ui_MainWindow(object):
         self.classAddAnnoPageBtn = QtWidgets.QPushButton(parent=self.classSearchAddFrame)
         self.classAddAnnoPageBtn.setMinimumSize(QtCore.QSize(25, 25))
         self.classAddAnnoPageBtn.setMaximumSize(QtCore.QSize(25, 25))
-        self.classAddAnnoPageBtn.setStyleSheet("background-color: #7b7b7b;\n"
+        self.classAddAnnoPageBtn.setStyleSheet("background-color: #606060;\n"
 "border-radius: 12px;")
         self.classAddAnnoPageBtn.setObjectName("classAddAnnoPageBtn")
         self.horizontalLayout_17.addWidget(self.classAddAnnoPageBtn)
@@ -791,10 +820,10 @@ class Ui_MainWindow(object):
         font.setItalic(False)
         font.setWeight(9)
         self.datasetPathLbl.setFont(font)
-        self.datasetPathLbl.setStyleSheet("background-color: rgb(85, 87, 83);\n"
+        self.datasetPathLbl.setStyleSheet("background-color: #646464;\n"
 "border : 1px solid;\n"
 "border-radius: 5px;\n"
-"border-color:  rgb(85, 87, 83);")
+"border-color:  #646464;")
         self.datasetPathLbl.setLineWidth(1)
         self.datasetPathLbl.setMidLineWidth(0)
         self.datasetPathLbl.setObjectName("datasetPathLbl")
@@ -1198,7 +1227,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.addClassBtn.sizePolicy().hasHeightForWidth())
         self.addClassBtn.setSizePolicy(sizePolicy)
         self.addClassBtn.setMinimumSize(QtCore.QSize(110, 30))
-        self.addClassBtn.setStyleSheet("background-color: rgb(85, 87, 83);\n"
+        self.addClassBtn.setStyleSheet("background-color: #656565;\n"
 "border : 1px solid;\n"
 "border-radius: 10px;\n"
 "border-color:  rgb(85, 87, 83);\n"
@@ -1233,10 +1262,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_18.addWidget(self.frame)
         self.label = QtWidgets.QLabel(parent=self.healthInfoFrame)
         self.label.setMaximumSize(QtCore.QSize(16777215, 4))
-        self.label.setStyleSheet("background-color: rgb(85, 87, 83);\n"
+        self.label.setStyleSheet("background-color: #646464;\n"
 "border : 1px solid;\n"
 "border-radius: 5px;\n"
-"border-color:  rgb(85, 87, 83);")
+"border-color:  #646464;")
         self.label.setText("")
         self.label.setObjectName("label")
         self.verticalLayout_18.addWidget(self.label)
@@ -1383,7 +1412,7 @@ class Ui_MainWindow(object):
         self.menuBar.setFont(font)
         self.menuBar.setStyleSheet("background-color: #282828;\n"
 "font: 75 11pt \"Gotham Rounded\";\n"
-"color: rgb(255, 255, 255)")
+"color: rgb(255, 255, 255);")
         self.menuBar.setObjectName("menuBar")
         self.menutest = QtWidgets.QMenu(parent=self.menuBar)
         palette = QtGui.QPalette()
@@ -1467,7 +1496,7 @@ class Ui_MainWindow(object):
         self.menuBar.addAction(self.menutest.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

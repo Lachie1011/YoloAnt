@@ -15,7 +15,7 @@ from events.resizeEvent import ResizeEvent
 from utils.switch import Switch
 from customWidgets.customQObjects import CustomClassQListWidget
 from customWidgets.annoPageListWidgetItem import AnnoPageListWidgetItem
-
+from assets.darkThemePalette import DarkThemePalette
 
 class Tools(Enum):
     """ Enum to represent the annotation tools within the page"""
@@ -32,10 +32,12 @@ class AnnotationPage():
         self.app = app
         self.ui = app.ui
         self.__setupStyleSheet()
+        self.__setupPagePalette()
 
         # Connecting signals and slots for the page
         self.__connectIconHover()
         self.__connectAnnotationToolButtons()
+
 
         self.__createClassSelectionList()
 
@@ -57,6 +59,17 @@ class AnnotationPage():
         # self.imageFrameResizeEvent = ResizeEvent(self.ui.imageFrame)
         # self.ui.imageFrame.installEventFilter(self.imageFrameResizeEvent)    
 
+    def __setupPagePalette(self) -> None:
+        self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() + 
+                                                   f'background: {DarkThemePalette.panelColour.value};')
+        self.ui.classInfoFrame.setStyleSheet(self.ui.classInfoFrame.styleSheet() + 
+                                             f'background: {DarkThemePalette.panelColour.value};')
+        self.ui.imageFrame.setStyleSheet(self.ui.imageFrame.styleSheet() +
+                                         f'background: {DarkThemePalette.backgroundSunkenColour.value};')                                             
+        self.ui.imageInfoFrame.setStyleSheet(self.ui.imageInfoFrame.styleSheet() +
+                                             f'background: {DarkThemePalette.panelColour.value};')  
+        self.ui.classSelectAnnoPageFrame.setStyleSheet(self.ui.classSelectAnnoPageFrame.styleSheet() +
+                                                       f'background: {DarkThemePalette.panelSunkenColour.value};')    
     def __setupStyleSheet(self) -> None:
         
         # Setting up edit switch
@@ -67,8 +80,9 @@ class AnnotationPage():
 
         self.ui.classAddAnnoPageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.ui.classAddAnnoPageBtn.setStyleSheet("QPushButton{"
-                                                  "background-color: rgb(85, 87, 83);"
-                                                  "border-radius: 8px;}"
+                                                  "background-color: #505050;"
+                                                  "border-radius: 12px;"
+                                                  "border: 1px solid #606060;}"
                                                   "QPushButton::hover{"
                                                   "background-color : rgb(105, 105, 105);"
                                                   "color: rgb(255, 255, 255);}")

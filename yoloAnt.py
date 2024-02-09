@@ -24,6 +24,8 @@ from notificationManager import NotificationManager
 
 from events.hoverEvent import HoverEvent
 
+from assets.darkThemePalette import DarkThemePalette
+
 app = None
 
 class Pages(Enum):
@@ -50,6 +52,9 @@ class YoloAnt(QMainWindow):
         self.currentPage = Pages.StartPage
         self.project = None
         self.infoDialog = None
+
+        # Setup style sheet of application
+        self.__setupAppStyleSheet()
         
         # Starting the notification manager
         self.notificationManager = NotificationManager(self)
@@ -113,28 +118,38 @@ class YoloAnt(QMainWindow):
             self.currentPage = Pages.AnnotationPage
             # Because of hover event, update check and also icon TODO: explore a cleaner alternative to checking / unchecking
             self.ui.annotTabBtn.setChecked(True)
+            self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{DarkThemePalette.selectionColour.value};}}")
             self.ui.projectsTabBtn.setChecked(False)
             self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
+            self.ui.projectsTabIndicatorFrame.setStyleSheet(f'QFrame{{background-color: {DarkThemePalette.barColour.value};}}')
             self.ui.mlTabBtn.setChecked(False)
             self.ui.mlTabBtn.setIcon(QIcon("icons/icons8-ant-head-50.png"))
+            self.ui.mlTabIndicatorFrame.setStyleSheet(f'QFrame{{background-color: {DarkThemePalette.barColour.value};}}')
             self.ui.infoBtn.setChecked(False)
             self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
+
         elif(page is Pages.ProjectPage):
             self.currentPage = Pages.ProjectPage
             self.ui.projectsTabBtn.setChecked(True)
+            self.ui.projectsTabIndicatorFrame.setStyleSheet(f'QFrame{{background-color: {DarkThemePalette.selectionColour.value};}}')
             self.ui.annotTabBtn.setChecked(False)
             self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
+            self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{DarkThemePalette.barColour.value};}}")
             self.ui.mlTabBtn.setChecked(False)
             self.ui.mlTabBtn.setIcon(QIcon("icons/icons8-ant-head-50.png"))
+            self.ui.mlTabIndicatorFrame.setStyleSheet(f'QFrame{{background-color: {DarkThemePalette.barColour.value};}}')
             self.ui.infoBtn.setChecked(False)
             self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
         elif(page is Pages.MachineLearningPage):
             self.currentPage = Pages.MachineLearningPage
             self.ui.mlTabBtn.setChecked(True)
+            self.ui.mlTabIndicatorFrame.setStyleSheet(f'QFrame{{background-color: {DarkThemePalette.selectionColour.value};}}')
             self.ui.annotTabBtn.setChecked(False)
             self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
+            self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{DarkThemePalette.barColour.value};}}")
             self.ui.projectsTabBtn.setChecked(False)
             self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
+            self.ui.projectsTabIndicatorFrame.setStyleSheet(f'QFrame{{background-color: {DarkThemePalette.barColour.value};}}')
             self.ui.infoBtn.setChecked(False)
             self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
 
@@ -194,6 +209,12 @@ class YoloAnt(QMainWindow):
                                 "background-color : #61635e;"
                                 "border-radius: 20px;"
                                 "}")
+    def __setupAppStyleSheet(self) -> None:
+        """ Sets up the colour palette of the application """
+        self.ui.menuBar.setStyleSheet(self.ui.menuBar.styleSheet() + f'background: {DarkThemePalette.menuBarColour.value};')
+        self.ui.leftMenuSubContainer.setStyleSheet(self.ui.leftMenuSubContainer.styleSheet() + f'background: {DarkThemePalette.barColour.value};')
+        self.ui.bottomBarFrame.setStyleSheet(self.ui.bottomBarFrame.styleSheet() + f'background: {DarkThemePalette.barColour.value};')
+        self.ui.stackedWidget.setStyleSheet(self.ui.stackedWidget.styleSheet() + f'background: {DarkThemePalette.backgroundColour.value};')
 
 def signal_handler(sig, frame) -> None:
     """ Handles unix signals """
