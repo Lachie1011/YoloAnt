@@ -8,7 +8,7 @@ from PyQt6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, 
 
 from boundingBox import BoundingBox
 from pages.annotationPage import Tools
-from customWidgets.customRectangleWidget import CustomRectangleWidget
+from customWidgets.customRectangleGraphicsItem import CustomRectangleGraphicsItem
 
 
 class AnnotationCanvasWidget(QGraphicsView):
@@ -62,17 +62,10 @@ class AnnotationCanvasWidget(QGraphicsView):
 
     def createRect(self, x: float, y: float, width: float, height: float, store: bool):
         """ Creates a rectangle based on mouse location and adds the rectangle to the scene """
-        # Pen
-        self.rectPen = QPen()
-        self.rectPen.setWidth(3)  #TODO: width could be read in via some config script
-        self.rectPen.setColor(self.classColour)
-
         # Creating the rectangle
         # rect = self.scene.addRect(x, y, width, height)
-        rect = CustomRectangleWidget(x, y, width, height, self.scene, self.classColour)
+        rect = CustomRectangleGraphicsItem(x, y, width, height, self.scene, self.classColour)
         self.scene.addItem(rect)
-        rect.setPen(self.rectPen)
-        rect.setFlags(QGraphicsItem.GraphicsItemFlag.ItemIsMovable | QGraphicsItem.GraphicsItemFlag.ItemIsSelectable | QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges)
 
         if store:
             boundingBox = BoundingBox(x, y, width, height, self.classColour)

@@ -1,15 +1,16 @@
 """
-    customRectangleWidget.py
+    customRectangleGraphicsItem.py
 """
 
-from enum import Enum
 from PyQt6.QtCore import Qt, QEvent, QPointF, QPoint
 from PyQt6.QtGui import QPixmap, QColor, QPen, QBrush
 from PyQt6.QtWidgets import QGraphicsRectItem, QGraphicsItem, QGraphicsEllipseItem
 
+from customWidgets.customEllipseGraphicsItem import CustomEllipseGraphicsItem
 
-class CustomRectangleWidget(QGraphicsRectItem):
-    """ A custom widget that reimplements QGraphicsRectItem """
+
+class CustomRectangleGraphicsItem(QGraphicsRectItem):
+    """ A custom graphics item that reimplements QGraphicsRectItem """
     def __init__(self, x, y, width, height, scene, classColour):
         super().__init__(x, y, width, height)
 
@@ -23,7 +24,20 @@ class CustomRectangleWidget(QGraphicsRectItem):
 
         self.editable = False
 
+        # TODO: create a dict to hold all the handles and states
+        # we will iter
+
         self.handles = []
+        self.handleSelected = False
+
+        # Setting pen
+        self.rectPen = QPen()
+        self.rectPen.setWidth(3)  #TODO: width could be read in via some config script
+        self.rectPen.setColor(self.classColour)
+        self.setPen(self.rectPen)
+
+        # Setting flags
+        self.setFlags(QGraphicsItem.GraphicsItemFlag.ItemIsMovable | QGraphicsItem.GraphicsItemFlag.ItemIsSelectable | QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges)
 
     def itemChange(self, change, value):
         """ Reimplements the itemChange function """
@@ -32,8 +46,11 @@ class CustomRectangleWidget(QGraphicsRectItem):
                 self.editable = True
                 self.addHandles()
             else:
-                self.editable = False
-                self.removeHandles()
+                # TODO: if the item has lost selected, check that one of its handles has not been selected
+                # loop through dict
+                # if not handleSelected: 
+                #     self.editable = False
+                #     self.removeHandles()
 
         return super().itemChange(change, value)
 
@@ -42,16 +59,10 @@ class CustomRectangleWidget(QGraphicsRectItem):
         # If we already have handles dont add anymore TODO: fix warning when we already have handles
 
         # Creating top-left, top-right, bottom-left, bottom-right "handles"
-        self.topLeftHandle = QGraphicsEllipseItem(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self)
-        self.topRightHandle = QGraphicsEllipseItem(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self)
-        self.bottomLeftHandle = QGraphicsEllipseItem(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self)
-        self.bottomRightHandle = QGraphicsEllipseItem(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self)
-
-        # Colouring the handles
-        self.topLeftHandle.setBrush(QBrush(self.classColour, style = Qt.BrushStyle.NoBrush))
-        self.topRightHandle.setBrush(QBrush(self.classColour, style = Qt.BrushStyle.SolidPattern))
-        self.bottomLeftHandle.setBrush(QBrush(self.classColour, style = Qt.BrushStyle.SolidPattern))
-        self.bottomRightHandle.setBrush(QBrush(self.classColour, style = Qt.BrushStyle.SolidPattern))
+        self.topLeftHandle = CustomEllipseGraphicsItem(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self, self.classColour)
+        self.topRightHandle = CustomEllipseGraphicsItem(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self, self.classColour)
+        self.bottomLeftHandle = CustomEllipseGraphicsItem(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self, self.classColour)
+        self.bottomRightHandle = CustomEllipseGraphicsItem(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self, self.classColour)
 
         # Appending handles to list to track
         self.handles.append(self.topLeftHandle)
