@@ -69,10 +69,10 @@ class AnnotationCanvasWidget(QGraphicsView):
 
         # Creating the rectangle
         # rect = self.scene.addRect(x, y, width, height)
-        rect = CustomRectangleWidget(x, y, width, height, self.scene)
+        rect = CustomRectangleWidget(x, y, width, height, self.scene, self.classColour)
         self.scene.addItem(rect)
         rect.setPen(self.rectPen)
-        rect.setFlags(QGraphicsItem.GraphicsItemFlag.ItemIsMovable | QGraphicsItem.GraphicsItemFlag.ItemIsSelectable)
+        rect.setFlags(QGraphicsItem.GraphicsItemFlag.ItemIsMovable | QGraphicsItem.GraphicsItemFlag.ItemIsSelectable | QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges)
 
         if store:
             boundingBox = BoundingBox(x, y, width, height, self.classColour)
@@ -101,9 +101,3 @@ class AnnotationCanvasWidget(QGraphicsView):
         if self.mode == Tools.annotationTool:
             self.resetScene()
             self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), True)
-
-    def itemChange(self, change, value):
-        """ Handles changes to an item """
-        super(AnnotationCanvasWidget, self).itemChange(change, value)
-        if change == QGraphicsItem.ItemSelectedChanged: 
-            print("yooo")

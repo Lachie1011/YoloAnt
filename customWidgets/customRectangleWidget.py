@@ -3,70 +3,71 @@
 """
 
 from enum import Enum
-from PyQt6.QtCore import Qt, QEvent, QPointF
-from PyQt6.QtGui import QPixmap, QColor, QPen
+from PyQt6.QtCore import Qt, QEvent, QPointF, QPoint
+from PyQt6.QtGui import QPixmap, QColor, QPen, QBrush
 from PyQt6.QtWidgets import QGraphicsRectItem, QGraphicsItem, QGraphicsEllipseItem
 
 
 class CustomRectangleWidget(QGraphicsRectItem):
     """ A custom widget that reimplements QGraphicsRectItem """
-    def __init__(self, x, y, width, height, scene):
+    def __init__(self, x, y, width, height, scene, classColour):
         super().__init__(x, y, width, height)
 
         self.scene = scene
+        self.classColour = classColour
 
         # Handle definitions
-        self.DIAMETER = 3  # technically you set a length and width for the ellipse but diameter
-        self.X_BORDER = 3
-        self.Y_BORDER = 3
+        self.DIAMETER = 12    # technically you set a length and width for the ellipse but diameter
+        self.X_BORDER = 0
+        self.Y_BORDER = 0
 
         self.editable = False
+
+        self.handles = []
 
     def itemChange(self, change, value):
         """ Reimplements the itemChange function """
         if change == QGraphicsItem.GraphicsItemChange.ItemSelectedChange:
-            # TODO: check that item is in a selected state
             if(value):
                 self.editable = True
                 self.addHandles()
-                print("Item is selected")
             else:
                 self.editable = False
+                self.removeHandles()
+
         return super().itemChange(change, value)
 
     def addHandles(self):
         """ Adds editable handles to the rectItem """
+        # If we already have handles dont add anymore TODO: fix warning when we already have handles
+
         # Creating top-left, top-right, bottom-left, bottom-right "handles"
-        
-        # mapped = self.mapToScene(self.x(), self.y())
+        self.topLeftHandle = QGraphicsEllipseItem(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self)
+        self.topRightHandle = QGraphicsEllipseItem(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self)
+        self.bottomLeftHandle = QGraphicsEllipseItem(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self)
+        self.bottomRightHandle = QGraphicsEllipseItem(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self)
 
-        # topLeftHandle = QGraphicsEllipseItem(self.scenePos().x() - self.X_BORDER, self.scenePos().y() + self.Y_BORDER, self.DIAMETER, self.DIAMETER, self)
-        # topRightHandle = QGraphicsEllipseItem(mapped.x() + self.rect().width() + self.X_BORDER, mapped.y() + self.Y_BORDER, self.DIAMETER, self.DIAMETER, self)
-        # bottomLeftHandle = QGraphicsEllipseItem(mapped.x() - self.X_BORDER, mapped.y() - self.rect().height() - self.Y_BORDER, self.DIAMETER, self.DIAMETER, self)
-        # bottomRightHandle = QGraphicsEllipseItem(mapped.x() + self.rect().width() + self.X_BORDER, mapped.y() - self.rect().height() - self.Y_BORDER, self.DIAMETER, self.DIAMETER, self)
-        # # TODO: handle Constraints here
+        # Colouring the handles
+        self.topLeftHandle.setBrush(QBrush(self.classColour, style = Qt.BrushStyle.NoBrush))
+        self.topRightHandle.setBrush(QBrush(self.classColour, style = Qt.BrushStyle.SolidPattern))
+        self.bottomLeftHandle.setBrush(QBrush(self.classColour, style = Qt.BrushStyle.SolidPattern))
+        self.bottomRightHandle.setBrush(QBrush(self.classColour, style = Qt.BrushStyle.SolidPattern))
 
-        print(self.scenePos().x())
-        print(self.scenePos().y())
+        # Appending handles to list to track
+        self.handles.append(self.topLeftHandle)
+        self.handles.append(self.topRightHandle)
+        self.handles.append(self.bottomLeftHandle)
+        self.handles.append(self.bottomRightHandle)
 
-        print(self.pos().x())
-        print(self.pos().y())
-
-        print(self.x())
-        print(self.y())
-
-        # print(self.mapToScene(self.x(), self.y()))
-        # print(self.mapToScene(self.x(), self.y()))
-        # print(self.mapToScene(self.x(), self.y()))
-
-
-
-        topLeftHandle = QGraphicsEllipseItem(self.scenePos().x(), self.scenePos().y(), 5, 5, self)
         # Adding handles to scene
-        self.scene.addItem(topLeftHandle)
-        # self.scene.addItem(topRightHandle)
-        # self.scene.addItem(bottomLeftHandle)
-        # self.scene.addItem(bottomRightHandle)
+        for handle in self.handles:
+            self.scene.addItem(handle)
+
+    def removeHandles(self):
+        """ Removes handles from the rect item """
+        for handle in self.handles:
+            self.scene.removeItem(handle)
+        self.handles = []
 
     def mousePressEvent(self, event):
         """ Reimplements the mouse press event """
