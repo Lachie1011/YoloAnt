@@ -15,7 +15,7 @@ from events.resizeEvent import ResizeEvent
 from utils.switch import Switch
 from customWidgets.customQObjects import CustomClassQListWidget
 from customWidgets.annoPageListWidgetItem import AnnoPageListWidgetItem
-from assets.darkThemePalette import DarkThemePalette
+
 
 class Tools(Enum):
     """ Enum to represent the annotation tools within the page"""
@@ -60,32 +60,32 @@ class AnnotationPage():
         # self.ui.imageFrame.installEventFilter(self.imageFrameResizeEvent)    
 
     def __setupPagePalette(self) -> None:
-        self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() + 
-                                                   f'background: {DarkThemePalette.panelColour.value};')
-        self.ui.classInfoFrame.setStyleSheet(self.ui.classInfoFrame.styleSheet() + 
-                                             f'background: {DarkThemePalette.panelColour.value};')
+        """ Sets the colour palette for the page widgets """
         self.ui.imageFrame.setStyleSheet(self.ui.imageFrame.styleSheet() +
-                                         f'background: {DarkThemePalette.backgroundSunkenColour.value};')                                             
+                                         f"background: {self.app.theme.colours['app.sunken']};")       
+        self.ui.classInfoFrame.setStyleSheet(self.ui.classInfoFrame.styleSheet() + 
+                                             f"background: {self.app.theme.colours['panel.background']};")                                      
         self.ui.imageInfoFrame.setStyleSheet(self.ui.imageInfoFrame.styleSheet() +
-                                             f'background: {DarkThemePalette.panelColour.value};')  
+                                             f"background: {self.app.theme.colours['panel.background']};")  
+        self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() + 
+                                                   f"background: {self.app.theme.colours['panel.background']};")
         self.ui.classSelectAnnoPageFrame.setStyleSheet(self.ui.classSelectAnnoPageFrame.styleSheet() +
-                                                       f'background: {DarkThemePalette.panelSunkenColour.value};')    
+                                                       f"background: {self.app.theme.colours['panel.sunken']};")    
     def __setupStyleSheet(self) -> None:
-        
+        """ Sets the style sheet for the page """
         # Setting up edit switch
         self.editSwtichLbl = QLabel('Edit')
         self.editSwtichLbl.setStyleSheet("QLabel{"
-                                          "color: rgb(255, 255, 255);}")
+                                         f"color: {self.app.theme.colours['font.regular']};}}")
         self.editSwtichLbl.setFixedHeight(18)
 
-        self.ui.classAddAnnoPageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        # Create class button
         self.ui.classAddAnnoPageBtn.setStyleSheet("QPushButton{"
-                                                  "background-color: #505050;"
-                                                  "border-radius: 12px;"
-                                                  "border: 1px solid #606060;}"
+                                                  f"background-color: {self.app.theme.colours['buttonFilled.background']};"
+                                                  "border-radius: 12px;}"
                                                   "QPushButton::hover{"
-                                                  "background-color : rgb(105, 105, 105);"
-                                                  "color: rgb(255, 255, 255);}")
+                                                  f"background-color : {self.app.theme.colours['buttonFilled.hover']};"
+                                                  f"color: {self.app.theme.colours['font.regular']};}}")
 
         self.editSwitchBtn = Switch()
 
@@ -101,16 +101,14 @@ class AnnotationPage():
 
         # Status combobox style
         self.ui.statusComboBox.setStyleSheet("QComboBox{"
-                                             "background-color: rgb(45, 45, 45);}"
+                                             f"background-color: {self.app.theme.colours['panel.sunken']};}}"
                                              "QComboBox::drop-down:button{"
-                                             "background-color: rgb(45, 45, 45);"
+                                             f"background-color: {self.app.theme.colours['panel.sunken']};"
                                              "border-radius: 5px}"
                                              "QComboBox::drop-down{"
-                                             "color: rgb(45, 45, 45);}"
+                                             f"color: {self.app.theme.colours['panel.sunken']};}}"
                                              "QComboBox::down-arrow{"
                                              "image: url(icons/icons8-drop-down-arrow-10.png)}")
-
-
 
     def __createClassSelectionList(self) -> None:
         """ Creates the class list """

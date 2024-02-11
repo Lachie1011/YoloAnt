@@ -537,6 +537,9 @@ background-color: #151515;</string>
               </item>
               <item>
                <widget class="QPushButton" name="createProjectBtn">
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
                 <property name="layoutDirection">
                  <enum>Qt::LeftToRight</enum>
                 </property>
@@ -660,6 +663,9 @@ background-color: #151515;</string>
               </item>
               <item>
                <widget class="QPushButton" name="openProjecBtn">
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
                 <property name="text">
                  <string/>
                 </property>
@@ -1370,6 +1376,9 @@ border-radius: 8px;</string>
                            <height>25</height>
                           </size>
                          </property>
+                         <property name="cursor">
+                          <cursorShape>PointingHandCursor</cursorShape>
+                         </property>
                          <property name="styleSheet">
                           <string notr="true">background-color: #606060;
 border-radius: 12px;</string>
@@ -1391,7 +1400,7 @@ border-radius: 12px;</string>
                        </size>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">background-color: #505050;</string>
+                       <string notr="true"/>
                       </property>
                       <property name="frameShape">
                        <enum>QFrame::StyledPanel</enum>
@@ -1501,8 +1510,7 @@ border-radius: 5px;
                     <item>
                      <widget class="QLabel" name="imageName">
                       <property name="styleSheet">
-                       <string notr="true">border : 1px solid #454545;
-font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
+                       <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
                       </property>
                       <property name="text">
                        <string>PictureOfDog.png</string>
@@ -1540,7 +1548,7 @@ font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border : 1px solid #454545</string>
+                    <string notr="true"/>
                    </property>
                    <property name="frameShape">
                     <enum>QFrame::StyledPanel</enum>
@@ -1673,7 +1681,7 @@ font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border : 1px solid #454545</string>
+                    <string notr="true"/>
                    </property>
                    <property name="frameShape">
                     <enum>QFrame::StyledPanel</enum>
@@ -1793,7 +1801,7 @@ border-radius: 3px;</string>
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border : 1px solid #454545</string>
+                    <string notr="true"/>
                    </property>
                    <property name="frameShape">
                     <enum>QFrame::StyledPanel</enum>
