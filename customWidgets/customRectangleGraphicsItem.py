@@ -1,12 +1,12 @@
 """
-    customRectangleGraphicsItem.py
+    customRectangleGraphicsItem.py  
 """
 
 from PyQt6.QtCore import Qt, QEvent, QPointF, QPoint
 from PyQt6.QtGui import QPixmap, QColor, QPen, QBrush
 from PyQt6.QtWidgets import QGraphicsRectItem, QGraphicsItem, QGraphicsEllipseItem
 
-from customWidgets.customEllipseGraphicsItem import CustomEllipseGraphicsItem
+from customWidgets.customEllipseGraphicsItem import CustomEllipseGraphicsItem, Handles
 
 
 class CustomRectangleGraphicsItem(QGraphicsRectItem):
@@ -24,11 +24,7 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
 
         self.editable = False
 
-        # TODO: create a dict to hold all the handles and states
-        # we will iter
-
         self.handles = []
-        self.handleSelected = False
 
         # Setting pen
         self.rectPen = QPen()
@@ -37,57 +33,95 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
         self.setPen(self.rectPen)
 
         # Setting flags
-        self.setFlags(QGraphicsItem.GraphicsItemFlag.ItemIsMovable | QGraphicsItem.GraphicsItemFlag.ItemIsSelectable | QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges)
+        self.setFlags(QGraphicsItem.GraphicsItemFlag.ItemIsMovable | 
+                        QGraphicsItem.GraphicsItemFlag.ItemIsSelectable | 
+                        QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges)
 
     def itemChange(self, change, value):
         """ Reimplements the itemChange function """
         if change == QGraphicsItem.GraphicsItemChange.ItemSelectedChange:
             if(value):
-                self.editable = True
-                self.addHandles()
+                self.toggleEditMode(True)
             else:
-                # TODO: if the item has lost selected, check that one of its handles has not been selected
-                # loop through dict
-                # if not handleSelected: 
-                #     self.editable = False
-                #     self.removeHandles()
-
+                self.toggleEditMode(False)
         return super().itemChange(change, value)
 
-    def addHandles(self):
-        """ Adds editable handles to the rectItem """
-        # If we already have handles dont add anymore TODO: fix warning when we already have handles
+    def toggleEditMode(self, editable: bool) -> None:
+        """ Reponsible for toggling the edit mode on a rectangle """
+        if editable:
+            self.editable = True
+            self.addHandles()
+        else:
+            # Dont remove handles from rectangle just because it lost selection - a handle might be selected
+            if self.handleIsSelected():
+                return
+            self.editable = False
+            self.removeHandles()
 
-        # Creating top-left, top-right, bottom-left, bottom-right "handles"
-        self.topLeftHandle = CustomEllipseGraphicsItem(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self, self.classColour)
-        self.topRightHandle = CustomEllipseGraphicsItem(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self, self.classColour)
-        self.bottomLeftHandle = CustomEllipseGraphicsItem(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self, self.classColour)
-        self.bottomRightHandle = CustomEllipseGraphicsItem(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, self.DIAMETER, self.DIAMETER, self, self.classColour)
+    def updateRectangle(self, dx, dy, handle) -> None:
+        """ Updates position and geometry of a rectangle based on a handle """
+        x = self.rect().x() - dx
+        y = self.rect().y() - dy
+        width = self.rect().width() 
 
-        # Appending handles to list to track
-        self.handles.append(self.topLeftHandle)
-        self.handles.append(self.topRightHandle)
-        self.handles.append(self.bottomLeftHandle)
-        self.handles.append(self.bottomRightHandle)
+        if handle is Handle.topLeft:
+            print("tl")
+        if handle is Handle.topRight:
+            print("tr")
+        if handle is Handle.bottomLeft:
+            print("bl")
+        if handle is Handle.bottomRight:
+            print("br")
 
-        # Adding handles to scene
+    def handleIsSelected(self) -> bool:
+        """ Loops through all handles to determine if a handle has been selected """
         for handle in self.handles:
-            self.scene.addItem(handle)
+            if handle.selected:
+                return True
+        return False
 
-    def removeHandles(self):
+    def addHandles(self) -> None:
+        """ Adds editable handles to the rectItem """
+        # Only add handles once 
+        if not self.handles:
+            # Creating top-left, top-right, bottom-left, bottom-right handles, this also adds them to the scene
+            self.topLeftHandle = CustomEllipseGraphicsItem(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, 
+                                                            self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, 
+                                                            self.DIAMETER, self.DIAMETER, self, self.classColour, "top left")
+            self.topRightHandle = CustomEllipseGraphicsItem(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, 
+                                                            self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, 
+                                                            self.DIAMETER, self.DIAMETER, self, self.classColour, "top right")
+            self.bottomLeftHandle = CustomEllipseGraphicsItem(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, 
+                                                              self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, 
+                                                              self.DIAMETER, self.DIAMETER, self, self.classColour, "bottom left")
+            self.bottomRightHandle = CustomEllipseGraphicsItem(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, 
+                                                              self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, 
+                                                              self.DIAMETER, self.DIAMETER, self, self.classColour, "bottom right")
+            # Appending handles to list to track
+            self.handles.append(self.topLeftHandle)
+            self.handles.append(self.topRightHandle)
+            self.handles.append(self.bottomLeftHandle)
+            self.handles.append(self.bottomRightHandle)
+        
+        # Show all the handles:
+        for handle in self.handles:
+            if not handle.isVisible():
+                handle.show()
+            
+    def removeHandles(self) -> None:
         """ Removes handles from the rect item """
         for handle in self.handles:
-            self.scene.removeItem(handle)
-        self.handles = []
+            handle.hide()
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> None:
         """ Reimplements the mouse press event """
         return super().mousePressEvent(event)
 
-    def mouseMoveEvent(self, event):
-        """ Reimplements the mouse move event """
+    def mouseMoveEvent(self, event) -> None:
+        """ Reimplements the mouse move event """ 
         return super().mouseMoveEvent(event)
     
-    def mouseReleaseEvent(self, event):
+    def mouseReleaseEvent(self, event) -> None:
         """ Reimplements the mouse release event """
         return super().mouseReleaseEvent(event)
+
