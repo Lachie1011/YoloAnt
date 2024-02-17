@@ -2,7 +2,7 @@
     customRectangleGraphicsItem.py  
 """
 
-from PyQt6.QtCore import Qt, QEvent, QPointF, QPoint
+from PyQt6.QtCore import Qt, QEvent, QPointF, QPoint, QRect
 from PyQt6.QtGui import QPixmap, QColor, QPen, QBrush
 from PyQt6.QtWidgets import QGraphicsRectItem, QGraphicsItem, QGraphicsEllipseItem
 
@@ -19,12 +19,14 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
 
         # Handle definitions
         self.DIAMETER = 12    # technically you set a length and width for the ellipse but diameter
+        
+        # Bounding box definitions
         self.X_BORDER = 0
         self.Y_BORDER = 0
-
-        self.editable = False
-
+        self.MIN_AREA = 1
+        
         self.handles = []
+        self.editable = False
 
         # Setting pen
         self.rectPen = QPen()
@@ -60,18 +62,66 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
 
     def updateRectangle(self, dx, dy, handle) -> None:
         """ Updates position and geometry of a rectangle based on a handle """
-        x = self.rect().x() - dx
-        y = self.rect().y() - dy
-        width = self.rect().width() 
+        x = self.rect().x()
+        y = self.rect().y()
+        width = self.rect().width()
+        height = self.rect().height()        
 
-        if handle is Handle.topLeft:
-            print("tl")
-        if handle is Handle.topRight:
-            print("tr")
-        if handle is Handle.bottomLeft:
-            print("bl")
-        if handle is Handle.bottomRight:
-            print("br")
+        if handle == Handles.topLeft:
+            x = self.rect().x() - dx
+            y = self.rect().y() - dy
+            width = self.rect().width() + dx
+            height = self.rect().height() + dy            
+        if handle == Handles.topRight:
+            # x doesnt change
+            y = self.rect().y() - dy
+            width = self.rect().width() - dx
+            height = self.rect().height() + dy 
+        if handle == Handles.bottomLeft:
+            x = self.rect().x() - dx
+            # y doesnt change
+            width = self.rect().width() + dx
+            height = self.rect().height() - dy
+        if handle == Handles.bottomRight:
+            # x doesnt change
+            # y doesnt change
+            width = self.rect().width() - dx
+            height = self.rect().height() - dy
+
+        # constraints
+        if (width * height) <= self.MIN_AREA:
+            return
+        print("BEFORE")
+        print(self.rect())
+        self.setRect(x, y, width, height)
+        print("AFTER")
+        print(self.rect())
+        self.updateHandlePositions(handle)
+
+    def updateHandlePositions(self, handle) -> None:
+        """ Handles updates to handle positions """
+        if handle != Handles.topLeft:
+            self.topLeftHandle.setRect(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, 
+                                        self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, 
+                                        self.DIAMETER, self.DIAMETER)
+        if handle != Handles.topRight:
+            self.topRightHandle.setRect(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, 
+                                         self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, 
+                                         self.DIAMETER, self.DIAMETER)
+        if handle != Handles.bottomLeft:
+            self.bottomLeftHandle.setRect(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, 
+                                          self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, 
+                                          self.DIAMETER, self.DIAMETER)
+        if handle != Handles.bottomRight:
+            self.bottomRightHandle.setRect(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, 
+                                           self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, 
+                                           self.DIAMETER, self.DIAMETER)
+        for handle in self.handles:
+            print(handle.handleType)
+            print(vars(handle))
+            if handle.handleType == Handles.topLeft:
+                print("TOPLEFT")
+                print(handle.rect())
 
     def handleIsSelected(self) -> bool:
         """ Loops through all handles to determine if a handle has been selected """
@@ -87,16 +137,16 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
             # Creating top-left, top-right, bottom-left, bottom-right handles, this also adds them to the scene
             self.topLeftHandle = CustomEllipseGraphicsItem(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, 
                                                             self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, 
-                                                            self.DIAMETER, self.DIAMETER, self, self.classColour, "top left")
+                                                            self.DIAMETER, self.DIAMETER, self, self.classColour, Handles.topLeft)
             self.topRightHandle = CustomEllipseGraphicsItem(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, 
                                                             self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, 
-                                                            self.DIAMETER, self.DIAMETER, self, self.classColour, "top right")
+                                                            self.DIAMETER, self.DIAMETER, self, self.classColour, Handles.topRight)
             self.bottomLeftHandle = CustomEllipseGraphicsItem(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, 
                                                               self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, 
-                                                              self.DIAMETER, self.DIAMETER, self, self.classColour, "bottom left")
+                                                              self.DIAMETER, self.DIAMETER, self, self.classColour, Handles.bottomLeft)
             self.bottomRightHandle = CustomEllipseGraphicsItem(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, 
                                                               self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, 
-                                                              self.DIAMETER, self.DIAMETER, self, self.classColour, "bottom right")
+                                                              self.DIAMETER, self.DIAMETER, self, self.classColour, Handles.bottomRight)
             # Appending handles to list to track
             self.handles.append(self.topLeftHandle)
             self.handles.append(self.topRightHandle)
@@ -112,16 +162,4 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
         """ Removes handles from the rect item """
         for handle in self.handles:
             handle.hide()
-
-    def mousePressEvent(self, event) -> None:
-        """ Reimplements the mouse press event """
-        return super().mousePressEvent(event)
-
-    def mouseMoveEvent(self, event) -> None:
-        """ Reimplements the mouse move event """ 
-        return super().mouseMoveEvent(event)
-    
-    def mouseReleaseEvent(self, event) -> None:
-        """ Reimplements the mouse release event """
-        return super().mouseReleaseEvent(event)
 

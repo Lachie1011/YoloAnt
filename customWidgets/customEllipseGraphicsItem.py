@@ -8,11 +8,12 @@ from PyQt6.QtGui import QPixmap, QColor, QPen, QBrush
 from PyQt6.QtWidgets import QGraphicsRectItem, QGraphicsItem, QGraphicsEllipseItem
 
 
-class Handles(enum):
-    topLeft,
-    topRight,
-    bottomLeft, 
-    bottomRight
+class Handles(Enum):
+    """ An enum to define the possible handles used for a bouding box"""
+    topLeft=0
+    topRight=1
+    bottomLeft=2 
+    bottomRight=3
 
 class CustomEllipseGraphicsItem(QGraphicsEllipseItem):
     """ A custom graphics item that reimplements QGraphicsEllipseItem """
@@ -24,7 +25,6 @@ class CustomEllipseGraphicsItem(QGraphicsEllipseItem):
         self.handleType = handleType  #TODO: make handleType an enum
         
         self.selected = False
-        
         self.lastPos = self.pos()
 
         # Filling the handle
@@ -44,19 +44,22 @@ class CustomEllipseGraphicsItem(QGraphicsEllipseItem):
             else:
                 self.selected = False
                 self.parent.toggleEditMode(False)
-
+        
         if change == QGraphicsItem.GraphicsItemChange.ItemPositionChange:
             # Calculating the change in position
             dx = self.lastPos.x() - self.pos().x()
             dy = self.lastPos.y() - self.pos().y()
             
             # Update parents position wtr to the new position and handleType
-            self.parent.updatePosition(dx, dy, self.handleType)
-
+            self.parent.updateRectangle(dx, dy, self.handleType)
+            self.lastPos = self.pos()
         return super().itemChange(change, value)
 
     def mousePressEvent(self, event):
         """ Reimplements mouse press events for the ellipse item """
         self.selected = True
         return super().mousePressEvent(event)
+
+    def mouseReleaseEvent(self, event):
+        self.lastPos = self.pos()
 
