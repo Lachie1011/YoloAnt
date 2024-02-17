@@ -22,7 +22,7 @@ class CustomEllipseGraphicsItem(QGraphicsEllipseItem):
         
         self.parent = parent
         self.classColour = classColour
-        self.handleType = handleType  #TODO: make handleType an enum
+        self.handleType = handleType
         
         self.selected = False
         self.lastPos = self.pos()
@@ -60,7 +60,7 @@ class CustomEllipseGraphicsItem(QGraphicsEllipseItem):
         return super().mousePressEvent(event)
    
     def mouseReleaseEvent(self, event):
-        # now that the mouse has finished, reset positions
+        # now that the mouse has finished, reset local positions
         self.parent.updateHandlePositions(self.handleType, True)
         self.setPos(0,0)
         self.lastPos = self.pos()
