@@ -49,17 +49,20 @@ class CustomEllipseGraphicsItem(QGraphicsEllipseItem):
             # Calculating the change in position
             dx = self.lastPos.x() - self.pos().x()
             dy = self.lastPos.y() - self.pos().y()
-            
+            self.lastPos = self.pos()
             # Update parents position wtr to the new position and handleType
             self.parent.updateRectangle(dx, dy, self.handleType)
-            self.lastPos = self.pos()
         return super().itemChange(change, value)
 
     def mousePressEvent(self, event):
         """ Reimplements mouse press events for the ellipse item """
         self.selected = True
         return super().mousePressEvent(event)
-
+   
     def mouseReleaseEvent(self, event):
+        # now that the mouse has finished, reset positions
+        self.parent.updateHandlePositions(self.handleType, True)
+        self.setPos(0,0)
         self.lastPos = self.pos()
+        return super().mouseReleaseEvent(event)
 

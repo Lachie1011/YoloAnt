@@ -91,37 +91,28 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
         # constraints
         if (width * height) <= self.MIN_AREA:
             return
-        print("BEFORE")
-        print(self.rect())
-        self.setRect(x, y, width, height)
-        print("AFTER")
-        print(self.rect())
-        self.updateHandlePositions(handle)
 
-    def updateHandlePositions(self, handle) -> None:
+        self.setRect(x, y, width, height)
+        self.updateHandlePositions(handle, False)
+
+    def updateHandlePositions(self, handle, mouseUpdate) -> None:
         """ Handles updates to handle positions """
-        if handle != Handles.topLeft:
+        if handle != Handles.topLeft or mouseUpdate:
             self.topLeftHandle.setRect(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, 
                                         self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, 
                                         self.DIAMETER, self.DIAMETER)
-        if handle != Handles.topRight:
+        if handle != Handles.topRight or mouseUpdate:
             self.topRightHandle.setRect(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, 
                                          self.rect().top() - self.Y_BORDER - self.DIAMETER / 2, 
                                          self.DIAMETER, self.DIAMETER)
-        if handle != Handles.bottomLeft:
+        if handle != Handles.bottomLeft or mouseUpdate:
             self.bottomLeftHandle.setRect(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, 
                                           self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, 
                                           self.DIAMETER, self.DIAMETER)
-        if handle != Handles.bottomRight:
+        if handle != Handles.bottomRight or mouseUpdate:
             self.bottomRightHandle.setRect(self.rect().right() + self.X_BORDER - self.DIAMETER / 2, 
                                            self.rect().bottom() + self.Y_BORDER - self.DIAMETER / 2, 
                                            self.DIAMETER, self.DIAMETER)
-        for handle in self.handles:
-            print(handle.handleType)
-            print(vars(handle))
-            if handle.handleType == Handles.topLeft:
-                print("TOPLEFT")
-                print(handle.rect())
 
     def handleIsSelected(self) -> bool:
         """ Loops through all handles to determine if a handle has been selected """
