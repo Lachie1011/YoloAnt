@@ -6,7 +6,7 @@ import sys
 
 from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtWidgets import QListWidget, QSizePolicy, QVBoxLayout, QSpacerItem
-from PyQt6.QtGui import QCursor 
+from PyQt6.QtGui import QCursor, QFont
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
@@ -24,13 +24,76 @@ class ProjectPage():
         self.app = app
         self.ui = app.ui
 
+        # Setup theme colour palette
+        self.__setupPagePalette()
+
+        # Setup style sheet of page
+        self.__setupStyleSheet()
+        
+        # Create class list
         self.__createClassList()
-        self.__connectButtonHover()
 
         self.numOfClasses = 30
 
         # Connect signals and slots
         self.ui.addClassBtn.clicked.connect(lambda: self.__instantiateCreateClassDialog())
+
+    def __setupPagePalette(self) -> None:
+        self.ui.descriptionFrame.setStyleSheet(self.ui.descriptionFrame.styleSheet() +
+                                               f"background: {self.app.theme.colours['panel.background']};")       
+        self.ui.mlInfoFrame.setStyleSheet(self.ui.mlInfoFrame.styleSheet() + 
+                                          f"background: {self.app.theme.colours['panel.background']};")                                      
+        self.ui.datasetHealthFrame.setStyleSheet(self.ui.datasetHealthFrame.styleSheet() +
+                                             f"background: {self.app.theme.colours['panel.background']};")  
+        self.ui.classInfoFrame.setStyleSheet(self.ui.classInfoFrame.styleSheet() + 
+                                                   f"background: {self.app.theme.colours['panel.background']};")
+                                                
+        self.ui.projectNameLbl.setStyleSheet("QLabel{"
+                                             f"font: 75 bold 16pt {self.app.fontTypeHeader};"
+                                             f"color: {self.app.theme.colours['font.header']};}}") 
+
+        self.ui.mlFrameLbl.setStyleSheet("QLabel{"
+                                         f"font: 75 bold 16pt {self.app.fontTypeHeader};"
+                                         f"color: {self.app.theme.colours['font.header']};}}") 
+
+        self.ui.healthLbl.setStyleSheet("QLabel{"
+                                        f"font: 75 bold 16pt {self.app.fontTypeHeader};"
+                                        f"color: {self.app.theme.colours['font.header']};}}") 
+
+        self.ui.classInfoFrameLbl.setStyleSheet("QLabel{"
+                                                f"font: 75 bold 16pt {self.app.fontTypeHeader};"
+                                                f"color: {self.app.theme.colours['font.header']};}}")
+
+        self.ui.projectDescriptionEdit.setStyleSheet("QTextEdit{"
+                                                     f"font: 75 11pt {self.app.fontTypeRegular};"
+                                                     f"color: {self.app.theme.colours['font.regular']};}}")
+
+        self.ui.colourHeaderLbl.setStyleSheet("QLabel{"
+                                              f"font: 75 12pt {self.app.fontTypeTitle};"
+                                              f"color: {self.app.theme.colours['font.regular']};}}")
+
+        self.ui.classNameLbl.setStyleSheet("QLabel{"
+                                           f"font: 75 12pt {self.app.fontTypeTitle};"
+                                           f"color: {self.app.theme.colours['font.regular']};}}")
+
+        self.ui.classBalanceHeaderLbl.setStyleSheet("QLabel{"
+                                                    f"font: 75 12pt {self.app.fontTypeTitle};"
+                                                    f"color: {self.app.theme.colours['font.regular']};}}")
+
+        self.ui.classInfoBar.setStyleSheet(self.ui.classInfoBar.styleSheet() +
+                                           f"background: {self.app.theme.colours['panel.foreground']}")
+
+    def __setupStyleSheet(self) -> None: 
+        """ Sets the style sheet for the page """
+        self.ui.addClassBtn.setStyleSheet("QPushButton{"
+                                          f"background-color: {self.app.theme.colours['buttonFilled.background']};"
+                                          f"border : 1px solid {self.app.theme.colours['buttonFilled.background']};"
+                                          "border-radius: 10px;"
+                                          f"font: 75 bold 12pt {self.app.fontTypeTitle};}}"
+                                          "QPushButton::hover{"
+                                          f"background-color: {self.app.theme.colours['buttonFilled.hover']};"
+                                          f"border : 1px solid {self.app.theme.colours['buttonFilled.hover']};}}")
+
 
     def __populateFields(self) -> None:
         """ Populates the fields for the project page from the project.yaml """
@@ -62,7 +125,7 @@ class ProjectPage():
     def __createClassList(self) -> None:
         """ Creates the class list """
 
-        self.classListWidget = CustomClassQListWidget(True)
+        self.classListWidget = CustomClassQListWidget(self.app.theme.colours, False)
         self.classListWidget.setObjectName("classListProjectPageWidget")
         self.veritcalSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.classListLayout = QVBoxLayout()
@@ -70,27 +133,9 @@ class ProjectPage():
         self.classListLayout.addItem(self.veritcalSpacer)
         self.ui.classListFrame.setLayout(self.classListLayout)
 
-    def __connectButtonHover(self) -> None:
-        """ 
-            Installs the hover event filter onto the project page buttons.
-        """
-    
-        # Applying hover events and cursor change to Navigation Buttons
-        self.ui.addClassBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.ui.addClassBtn.setStyleSheet("QPushButton{"
-                                          "background-color: rgb(85, 87, 83);"
-                                          "border : 1px solid;"
-                                          "border-radius: 10px;"
-                                          "border-color:  rgb(85, 87, 83);"
-                                          "font: 75 bold 12pt 'Gotham Rounded';}"
-                                          "QPushButton::hover{background-color : rgb(105, 105, 105);"
-                                          "border : 1px solid rgb(105, 105, 105);}")
-
-
-
     def __instantiateCreateClassDialog(self) -> None:
         """ Instanciates the create class dialog """
-        self.createClassDialog = CreateClassDialog(self.classListWidget, self.numOfClasses)
+        self.createClassDialog = CreateClassDialog(self.classListWidget, self.numOfClasses, self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeHeader)
 
 
 

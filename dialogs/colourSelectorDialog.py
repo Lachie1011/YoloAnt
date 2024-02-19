@@ -9,24 +9,29 @@ from typing import Union
 
 from PyQt6.QtGui import QColor
 from PyQt6.QtCore import QPoint, Qt
-from PyQt6.QtWidgets import QApplication, QDialog, QGraphicsDropShadowEffect
-
+from PyQt6.QtWidgets import QApplication, QDialog, QGraphicsDropShadowEffect, QHBoxLayout
+from customWidgets.customQObjects import UserInputQLineEdit
 from dialogs.ui.colourSelector_ui import Ui_colourSelector
 
 class ColourSelectorDialog(QDialog):
 
-    def __init__(self):
+    def __init__(self, themePaletteColours: dict, fontRegular: str, fontTitle: str):
         """ Class that creates a colour selector dialog instance """
 
         super(ColourSelectorDialog, self).__init__()
         self.ui = Ui_colourSelector()
         self.ui.setupUi(self)
+        self.themePaletteColours = themePaletteColours
+        self.fontRegular = fontRegular
+        self.fontTitle = fontTitle
 
         # Remove frame from dialog
         self.setWindowTitle("Colour Selector")
         self.setWindowFlags(Qt.WindowType.Tool | Qt.WindowType.FramelessWindowHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
 
+        # Setup style sheet
+        self.__setupStyleSheet()
 
         # Add DropShadow
         self.shadow = QGraphicsDropShadowEffect(self)
@@ -39,10 +44,10 @@ class ColourSelectorDialog(QDialog):
         # Connect update functions
         self.ui.hue.mousePressEvent = self.moveHueSelector
         self.ui.hue.mouseMoveEvent = self.moveHueSelector
-        self.ui.red.textEdited.connect(self.rgbChanged)
-        self.ui.green.textEdited.connect(self.rgbChanged)
-        self.ui.blue.textEdited.connect(self.rgbChanged)
-        self.ui.hex.textEdited.connect(self.hexChanged)
+        self.redLineEdit.textEdited.connect(self.rgbChanged)
+        self.greenLineEdit.textEdited.connect(self.rgbChanged)
+        self.blueLineEdit.textEdited.connect(self.rgbChanged)
+        self.hexLineEdit.textEdited.connect(self.hexChanged)
 
         # # Connect window dragging functions
         self.ui.colourSelectorFrame.mouseMoveEvent = self.moveWindow
@@ -54,13 +59,89 @@ class ColourSelectorDialog(QDialog):
 
         # Connect Ok|Cancel Button Box and X Button
         self.ui.acceptButton.clicked.connect(self.accept)
-        self.ui.rejectButton.clicked.connect(self.reject)
+        self.ui.cancelButton.clicked.connect(self.reject)
 
         self.lastColour = (0, 0, 0)
         self.color = (0, 0, 0)
         self.alpha = 100
 
-    def getColour(self, lastColour: tuple = None):
+    def __setupStyleSheet(self) -> None:
+        """ Sets the style sheet for the page """
+        self.ui.colourSelectorFrame.setStyleSheet("QFrame{"
+                                                  f"background-color: {self.themePaletteColours['app.background']};"
+                                                  "border-radius: 10px;}")
+
+        self.redLineEdit = UserInputQLineEdit(self.themePaletteColours, self.fontRegular)
+        self.redLineEdit.setCursorPosition(0)
+        self.redLineEdit.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.redLineEditFrameLayout = QHBoxLayout()
+        self.redLineEditFrameLayout.addWidget(self.redLineEdit)
+        self.redLineEditFrameLayout.setContentsMargins(0,0,0,0)
+        self.ui.redLineEditFrame.setLayout(self.redLineEditFrameLayout)
+
+        self.greenLineEdit = UserInputQLineEdit(self.themePaletteColours, self.fontRegular)
+        self.greenLineEdit.setCursorPosition(0)
+        self.greenLineEdit.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.greenLineEditFrameLayout = QHBoxLayout()
+        self.greenLineEditFrameLayout.addWidget(self.greenLineEdit)
+        self.greenLineEditFrameLayout.setContentsMargins(0,0,0,0)
+        self.ui.greenLineEditFrame.setLayout(self.greenLineEditFrameLayout)
+
+        self.blueLineEdit = UserInputQLineEdit(self.themePaletteColours, self.fontRegular)
+        self.blueLineEdit.setCursorPosition(0)
+        self.blueLineEdit.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.blueLineEditFrameLayout = QHBoxLayout()
+        self.blueLineEditFrameLayout.addWidget(self.blueLineEdit)
+        self.blueLineEditFrameLayout.setContentsMargins(0,0,0,0)
+        self.ui.blueLineEditFrame.setLayout(self.blueLineEditFrameLayout)
+
+        self.hexLineEdit = UserInputQLineEdit(self.themePaletteColours, self.fontRegular)
+        self.hexLineEdit.setCursorPosition(0)
+        self.hexLineEdit.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.hexLineEditFrameLayout = QHBoxLayout()
+        self.hexLineEditFrameLayout.addWidget(self.hexLineEdit)
+        self.hexLineEditFrameLayout.setContentsMargins(0,0,0,0)
+        self.ui.hexLineEditFrame.setLayout(self.hexLineEditFrameLayout)
+
+        self.ui.redLbl.setStyleSheet("QLabel{"
+                                     f"color: {self.themePaletteColours['font.header']};"
+                                     f"font: 75 bold 12pt {self.fontTitle};}}")
+        
+        self.ui.greenLbl.setStyleSheet("QLabel{"
+                                     f"color: {self.themePaletteColours['font.header']};"
+                                     f"font: 75 bold 12pt {self.fontTitle};}}")
+        
+        self.ui.blueLbl.setStyleSheet("QLabel{"
+                                     f"color: {self.themePaletteColours['font.header']};"
+                                     f"font: 75 bold 12pt {self.fontTitle};}}")
+        
+        self.ui.hexLbl.setStyleSheet("QLabel{"
+                                     f"color: {self.themePaletteColours['font.header']};"
+                                     f"font: 75 bold 12pt {self.fontTitle};}}")
+
+        self.ui.cancelButton.setStyleSheet("QPushButton{"
+                                           f"background-color: {self.themePaletteColours['cancelButton.background']};"
+                                           f"border : 1px solid {self.themePaletteColours['cancelButton.background']};"
+                                           "border-radius: 10px;"
+                                           f"font: 75 bold 12pt {self.fontTitle};"
+                                           f"color: {self.themePaletteColours['font.header']};}}"
+                                           "QPushButton::hover{"
+                                           f"background-color : {self.themePaletteColours['cancelButton.hover']};"
+                                           f"border : 1px solid {self.themePaletteColours['cancelButton.hover']};}}")
+
+        self.ui.acceptButton.setStyleSheet("QPushButton{"
+                                           f"background-color: {self.themePaletteColours['buttonFilled.background']};"
+                                           f"border : 1px solid {self.themePaletteColours['buttonFilled.background']};"
+                                           "border-radius: 10px;"
+                                           f"font: 75 bold 12pt {self.fontTitle};"
+                                           f"color: {self.themePaletteColours['font.header']};}}"
+                                           "QPushButton::hover{"
+                                           f"background-color : {self.themePaletteColours['buttonFilled.hover']};"
+                                           f"border : 1px solid {self.themePaletteColours['buttonFilled.hover']};}}")
+
+
+
+    def getColour(self, themePaletteColours: dict, fontRegular: str, fontTitle: str, lastColour: tuple = None):
         """Open the UI and get a color from the user.
 
         :param lastColour: The color to show as previous color.
@@ -96,18 +177,18 @@ class ColourSelectorDialog(QDialog):
         self.ui.color_view.setStyleSheet(f"border-radius: 5px;background-color: qlineargradient(x1:1, x2:0, stop:0 hsl({h}%,100%,50%), stop:1 #fff);")
 
     def rgbChanged(self):
-        r,g,b = self.i(self.ui.red.text()), self.i(self.ui.green.text()), self.i(self.ui.blue.text())
+        r,g,b = self.i(self.redLineEdit.text()), self.i(self.greenLineEdit.text()), self.i(self.blueLineEdit.text())
         cr,cg,cb = self.clampRGB((r,g,b))
 
-        if r!=cr or (r==0 and self.ui.red.hasFocus()):
+        if r!=cr or (r==0 and self.redLineEdit.hasFocus()):
             self.setRGB((cr,cg,cb))
-            self.ui.red.selectAll()
-        if g!=cg or (g==0 and self.ui.green.hasFocus()):
+            self.redLineEdit.selectAll()
+        if g!=cg or (g==0 and self.greenLineEdit.hasFocus()):
             self.setRGB((cr,cg,cb))
-            self.ui.green.selectAll()
-        if b!=cb or (b==0 and self.ui.blue.hasFocus()):
+            self.greenLineEdit.selectAll()
+        if b!=cb or (b==0 and self.blueLineEdit.hasFocus()):
             self.setRGB((cr,cg,cb))
-            self.ui.blue.selectAll()
+            self.blueLineEdit.selectAll()
 
         self.color = rgb2hsv(r,g,b)
         self.setHSV(self.color)
@@ -115,12 +196,12 @@ class ColourSelectorDialog(QDialog):
         self.ui.color_vis.setStyleSheet(f"background-color: rgb({r},{g},{b})")
 
     def hexChanged(self):
-        hex = self.ui.hex.text()
+        hex = self.hexLineEdit.text()
         try:
             int(hex, 16)
         except ValueError:
             hex = "000000"
-            self.ui.hex.setText("")
+            self.hexLineEdit.setText("")
         r, g, b = hex2rgb(hex)
         self.color = hex2hsv(hex)
         self.setHSV(self.color)
@@ -140,9 +221,9 @@ class ColourSelectorDialog(QDialog):
     # Internal setting functions
     def setRGB(self, c):
         r,g,b = c
-        self.ui.red.setText(str(self.i(r)))
-        self.ui.green.setText(str(self.i(g)))
-        self.ui.blue.setText(str(self.i(b)))
+        self.redLineEdit.setText(str(self.i(r)))
+        self.greenLineEdit.setText(str(self.i(g)))
+        self.blueLineEdit.setText(str(self.i(b)))
 
     def setHSV(self, c):
         self.ui.hue_selector.move(7, int((100 - c[0]) * 1.85))
@@ -150,7 +231,7 @@ class ColourSelectorDialog(QDialog):
         self.ui.selector.move(int(c[1] * 2 - 6), int((200 - c[2] * 2) - 6))
 
     def setHex(self, c):
-        self.ui.hex.setText(c)
+        self.hexLineEdit.setText(c)
 
     def setAlpha(self, a):
         self.ui.alpha.setText(str(a))
@@ -328,7 +409,7 @@ def useLightTheme(value=True) -> None:
     __lightTheme = value
 
 
-def getColour (lastColour: tuple = None) -> tuple:
+def getColour (themePaletteColours: dict, fontRegular: str, fontTitle: str, lastColour: tuple = None) -> tuple:
     """Shows the ColourSelectorDialog and returns the picked color.
 
     :param lastColour: The color to display as previous color.
@@ -338,6 +419,6 @@ def getColour (lastColour: tuple = None) -> tuple:
     global __instance
 
     if __instance is None:
-        __instance = ColourSelectorDialog()
+        __instance = ColourSelectorDialog(themePaletteColours, fontRegular, fontTitle)
 
-    return __instance.getColour(lastColour)
+    return __instance.getColour(fontRegular, fontTitle, lastColour)

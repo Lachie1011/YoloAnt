@@ -19,15 +19,19 @@ class AnnoPageListWidgetItem (QFrame):
             className - Name of class
             colour - Annotation colour of class in RGB format: _,_,_ 
     """
-    def __init__(self, className: str, colour: tuple, parent=None):
+    def __init__(self, className: str, colour: tuple, themePaletteColours: dict, fontRegular: str, fontTitle: str, parent=None):
         super().__init__()
 
         # Member variables
         self.colour = colour
         self.className = className
+        self.themePaletteColours = themePaletteColours
+        self.fontRegular = fontRegular
+        self.fontTitle = fontTitle
 
         self.parentItem = None
         self.parentSelected = False
+        self.editEnabled = False
         self.r, self.g, self.b = self.colour
 
         # Setup widget
@@ -60,8 +64,9 @@ class AnnoPageListWidgetItem (QFrame):
         """ Sets up style sheet for class selection frame """
 
         # Class selection frame
-        self.classSelectionFrame = CustomWidgetItemQFrame(self.parentSelected, '#535353', '#404040')
-        self.classSelectionFrame.setStyleSheet("QFrame{background-color: rgb(80,80,80);}")
+        self.classSelectionFrame = CustomWidgetItemQFrame(self.parentSelected, self.editEnabled, 
+                                                          self.themePaletteColours['app.hover'], self.themePaletteColours['listItem.background'])
+        self.classSelectionFrame.setStyleSheet(f"QFrame{{background-color: {self.themePaletteColours['listItem.background']};}}")
         self.classSelectionFrame.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.classSelectionFrame.setFixedHeight(60)
 
@@ -79,8 +84,8 @@ class AnnoPageListWidgetItem (QFrame):
         self.classColourBtn.setStyleSheet("QPushButton{"
                                           f"background-color: rgb({self.r}, {self.g}, {self.b});"
                                           "border-radius: 4px;"
-                                          "border: 3px solid rgb(105,105,105);}"
-                                          "QPushButton:hover{border-color: rgb(165, 165, 165)}")
+                                          f"border: 3px solid {self.themePaletteColours['buttonFilled.background']};}}"
+                                          f"QPushButton:hover{{border: 3px solid {self.themePaletteColours['buttonFilled.hover']};}}")
         self.classColourBtn.setFixedWidth(20)
         self.classColourBtn.setFixedHeight(20)
         self.classColourBtn.setVisible(False)
@@ -88,19 +93,19 @@ class AnnoPageListWidgetItem (QFrame):
 
         # Class name label
         self.classItemLbl = QLabel(self.className)
-        self.classItemLbl.setStyleSheet("QLabel{font: 12pt 'Gotham Rounded Light';}")
+        self.classItemLbl.setStyleSheet(f"QLabel{{font: 12pt {self.fontRegular};}}")
         self.classItemLbl.setMinimumSize(20, 30)
         self.classItemLbl.setMaximumSize(150, 30)
         self.classItemLbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
 
         # Class name line edit, not visible by default
-        self.classItemLineEdit = CustomQLineEdit()
+        self.classItemLineEdit = CustomQLineEdit(self.themePaletteColours, self.fontRegular)
         self.classItemLineEdit.editingFinished.connect(lambda: self.setClassName(self.classItemLineEdit.text()))
         self.classItemLineEdit.setStyleSheet("QLineEdit{"
-                                             "font: 12pt 'Gotham Rounded Light';"
+                                             f"font: 12pt {self.fontRegular};"
                                              "background-color: transparent;}"
                                              "QLineEdit:hover{"
-                                             "background-color: rgb(200, 105, 105);}")
+                                             f"background-color: {self.themePaletteColours['lineEdit.background']};}}")
         self.classItemLineEdit.setText(self.className)
         self.classItemLineEdit.setMinimumSize(100, 30)
         self.classItemLineEdit.setMaximumSize(150, 30)
@@ -113,7 +118,7 @@ class AnnoPageListWidgetItem (QFrame):
         self.hotkeyLbl = QLabel()
         self.hotkeyLbl.setStyleSheet("QLabel{"
                                      "background-color: transparent;"
-                                     "border: 2px solid rgb(105, 105, 105);"
+                                     f"border: 2px solid {self.themePaletteColours['buttonFilled.background']};"
                                      "border-radius: 5px;}")
         self.hotkeyLbl.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         self.hotkeyLbl.setFixedWidth(25)
@@ -123,10 +128,12 @@ class AnnoPageListWidgetItem (QFrame):
         # Hotkey button
         self.hotkeyBtn = QPushButton()
         self.hotkeyBtn.setStyleSheet("QPushButton{"
-                                     "background-color: transparent;"
-                                     "border: 2px solid rgb(105, 105, 105);"
+                                     f"background-color: {self.themePaletteColours['buttonFilled.background']};"
+                                     f"border: 2px solid {self.themePaletteColours['buttonFilled.background']};"
                                      "border-radius: 5px;}"
-                                     "QPushButton:hover{border-color: rgb(165, 165, 165);}")
+                                     "QPushButton:hover{"
+                                     f"background-color: {self.themePaletteColours['buttonFilled.hover']};"
+                                     f"border: 2px solid {self.themePaletteColours['buttonFilled.hover']};}}")
         self.hotkeyBtn.setFixedWidth(25)
         self.hotkeyBtn.setFixedHeight(25)
         self.hotkeyBtn.setVisible(False)
@@ -136,8 +143,8 @@ class AnnoPageListWidgetItem (QFrame):
         # Annotation count label
         self.annotationCountLbl = QLabel()
         self.annotationCountLbl.setStyleSheet("QLabel{"
-                                              "background-color: rgb(65, 66, 64);"
-                                              "border: 2px solid rgb(65, 66, 64);"
+                                              f"background-color: {self.themePaletteColours['panel.sunken']};"
+                                              f"border: 2px solid {self.themePaletteColours['panel.sunken']};"
                                               "border-radius: 5px;}")
         self.annotationCountLbl.setFixedWidth(25)
         self.annotationCountLbl.setFixedHeight(20)
@@ -206,11 +213,11 @@ class AnnoPageListWidgetItem (QFrame):
         """ Sets up style sheet for annotation selection frame """
 
         self.annotationListWidgetLayout = QVBoxLayout()
-        self.annotationListWidget = CustomClassQListWidget()
-        annotationListItemWidget = AnnotationListWidgetItem("Dog (1)") 
-        annotationListItemWidget2 = AnnotationListWidgetItem("Dog (1)") 
-        annotationListItemWidget3 = AnnotationListWidgetItem("Dog (1)") 
-        annotationListItemWidget4 = AnnotationListWidgetItem("Dog (1)") 
+        self.annotationListWidget = CustomClassQListWidget(self.themePaletteColours)
+        annotationListItemWidget = AnnotationListWidgetItem("Dog (1)", self.themePaletteColours) 
+        annotationListItemWidget2 = AnnotationListWidgetItem("Dog (1)", self.themePaletteColours) 
+        annotationListItemWidget3 = AnnotationListWidgetItem("Dog (1)", self.themePaletteColours) 
+        annotationListItemWidget4 = AnnotationListWidgetItem("Dog (1)", self.themePaletteColours) 
         self.annotationListWidget.addItemToListWidget(annotationListItemWidget)
         self.annotationListWidget.addItemToListWidget(annotationListItemWidget2)
         self.annotationListWidget.addItemToListWidget(annotationListItemWidget3)
@@ -252,8 +259,9 @@ class AnnoPageListWidgetItem (QFrame):
 
     def enableEdit(self) -> None:
         """ Sets the item widget to edit mode """
-        self.classSelectionFrame.setStyleSheet(self.classSelectionFrame.styleSheet() + "background: #5d5d5d;")
-        self.parentSelected = True
+        self.classSelectionFrame.setStyleSheet(f"QFrame{{background-color: {self.themePaletteColours['listItem.edit']};}}")
+        self.classSelectionFrame.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
+        self.classSelectionFrame.editEnabled = True
         self.spacerWidget.setVisible(True)
         self.classColourLbl.setVisible(False)
         self.classColourBtn.setVisible(True)
@@ -266,16 +274,34 @@ class AnnoPageListWidgetItem (QFrame):
         
     def disableEdit(self) -> None:
         """ Disables edit mode of item widget """
+        self.classSelectionFrame.setStyleSheet(f"QFrame{{background-color: {self.themePaletteColours['listItem.background']};}}")
+        self.classSelectionFrame.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.classSelectionFrame.editEnabled = False
         self.spacerWidget.setVisible(False)
         self.classColourLbl.setVisible(True)
         self.classColourBtn.setVisible(False)
-        self.parentSelected = False
         self.classItemLbl.setVisible(True)
         self.classItemLineEdit.setVisible(False)
         self.hotkeyLbl.setVisible(True)
         self.hotkeyBtn.setVisible(False)
         self.annotationCountLbl.setVisible(True)
         self.classDeleteBtn.setVisible(False)
+
+    def setSelected(self) -> None:
+        """ Sets widget item to selected state """
+        self.classSelectionFrame.setStyleSheet(f"QFrame{{background-color: {self.themePaletteColours['app.selected']};}}")
+        self.parentSelected = True
+        self.classSelectionFrame.parentSelected = True
+        self.hotkeyLbl.setStyleSheet("QLabel{"
+                                     "background-color: transparent;"
+                                     f"border: 2px solid {self.themePaletteColours['buttonFilled.hover']};"
+                                     "border-radius: 5px;}")
+
+    def clearSelected(self) -> None:
+        """ Clears selected state of widget item """
+        self.classSelectionFrame.setStyleSheet(f"QFrame{{background-color: {self.themePaletteColours['listItem.background']};}}")
+        self.parentSelected = False
+        self.classSelectionFrame.parentSelected = False
 
     def setClassName(self, text: str) -> None:
         """ Sets the name of the class from user input """
@@ -297,7 +323,7 @@ class AnnoPageListWidgetItem (QFrame):
 
     def selectColour(self) -> None:
         """ Gets a selected colour from the user """
-        self.colour = getColour(self.colour)
+        self.colour = getColour(self.themePaletteColours, self.fontRegular, self.fontTitle, self.colour)
         self.r, self.g, self.b = self.colour
         self.classColourLbl.setStyleSheet("QLabel{"
                                           f"background-color: rgb({self.r}, {self.g}, {self.b});"
@@ -308,7 +334,7 @@ class AnnoPageListWidgetItem (QFrame):
         self.classColourBtn.setStyleSheet("QPushButton{"
                                           f"background-color: rgb({self.r}, {self.g}, {self.b});"
                                           "border-radius: 4px;"
-                                          "border: 3px solid rgb(105,105,105);}"
-                                          "QPushButton:hover{border-color: rgb(165, 165, 165)}")
+                                          f"border: 3px solid {self.themePaletteColours['buttonFilled.background']};}}"
+                                          f"QPushButton:hover{{border: 3px solid {self.themePaletteColours['buttonFilled.hover']};}}")
         self.classColourLbl.repaint()
         self.classColourBtn.repaint()

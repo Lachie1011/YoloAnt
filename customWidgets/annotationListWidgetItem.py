@@ -12,10 +12,11 @@ class AnnotationListWidgetItem(QFrame):
         params:
 
     """
-    def __init__(self, annotationName):
+    def __init__(self, annotationName, themePaletteColours):
         super().__init__()
         self.annotationName = annotationName
         self.parentItem = None
+        self.themePaletteColours = themePaletteColours
 
         # Setup stylesheet
         self.__setupStyleSheet()
@@ -27,13 +28,13 @@ class AnnotationListWidgetItem(QFrame):
         """ Sets background of widget when mouse enters item widget """
         if not self.parentItem.isSelected():
             self.annotationNameLbl.setStyleSheet("QLabel{"
-                                                 "color: rgb(255,255,255);}")
+                                                 f"color: {self.themePaletteColours['font.hover']};}}")
 
     def leaveEvent(self, event) -> None:
         """ Sets background of widget when mouse leaves item widget """
         if not self.parentItem.isSelected():
             self.annotationNameLbl.setStyleSheet("QLabel{"
-                                                 "color: rgb(200,200,200);}")
+                                                 f"color: {self.themePaletteColours['font.regular']};}}")
 
     def __setupStyleSheet(self) -> None:
         """ Sets up style sheet for annotation selection frame """
@@ -43,7 +44,7 @@ class AnnotationListWidgetItem(QFrame):
         # Annotation name
         self.annotationNameLbl = QLabel(self.annotationName)
         self.annotationNameLbl.setStyleSheet("QLabel{"
-                                             "color: rgb(200,200,200);}")
+                                             f"color: {self.themePaletteColours['font.regular']};}}")
         self.annotationNameLbl.setMinimumSize(100, 30)
 
         # Hide annotation button - eye closed

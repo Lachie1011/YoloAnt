@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_colourSelector(object):
     def setupUi(self, colourSelector):
         colourSelector.setObjectName("colourSelector")
-        colourSelector.resize(430, 285)
+        colourSelector.resize(435, 285)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -174,35 +174,27 @@ class Ui_colourSelector(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.rFrame.sizePolicy().hasHeightForWidth())
         self.rFrame.setSizePolicy(sizePolicy)
+        self.rFrame.setMinimumSize(QtCore.QSize(120, 0))
+        self.rFrame.setMaximumSize(QtCore.QSize(120, 16777215))
         self.rFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.rFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.rFrame.setObjectName("rFrame")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.rFrame)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.lbl_red = QtWidgets.QLabel(parent=self.rFrame)
-        self.lbl_red.setStyleSheet("color: rgb(105, 105, 105);\n"
+        self.redLbl = QtWidgets.QLabel(parent=self.rFrame)
+        self.redLbl.setMaximumSize(QtCore.QSize(16, 16777215))
+        self.redLbl.setStyleSheet("color: rgb(105, 105, 105);\n"
 "font-size: 14pt;")
-        self.lbl_red.setObjectName("lbl_red")
-        self.horizontalLayout_3.addWidget(self.lbl_red)
-        self.red = QtWidgets.QLineEdit(parent=self.rFrame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.red.sizePolicy().hasHeightForWidth())
-        self.red.setSizePolicy(sizePolicy)
-        self.red.setMinimumSize(QtCore.QSize(60, 0))
-        self.red.setMaximumSize(QtCore.QSize(80, 16777215))
-        self.red.setStyleSheet("background-color: rgb(80, 80, 80);\n"
-"color: rgb(105, 105, 105);\n"
-"border : 3px solid;\n"
-"border-color:  rgb(80, 80, 80);\n"
-"border-radius: 10px;\n"
-"font: 75 bold 12pt \"Gotham Rounded\";\n"
-"")
-        self.red.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.red.setClearButtonEnabled(False)
-        self.red.setObjectName("red")
-        self.horizontalLayout_3.addWidget(self.red)
+        self.redLbl.setObjectName("redLbl")
+        self.horizontalLayout_3.addWidget(self.redLbl)
+        self.redLineEditFrame = QtWidgets.QFrame(parent=self.rFrame)
+        self.redLineEditFrame.setMinimumSize(QtCore.QSize(60, 0))
+        self.redLineEditFrame.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.redLineEditFrame.setStyleSheet("border: 0px;")
+        self.redLineEditFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.redLineEditFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.redLineEditFrame.setObjectName("redLineEditFrame")
+        self.horizontalLayout_3.addWidget(self.redLineEditFrame)
         self.verticalLayout_6.addWidget(self.rFrame)
         self.gFrame = QtWidgets.QFrame(parent=self.rgbInputFrame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Preferred)
@@ -210,34 +202,27 @@ class Ui_colourSelector(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.gFrame.sizePolicy().hasHeightForWidth())
         self.gFrame.setSizePolicy(sizePolicy)
+        self.gFrame.setMinimumSize(QtCore.QSize(120, 0))
+        self.gFrame.setMaximumSize(QtCore.QSize(120, 16777215))
         self.gFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.gFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.gFrame.setObjectName("gFrame")
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.gFrame)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        self.lbl_green = QtWidgets.QLabel(parent=self.gFrame)
-        self.lbl_green.setStyleSheet("color: rgb(105, 105, 105);\n"
+        self.greenLbl = QtWidgets.QLabel(parent=self.gFrame)
+        self.greenLbl.setMaximumSize(QtCore.QSize(16, 16777215))
+        self.greenLbl.setStyleSheet("color: rgb(105, 105, 105);\n"
 "font-size: 14pt;")
-        self.lbl_green.setObjectName("lbl_green")
-        self.horizontalLayout_4.addWidget(self.lbl_green)
-        self.green = QtWidgets.QLineEdit(parent=self.gFrame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.green.sizePolicy().hasHeightForWidth())
-        self.green.setSizePolicy(sizePolicy)
-        self.green.setMinimumSize(QtCore.QSize(60, 0))
-        self.green.setMaximumSize(QtCore.QSize(80, 16777215))
-        self.green.setStyleSheet("background-color: rgb(80, 80, 80);\n"
-"color: rgb(105, 105, 105);\n"
-"border : 3px solid;\n"
-"border-color:  rgb(80, 80, 80);\n"
-"border-radius: 10px;\n"
-"font: 75 bold 12pt \"Gotham Rounded\";\n"
-"")
-        self.green.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.green.setObjectName("green")
-        self.horizontalLayout_4.addWidget(self.green)
+        self.greenLbl.setObjectName("greenLbl")
+        self.horizontalLayout_4.addWidget(self.greenLbl)
+        self.greenLineEditFrame = QtWidgets.QFrame(parent=self.gFrame)
+        self.greenLineEditFrame.setMinimumSize(QtCore.QSize(60, 0))
+        self.greenLineEditFrame.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.greenLineEditFrame.setStyleSheet("border: 0px;")
+        self.greenLineEditFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.greenLineEditFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.greenLineEditFrame.setObjectName("greenLineEditFrame")
+        self.horizontalLayout_4.addWidget(self.greenLineEditFrame)
         self.verticalLayout_6.addWidget(self.gFrame)
         self.bFrame = QtWidgets.QFrame(parent=self.rgbInputFrame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Preferred)
@@ -245,34 +230,26 @@ class Ui_colourSelector(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.bFrame.sizePolicy().hasHeightForWidth())
         self.bFrame.setSizePolicy(sizePolicy)
+        self.bFrame.setMinimumSize(QtCore.QSize(120, 0))
         self.bFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.bFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.bFrame.setObjectName("bFrame")
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.bFrame)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.lbl_blue = QtWidgets.QLabel(parent=self.bFrame)
-        self.lbl_blue.setStyleSheet("color: rgb(105, 105, 105);\n"
+        self.blueLbl = QtWidgets.QLabel(parent=self.bFrame)
+        self.blueLbl.setMaximumSize(QtCore.QSize(16, 16777215))
+        self.blueLbl.setStyleSheet("color: rgb(105, 105, 105);\n"
 "font-size: 14pt;")
-        self.lbl_blue.setObjectName("lbl_blue")
-        self.horizontalLayout_5.addWidget(self.lbl_blue)
-        self.blue = QtWidgets.QLineEdit(parent=self.bFrame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.blue.sizePolicy().hasHeightForWidth())
-        self.blue.setSizePolicy(sizePolicy)
-        self.blue.setMinimumSize(QtCore.QSize(60, 0))
-        self.blue.setMaximumSize(QtCore.QSize(80, 16777215))
-        self.blue.setStyleSheet("background-color: rgb(80, 80, 80);\n"
-"color: rgb(105, 105, 105);\n"
-"border : 3px solid;\n"
-"border-color:  rgb(80, 80, 80);\n"
-"border-radius: 10px;\n"
-"font: 75 bold 12pt \"Gotham Rounded\";\n"
-"")
-        self.blue.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.blue.setObjectName("blue")
-        self.horizontalLayout_5.addWidget(self.blue)
+        self.blueLbl.setObjectName("blueLbl")
+        self.horizontalLayout_5.addWidget(self.blueLbl)
+        self.blueLineEditFrame = QtWidgets.QFrame(parent=self.bFrame)
+        self.blueLineEditFrame.setMinimumSize(QtCore.QSize(60, 0))
+        self.blueLineEditFrame.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.blueLineEditFrame.setStyleSheet("border: 0px;")
+        self.blueLineEditFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.blueLineEditFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.blueLineEditFrame.setObjectName("blueLineEditFrame")
+        self.horizontalLayout_5.addWidget(self.blueLineEditFrame)
         self.verticalLayout_6.addWidget(self.bFrame)
         self.hexFrame = QtWidgets.QFrame(parent=self.rgbInputFrame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Preferred)
@@ -280,34 +257,26 @@ class Ui_colourSelector(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.hexFrame.sizePolicy().hasHeightForWidth())
         self.hexFrame.setSizePolicy(sizePolicy)
+        self.hexFrame.setMinimumSize(QtCore.QSize(120, 0))
         self.hexFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.hexFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.hexFrame.setObjectName("hexFrame")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.hexFrame)
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        self.lbl_hex = QtWidgets.QLabel(parent=self.hexFrame)
-        self.lbl_hex.setStyleSheet("color: rgb(105, 105, 105);\n"
+        self.hexLbl = QtWidgets.QLabel(parent=self.hexFrame)
+        self.hexLbl.setMaximumSize(QtCore.QSize(16, 16777215))
+        self.hexLbl.setStyleSheet("color: rgb(105, 105, 105);\n"
 "font-size: 14pt;")
-        self.lbl_hex.setObjectName("lbl_hex")
-        self.horizontalLayout_6.addWidget(self.lbl_hex)
-        self.hex = QtWidgets.QLineEdit(parent=self.hexFrame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.hex.sizePolicy().hasHeightForWidth())
-        self.hex.setSizePolicy(sizePolicy)
-        self.hex.setMinimumSize(QtCore.QSize(60, 0))
-        self.hex.setMaximumSize(QtCore.QSize(80, 16777215))
-        self.hex.setStyleSheet("background-color: rgb(80, 80, 80);\n"
-"color: rgb(105, 105, 105);\n"
-"border : 3px solid;\n"
-"border-color:  rgb(80, 80, 80);\n"
-"border-radius: 10px;\n"
-"font: 75 bold 11pt \"Gotham Rounded\";\n"
-"")
-        self.hex.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.hex.setObjectName("hex")
-        self.horizontalLayout_6.addWidget(self.hex)
+        self.hexLbl.setObjectName("hexLbl")
+        self.horizontalLayout_6.addWidget(self.hexLbl)
+        self.hexLineEditFrame = QtWidgets.QFrame(parent=self.hexFrame)
+        self.hexLineEditFrame.setMinimumSize(QtCore.QSize(60, 0))
+        self.hexLineEditFrame.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.hexLineEditFrame.setStyleSheet("border: 0px;")
+        self.hexLineEditFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+        self.hexLineEditFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.hexLineEditFrame.setObjectName("hexLineEditFrame")
+        self.horizontalLayout_6.addWidget(self.hexLineEditFrame)
         self.verticalLayout_6.addWidget(self.hexFrame)
         self.verticalLayout_5.addWidget(self.rgbInputFrame)
         self.horizontalLayout_2.addWidget(self.rgbSelectedFrame)
@@ -327,19 +296,6 @@ class Ui_colourSelector(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
-        self.rejectButton = QtWidgets.QPushButton(parent=self.dialogButtonsFrame)
-        self.rejectButton.setMinimumSize(QtCore.QSize(70, 0))
-        self.rejectButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.rejectButton.setStyleSheet("background-color: rgb(65, 66, 64);\n"
-"color: rgb(80, 80, 80);\n"
-"border : 3px solid;\n"
-"border-radius: 10px;\n"
-"border-color:  rgb(80, 80, 80); \n"
-"font: 75 bold 12pt \"Gotham Rounded\";\n"
-"QPushButton::hover{background-color : rgb(255, 122, 112); }\n"
-"")
-        self.rejectButton.setObjectName("rejectButton")
-        self.horizontalLayout.addWidget(self.rejectButton)
         self.acceptButton = QtWidgets.QPushButton(parent=self.dialogButtonsFrame)
         self.acceptButton.setMinimumSize(QtCore.QSize(70, 0))
         self.acceptButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
@@ -349,16 +305,25 @@ class Ui_colourSelector(object):
 "border-radius: 10px;\n"
 "border-color:  rgb(105, 105, 105); \n"
 "font: 75 bold 12pt \"Gotham Rounded\";\n"
-"QPushButton::hover{background-color : rgb(155, 155, 155); }\n"
+"\n"
 "")
         self.acceptButton.setObjectName("acceptButton")
         self.horizontalLayout.addWidget(self.acceptButton)
+        self.cancelButton = QtWidgets.QPushButton(parent=self.dialogButtonsFrame)
+        self.cancelButton.setMinimumSize(QtCore.QSize(70, 0))
+        self.cancelButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.cancelButton.setStyleSheet("background-color: rgb(65, 66, 64);\n"
+"color: rgb(80, 80, 80);\n"
+"border : 3px solid;\n"
+"border-radius: 10px;\n"
+"border-color:  rgb(80, 80, 80); \n"
+"font: 75 bold 12pt \"Gotham Rounded\";\n"
+"QPushButton::hover{background-color : rgb(255, 122, 112); }\n"
+"")
+        self.cancelButton.setObjectName("cancelButton")
+        self.horizontalLayout.addWidget(self.cancelButton)
         self.verticalLayout_2.addWidget(self.dialogButtonsFrame)
         self.verticalLayout.addWidget(self.colourSelectorFrame)
-        self.lbl_red.setBuddy(self.red)
-        self.lbl_green.setBuddy(self.green)
-        self.lbl_blue.setBuddy(self.blue)
-        self.lbl_hex.setBuddy(self.blue)
 
         self.retranslateUi(colourSelector)
         QtCore.QMetaObject.connectSlotsByName(colourSelector)
@@ -366,13 +331,9 @@ class Ui_colourSelector(object):
     def retranslateUi(self, colourSelector):
         _translate = QtCore.QCoreApplication.translate
         colourSelector.setWindowTitle(_translate("colourSelector", "Dialog"))
-        self.lbl_red.setText(_translate("colourSelector", "R"))
-        self.red.setText(_translate("colourSelector", "255"))
-        self.lbl_green.setText(_translate("colourSelector", "G"))
-        self.green.setText(_translate("colourSelector", "255"))
-        self.lbl_blue.setText(_translate("colourSelector", "B"))
-        self.blue.setText(_translate("colourSelector", "255"))
-        self.lbl_hex.setText(_translate("colourSelector", "#"))
-        self.hex.setText(_translate("colourSelector", "ffffff"))
-        self.rejectButton.setText(_translate("colourSelector", "Cancel"))
+        self.redLbl.setText(_translate("colourSelector", "R"))
+        self.greenLbl.setText(_translate("colourSelector", "G"))
+        self.blueLbl.setText(_translate("colourSelector", "B"))
+        self.hexLbl.setText(_translate("colourSelector", "#"))
         self.acceptButton.setText(_translate("colourSelector", "OK"))
+        self.cancelButton.setText(_translate("colourSelector", "Cancel"))

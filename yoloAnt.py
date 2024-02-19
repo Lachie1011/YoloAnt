@@ -68,15 +68,19 @@ class YoloAnt(QMainWindow):
         self.__connectInformationButton()
         self.__connectNotificationButton()
 
+        # Add application font to database
+        QFontDatabase.addApplicationFont(f"assets/fonts/{self.theme.colours['fontType.header']}")
+        QFontDatabase.addApplicationFont(f"assets/fonts/{self.theme.colours['fontType.title']}")
+        QFontDatabase.addApplicationFont(f"assets/fonts/{self.theme.colours['fontType.regular']}")
+        self.fontTypeHeader = QFontDatabase.applicationFontFamilies(0)[0]
+        self.fontTypeTitle = QFontDatabase.applicationFontFamilies(1)[1]
+        self.fontTypeRegular = QFontDatabase.applicationFontFamilies(2)[1]
+        
         self.startPage = StartPage(self)
         self.projectPage = ProjectPage(self)
         self.annotationPage = AnnotationPage(self)
         
         self.installEventFilter(self)
-
-        # Add application font to database
-        QFontDatabase.addApplicationFont("assets/fonts/gothamrnd_light.ttf")
-        QFontDatabase.addApplicationFont("assets/fonts/gothamrnd_bold.ttf")
 
         self.show()
     
