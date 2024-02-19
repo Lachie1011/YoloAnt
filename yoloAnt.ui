@@ -1197,20 +1197,20 @@ border-radius: 5px;</string>
            <item>
             <widget class="QFrame" name="informationFrame">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
              <property name="minimumSize">
               <size>
-               <width>350</width>
+               <width>250</width>
                <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>400</width>
+               <width>16777215</width>
                <height>16777215</height>
               </size>
              </property>
@@ -1224,9 +1224,6 @@ border-radius: 5px;</string>
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_8">
-              <property name="spacing">
-               <number>20</number>
-              </property>
               <property name="leftMargin">
                <number>0</number>
               </property>
@@ -1252,8 +1249,8 @@ border-radius: 5px;</string>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>400</width>
-                  <height>400</height>
+                  <width>16777215</width>
+                  <height>16777215</height>
                  </size>
                 </property>
                 <property name="styleSheet">
