@@ -76,9 +76,11 @@ class YoloAnt(QMainWindow):
         self.fontTypeTitle = QFontDatabase.applicationFontFamilies(1)[1]
         self.fontTypeRegular = QFontDatabase.applicationFontFamilies(2)[1]
         
+        # Creating pages        
         self.startPage = StartPage(self)
         self.projectPage = ProjectPage(self)
         self.annotationPage = AnnotationPage(self)
+        self.machineLearningPage = MachineLearningPage(self)
         
         self.installEventFilter(self)
 
