@@ -94,3 +94,4 @@ class AnnotationCanvasWidget(QGraphicsView):
         if self.mode == Tools.annotationTool:
             self.resetScene()
             self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), True)
+
