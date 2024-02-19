@@ -14,13 +14,13 @@ class Ui_createClassDialog(object):
         createClassDialog.setObjectName("createClassDialog")
         createClassDialog.resize(400, 160)
         createClassDialog.setMaximumSize(QtCore.QSize(400, 160))
-        createClassDialog.setStyleSheet("background-color: rgb(85, 87, 83);\n"
-"border : 1px solid;\n"
-"border-radius: 5px;\n"
-"border-color:  rgb(85, 87, 83);")
+        createClassDialog.setStyleSheet("")
         self.verticalLayout = QtWidgets.QVBoxLayout(createClassDialog)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.mainFrame = QtWidgets.QFrame(parent=createClassDialog)
+        self.mainFrame.setStyleSheet("background-color: #454545;")
         self.mainFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.mainFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.mainFrame.setObjectName("mainFrame")
@@ -32,26 +32,6 @@ class Ui_createClassDialog(object):
         self.classNameFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.classNameFrame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.classNameFrame.setObjectName("classNameFrame")
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.classNameFrame)
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.classNameLbl = QtWidgets.QLabel(parent=self.classNameFrame)
-        self.classNameLbl.setMaximumSize(QtCore.QSize(110, 16777215))
-        self.classNameLbl.setStyleSheet("font: 75 12pt \"Gotham Rounded\";\n"
-"color: rgb(255, 255, 255);")
-        self.classNameLbl.setObjectName("classNameLbl")
-        self.horizontalLayout.addWidget(self.classNameLbl)
-        self.classNameLineEdit = QtWidgets.QLineEdit(parent=self.classNameFrame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.classNameLineEdit.sizePolicy().hasHeightForWidth())
-        self.classNameLineEdit.setSizePolicy(sizePolicy)
-        self.classNameLineEdit.setMaximumSize(QtCore.QSize(250, 30))
-        self.classNameLineEdit.setStyleSheet("background-color: rgb(65, 66, 64);\n"
-"color: rgb(255, 255, 255);")
-        self.classNameLineEdit.setObjectName("classNameLineEdit")
-        self.horizontalLayout.addWidget(self.classNameLineEdit)
         self.verticalLayout_2.addWidget(self.classNameFrame)
         self.classColourFrame = QtWidgets.QFrame(parent=self.mainFrame)
         self.classColourFrame.setMaximumSize(QtCore.QSize(16777215, 40))
@@ -62,7 +42,8 @@ class Ui_createClassDialog(object):
         self.horizontalLayout_2.setContentsMargins(0, -1, 0, -1)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.classColourLbl = QtWidgets.QLabel(parent=self.classColourFrame)
-        self.classColourLbl.setMaximumSize(QtCore.QSize(110, 60))
+        self.classColourLbl.setMinimumSize(QtCore.QSize(110, 0))
+        self.classColourLbl.setMaximumSize(QtCore.QSize(110, 16777215))
         self.classColourLbl.setStyleSheet("font: 75 12pt \"Gotham Rounded\";\n"
 "color: rgb(255, 255, 255);")
         self.classColourLbl.setObjectName("classColourLbl")
@@ -115,6 +96,5 @@ class Ui_createClassDialog(object):
     def retranslateUi(self, createClassDialog):
         _translate = QtCore.QCoreApplication.translate
         createClassDialog.setWindowTitle(_translate("createClassDialog", "Dialog"))
-        self.classNameLbl.setText(_translate("createClassDialog", "Class Name:"))
         self.classColourLbl.setText(_translate("createClassDialog", "Class Colour:"))
         self.createClassBtn.setText(_translate("createClassDialog", "Create"))

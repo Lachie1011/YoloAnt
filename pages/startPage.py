@@ -6,11 +6,10 @@ import os
 import sys
 
 from project import Project
+from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import QFileDialog
-
 from yoloAnt_ui import Ui_MainWindow
 from dialogs.createProjectDialog import CreateProjectDialog
-
 
 class StartPage():
     """
@@ -67,8 +66,14 @@ class StartPage():
         """ Connects the hover over functionality to icons """
         # updating stylesheets initially
         
-        self.ui.openProjecBtn.setStyleSheet("QPushButton::hover"
-                                        "{"
-                                        "background-color : #61635e;"
-                                        "border-radius: 20px;"
-                                        "}")
+        self.ui.openProjecBtn.setStyleSheet("QPushButton::hover{"
+                                            f"background-color : {self.app.theme.colours['app.hover']};"
+                                            "border-radius: 20px;}")
+
+        self.ui.createProjectBtn.setStyleSheet("QPushButton::hover{"
+                                            f"background-color : {self.app.theme.colours['app.hover']};"
+                                            "border-radius: 20px;}")
+
+    def __setupPageStyleSheet(self) -> None:
+        self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() + 
+                                                   f'background: {DarkThemePalette.panelColour.value};')

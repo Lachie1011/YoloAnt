@@ -24,6 +24,8 @@ from notificationManager import NotificationManager
 
 from events.hoverEvent import HoverEvent
 
+from theme import *
+
 app = None
 
 class Pages(Enum):
@@ -50,6 +52,12 @@ class YoloAnt(QMainWindow):
         self.currentPage = Pages.StartPage
         self.project = None
         self.infoDialog = None
+
+        # Set app colour palette
+        self.theme = Theme()
+
+        # Setup style sheet of application
+        self.__setupAppStyleSheet()
         
         # Starting the notification manager
         self.notificationManager = NotificationManager(self)
@@ -60,15 +68,19 @@ class YoloAnt(QMainWindow):
         self.__connectInformationButton()
         self.__connectNotificationButton()
 
+        # Add application font to database
+        QFontDatabase.addApplicationFont(f"assets/fonts/{self.theme.colours['fontType.header']}")
+        QFontDatabase.addApplicationFont(f"assets/fonts/{self.theme.colours['fontType.title']}")
+        QFontDatabase.addApplicationFont(f"assets/fonts/{self.theme.colours['fontType.regular']}")
+        self.fontTypeHeader = QFontDatabase.applicationFontFamilies(0)[0]
+        self.fontTypeTitle = QFontDatabase.applicationFontFamilies(1)[1]
+        self.fontTypeRegular = QFontDatabase.applicationFontFamilies(2)[1]
+        
         self.startPage = StartPage(self)
         self.projectPage = ProjectPage(self)
         self.annotationPage = AnnotationPage(self)
         
         self.installEventFilter(self)
-
-        # Add application font to database
-        QFontDatabase.addApplicationFont("assets/fonts/gothamrnd_light.ttf")
-        QFontDatabase.addApplicationFont("assets/fonts/gothamrnd_bold.ttf")
 
         self.show()
     
@@ -113,28 +125,38 @@ class YoloAnt(QMainWindow):
             self.currentPage = Pages.AnnotationPage
             # Because of hover event, update check and also icon TODO: explore a cleaner alternative to checking / unchecking
             self.ui.annotTabBtn.setChecked(True)
+            self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{self.theme.colours['focus.foregound']};}}")
             self.ui.projectsTabBtn.setChecked(False)
             self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
+            self.ui.projectsTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
             self.ui.mlTabBtn.setChecked(False)
             self.ui.mlTabBtn.setIcon(QIcon("icons/icons8-ant-head-50.png"))
+            self.ui.mlTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
             self.ui.infoBtn.setChecked(False)
             self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
+
         elif(page is Pages.ProjectPage):
             self.currentPage = Pages.ProjectPage
             self.ui.projectsTabBtn.setChecked(True)
+            self.ui.projectsTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['focus.foregound']};}}")
             self.ui.annotTabBtn.setChecked(False)
             self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
+            self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{self.theme.colours['navigationbar.background']};}}")
             self.ui.mlTabBtn.setChecked(False)
             self.ui.mlTabBtn.setIcon(QIcon("icons/icons8-ant-head-50.png"))
+            self.ui.mlTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
             self.ui.infoBtn.setChecked(False)
             self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
         elif(page is Pages.MachineLearningPage):
             self.currentPage = Pages.MachineLearningPage
             self.ui.mlTabBtn.setChecked(True)
+            self.ui.mlTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['focus.foregound']};}}")
             self.ui.annotTabBtn.setChecked(False)
             self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
+            self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{self.theme.colours['navigationbar.background']};}}")
             self.ui.projectsTabBtn.setChecked(False)
             self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
+            self.ui.projectsTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
             self.ui.infoBtn.setChecked(False)
             self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
 
@@ -194,6 +216,12 @@ class YoloAnt(QMainWindow):
                                 "background-color : #61635e;"
                                 "border-radius: 20px;"
                                 "}")
+    def __setupAppStyleSheet(self) -> None:
+        """ Sets up the colour palette of the application """
+        self.ui.menuBar.setStyleSheet(self.ui.menuBar.styleSheet() + f"background: {self.theme.colours['menu.background']};")
+        self.ui.leftMenuSubContainer.setStyleSheet(self.ui.leftMenuSubContainer.styleSheet() + f"background: {self.theme.colours['navigationbar.background']};")
+        self.ui.bottomBarFrame.setStyleSheet(self.ui.bottomBarFrame.styleSheet() + f"background: {self.theme.colours['navigationbar.background']};")
+        self.ui.stackedWidget.setStyleSheet(self.ui.stackedWidget.styleSheet() + f"background: {self.theme.colours['app.background']};")
 
 def signal_handler(sig, frame) -> None:
     """ Handles unix signals """
