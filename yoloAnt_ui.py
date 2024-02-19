@@ -1917,7 +1917,7 @@ class Ui_MainWindow(object):
         self.menuBar.addAction(self.menutest.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(0)
         self.MLRightStackWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
