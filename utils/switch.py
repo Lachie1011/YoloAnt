@@ -11,7 +11,7 @@ class Switch(QAbstractButton):
         Class that creates a switch button.
     """
 
-    def __init__(self, parent=None, track_radius=10, thumb_radius=9):
+    def __init__(self, parent=None, track_radius=8, thumb_radius=9):
         super().__init__(parent=parent)
         self.setCheckable(True)
         self.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)

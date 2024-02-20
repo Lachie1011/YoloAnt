@@ -5,13 +5,14 @@
 import sys
 
 from PyQt6 import QtWidgets, QtCore, QtGui
-from PyQt6.QtWidgets import QListWidget, QSizePolicy, QVBoxLayout, QSpacerItem, QGraphicsDropShadowEffect
-from PyQt6.QtGui import QCursor, QFont, QColor
+from PyQt6.QtWidgets import QListWidget, QSizePolicy, QVBoxLayout, QSpacerItem, QGraphicsDropShadowEffect, QHBoxLayout
+from PyQt6.QtGui import QCursor, QFont, QColor, QIcon
 from pyqtgraph import PlotWidget, plot
 
 import pyqtgraph as pg
 
 from yoloAnt_ui import Ui_MainWindow
+from utils.switch import Switch
 from customWidgets.customQObjects import CustomClassQListWidget
 from customWidgets.projectClassListItemWidget import ProjectClassListItemWidget
 from dialogs.createClassDialog import CreateClassDialog
@@ -91,6 +92,30 @@ class ProjectPage():
                                          f"font: 75 bold 16pt {self.app.fontTypeHeader};"
                                          f"color: {self.app.theme.colours['font.header']};}}") 
 
+        self.ui.mAPLbl.setStyleSheet("QLabel{"
+                                         f"font: 75 12pt {self.app.fontTypeTitle};"
+                                         f"color: {self.app.theme.colours['font.regular']};}}") 
+
+        self.ui.precisionLbl.setStyleSheet("QLabel{"
+                                         f"font: 75 12pt {self.app.fontTypeTitle};"
+                                         f"color: {self.app.theme.colours['font.regular']};}}") 
+
+        self.ui.recallLbl.setStyleSheet("QLabel{"
+                                         f"font: 75 12pt {self.app.fontTypeTitle};"
+                                         f"color: {self.app.theme.colours['font.regular']};}}") 
+
+        self.ui.mAPValueLbl.setStyleSheet("QLabel{"
+                                         f"font: 75 bold 14pt {self.app.fontTypeTitle};"
+                                         f"color: {self.app.theme.colours['font.header']};}}") 
+
+        self.ui.precisionValueLbl.setStyleSheet("QLabel{"
+                                         f"font: 75 bold 14pt {self.app.fontTypeTitle};"
+                                         f"color: {self.app.theme.colours['font.header']};}}") 
+
+        self.ui.recallValueLbl.setStyleSheet("QLabel{"
+                                         f"font: 75 bold 14pt {self.app.fontTypeTitle};"
+                                         f"color: {self.app.theme.colours['font.header']};}}") 
+
         self.ui.healthLbl.setStyleSheet("QLabel{"
                                         f"font: 75 bold 16pt {self.app.fontTypeHeader};"
                                         f"color: {self.app.theme.colours['font.header']};}}") 
@@ -128,6 +153,48 @@ class ProjectPage():
                                           "QPushButton::hover{"
                                           f"background-color: {self.app.theme.colours['buttonFilled.hover']};"
                                           f"border : 1px solid {self.app.theme.colours['buttonFilled.hover']};}}")
+
+        self.ui.addDatasetHealthWidgetBtn.setStyleSheet("QPushButton{"
+                                          f"background-color: {self.app.theme.colours['buttonFilled.background']};"
+                                          f"border : 1px solid {self.app.theme.colours['buttonFilled.background']};"
+                                          "border-radius: 10px;}"
+                                          "QPushButton::hover{"
+                                          f"background-color: {self.app.theme.colours['buttonFilled.hover']};"
+                                          f"border : 1px solid {self.app.theme.colours['buttonFilled.hover']};}}")
+        self.ui.addDatasetHealthWidgetBtn.setIcon(QIcon("icons/icons8-plus-button-24.png"))
+
+        self.classEditSwitchBtn = Switch()
+        self.classEditSwitchLayout = QHBoxLayout()
+        self.classEditSwitchLayout.addWidget(self.classEditSwitchBtn)
+        self.classEditSwitchLayout.setContentsMargins(0,0,0,0)
+        self.ui.classInfoEditFrame.setLayout(self.classEditSwitchLayout)
+
+        self.datasetHealthEditSwitchBtn = Switch()
+        self.datasetHealthEditSwitchLayout = QHBoxLayout()
+        self.datasetHealthEditSwitchLayout.addWidget(self.datasetHealthEditSwitchBtn)
+        self.datasetHealthEditSwitchLayout.setContentsMargins(0,0,0,0)
+        self.ui.datasetHealthEditFrame.setLayout(self.datasetHealthEditSwitchLayout)
+
+        self.projectDescriptionEditSwitchBtn = Switch()
+        self.projectDescriptionEditSwitchLayout = QHBoxLayout()
+        self.projectDescriptionEditSwitchLayout.addWidget(self.projectDescriptionEditSwitchBtn)
+        self.projectDescriptionEditSwitchLayout.setContentsMargins(0,0,0,0)
+        self.ui.projectDescriptionEditFrame.setLayout(self.projectDescriptionEditSwitchLayout)
+
+        self.ui.mlModelComboBox.setStyleSheet("QComboBox{"
+                                              f"font: 75 12pt {self.app.fontTypeRegular};"
+                                              "border-radius: 5px;"
+                                              f"background-color: {self.app.theme.colours['panel.sunken']};}}"
+                                              "QComboBox::drop-down:button{"
+                                              f"background-color: {self.app.theme.colours['panel.sunken']};"
+                                              "border-radius: 5px}"
+                                              "QComboBox::drop-down{"
+                                              f"color: {self.app.theme.colours['panel.sunken']};}}"
+                                              "QComboBox::down-arrow{"
+                                              "image: url(icons/icons8-drop-down-arrow-10.png)}")
+
+        self.ui.projectImageLbl.setStyleSheet("QLabel{"
+                                              f"background-color: {self.app.theme.colours['panel.sunken']};}}")
 
 
     def __populateFields(self) -> None:
