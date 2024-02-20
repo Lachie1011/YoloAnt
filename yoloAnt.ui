@@ -1851,6 +1851,9 @@ border-radius: 3px;</string>
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_15">
+              <property name="spacing">
+               <number>20</number>
+              </property>
               <property name="topMargin">
                <number>20</number>
               </property>
@@ -1874,7 +1877,7 @@ border-radius: 3px;</string>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>250</height>
+                  <height>200</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -1938,6 +1941,9 @@ border-radius: 5px;</string>
                    <property name="margin">
                     <number>3</number>
                    </property>
+                   <property name="indent">
+                    <number>0</number>
+                   </property>
                   </widget>
                  </item>
                  <item>
@@ -1993,7 +1999,13 @@ p, li { white-space: pre-wrap; }
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
-                     <height>50</height>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>30</height>
                     </size>
                    </property>
                    <property name="frameShape">
@@ -2003,6 +2015,12 @@ p, li { white-space: pre-wrap; }
                     <enum>QFrame::Raised</enum>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_7">
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
                     <item>
                      <widget class="QLabel" name="datasetLbl">
                       <property name="sizePolicy">
@@ -2102,22 +2120,6 @@ border-color:  #646464;</string>
                  </item>
                 </layout>
                </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_10">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Fixed</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>15</height>
-                 </size>
-                </property>
-               </spacer>
               </item>
               <item>
                <widget class="QFrame" name="mlInfoFrame">
@@ -2313,6 +2315,22 @@ border-color:  rgb(85, 87, 83);</string>
                   </widget>
                  </item>
                  <item>
+                  <spacer name="verticalSpacer_9">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::MinimumExpanding</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>10</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
                   <widget class="PlotWidget" name="graphWidget" native="true">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -2362,7 +2380,7 @@ border-color:  rgb(85, 87, 83);</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_16">
               <property name="spacing">
-               <number>15</number>
+               <number>20</number>
               </property>
               <property name="topMargin">
                <number>20</number>
@@ -2393,10 +2411,10 @@ border-radius: 5px;</string>
                   <number>12</number>
                  </property>
                  <property name="topMargin">
-                  <number>12</number>
+                  <number>9</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>15</number>
+                  <number>9</number>
                  </property>
                  <item>
                   <widget class="QLabel" name="healthLbl">
@@ -2435,6 +2453,9 @@ color: rgb(255, 255, 255);</string>
                    </property>
                    <property name="margin">
                     <number>3</number>
+                   </property>
+                   <property name="indent">
+                    <number>0</number>
                    </property>
                   </widget>
                  </item>
@@ -2897,7 +2918,7 @@ border-radius: 5px;</string>
                   <number>2</number>
                  </property>
                  <property name="topMargin">
-                  <number>12</number>
+                  <number>9</number>
                  </property>
                  <item>
                   <widget class="QFrame" name="classInfoHeaderFrame">
@@ -2908,8 +2929,26 @@ border-radius: 5px;</string>
                     <enum>QFrame::Raised</enum>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_22">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
                     <item>
                      <widget class="QLabel" name="classInfoFrameLbl">
+                      <property name="minimumSize">
+                       <size>
+                        <width>210</width>
+                        <height>30</height>
+                       </size>
+                      </property>
                       <property name="maximumSize">
                        <size>
                         <width>220</width>

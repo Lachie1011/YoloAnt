@@ -6,8 +6,8 @@ import sys
 from enum import Enum
 
 from PyQt6 import QtCore
-from PyQt6.QtGui import QCursor, QIcon
-from PyQt6.QtWidgets import QApplication, QHBoxLayout, QLabel, QVBoxLayout, QPushButton, QFrame
+from PyQt6.QtGui import QCursor, QIcon, QColor
+from PyQt6.QtWidgets import QApplication, QHBoxLayout, QLabel, QVBoxLayout, QPushButton, QFrame, QGraphicsDropShadowEffect
 
 from yoloAnt_ui import Ui_MainWindow
 from events.hoverEvent import HoverEvent
@@ -63,8 +63,22 @@ class AnnotationPage():
         """ Sets the colour palette for the page widgets """  
         self.ui.imageFrame.setStyleSheet(self.ui.imageFrame.styleSheet() +
                                          f"background: {self.app.theme.colours['app.sunken']};")   
+
+        dropshadowEffect1 = QGraphicsDropShadowEffect()
+        dropshadowEffect1.setBlurRadius(20)
+        color = QColor(self.app.theme.colours['app.dropshadow'])
+        dropshadowEffect1.setColor(color)
+        dropshadowEffect1.setOffset(0,0)
+        self.ui.classSelectionFrame.setGraphicsEffect(dropshadowEffect1)
         self.ui.classSelectionFrame.setStyleSheet(self.ui.classSelectionFrame.styleSheet() + 
-                                             f"background: {self.app.theme.colours['panel.background']};")                                      
+                                             f"background: {self.app.theme.colours['panel.background']};")   
+
+        dropshadowEffect = QGraphicsDropShadowEffect()
+        dropshadowEffect.setBlurRadius(20)
+        color = QColor(self.app.theme.colours['app.dropshadow'])
+        dropshadowEffect.setColor(color)
+        dropshadowEffect.setOffset(0,0)      
+        self.ui.imageInfoFrame.setGraphicsEffect(dropshadowEffect)
         self.ui.imageInfoFrame.setStyleSheet(self.ui.imageInfoFrame.styleSheet() +
                                              f"background: {self.app.theme.colours['panel.background']};")  
         self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() + 

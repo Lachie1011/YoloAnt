@@ -4,6 +4,7 @@ colours:
     app.sunken: '#282828'
     app.hover: '#535353'
     app.selected: '#5d5d5d'
+    app.dropshadow: '#202020'
     navigationbar.background: '#151515'
     menu.background: '#282828'
     panel.background: '#454545'

@@ -5,8 +5,8 @@
 import sys
 
 from PyQt6 import QtWidgets, QtCore, QtGui
-from PyQt6.QtWidgets import QListWidget, QSizePolicy, QVBoxLayout, QSpacerItem
-from PyQt6.QtGui import QCursor, QFont
+from PyQt6.QtWidgets import QListWidget, QSizePolicy, QVBoxLayout, QSpacerItem, QGraphicsDropShadowEffect
+from PyQt6.QtGui import QCursor, QFont, QColor
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
@@ -39,15 +39,49 @@ class ProjectPage():
         self.ui.addClassBtn.clicked.connect(lambda: self.__instantiateCreateClassDialog())
 
     def __setupPagePalette(self) -> None:
-        self.ui.descriptionFrame.setStyleSheet(self.ui.descriptionFrame.styleSheet() +
-                                               f"background: {self.app.theme.colours['panel.background']};")       
-        self.ui.mlInfoFrame.setStyleSheet(self.ui.mlInfoFrame.styleSheet() + 
-                                          f"background: {self.app.theme.colours['panel.background']};")                                      
-        self.ui.datasetHealthFrame.setStyleSheet(self.ui.datasetHealthFrame.styleSheet() +
-                                             f"background: {self.app.theme.colours['panel.background']};")  
-        self.ui.classInfoFrame.setStyleSheet(self.ui.classInfoFrame.styleSheet() + 
-                                                   f"background: {self.app.theme.colours['panel.background']};")
-                                                
+
+        dropshadowEffect = QGraphicsDropShadowEffect()
+        dropshadowEffect.setBlurRadius(10)
+        color = QColor(self.app.theme.colours['app.dropshadow'])
+        dropshadowEffect.setColor(color)
+        dropshadowEffect.setOffset(0,2)
+
+        self.ui.descriptionFrame.setGraphicsEffect(dropshadowEffect)
+        self.ui.descriptionFrame.setStyleSheet("QFrame{"
+                                               "border-radius: 5px;"
+                                               f"background-color: {self.app.theme.colours['panel.background']};}}")    
+
+        dropshadowEffect2 = QGraphicsDropShadowEffect()
+        dropshadowEffect2.setBlurRadius(10)
+        color = QColor(self.app.theme.colours['app.dropshadow'])
+        dropshadowEffect2.setColor(color)
+        dropshadowEffect2.setOffset(0,2)
+
+        self.ui.mlInfoFrame.setGraphicsEffect(dropshadowEffect2)
+        self.ui.mlInfoFrame.setStyleSheet("QFrame{"
+                                          "border-radius: 5px;"
+                                          f"background-color: {self.app.theme.colours['panel.background']};}}")       
+
+        dropshadowEffect3 = QGraphicsDropShadowEffect()
+        dropshadowEffect3.setBlurRadius(10)
+        color = QColor(self.app.theme.colours['app.dropshadow'])
+        dropshadowEffect3.setColor(color)
+        dropshadowEffect3.setOffset(0,2)
+        self.ui.datasetHealthFrame.setGraphicsEffect(dropshadowEffect3)                                                                         
+        self.ui.datasetHealthFrame.setStyleSheet("QFrame{"
+                                                 "border-radius: 5px;"
+                                                 f"background-color: {self.app.theme.colours['panel.background']};}}")  
+
+        dropshadowEffect4 = QGraphicsDropShadowEffect()
+        dropshadowEffect4.setBlurRadius(10)
+        color = QColor(self.app.theme.colours['app.dropshadow'])
+        dropshadowEffect4.setColor(color)
+        dropshadowEffect4.setOffset(0,2)
+        self.ui.classInfoFrame.setGraphicsEffect(dropshadowEffect4)                                                     
+        self.ui.classInfoFrame.setStyleSheet("QFrame{"
+                                             "border-radius: 5px;"
+                                             f"background-color: {self.app.theme.colours['panel.background']};}}")
+
         self.ui.projectNameLbl.setStyleSheet("QLabel{"
                                              f"font: 75 bold 16pt {self.app.fontTypeHeader};"
                                              f"color: {self.app.theme.colours['font.header']};}}") 
