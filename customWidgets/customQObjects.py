@@ -131,7 +131,7 @@ def getKeyInput() -> chr:
     return __customKeySelectionDialog.getKeyInput()
 
 
-class CustomClassQListWidget (QListWidget):
+class CustomClassQListWidget(QListWidget):
     """
         Class that creates a custom list widget for classes
     """
@@ -147,7 +147,7 @@ class CustomClassQListWidget (QListWidget):
 
         # Store selected item in list
         self.itemSelected = None
-
+        
         # Connect signals and slots
         if selectableList:
             self.itemClicked.connect(lambda item: self.__selectItem(item))
@@ -193,8 +193,7 @@ class CustomClassQListWidget (QListWidget):
             self.clearListSelection(self.itemSelected)
             self.itemWidget(listItem).setSelected()
             self.itemSelected = listItem
-            self.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
-
+            self.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection) 
 
     def enabledListEditMode(self, editEnabled):
         """ Sets the widget in item to edit mode """

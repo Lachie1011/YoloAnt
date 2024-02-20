@@ -41,11 +41,11 @@ class AnnotationPage():
 
         self.__createClassSelectionList()
 
-        annoPageListWidgetItem = AnnoPageListWidgetItem("Dog", (0, 201, 52), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle) 
-        annoPageListWidgetItem2 = AnnoPageListWidgetItem("Cat", (0, 90, 255), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle) 
-        annoPageListWidgetItem3 = AnnoPageListWidgetItem("Aeroplane", (255, 2, 60), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle) 
-        annoPageListWidgetItem4 = AnnoPageListWidgetItem("Person-on-bicycle", (223, 100, 120), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle) 
-        annoPageListWidgetItem5 = AnnoPageListWidgetItem("Can", (223, 100, 120), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle) 
+        annoPageListWidgetItem = AnnoPageListWidgetItem("Dog", (0, 201, 52), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle, page=self) 
+        annoPageListWidgetItem2 = AnnoPageListWidgetItem("Cat", (0, 90, 255), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle, page=self) 
+        annoPageListWidgetItem3 = AnnoPageListWidgetItem("Aeroplane", (255, 2, 60), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle, page=self) 
+        annoPageListWidgetItem4 = AnnoPageListWidgetItem("Person-on-bicycle", (223, 100, 120), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle, page=self) 
+        annoPageListWidgetItem5 = AnnoPageListWidgetItem("Can", (223, 100, 120), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle, page=self) 
         self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem)
         self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem2)
         self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem3)

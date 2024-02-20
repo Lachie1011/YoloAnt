@@ -2,7 +2,7 @@
     annoPageListWidgetItem.py
 """
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QCursor 
+from PyQt6.QtGui import QCursor, QColor 
 from PyQt6.QtWidgets import (QFrame, QLabel, QHBoxLayout, QLineEdit, QSpacerItem, 
                              QSizePolicy, QPushButton, QToolButton, QVBoxLayout, QWidget)
                         
@@ -19,7 +19,7 @@ class AnnoPageListWidgetItem (QFrame):
             className - Name of class
             colour - Annotation colour of class in RGB format: _,_,_ 
     """
-    def __init__(self, className: str, colour: tuple, themePaletteColours: dict, fontRegular: str, fontTitle: str, parent=None):
+    def __init__(self, className: str, colour: tuple, themePaletteColours: dict, fontRegular: str, fontTitle: str, page, parent=None):
         super().__init__()
 
         # Member variables
@@ -28,6 +28,7 @@ class AnnoPageListWidgetItem (QFrame):
         self.themePaletteColours = themePaletteColours
         self.fontRegular = fontRegular
         self.fontTitle = fontTitle
+        self.page = page
 
         self.parentItem = None
         self.parentSelected = False
@@ -296,6 +297,10 @@ class AnnoPageListWidgetItem (QFrame):
                                      "background-color: transparent;"
                                      f"border: 2px solid {self.themePaletteColours['buttonFilled.hover']};"
                                      "border-radius: 5px;}")
+
+        # If we select an item, update the canvas
+        self.page.ui.annotationCanvasWidget.currentClassColour = QColor(self.colour[0], self.colour[1], self.colour[2])
+        self.page.ui.annotationCanvasWidget.currentClassName = self.className
 
     def clearSelected(self) -> None:
         """ Clears selected state of widget item """

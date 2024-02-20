@@ -2,6 +2,7 @@
     annotationCanvasWidget.py
 """
 
+from pathlib import Path
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPixmap, QColor, QPen
 from PyQt6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QGraphicsItem
@@ -20,11 +21,12 @@ class AnnotationCanvasWidget(QGraphicsView):
         self.rectBegin = None
         self.rectEnd = None
         self.boundingBoxes = []
-        self.imagePath = "/home/lachie/extractedImages/1029.jpg"  #TODO: this will need to be on each new image
+        self.imagePath = None  #TODO: this will need to be on each new image
 
         # Annotation canvas attributes
         self.mode = Tools.mouseTool
-        self.classColour = QColor(0,0,0)
+        self.currentClassName = ""
+        self.currentClassColour = QColor(0,0,0)
 
         # Setting alignment
         self.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
@@ -36,16 +38,19 @@ class AnnotationCanvasWidget(QGraphicsView):
         self.scene.setSceneRect(self.x(), self.y(), self.width(), self.height())
         self.scene.setBackgroundBrush(QColor(255,255,255))
 
-        # Adding image to scene
-        self.imagePixmap = QPixmap(self.imagePath)
+        # Creating initial canvas
+        self.imagePixmap = QPixmap()
         self.imageItem = QGraphicsPixmapItem(self.imagePixmap)
         self.scene.addItem(self.imageItem)
-
-        self.rectPen = QPen()
-        self.rectPen.setWidth(3)  #TODO: width could be read in via some config script
-        self.rectPen.setColor(QColor(0,0,0))
-
+        
         self.setScene(self.scene)
+    
+    def updateImage(self, imagePath) -> None:
+        """ Updates the image currently being shown as a QGraphicsPixmapItem """
+        # if we do not have an image, just show the canvas
+        if not Path(imagePath).is_file():
+            return
+        self.imagePixmap = QPixmap(imagePath)
 
     def resetScene(self):
         """ Resets the scene environment """
@@ -55,20 +60,20 @@ class AnnotationCanvasWidget(QGraphicsView):
         # Adding the image item back immediately after clearing
         self.imageItem = QGraphicsPixmapItem(self.imagePixmap)
         self.scene.addItem(self.imageItem)
-
+        
         # Adding stored rectangles back to the canvas
         for boundingBox in self.boundingBoxes:
-            self.createRect(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, False)
+            self.createRect(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, False, boundingBox.colour)
 
-    def createRect(self, x: float, y: float, width: float, height: float, store: bool):
+    def createRect(self, x: float, y: float, width: float, height: float, store: bool, colour):
         """ Creates a rectangle based on mouse location and adds the rectangle to the scene """
         # Creating the rectangle
         # rect = self.scene.addRect(x, y, width, height)
-        rect = CustomRectangleGraphicsItem(x, y, width, height, self.scene, self.classColour)
+        rect = CustomRectangleGraphicsItem(x, y, width, height, self.scene, colour)
         self.scene.addItem(rect)
 
         if store:
-            boundingBox = BoundingBox(x, y, width, height, self.classColour)
+            boundingBox = BoundingBox(x, y, width, height, self.currentClassColour)
             self.boundingBoxes.append(boundingBox)
 
     def mousePressEvent(self, event):
@@ -84,7 +89,7 @@ class AnnotationCanvasWidget(QGraphicsView):
         # Only add rectangle if in annotation mode
         if self.mode == Tools.annotationTool:
             self.resetScene()
-            self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), False)
+            self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), False, self.currentClassColour)
 
     def mouseReleaseEvent(self, event):
         """ Event to capture mouse release and update rect coords """
@@ -93,5 +98,5 @@ class AnnotationCanvasWidget(QGraphicsView):
         # Only add rectangle if in annotation mode
         if self.mode == Tools.annotationTool:
             self.resetScene()
-            self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), True)
+            self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), True, self.currentClassColour)
 
