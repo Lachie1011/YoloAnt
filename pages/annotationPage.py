@@ -11,6 +11,7 @@ from PyQt6.QtWidgets import QApplication, QHBoxLayout, QLabel, QVBoxLayout, QPus
 
 from yoloAnt_ui import Ui_MainWindow
 from events.hoverEvent import HoverEvent
+# from events.resizeEvent import ResizeEvent
 from events.resizeEvent import ResizeEvent
 from utils.switch import Switch
 from customWidgets.customQObjects import CustomClassQListWidget, UserInputQLineEdit
@@ -28,7 +29,7 @@ class AnnotationPage():
         Class to set up the functionality for the annotation page
     """
     def __init__(self, app) -> None:
-        # TODO: fix up app type to yoloant app involes add futyure annotations and some if typing
+        # TODO: fix up app type to yoloant app involes add future annotations and some if typing
         self.app = app
         self.ui = app.ui
         self.__setupStyleSheet()
@@ -37,7 +38,6 @@ class AnnotationPage():
         # Connecting signals and slots for the page
         self.__connectIconHover()
         self.__connectAnnotationToolButtons()
-
 
         self.__createClassSelectionList()
 
@@ -55,6 +55,7 @@ class AnnotationPage():
         # Connect signals and slots
         self.editSwitchBtn.toggled.connect(lambda toggled: self.classSelectionListWidget.enabledListEditMode(toggled))
         self.classSearchLineEdit.textChanged.connect(lambda newText: self.__searchForClass(newText))
+
         # Applying resize event for the image lbl TODO: revisit for image resizing
         # self.imageFrameResizeEvent = ResizeEvent(self.ui.imageFrame)
         # self.ui.imageFrame.installEventFilter(self.imageFrameResizeEvent)    
@@ -191,8 +192,10 @@ class AnnotationPage():
             self.ui.annotateToolBtn.setChecked(False)
             self.ui.annotateToolBtn.setIcon(QIcon("icons/bounding-inactive.png"))
             # update mouse icon
-            # QApplication.setOverrideCursor(QtCore.Qt.CursorShape.ArrowCursor)
             QApplication.restoreOverrideCursor()
+
+            # Updating annotationCanvasWidget mode
+            self.ui.annotationCanvasWidget.mode = Tools.mouseTool
 
         if tool is Tools.annotationTool:
             # updating checked state
@@ -200,6 +203,9 @@ class AnnotationPage():
             self.ui.mouseToolBtn.setIcon(QIcon("icons/cursor-inactive.png"))
             # update mouse icon
             QApplication.setOverrideCursor(QtCore.Qt.CursorShape.CrossCursor)
+
+            # Updating annotationCanvasWidget mode
+            self.ui.annotationCanvasWidget.mode = Tools.annotationTool
 
     def __searchForClass(self, newText: str) -> None:
         """ Searches and shows the classes that correspond to text """
