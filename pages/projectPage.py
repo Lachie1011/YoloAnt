@@ -8,6 +8,7 @@ from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtWidgets import QListWidget, QSizePolicy, QVBoxLayout, QSpacerItem, QGraphicsDropShadowEffect
 from PyQt6.QtGui import QCursor, QFont, QColor
 from pyqtgraph import PlotWidget, plot
+
 import pyqtgraph as pg
 
 from yoloAnt_ui import Ui_MainWindow
