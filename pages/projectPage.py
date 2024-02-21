@@ -128,16 +128,20 @@ class ProjectPage():
                                                      f"font: 75 11pt {self.app.fontTypeRegular};"
                                                      f"color: {self.app.theme.colours['font.regular']};}}")
 
+        self.ui.mdlSelLbl.setStyleSheet("QLabel{"
+                                        f"font: 75 13pt {self.app.fontTypeTitle};"
+                                        f"color: {self.app.theme.colours['font.header']};}}")
+
         self.ui.colourHeaderLbl.setStyleSheet("QLabel{"
-                                              f"font: 75 12pt {self.app.fontTypeTitle};"
+                                              f"font: 75 13pt {self.app.fontTypeTitle};"
                                               f"color: {self.app.theme.colours['font.regular']};}}")
 
         self.ui.classNameLbl.setStyleSheet("QLabel{"
-                                           f"font: 75 12pt {self.app.fontTypeTitle};"
+                                           f"font: 75 13pt {self.app.fontTypeTitle};"
                                            f"color: {self.app.theme.colours['font.regular']};}}")
 
         self.ui.classBalanceHeaderLbl.setStyleSheet("QLabel{"
-                                                    f"font: 75 12pt {self.app.fontTypeTitle};"
+                                                    f"font: 75 13pt {self.app.fontTypeTitle};"
                                                     f"color: {self.app.theme.colours['font.regular']};}}")
 
         self.ui.classInfoBar.setStyleSheet(self.ui.classInfoBar.styleSheet() +

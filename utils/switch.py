@@ -1,8 +1,8 @@
 """
     switch.py
 """
-from PyQt6.QtCore import QPropertyAnimation, QRectF, QSize, Qt, pyqtProperty
-from PyQt6.QtGui import QPainter
+from PyQt6.QtCore import QPropertyAnimation, QRectF, QSize, Qt, pyqtProperty, QRect 
+from PyQt6.QtGui import QPainter, QImage, QColor
 from PyQt6.QtWidgets import (QAbstractButton, QApplication, QHBoxLayout, QSizePolicy, QWidget)
 
 
@@ -11,7 +11,7 @@ class Switch(QAbstractButton):
         Class that creates a switch button.
     """
 
-    def __init__(self, parent=None, track_radius=8, thumb_radius=9):
+    def __init__(self, parent=None, track_radius=12, thumb_radius=11):
         super().__init__(parent=parent)
         self.setCheckable(True)
         self.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
@@ -53,16 +53,16 @@ class Switch(QAbstractButton):
                 False: palette.light(),
             }
             self._track_color = {
-                True: palette.highlight(),
-                False: palette.dark(),
+                True: QColor('#00a1f0'),
+                False: QColor('#BABDB6'),
             }
             self._text_color = {
                 True: palette.highlight().color(),
                 False: palette.dark().color(),
             }
             self._thumb_text = {
-                True: '✔',
-                False: '✕',
+                True: QImage("icons/icons8-pencil-enabled-18.png"),
+                False: QImage("icons/icons8-pencil-18.png"),
             }
             self._track_opacity = 1
 
@@ -129,14 +129,13 @@ class Switch(QAbstractButton):
         font = p.font()
         font.setPixelSize(1.5 * self._thumb_radius)
         p.setFont(font)
-        p.drawText(
+        p.drawImage(
             QRectF(
-                self.offset - self._thumb_radius,
-                self._base_offset - self._thumb_radius,
-                2 * self._thumb_radius,
-                2 * self._thumb_radius,
+                self.offset - self._thumb_radius + 2,
+                self._base_offset - self._thumb_radius + 2,
+                self._thumb_radius * 2 - 4,
+                self._thumb_radius * 2 - 4,
             ),
-            Qt.AlignmentFlag.AlignCenter,
             self._thumb_text[self.isChecked()],
         )
 

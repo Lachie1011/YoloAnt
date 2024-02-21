@@ -7,7 +7,7 @@ from enum import Enum
 
 from PyQt6 import QtCore
 from PyQt6.QtGui import QCursor, QIcon, QColor
-from PyQt6.QtWidgets import QApplication, QHBoxLayout, QLabel, QVBoxLayout, QPushButton, QFrame, QGraphicsDropShadowEffect
+from PyQt6.QtWidgets import QApplication, QHBoxLayout, QLabel, QVBoxLayout, QPushButton, QFrame, QGraphicsDropShadowEffect, QSpacerItem, QSizePolicy
 
 from yoloAnt_ui import Ui_MainWindow
 from events.hoverEvent import HoverEvent
@@ -66,22 +66,29 @@ class AnnotationPage():
                                          f"background: {self.app.theme.colours['app.sunken']};")   
 
         dropshadowEffect1 = QGraphicsDropShadowEffect()
-        dropshadowEffect1.setBlurRadius(20)
+        dropshadowEffect1.setBlurRadius(10)
         color = QColor(self.app.theme.colours['app.dropshadow'])
         dropshadowEffect1.setColor(color)
-        dropshadowEffect1.setOffset(0,0)
+        dropshadowEffect1.setOffset(0,2)
         self.ui.classSelectionFrame.setGraphicsEffect(dropshadowEffect1)
         self.ui.classSelectionFrame.setStyleSheet(self.ui.classSelectionFrame.styleSheet() + 
                                              f"background: {self.app.theme.colours['panel.background']};")   
 
-        dropshadowEffect = QGraphicsDropShadowEffect()
-        dropshadowEffect.setBlurRadius(20)
+        dropshadowEffect2 = QGraphicsDropShadowEffect()
+        dropshadowEffect2.setBlurRadius(10)
         color = QColor(self.app.theme.colours['app.dropshadow'])
-        dropshadowEffect.setColor(color)
-        dropshadowEffect.setOffset(0,0)      
-        self.ui.imageInfoFrame.setGraphicsEffect(dropshadowEffect)
+        dropshadowEffect2.setColor(color)
+        dropshadowEffect2.setOffset(0,2) 
+        self.ui.imageInfoFrame.setGraphicsEffect(dropshadowEffect2)
         self.ui.imageInfoFrame.setStyleSheet(self.ui.imageInfoFrame.styleSheet() +
-                                             f"background: {self.app.theme.colours['panel.background']};")  
+                                             f"background: {self.app.theme.colours['panel.background']};") 
+        
+        dropshadowEffect3 = QGraphicsDropShadowEffect()
+        dropshadowEffect3.setBlurRadius(10)
+        color = QColor(self.app.theme.colours['app.dropshadow'])
+        dropshadowEffect3.setColor(color)
+        dropshadowEffect3.setOffset(0,2)  
+        self.ui.annotationToolsFrame.setGraphicsEffect(dropshadowEffect3)
         self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() + 
                                                    f"background: {self.app.theme.colours['panel.background']};")
         self.ui.classSelectAnnoPageFrame.setStyleSheet(self.ui.classSelectAnnoPageFrame.styleSheet() +
@@ -118,23 +125,26 @@ class AnnotationPage():
         self.classSearchAddFrame.setLayout(self.classSearchAddFrameLayout)
 
         # Setting up edit switch
-        self.editSwtichLbl = QLabel('Edit')
-        self.editSwtichLbl.setStyleSheet("QLabel{"
-                                         f"font: 75 12pt {self.app.fontTypeTitle};"
-                                         f"color: {self.app.theme.colours['font.regular']};}}")
-        self.editSwtichLbl.setFixedHeight(18)
+        # self.editSwtichLbl = QLabel('Edit')
+        # self.editSwtichLbl.setStyleSheet("QLabel{"
+        #                                  f"font: 75 12pt {self.app.fontTypeTitle};"
+        #                                  f"color: {self.app.theme.colours['font.regular']};}}")
+        # self.editSwtichLbl.setFixedHeight(18)
 
         self.editSwitchBtn = Switch()
 
         self.editSwitchLayout = QHBoxLayout()
-        self.editSwitchLayout.addWidget(self.editSwtichLbl)
+        # self.editSwitchLayout.addWidget(self.editSwtichLbl)
         self.editSwitchLayout.addWidget(self.editSwitchBtn)
-        self.editSwitchLayout.setContentsMargins(5,5,0,5)
+        self.editSwitchLayout.setContentsMargins(0,0,0,0)
         self.editSwitchFrame = QFrame()
         self.editSwitchFrame.setLayout(self.editSwitchLayout)
 
+        spacer1 = QSpacerItem(2, 5, QSizePolicy.Policy.Expanding)
+
         self.classHeaderLayout = QHBoxLayout()
         self.classHeaderLayout.addWidget(self.classSearchAddFrame)
+        self.classHeaderLayout.addItem(spacer1)
         self.classHeaderLayout.addWidget(self.editSwitchFrame)
         self.classHeaderLayout.setContentsMargins(0,0,0,0)
         self.classHeaderLayout.setSpacing(5)
