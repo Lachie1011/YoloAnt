@@ -3,8 +3,8 @@
 """
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPalette, QBrush
-from PyQt6.QtWidgets import (QDialog, QFrame, QLineEdit, QAbstractItemView, QListWidgetItem, 
-                             QSizePolicy, QListWidget, QAbstractScrollArea, QListView)
+from PyQt6.QtWidgets import (QDialog, QFrame, QLineEdit, QAbstractItemView, QListWidgetItem, QPushButton, QSizePolicy,
+                             QSizePolicy, QListWidget, QAbstractScrollArea, QListView, QTextEdit, QGraphicsOpacityEffect)
 
 class CustomWidgetItemQFrame(QFrame):
     """
@@ -42,7 +42,7 @@ class CustomQLineEdit(QLineEdit):
         self.setStyleSheet("QLineEdit{"
                            f"font: 12pt {self.fontRegular};"
                            f"background-color: {self.themePaletteColours['lineEdit.background']};"
-                           f"border: 1px solid {self.themePaletteColours['focus.foregound']}}}")
+                           f"border: 1px solid {self.themePaletteColours['focus.foreground']}}}")
 
     def focusOutEvent(self, event):
         """ Sets background colour of widget when it loses focus """
@@ -53,6 +53,195 @@ class CustomQLineEdit(QLineEdit):
                            "QLineEdit:hover{"
                            f"background-color: {self.themePaletteColours['lineEdit.background']};}}")
 
+class PanelQLineEdit(QLineEdit):
+    """
+        Class that creates a custom line edit widget for application panel
+    """
+    def __init__(self, themePaletteColours, fontStyle):
+        super().__init__()
+        self.editableState = False
+        self.themePaletteColours = themePaletteColours
+        self.fontStyle = fontStyle
+        self.__baseStyleSheet()
+        self.setTextMargins(3,3,3,3)
+
+    def __baseStyleSheet(self) -> None:
+        """ Sets the style sheet for the widget """
+        self.setStyleSheet("QLineEdit{"
+                           f"{self.fontStyle};"
+                           f"border: 1px solid {self.themePaletteColours['panel.background']};"
+                           f"background-color: {self.themePaletteColours['panel.background']};"
+                           "border-radius: 5px;"
+                           f"color: {self.themePaletteColours['font.header']};}}")
+        self.setReadOnly(True)
+        self.setCursor(Qt.CursorShape.ArrowCursor)
+
+    def __editableStyleSheet(self) -> None:
+        """ Sets the style sheet for the widget """
+        self.setStyleSheet("QLineEdit{"
+                           f"{self.fontStyle};"
+                           f"background-color: {self.themePaletteColours['panel.sunken']};"
+                           "border-radius: 5px;"
+                           f"border: 1px solid {self.themePaletteColours['userInput.border']};"
+                           f"color: {self.themePaletteColours['font.header']};}}"
+                           "QLineEdit:hover{"
+                           f"border: 1px solid {self.themePaletteColours['focus.foreground']}}}")
+        self.setReadOnly(False)
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+   
+    def focusInEvent(self, event):
+        """ Sets background colour of widget when it is focused """
+        if self.editableState:
+            super().focusInEvent(event)
+            self.setCursor(Qt.CursorShape.IBeamCursor)
+            self.setStyleSheet("QLineEdit{"
+                               f"{self.fontStyle};"
+                               "border-radius: 5px;"
+                               f"background-color: {self.themePaletteColours['panel.sunken']};"
+                               f"border: 1px solid {self.themePaletteColours['focus.foreground']}}}")
+
+    def focusOutEvent(self, event):
+        """ Sets background colour of widget when it loses focus """
+        if self.editableState:
+            super().focusOutEvent(event)
+            self.__editableStyleSheet()
+
+    def setEditMode(self, toggled: bool) -> None:
+        """ Sets the edit mode of the widget """
+        if toggled:
+            self.__editableStyleSheet()
+
+        else:
+            self.__baseStyleSheet()
+
+        self.editableState = toggled
+
+class PanelQTextEdit(QTextEdit):
+    """
+        Class that creates a custom text edit widget for application panel
+    """
+    def __init__(self, themePaletteColours, fontType):
+        super().__init__()
+        self.editableState = False
+        self.themePaletteColours = themePaletteColours
+        self.fontType = fontType
+        self.__baseStyleSheet()
+        self.setViewportMargins(3,3,3,3)
+
+    def __baseStyleSheet(self) -> None:
+        """ Sets the style sheet for the widget """
+        self.setStyleSheet("QTextEdit{"
+                           f"font: 75 12pt {self.fontType};"
+                           f"border: 1px solid {self.themePaletteColours['panel.background']};"
+                           f"background-color: {self.themePaletteColours['panel.background']};"
+                           "border-radius: 5px;"
+                           f"color: {self.themePaletteColours['font.header']};}}")
+        self.setReadOnly(True)
+        self.viewport().setCursor(Qt.CursorShape.ArrowCursor)
+
+    def __editableStyleSheet(self) -> None:
+        """ Sets the style sheet for the widget """
+        self.setStyleSheet("QTextEdit{"
+                           f"font: 75 12pt {self.fontType};"
+                           f"background-color: {self.themePaletteColours['panel.sunken']};"
+                           "border-radius: 5px;"
+                           f"border: 1px solid {self.themePaletteColours['userInput.border']};"
+                           f"color: {self.themePaletteColours['font.header']};}}"
+                           "QTextEdit:hover{"
+                           f"border: 1px solid {self.themePaletteColours['focus.foreground']}}}")
+        self.setReadOnly(False)
+        self.viewport().setCursor(Qt.CursorShape.PointingHandCursor)
+   
+    def focusInEvent(self, event):
+        """ Sets background colour of widget when it is focused """
+        if self.editableState:
+            super().focusInEvent(event)
+            self.viewport().setCursor(Qt.CursorShape.IBeamCursor)
+            self.setStyleSheet("QTextEdit{"
+                               f"font: 75 12pt {self.fontType};"
+                               "border-radius: 5px;"
+                               f"background-color: {self.themePaletteColours['panel.sunken']};"
+                               f"border: 1px solid {self.themePaletteColours['focus.foreground']}}}")
+
+    def focusOutEvent(self, event):
+        """ Sets background colour of widget when it loses focus """
+        if self.editableState:
+            super().focusOutEvent(event)
+            self.__editableStyleSheet()
+
+    def setEditMode(self, toggled) -> None:
+        """ Sets the edit mode of the widget """
+        if toggled:
+            self.__editableStyleSheet()
+
+        else:
+            self.__baseStyleSheet()
+
+        self.editableState = toggled
+
+
+class ProjectImageQPushButton(QPushButton):
+    """
+        Class that creates a custom text edit widget for application panel
+    """
+    def __init__(self, themePaletteColours):
+        super().__init__()
+        self.editableState = False
+        self.themePaletteColours = themePaletteColours
+        self.__baseStyleSheet()
+        self.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
+    def __baseStyleSheet(self) -> None:
+        """ Sets the style sheet for the widget """
+        self.setStyleSheet("QPushButton{"
+                           f"border: 1px solid {self.themePaletteColours['userInput.border']};"
+                           "background-color: #FFFFFF;" 
+                           "border-radius: 5px;}")
+        self.setCursor(Qt.CursorShape.ArrowCursor)
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.opacityEffect = QGraphicsOpacityEffect()
+        self.opacityEffect.setOpacity(0.99)
+        self.setGraphicsEffect(self.opacityEffect)
+        self.setAutoFillBackground(True)
+
+    def __editableStyleSheet(self) -> None:
+        """ Sets the style sheet for the widget """
+        self.setStyleSheet("QPushButton{"
+                           "background-color: #FFFFFF;" 
+                           f"border: 1px solid {self.themePaletteColours['userInput.border']};"
+                           "border-radius: 5px;}")
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+
+    def enterEvent(self, event) -> None:
+        """ Sets background of widget when mouse enters item widget """
+        if self.editableState:
+            self.setStyleSheet("QPushButton{"
+                               "background-color: #FFFFFF;" 
+                               f"border: 1px solid {self.themePaletteColours['focus.foreground']};"
+                               "border-radius: 5px;}")
+            self.opacityEffect.setOpacity(0.5)
+
+    def leaveEvent(self, event) -> None:
+        """ Sets background of widget when mouse leaves item widget """
+        if self.editableState:
+            self.setStyleSheet("QPushButton{"
+                                "background-color: #FFFFFF;" 
+                                f"border: 1px solid {self.themePaletteColours['userInput.border']};"
+                                "border-radius: 5px;}")
+            self.opacityEffect.setOpacity(0.99)
+
+    def setEditMode(self, toggled) -> None:
+        """ Sets the edit mode of the widget """
+        if toggled:
+            self.__editableStyleSheet()
+
+        else:
+            self.__baseStyleSheet()
+
+        self.editableState = toggled
+
+        
+
 
 class UserInputQLineEdit(QLineEdit):
     """
@@ -62,35 +251,48 @@ class UserInputQLineEdit(QLineEdit):
         super().__init__()
         self.themePaletteColours = themePaletteColours
         self.fontRegular = fontRegular
-        self.__setupStyleSheet()
+        self.__baseStyleSheet()
+        self.setTextMargins(3,3,3,3)
 
-    def __setupStyleSheet(self) -> None:
+    def __baseStyleSheet(self) -> None:
         """ Sets the style sheet for the widget """
         self.setStyleSheet("QLineEdit{"
                            f"font: 12pt {self.fontRegular};"
-                           "border: 0px;"
+                           "border-radius: 5px;"
                            f"color: {self.themePaletteColours['font.regular']};"
-                           f"background-color: {self.themePaletteColours['userInput.background']};"
+                           f"background-color: {self.themePaletteColours['panel.sunken']};"
                            f"border: 1px solid {self.themePaletteColours['userInput.border']}}}")
+
+    def validTextInput(self, valid) -> None:
+        if not valid:
+            self.setStyleSheet("QLineEdit{"
+                               f"font: 12pt {self.fontRegular};"
+                               "border-radius: 5px;"
+                               f"color: {self.themePaletteColours['font.regular']};"
+                               f"background-color: {self.themePaletteColours['panel.sunken']};"
+                               "border: 1px solid red}")
+
+        else:
+            self.__baseStyleSheet()
 
     def focusInEvent(self, event):
         """ Sets background colour of widget when it is focused """
         super().focusInEvent(event)
         self.setStyleSheet("QLineEdit{"
                            f"font: 12pt {self.fontRegular};"
-                           "border: 0px;"
+                           "border-radius: 5px;"
                            f"color: {self.themePaletteColours['font.regular']};"
-                           f"background-color: {self.themePaletteColours['userInput.background']};"
-                           f"border: 1px solid {self.themePaletteColours['focus.foregound']};}}")
+                           f"background-color: {self.themePaletteColours['panel.sunken']};"
+                           f"border: 1px solid {self.themePaletteColours['focus.foreground']};}}")
 
     def focusOutEvent(self, event):
         """ Sets background colour of widget when it loses focus """
         super().focusOutEvent(event)
         self.setStyleSheet("QLineEdit{"
                            f"font: 12pt {self.fontRegular};"
-                           "border: 0px;"
+                           "border-radius: 5px;"
                            f"color: {self.themePaletteColours['font.regular']};"
-                           f"background-color: {self.themePaletteColours['userInput.background']};"
+                           f"background-color: {self.themePaletteColours['panel.sunken']};"
                            f"border: 1px solid {self.themePaletteColours['userInput.border']};}}")
 
 class CustomKeySelectionDialog(QDialog):
@@ -196,14 +398,14 @@ class CustomClassQListWidget (QListWidget):
             self.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
 
 
-    def enabledListEditMode(self, editEnabled):
+    def setEditMode(self, toggled):
         """ Sets the widget in item to edit mode """
         # Change selected item to edit mode
         for listItemIndex in range(0,self.count()):
             listItem = self.item(listItemIndex)
             widgetInItem = self.itemWidget(listItem)
 
-            if editEnabled:
+            if toggled:
                 self.editableState = True
                 widgetInItem.enableEdit()
             

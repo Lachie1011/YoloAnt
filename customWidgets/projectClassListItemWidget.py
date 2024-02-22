@@ -2,7 +2,7 @@
     classListItemWidget.py
 """
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QCursor 
+from PyQt6.QtGui import QCursor, QFont
 from PyQt6.QtWidgets import (QFrame, QLabel, QHBoxLayout, QLineEdit, QProgressBar, 
                              QSpacerItem, QSizePolicy, QPushButton)
 
@@ -66,29 +66,15 @@ class ProjectClassListItemWidget (QFrame):
         self.classColourButton.setVisible(False)
         self.classColourButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
-        # Class name label
-        self.classItemLbl = QLabel(self.className)
-        self.classItemLbl.setStyleSheet("QLabel{"
-                                        f"color: {self.themePaletteColours['font.regular']};"
-                                        f"font: 12pt {self.fontRegular};}}")
-        self.classItemLbl.setMinimumSize(100, 30)
-        self.classItemLbl.setMaximumSize(300, 30)
-        self.classItemLbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-
         # Class name line edit, not visible by default
-        self.classItemLineEdit = CustomQLineEdit(self.themePaletteColours, self.fontRegular)
+        self.classItemLineEdit = PanelQLineEdit(self.themePaletteColours, f"font: 75 12pt {self.fontRegular};")
 
         # self.classItemLineEdit = QLineEdit()
         self.classItemLineEdit.editingFinished.connect(lambda: self.setClassName(self.classItemLineEdit.text()))
-        self.classItemLineEdit.setStyleSheet("QLineEdit{"
-                                             f"font: 12pt {self.fontRegular};}}"
-                                             "QLineEdit:hover{"
-                                             f"background-color: {self.themePaletteColours['app.hover']};}}")
         self.classItemLineEdit.setText(self.className)
         self.classItemLineEdit.setMinimumSize(100, 30)
         self.classItemLineEdit.setMaximumSize(300, 30)
         self.classItemLineEdit.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        self.classItemLineEdit.setVisible(False)
 
         # Numer of annotations for class
         self.numClassItemLbl = QLabel(str(self.numClassAnnotations))
@@ -143,7 +129,6 @@ class ProjectClassListItemWidget (QFrame):
         self.classItemWidetLayout.addWidget(self.classColourLbl)
         self.classItemWidetLayout.addWidget(self.classColourButton)
         self.classItemWidetLayout.addItem(self.classColourhorizontalSpacer)
-        self.classItemWidetLayout.addWidget(self.classItemLbl)
         self.classItemWidetLayout.addWidget(self.classItemLineEdit)
         self.classItemWidetLayout.addWidget(self.numClassItemLbl)
         self.classItemWidetLayout.addWidget(self.classNumBar)
@@ -156,8 +141,8 @@ class ProjectClassListItemWidget (QFrame):
         """ Sets the item widget to edit mode """
         self.parentSelected = True
         self.setStyleSheet(self.styleSheet() + f"background: {self.themePaletteColours['listItem.edit']};")
-        self.classItemLbl.setVisible(False)
-        self.classItemLineEdit.setVisible(True)
+        self.classItemLineEdit.setEditMode(True)
+
         self.classColourLbl.setVisible(False)
         self.classColourButton.setVisible(True)
         self.classDeleteLbl.setVisible(False)
@@ -168,8 +153,8 @@ class ProjectClassListItemWidget (QFrame):
         """ Disables edit mode of item widget """
         self.parentSelected = False
         self.setStyleSheet(self.styleSheet() + f"background: {self.themePaletteColours['panel.background']};")
-        self.classItemLbl.setVisible(True)
-        self.classItemLineEdit.setVisible(False)
+        self.classItemLineEdit.setEditMode(False)
+
         self.classColourLbl.setVisible(True)
         self.classColourButton.setVisible(False)
         self.classDeleteLbl.setVisible(True)
@@ -179,7 +164,6 @@ class ProjectClassListItemWidget (QFrame):
     def setClassName(self, text: str) -> None:
         """ Sets the name of the class from user input """
         self.className = text
-        self.classItemLbl.setText(text)
         self.classItemLineEdit.setText(text)
 
         if self.classItemLineEdit.hasFocus():

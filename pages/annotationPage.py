@@ -53,7 +53,7 @@ class AnnotationPage():
         self.classSelectionListWidget.addItemToListWidget(annoPageListWidgetItem5)
 
         # Connect signals and slots
-        self.editSwitchBtn.toggled.connect(lambda toggled: self.classSelectionListWidget.enabledListEditMode(toggled))
+        self.app.editPageBtn.toggled.connect(lambda toggled: self.classSelectionListWidget.setEditMode(toggled))
         self.classSearchLineEdit.textChanged.connect(lambda newText: self.__searchForClass(newText))
 
         # Applying resize event for the image lbl TODO: revisit for image resizing
@@ -107,22 +107,23 @@ class AnnotationPage():
         # Create class button
         self.classAddAnnoPageBtn = QPushButton()
         self.classAddAnnoPageBtn.setStyleSheet("QPushButton{"
+                                               f"font: 75 bold 11pt {self.app.fontTypeTitle};"
                                                f"background-color: {self.app.theme.colours['buttonFilled.background']};"
-                                               "border-radius: 12px;}"
+                                               "border-radius: 8px;}"
                                                "QPushButton::hover{"
                                                f"background-color : {self.app.theme.colours['buttonFilled.hover']};"
-                                               f"color: {self.app.theme.colours['font.regular']};}}")
+                                               f"color: {self.app.theme.colours['font.header']};}}")
         self.classAddAnnoPageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.classAddAnnoPageBtn.setText('+')
+        self.classAddAnnoPageBtn.setText('+ Add Class')
         self.classAddAnnoPageBtn.setFixedHeight(25)
-        self.classAddAnnoPageBtn.setFixedWidth(25)
+        # self.classAddAnnoPageBtn.setFixedWidth(25)
 
-        self.classSearchAddFrameLayout = QHBoxLayout()
-        self.classSearchAddFrameLayout.addWidget(self.classSearchLineEdit)
-        self.classSearchAddFrameLayout.addWidget(self.classAddAnnoPageBtn)
-        self.classSearchAddFrameLayout.setContentsMargins(0,0,0,0)
-        self.classSearchAddFrame = QFrame()
-        self.classSearchAddFrame.setLayout(self.classSearchAddFrameLayout)
+        # self.classSearchAddFrameLayout = QHBoxLayout()
+        # self.classSearchAddFrameLayout.addWidget(self.classSearchLineEdit)
+        # self.classSearchAddFrameLayout.addWidget(self.classAddAnnoPageBtn)
+        # self.classSearchAddFrameLayout.setContentsMargins(0,0,0,0)
+        # self.classSearchAddFrame = QFrame()
+        # self.classSearchAddFrame.setLayout(self.classSearchAddFrameLayout)
 
         # Setting up edit switch
         # self.editSwtichLbl = QLabel('Edit')
@@ -131,23 +132,21 @@ class AnnotationPage():
         #                                  f"color: {self.app.theme.colours['font.regular']};}}")
         # self.editSwtichLbl.setFixedHeight(18)
 
-        self.editSwitchBtn = Switch()
+        # self.editSwitchBtn = Switch()
 
-        self.editSwitchLayout = QHBoxLayout()
-        # self.editSwitchLayout.addWidget(self.editSwtichLbl)
-        self.editSwitchLayout.addWidget(self.editSwitchBtn)
-        self.editSwitchLayout.setContentsMargins(0,0,0,0)
-        self.editSwitchFrame = QFrame()
-        self.editSwitchFrame.setLayout(self.editSwitchLayout)
+        # self.editSwitchLayout = QHBoxLayout()
+        # # self.editSwitchLayout.addWidget(self.editSwtichLbl)
+        # self.editSwitchLayout.addWidget(self.editSwitchBtn)
+        # self.editSwitchLayout.setContentsMargins(0,0,0,0)
+        # self.editSwitchFrame = QFrame()
+        # self.editSwitchFrame.setLayout(self.editSwitchLayout)
 
-        spacer1 = QSpacerItem(2, 5, QSizePolicy.Policy.Expanding)
 
         self.classHeaderLayout = QHBoxLayout()
-        self.classHeaderLayout.addWidget(self.classSearchAddFrame)
-        self.classHeaderLayout.addItem(spacer1)
-        self.classHeaderLayout.addWidget(self.editSwitchFrame)
+        self.classHeaderLayout.addWidget(self.classSearchLineEdit)
+        self.classHeaderLayout.addWidget(self.classAddAnnoPageBtn)
         self.classHeaderLayout.setContentsMargins(0,0,0,0)
-        self.classHeaderLayout.setSpacing(5)
+        self.classHeaderLayout.setSpacing(15)
         self.ui.classHeaderAnnoPageFrame.setLayout(self.classHeaderLayout)
 
         # Status combobox style

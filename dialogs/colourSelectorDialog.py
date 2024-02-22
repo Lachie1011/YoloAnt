@@ -68,7 +68,7 @@ class ColourSelectorDialog(QDialog):
     def __setupStyleSheet(self) -> None:
         """ Sets the style sheet for the page """
         self.ui.colourSelectorFrame.setStyleSheet("QFrame{"
-                                                  f"background-color: {self.themePaletteColours['app.background']};"
+                                                  f"background-color: {self.themePaletteColours['panel.background']};"
                                                   "border-radius: 10px;}")
 
         self.redLineEdit = UserInputQLineEdit(self.themePaletteColours, self.fontRegular)
