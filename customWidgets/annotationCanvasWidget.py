@@ -51,6 +51,7 @@ class AnnotationCanvasWidget(QGraphicsView):
         if not Path(imagePath).is_file():
             return
         self.imagePixmap = QPixmap(imagePath)
+        self.resetScene()
 
     def resetScene(self):
         """ Resets the scene environment """

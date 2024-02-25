@@ -136,6 +136,7 @@ class YoloAnt(QMainWindow):
             self.ui.mlTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
             self.ui.infoBtn.setChecked(False)
             self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
+            self.annotationPage.loadPage()
 
         elif(page is Pages.ProjectPage):
             self.currentPage = Pages.ProjectPage
@@ -149,6 +150,8 @@ class YoloAnt(QMainWindow):
             self.ui.mlTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
             self.ui.infoBtn.setChecked(False)
             self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
+            self.projectPage.loadPage()
+
         elif(page is Pages.MachineLearningPage):
             self.currentPage = Pages.MachineLearningPage
             self.ui.mlTabBtn.setChecked(True)
@@ -165,7 +168,7 @@ class YoloAnt(QMainWindow):
     def __onPageChange(self) -> None: 
         """ Resets some application attributes on a page change """
         # Reset cursor icon
-        QApplication.restoreOverrideCursor()
+        QApplication.restoreOverrideCursor() 
 
     def __connectInformationButton(self) -> None:
         self.ui.infoBtn.clicked.connect(lambda: self.__openInfoDialog(True))

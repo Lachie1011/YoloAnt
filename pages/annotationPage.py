@@ -38,8 +38,8 @@ class AnnotationPage():
         # Connecting signals and slots for the page
         self.__connectIconHover()
         self.__connectAnnotationToolButtons()
-
         self.__createClassSelectionList()
+        self.__connectImageNavigationButtons()
 
         annoPageListWidgetItem = AnnoPageListWidgetItem("Dog", (0, 201, 52), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle, page=self) 
         annoPageListWidgetItem2 = AnnoPageListWidgetItem("Cat", (0, 90, 255), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle, page=self) 
@@ -54,11 +54,25 @@ class AnnotationPage():
 
         # Connect signals and slots
         self.editSwitchBtn.toggled.connect(lambda toggled: self.classSelectionListWidget.enabledListEditMode(toggled))
-        self.classSearchLineEdit.textChanged.connect(lambda newText: self.__searchForClass(newText))
+        self.classSearchLineEdit.textChanged.connect(lambda newText: self.__searchForClass(newText))   
 
-        # Applying resize event for the image lbl TODO: revisit for image resizing
-        # self.imageFrameResizeEvent = ResizeEvent(self.ui.imageFrame)
-        # self.ui.imageFrame.installEventFilter(self.imageFrameResizeEvent)    
+    def loadPage(self):
+        """ Loads all information and functionality """
+        # Set initial image in the annotation canvas TODO: image defaults to first in dataset, should be a setting to default to first unannotated 
+        if len(self.app.project.dataset) > 0:
+            self.app.ui.annotationCanvasWidget.updateImage(self.app.project.dataset[0].path)
+        else:
+            self.app.notificationManager.raiseNotification("Dataset contains no images")
+        
+        # TODO: load all class information here
+
+    def __connectImageNavigationButtons(self):
+        """ Connects the buttons used to navigate throughout the canvas"""
+        pass
+        #self.app.ui.prevImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget())
+        #self.app.ui.nextImageBtn.clicked.connect()
+        #self.app.ui.prevUnannoImageBtn.clicked.connect()
+        #self.app.ui.nextUnannoImageBtn.clicked.connect()
 
     def __setupPagePalette(self) -> None:
         """ Sets the colour palette for the page widgets """  
