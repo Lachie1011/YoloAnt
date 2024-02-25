@@ -39,7 +39,6 @@ class Project:
             except Exception as exc:
                 print(exc)
         
-
     def createProject(self, name: str, dataset: str) -> None:
         """ Function to create a  project"""
         # check that project doesnt exist
@@ -51,7 +50,7 @@ class Project:
         os.makedirs(projectPath)
 
         # create project yaml and write out default info 
-        projectFile = projectPath + "/project.yaml"
+        projectFile = projectPath + "/project.yaml"         
         project = {"name": name, "dataset": dataset, "description": ""}
         with open(projectFile, "x") as file:
             try:
@@ -59,16 +58,14 @@ class Project:
             except Exception as exc:
                 print(exc)
 
+        # create file to keep track of images in dataset
+        datasetFile = projectPath + "/dataset.yaml"
+        images = os.listdir(dataset)
+        with open(datasetFile, "x") as file:
+            try:
+                yaml.dump(images, file, sort_keys=False)
+            except Exception as exc:
+                print(exc)
+
         self.loadProject(projectFile)
-
-
-    def loadImages(self):
-        """ Creates image metadata for every image in a specified directory """
-        # load every file in the directory as an image TODO: probably need to like not assume evry file is an image 
-        dataset = []
-        for file in os.listdir(self.datasetPath):
-            image = Image(self.datasetPath + "/" + file)
-            if image.isValid:
-                dataset.append(image) 
-        return dataset
 
