@@ -21,22 +21,30 @@ class Project:
         self.datasetPath = None
         self.description = None
 
-    def loadProject(self, projectPath: str) -> None:
+    def loadProject(self, projectDir: str) -> None:
         """ Function to load a project's metadata """
         # check if project exists
-        if not os.path.exists(projectPath):
+        if not os.path.exists(projectDir):
             return None
         
         # attempt to load project yaml
-        with open(projectPath, "r") as stream:
+        with open(projectDir + "/project.yaml", "r") as stream:
             try:
                 project = yaml.safe_load(stream)
                 self.name = project["name"]
-                self.datasetPath = project["dataset"]
+                self.datasetPath = project["datasetPath"]
                 self.description = project["description"]
                 self.projectValidated = True
             except Exception as exc:
                 print(exc)
+
+        # if dataset is not loaded, load dataset
+        if not self.dataset:
+            with open(projectDir + "/dataset.yaml", "r") as stream:
+                try:
+                    self.dataset = yaml.safe_load(stream)
+                except Exception as exc:
+                    print(exc)
         
     def createProject(self, name: str, dataset: str) -> None:
         """ Function to create a  project"""
@@ -50,7 +58,7 @@ class Project:
 
         # create project yaml and write out default info 
         projectFile = projectPath + "/project.yaml"         
-        project = {"name": name, "dataset": dataset, "description": ""}
+        project = {"name": name, "datasetPath": dataset, "description": ""}
         with open(projectFile, "x") as file:
             try:
                 yaml.dump(project, file, sort_keys=False)  # Dont want sorting present
@@ -58,13 +66,17 @@ class Project:
                 print(exc)
 
         # create file to keep track of images in dataset
-        datasetFile = projectPath + "/dataset.yaml"
-        images = os.listdir(dataset)
+        self.dataset = []
+        imageFiles = os.listdir(dataset)
+        for image in imageFiles:
+            self.dataset.append(dataset + "/" + image)
+        
+        datasetFile = projectPath + "/dataset.yaml" 
         with open(datasetFile, "x") as file:
             try:
-                yaml.dump(images, file, sort_keys=False)
+                yaml.dump(self.dataset, file, sort_keys=False)
             except Exception as exc:
                 print(exc)
 
-        self.loadProject(projectFile)
+        self.loadProject(projectPath)
 

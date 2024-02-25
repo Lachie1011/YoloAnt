@@ -18,8 +18,20 @@ from customWidgets.customQObjects import CustomClassQListWidget, UserInputQLineE
 from customWidgets.annoPageListWidgetItem import AnnoPageListWidgetItem
 
 
+class NavigationModes(Enum):
+    """ 
+        Enum to represent different canvas navigation modes 
+    """
+    next=0
+    previous=1
+    nextUnannotated=2
+    previoudUnannotated=3
+
+
 class Tools(Enum):
-    """ Enum to represent the annotation tools within the page"""
+    """ 
+        Enum to represent the annotation tools within the page
+    """
     mouseTool=0
     annotationTool=1
 
@@ -40,6 +52,10 @@ class AnnotationPage():
         self.__connectAnnotationToolButtons()
         self.__createClassSelectionList()
         self.__connectImageNavigationButtons()
+        
+        # Page attributes
+
+        self.currentIndex = 0  #TODO: should be a setting to toggle between starting at zero or last index
 
         annoPageListWidgetItem = AnnoPageListWidgetItem("Dog", (0, 201, 52), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle, page=self) 
         annoPageListWidgetItem2 = AnnoPageListWidgetItem("Cat", (0, 90, 255), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle, page=self) 
@@ -60,7 +76,7 @@ class AnnotationPage():
         """ Loads all information and functionality """
         # Set initial image in the annotation canvas TODO: image defaults to first in dataset, should be a setting to default to first unannotated 
         if len(self.app.project.dataset) > 0:
-            self.app.ui.annotationCanvasWidget.updateImage(self.app.project.dataset[0].path)
+            self.app.ui.annotationCanvasWidget.updateImage(self.app.project.dataset[self.currentIndex])
         else:
             self.app.notificationManager.raiseNotification("Dataset contains no images")
         
@@ -68,11 +84,25 @@ class AnnotationPage():
 
     def __connectImageNavigationButtons(self):
         """ Connects the buttons used to navigate throughout the canvas"""
-        pass
-        #self.app.ui.prevImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget())
-        #self.app.ui.nextImageBtn.clicked.connect()
-        #self.app.ui.prevUnannoImageBtn.clicked.connect()
-        #self.app.ui.nextUnannoImageBtn.clicked.connect()
+        self.app.ui.nextImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.next))
+        self.app.ui.prevImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.previous))
+        self.app.ui.nextUnannoImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.nextUnannotated))
+        self.app.ui.prevUnannoImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.previoudUnannotated))
+    
+    def __navigateCanvasWidget(self, navigationType):
+        """ Logic for page navigation """
+        if navigationType is NavigationModes.next:
+            if (self.currentIndex + 1) < len(self.app.project.dataset):
+                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.dataset[self.currentIndex + 1])
+                self.currentIndex = self.currentIndex + 1
+        if navigationType is NavigationModes.previous:
+            if (self.currentIndex - 1) > 0:
+                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.dataset[self.currentIndex - 1])
+                self.currentIndex = self.currentIndex - 1
+        if navigationType is NavigationModes.nextUnannotated:
+            pass
+        if navigationType is NavigationModes.previoudUnannotated:
+            pass
 
     def __setupPagePalette(self) -> None:
         """ Sets the colour palette for the page widgets """  
@@ -86,6 +116,7 @@ class AnnotationPage():
                                                    f"background: {self.app.theme.colours['panel.background']};")
         self.ui.classSelectAnnoPageFrame.setStyleSheet(self.ui.classSelectAnnoPageFrame.styleSheet() +
                                                        f"background: {self.app.theme.colours['panel.sunken']};")    
+    
     def __setupStyleSheet(self) -> None:
         """ Sets the style sheet for the page """
         # Place holder text for class search 
