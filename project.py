@@ -32,7 +32,6 @@ class Project:
             try:
                 project = yaml.safe_load(stream)
                 self.name = project["name"]
-                self.dataset = project["images"]
                 self.datasetPath = project["dataset"]
                 self.description = project["description"]
                 self.projectValidated = True
