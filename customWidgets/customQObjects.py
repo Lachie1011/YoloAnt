@@ -82,7 +82,7 @@ class PanelQLineEdit(QLineEdit):
                            f"{self.fontStyle};"
                            f"background-color: {self.themePaletteColours['panel.sunken']};"
                            "border-radius: 5px;"
-                           f"border: 1px solid {self.themePaletteColours['userInput.border']};"
+                           f"border: 2px solid {self.themePaletteColours['userInput.border']};"
                            f"color: {self.themePaletteColours['font.header']};}}"
                            "QLineEdit:hover{"
                            f"border: 1px solid {self.themePaletteColours['focus.foreground']}}}")
@@ -145,7 +145,7 @@ class PanelQTextEdit(QTextEdit):
                            f"font: 75 12pt {self.fontType};"
                            f"background-color: {self.themePaletteColours['panel.sunken']};"
                            "border-radius: 5px;"
-                           f"border: 1px solid {self.themePaletteColours['userInput.border']};"
+                           f"border: 2px solid {self.themePaletteColours['userInput.border']};"
                            f"color: {self.themePaletteColours['font.header']};}}"
                            "QTextEdit:hover{"
                            f"border: 1px solid {self.themePaletteColours['focus.foreground']}}}")

@@ -218,18 +218,13 @@ class YoloAnt(QMainWindow):
                                 "background-color : #61635e;"
                                 "border-radius: 20px;"
                                 "}")
+
     def __setupAppStyleSheet(self) -> None:
         """ Sets up the colour palette of the application """
         self.ui.menuBar.setStyleSheet(self.ui.menuBar.styleSheet() + f"background: {self.theme.colours['menu.background']};")
         self.ui.leftMenuSubContainer.setStyleSheet(self.ui.leftMenuSubContainer.styleSheet() + f"background: {self.theme.colours['navigationbar.background']};")
         self.ui.bottomBarFrame.setStyleSheet(self.ui.bottomBarFrame.styleSheet() + f"background: {self.theme.colours['navigationbar.background']};")
         self.ui.stackedWidget.setStyleSheet(self.ui.stackedWidget.styleSheet() + f"background: {self.theme.colours['app.background']};")
-
-        self.editPageBtn = Switch()
-        self.editPageLayout = QHBoxLayout()
-        self.editPageLayout.addWidget(self.editPageBtn)
-        self.editPageLayout.setContentsMargins(0,0,0,0)
-        self.ui.editPageFrame.setLayout(self.editPageLayout)
 
 def signal_handler(sig, frame) -> None:
     """ Handles unix signals """

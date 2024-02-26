@@ -13,6 +13,8 @@ colours:
     focus.foreground: '#00a1f0'
     listItem.background: '#404040'
     listItem.edit: '#505050'
+    listItemButton.background: '#707070'
+    listItemButton.hover: '#808080'
     font.header: '#ffffff'
     font.hover: '#ffffff'
     font.regular: '#f4f4f4'

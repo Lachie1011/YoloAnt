@@ -19,21 +19,23 @@ class ProjectClassListItemWidget (QFrame):
             numOfAnnotations - Number of classes in the dataset 
             colour - Annotation colour of class in RGB format: (_,_,_) 
     """
-    def __init__(self, className: str, numClassAnnotations: int, numOfAnnotations: int, colour: tuple, themePaletteColours: dict, fontRegular: str, parent=None):
+    def __init__(self, className: str, numClassAnnotations: int, numOfAnnotations: int, colour: tuple, themePaletteColours: dict, fontRegular: str, 
+                 fontTitle, parent=None):
         """ init """
         super().__init__()
 
         # Member variables
         self.fontRegular = fontRegular
+        self.fontTitle = fontTitle
         self.colour = colour
         self.className = className
         self.numOfAnnotations = numOfAnnotations
         self.numClassAnnotations = numClassAnnotations
         self.themePaletteColours = themePaletteColours
 
+        self.editEnabled = False
         self.parentItem = None
         self.parentSelected = False
-        self.r, self.g, self.b = self.colour
 
         # Setup stylesheet
         self.__setupStyleSheet()
@@ -45,31 +47,16 @@ class ProjectClassListItemWidget (QFrame):
     def __setupStyleSheet(self) -> None:
         """ Sets up style sheet of item widget """
 
-        # Colour picker label
-        self.classColourLbl = QLabel()
-        self.classColourLbl.setStyleSheet("QLabel{"
-                                          f"background-color: rgb({self.r}, {self.g}, {self.b});"
-                                          "border-radius: 4px;"
-                                          f"border: 3px solid {self.themePaletteColours['buttonFilled.background']}}}")
-        self.classColourLbl.setFixedWidth(18)
-        self.classColourLbl.setFixedHeight(18)
-
         # Colour picker button
         self.classColourButton = QPushButton()
         self.classColourButton.setStyleSheet("QPushButton{"
-                                             f"background-color: rgb({self.r}, {self.g}, {self.b});"
-                                             "border-radius: 4px;"
-                                             f"border: 3px solid {self.themePaletteColours['buttonFilled.background']}}}"
-                                             f"QPushButton:hover{{border-color: {self.themePaletteColours['buttonFilled.hover']}}}")
+                                             f"background-color: rgb{self.colour};"
+                                             "border-radius: 4px;}")
         self.classColourButton.setFixedWidth(18)
         self.classColourButton.setFixedHeight(18)
-        self.classColourButton.setVisible(False)
-        self.classColourButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
-        # Class name line edit, not visible by default
+        # Class name line edit
         self.classItemLineEdit = PanelQLineEdit(self.themePaletteColours, f"font: 75 12pt {self.fontRegular};")
-
-        # self.classItemLineEdit = QLineEdit()
         self.classItemLineEdit.editingFinished.connect(lambda: self.setClassName(self.classItemLineEdit.text()))
         self.classItemLineEdit.setText(self.className)
         self.classItemLineEdit.setMinimumSize(100, 30)
@@ -126,7 +113,6 @@ class ProjectClassListItemWidget (QFrame):
         # Setting layout of custom widget 
         self.classItemWidetLayout = QHBoxLayout()
         self.classItemWidetLayout.addItem(self.padSpacer)
-        self.classItemWidetLayout.addWidget(self.classColourLbl)
         self.classItemWidetLayout.addWidget(self.classColourButton)
         self.classItemWidetLayout.addItem(self.classColourhorizontalSpacer)
         self.classItemWidetLayout.addWidget(self.classItemLineEdit)
@@ -140,26 +126,31 @@ class ProjectClassListItemWidget (QFrame):
     def enableEdit(self) -> None:
         """ Sets the item widget to edit mode """
         self.parentSelected = True
+        self.editEnabled = True
         self.setStyleSheet(self.styleSheet() + f"background: {self.themePaletteColours['listItem.edit']};")
         self.classItemLineEdit.setEditMode(True)
 
-        self.classColourLbl.setVisible(False)
-        self.classColourButton.setVisible(True)
+        self.classColourButton.setStyleSheet("QPushButton{"
+                                             f"background-color: rgb{self.colour};"
+                                             "border-radius: 4px;"
+                                             f"border: 3px solid {self.themePaletteColours['listItemButton.background']}}}"
+                                             f"QPushButton:hover{{border-color: {self.themePaletteColours['listItemButton.hover']}}}")
+        self.classColourButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.classDeleteLbl.setVisible(False)
         self.classDeleteButton.setVisible(True)
-        self.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
         
     def disableEdit(self) -> None:
         """ Disables edit mode of item widget """
         self.parentSelected = False
         self.setStyleSheet(self.styleSheet() + f"background: {self.themePaletteColours['panel.background']};")
+        self.classColourButton.setStyleSheet("QPushButton{"
+                                             f"background-color: rgb{self.colour};"
+                                             "border-radius: 4px;"
+                                             f"border: 1px solid {self.themePaletteColours['listItemButton.background']}}}")
+        self.classColourButton.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
         self.classItemLineEdit.setEditMode(False)
-
-        self.classColourLbl.setVisible(True)
-        self.classColourButton.setVisible(False)
         self.classDeleteLbl.setVisible(True)
         self.classDeleteButton.setVisible(False)
-        self.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
     def setClassName(self, text: str) -> None:
         """ Sets the name of the class from user input """
@@ -182,18 +173,11 @@ class ProjectClassListItemWidget (QFrame):
 
     def selectColour(self) -> None:
         """ Gets a selected colour from the user """
-        self.colour = getColour(self.themePaletteColours, self.fontRegular, self.fontTitle, self.colour)
-        self.r, self.g, self.b = self.colour
-
-        self.classColourLbl.setStyleSheet("QLabel{"
-                                          f"background-color: rgb({self.r}, {self.g}, {self.b});"
-                                          "border-radius: 4px;"
-                                          f"border: 3px solid {self.themePaletteColours['buttonFilled.background']}}}")
-
-        self.classColourButton.setStyleSheet("QPushButton{"
-                                             f"background-color: rgb({self.r}, {self.g}, {self.b});"
-                                             "border-radius: 4px;"
-                                             f"border: 3px solid {self.themePaletteColours['buttonFilled.background']}}}"
-                                             f"QPushButton:hover{{border-color: {self.themePaletteColours['buttonFilled.hover']}}}")
-        self.classColourLbl.repaint()
-        self.classColourButton.repaint()
+        if self.editEnabled:
+            self.colour = getColour(self.themePaletteColours, self.fontRegular, self.fontTitle, self.colour)
+            self.classColourButton.setStyleSheet("QPushButton{"
+                                                f"background-color: rgb{self.colour};"
+                                                "border-radius: 4px;"
+                                                f"border: 3px solid {self.themePaletteColours['listItemButton.background']}}}"
+                                                f"QPushButton:hover{{border-color: {self.themePaletteColours['listItemButton.hover']}}}")
+            self.classColourButton.repaint()

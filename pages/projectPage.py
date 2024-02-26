@@ -38,7 +38,7 @@ class ProjectPage():
 
         # Connect signals and slots
         self.ui.addClassBtn.clicked.connect(lambda: self.__instantiateCreateClassDialog())
-        self.app.editPageBtn.toggled.connect(lambda toggled: self.setEditMode(toggled))
+        self.ui.editPageBtn.toggled.connect(lambda toggled: self.setEditMode(toggled))
 
     def __setupPagePalette(self) -> None:
 
@@ -120,9 +120,9 @@ class ProjectPage():
                                                 f"font: 75 bold 16pt {self.app.fontTypeHeader};"
                                                 f"color: {self.app.theme.colours['font.header']};}}")
 
-        self.ui.datasetLbl.setStyleSheet("QLabel{"
-                                        f"font: 75 13pt {self.app.fontTypeTitle};"
-                                        f"color: {self.app.theme.colours['font.header']};}}")
+        # self.ui.datasetLbl.setStyleSheet("QLabel{"
+        #                                 f"font: 75 13pt {self.app.fontTypeTitle};"
+        #                                 f"color: {self.app.theme.colours['font.header']};}}")
 
         self.ui.mdlSelLbl.setStyleSheet("QLabel{"
                                         f"font: 75 13pt {self.app.fontTypeTitle};"
@@ -183,14 +183,14 @@ class ProjectPage():
                                           f"border : 1px solid {self.app.theme.colours['buttonFilled.hover']};}}")                      
         self.ui.addDatasetHealthWidgetBtn.setIcon(QIcon("icons/icons8-plus-button-24.png"))
 
-        self.ui.datasetProjectBtn.setStyleSheet("QPushButton{"
-                                          f"background-color: {self.app.theme.colours['buttonFilled.background']};"
-                                          f"border : 1px solid {self.app.theme.colours['buttonFilled.background']};"
-                                          "border-radius: 10px;}"
-                                          "QPushButton::hover{"
-                                          f"background-color: {self.app.theme.colours['buttonFilled.hover']};"
-                                          f"border : 1px solid {self.app.theme.colours['buttonFilled.hover']};}}")                      
-        self.ui.datasetProjectBtn.setIcon(QIcon("icons/icons8-three-dots-26.png"))
+        # self.ui.datasetProjectBtn.setStyleSheet("QPushButton{"
+        #                                   f"background-color: {self.app.theme.colours['buttonFilled.background']};"
+        #                                   f"border : 1px solid {self.app.theme.colours['buttonFilled.background']};"
+        #                                   "border-radius: 10px;}"
+        #                                   "QPushButton::hover{"
+        #                                   f"background-color: {self.app.theme.colours['buttonFilled.hover']};"
+        #                                   f"border : 1px solid {self.app.theme.colours['buttonFilled.hover']};}}")                      
+        # self.ui.datasetProjectBtn.setIcon(QIcon("icons/icons8-three-dots-26.png"))
 
         self.ui.mlModelComboBox.setStyleSheet("QComboBox{"
                                               f"font: 75 12pt {self.app.fontTypeRegular};"

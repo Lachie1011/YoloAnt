@@ -118,6 +118,6 @@ class CreateClassDialog(QDialog):
     def createClass(self, numOfClasses) -> None:
         """ Creats a user specified class if inputs are valid """
         if self.__validateDialogInputs():
-            classListItemWidget = ProjectClassListItemWidget(self.className, 0, numOfClasses, self.selectedColour, self.themePaletteColours, self.fontRegular) 
+            classListItemWidget = ProjectClassListItemWidget(self.className, 0, numOfClasses, self.selectedColour, self.themePaletteColours, self.fontRegular, self.fontTitle) 
             self.classListWidget.addItemToListWidget(classListItemWidget)
             self.done(1)
