@@ -1025,7 +1025,7 @@ border-radius: 5px;</string>
                    </property>
                    <property name="icon">
                     <iconset>
-                     <normaloff>../.designer/backup/icons/icons8-chevron-next-30.png</normaloff>../.designer/backup/icons/icons8-chevron-next-30.png</iconset>
+                     <normaloff>icons/icons8-chevron-next-30.png</normaloff>icons/icons8-chevron-next-30.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -1070,7 +1070,7 @@ border-radius: 5px;</string>
                    </property>
                    <property name="icon">
                     <iconset>
-                     <normaloff>../.designer/backup/icons/icons8-chevron-right-30.png</normaloff>../.designer/backup/icons/icons8-chevron-right-30.png</iconset>
+                     <normaloff>icons/icons8-chevron-right-30.png</normaloff>icons/icons8-chevron-right-30.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -1115,7 +1115,7 @@ border-radius: 5px;</string>
                    </property>
                    <property name="icon">
                     <iconset>
-                     <normaloff>../.designer/backup/icons/icons8-chevron-left-30.png</normaloff>../.designer/backup/icons/icons8-chevron-left-30.png</iconset>
+                     <normaloff>icons/icons8-chevron-left-30.png</normaloff>icons/icons8-chevron-left-30.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -1160,7 +1160,7 @@ border-radius: 5px;</string>
                    </property>
                    <property name="icon">
                     <iconset>
-                     <normaloff>../.designer/backup/icons/icons8-chevron-prev-30.png</normaloff>../.designer/backup/icons/icons8-chevron-prev-30.png</iconset>
+                     <normaloff>icons/icons8-chevron-prev-30.png</normaloff>icons/icons8-chevron-prev-30.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
