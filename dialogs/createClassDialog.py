@@ -41,8 +41,8 @@ class CreateClassDialog(QDialog):
     def __setupPagePalette(self) -> None:
         """ Sets the colour palette for the page widgets """
         self.ui.mainFrame.setStyleSheet("QFrame{"
-                                        f"background-color: {self.themePaletteColours['app.background']};"
-                                        f"border: 1px solid {self.themePaletteColours['app.background']}}};")
+                                        f"background-color: {self.themePaletteColours['panel.background']};"
+                                        f"border: 1px solid {self.themePaletteColours['panel.background']}}};")
         self.ui.classColourLbl.setStyleSheet("QLabel{"
                                              f"font: 75 12pt {self.fontTitle};"
                                              f"color: {self.themePaletteColours['font.regular']};}}")
@@ -103,20 +103,9 @@ class CreateClassDialog(QDialog):
         # Validating input
         valid = True   
         if className == "":
-            self.classNameLineEdit.setStyleSheet("QLineEdit{"
-                                                 f"font: 12pt {self.fontRegular};"
-                                                 "border: 0px;"
-                                                 f"color: {self.themePaletteColours['font.regular']};"
-                                                 f"background-color: {self.themePaletteColours['userInput.background']};"
-                                                 "border: 1px solid red}")
             valid = False
-        else: 
-            self.classNameLineEdit.setStyleSheet("QLineEdit{"
-                                                 f"font: 12pt {self.fontRegular};"
-                                                 "border: 0px;"
-                                                 f"color: {self.themePaletteColours['font.regular']};"
-                                                 f"background-color: {self.themePaletteColours['userInput.background']};"
-                                                 f"border: 1px solid {self.themePaletteColours['userInput.border']}}}")
+            
+        self.classNameLineEdit.validTextInput(valid)
 
         if not valid:
             return
@@ -129,6 +118,6 @@ class CreateClassDialog(QDialog):
     def createClass(self, numOfClasses) -> None:
         """ Creats a user specified class if inputs are valid """
         if self.__validateDialogInputs():
-            classListItemWidget = ProjectClassListItemWidget(self.className, 0, numOfClasses, self.selectedColour, self.themePaletteColours, self.fontRegular) 
+            classListItemWidget = ProjectClassListItemWidget(self.className, 0, numOfClasses, self.selectedColour, self.themePaletteColours, self.fontRegular, self.fontTitle) 
             self.classListWidget.addItemToListWidget(classListItemWidget)
             self.done(1)
