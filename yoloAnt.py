@@ -9,7 +9,7 @@ from enum import Enum
 from PyQt6 import QtCore
 from PyQt6.QtCore import QEvent
 from PyQt6.QtGui import QCursor, QIcon, QFontDatabase
-from PyQt6.QtWidgets import QApplication, QMainWindow
+from PyQt6.QtWidgets import QApplication, QMainWindow, QHBoxLayout
 
 from yoloAnt_ui import Ui_MainWindow
 
@@ -19,7 +19,7 @@ from pages.annotationPage import AnnotationPage
 from pages.machineLearningPage import MachineLearningPage
 
 from dialogs.infoDialog import InfoDialog
-
+from utils.switch import Switch
 from notificationManager import NotificationManager
 
 from events.hoverEvent import HoverEvent
@@ -127,7 +127,7 @@ class YoloAnt(QMainWindow):
             self.currentPage = Pages.AnnotationPage
             # Because of hover event, update check and also icon TODO: explore a cleaner alternative to checking / unchecking
             self.ui.annotTabBtn.setChecked(True)
-            self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{self.theme.colours['focus.foregound']};}}")
+            self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{self.theme.colours['focus.foreground']};}}")
             self.ui.projectsTabBtn.setChecked(False)
             self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
             self.ui.projectsTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
@@ -141,7 +141,7 @@ class YoloAnt(QMainWindow):
         elif(page is Pages.ProjectPage):
             self.currentPage = Pages.ProjectPage
             self.ui.projectsTabBtn.setChecked(True)
-            self.ui.projectsTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['focus.foregound']};}}")
+            self.ui.projectsTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['focus.foreground']};}}")
             self.ui.annotTabBtn.setChecked(False)
             self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
             self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{self.theme.colours['navigationbar.background']};}}")
@@ -155,7 +155,7 @@ class YoloAnt(QMainWindow):
         elif(page is Pages.MachineLearningPage):
             self.currentPage = Pages.MachineLearningPage
             self.ui.mlTabBtn.setChecked(True)
-            self.ui.mlTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['focus.foregound']};}}")
+            self.ui.mlTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['focus.foreground']};}}")
             self.ui.annotTabBtn.setChecked(False)
             self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
             self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{self.theme.colours['navigationbar.background']};}}")
@@ -221,6 +221,7 @@ class YoloAnt(QMainWindow):
                                 "background-color : #61635e;"
                                 "border-radius: 20px;"
                                 "}")
+
     def __setupAppStyleSheet(self) -> None:
         """ Sets up the colour palette of the application """
         self.ui.menuBar.setStyleSheet(self.ui.menuBar.styleSheet() + f"background: {self.theme.colours['menu.background']};")

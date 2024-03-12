@@ -13,6 +13,8 @@ class Image():
        
         self.isValid = True
         
+        self.metadataCreated = False
+
         # Image related attributes
         self.height = None
         self.width = None
@@ -21,11 +23,13 @@ class Image():
         # Annotation related attributes
         self.annotated = False
         self.needsWork = False
-
-        self.createMetadata()
     
     def createMetadata(self) -> None:
         """ Creates basic metadata for the image"""
+        
+        if self.metadataCreated:
+            return
+    
         if not os.path.exists(self.path):
             print("not valid path")
             return
@@ -36,4 +40,5 @@ class Image():
             return
 
         self.height, self.width, self.channels = image.shape
+        self.metadataCreated = True
 

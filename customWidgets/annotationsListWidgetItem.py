@@ -5,7 +5,7 @@ from PyQt6.QtCore import Qt, QEvent
 from PyQt6.QtGui import QCursor, QIcon
 from PyQt6.QtWidgets import (QFrame, QLabel, QHBoxLayout, QSpacerItem, QPushButton, QSizePolicy)
 
-class AnnotationListWidgetItem(QFrame):
+class AnnotationsListWidgetItem(QFrame):
     """
         Class that creates a custom annotation item widget for annotation list.
 
@@ -50,6 +50,7 @@ class AnnotationListWidgetItem(QFrame):
         # Hide annotation button - eye closed
         self.hideAnnotationBtn = QPushButton()
         self.hideAnnotationBtn.setStyleSheet("QPushButton{"
+                                             "background-color: transparent;"
                                              "border-image: url('icons/icons8-eye-open-25.png');}"
                                              "QPushButton:hover{"
                                              "border-image: url('icons/icons8-eye-open-hover-25.png');}")
@@ -61,7 +62,7 @@ class AnnotationListWidgetItem(QFrame):
         # Delete button
         self.annotationDeleteButton = QPushButton()
         self.annotationDeleteButton.setStyleSheet("QPushButton{"
-                                                 "border-image: url('icons/icons8-trash-can-25.png');}")
+                                                  "border-image: url('icons/icons8-trash-can-25.png');}")
         self.annotationDeleteButton.setFixedWidth(18)
         self.annotationDeleteButton.setFixedHeight(18)
         self.annotationDeleteButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
@@ -83,12 +84,14 @@ class AnnotationListWidgetItem(QFrame):
         """ Changes the icon depending on checked status """
         if self.hideAnnotationBtn.isChecked():
             self.hideAnnotationBtn.setStyleSheet("QPushButton{"
+                                                 "background-color: transparent;"
                                                  "border-image: url('icons/icons8-eye-closed-25.png');}"
                                                  "QPushButton:hover{"
                                                  "border-image: url('icons/icons8-eye-closed-hover-25.png');}")
 
         else:
             self.hideAnnotationBtn.setStyleSheet("QPushButton{"
+                                                 "background-color: transparent;"
                                                  "border-image: url('icons/icons8-eye-open-25.png');}"
                                                  "QPushButton:hover{"
                                                  "border-image: url('icons/icons8-eye-open-hover-25.png');}")
