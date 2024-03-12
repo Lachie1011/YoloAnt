@@ -10,6 +10,7 @@ from PyQt6.QtGui import QCursor, QIcon
 from PyQt6.QtWidgets import QApplication, QHBoxLayout, QLabel, QVBoxLayout, QPushButton, QFrame
 
 from yoloAnt_ui import Ui_MainWindow
+from image import Image
 from events.hoverEvent import HoverEvent
 # from events.resizeEvent import ResizeEvent
 from events.resizeEvent import ResizeEvent
@@ -54,8 +55,11 @@ class AnnotationPage():
         self.__connectImageNavigationButtons()
         
         # Page attributes
+        self.pageInitialised = False
 
+        # Navigation attributes
         self.currentIndex = 0  #TODO: should be a setting to toggle between starting at zero or last index
+        self.unannotatedDict = {}
 
         annoPageListWidgetItem = AnnoPageListWidgetItem("Dog", (0, 201, 52), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle, page=self) 
         annoPageListWidgetItem2 = AnnoPageListWidgetItem("Cat", (0, 90, 255), self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle, page=self) 
@@ -73,14 +77,16 @@ class AnnotationPage():
         self.classSearchLineEdit.textChanged.connect(lambda newText: self.__searchForClass(newText))   
 
     def loadPage(self):
-        """ Loads all information and functionality """
-        # Set initial image in the annotation canvas TODO: image defaults to first in dataset, should be a setting to default to first unannotated 
-        if len(self.app.project.dataset) > 0:
-            self.app.ui.annotationCanvasWidget.updateImage(self.app.project.dataset[self.currentIndex])
-        else:
+        """ Loads all information and functionality """ 
+        if len(self.app.project.annotationDataset < 0):
             self.app.notificationManager.raiseNotification("Dataset contains no images")
-        
-        # TODO: load all class information here
+            return
+
+        if not self.pageInitialised:
+            # Creating metadata for inital image
+            self.app.project.annotationDataset[self.currentIndex].createMetadata()
+            self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[self.currentIndex].path)
+            self.pageInitialised = True
 
     def __connectImageNavigationButtons(self):
         """ Connects the buttons used to navigate throughout the canvas"""
@@ -91,9 +97,17 @@ class AnnotationPage():
     
     def __navigateCanvasWidget(self, navigationType):
         """ Logic for page navigation """
+        # TODO: this logic assumes that a new image will be found only when moving next not previously
         if navigationType is NavigationModes.next:
             if (self.currentIndex + 1) < len(self.app.project.dataset):
-                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.dataset[self.currentIndex + 1])
+                nextImage = self.app.project.annotationDataset[self.currentIndex + 1]
+                nextImage.createMetadata()
+                if nextImage.isValid()
+                    self.app.ui.annotationCanvasWidget.updateImage(nextImage.path)
+                else:
+                    # TODO: If the image is not valid show blank image:
+                    self.app.notificationManager.raiseNotification(f"Image: {0} is not valid", nextImage.path)
+                    pass
                 self.currentIndex = self.currentIndex + 1
         if navigationType is NavigationModes.previous:
             if (self.currentIndex - 1) > 0:
@@ -263,3 +277,4 @@ class AnnotationPage():
 
             elif newText.lower() not in widgetInItem.className.lower():
                 listItem.setHidden(True)
+
