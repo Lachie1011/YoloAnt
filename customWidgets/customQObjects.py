@@ -2,30 +2,59 @@
     customQObjects.py
 """
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPalette, QBrush
+from PyQt6.QtGui import QPalette, QBrush, QCursor
 from PyQt6.QtWidgets import (QDialog, QFrame, QLineEdit, QAbstractItemView, QListWidgetItem, QPushButton, QSizePolicy,
-                             QSizePolicy, QListWidget, QAbstractScrollArea, QListView, QTextEdit, QGraphicsOpacityEffect)
+                             QSizePolicy, QListWidget, QAbstractScrollArea, QListView, QTextEdit, QGraphicsOpacityEffect,
+                             QLabel, QHBoxLayout)
 
 class CustomWidgetItemQFrame(QFrame):
     """
         Class that creates a custom QFrame
     """
-    def __init__(self, parentSelected, editEnabled, hoverColour, backgroundColour):
+    def __init__(self, themePaletteColours):
         super().__init__()
-        self.hoverColour = hoverColour
-        self.editEnabled = editEnabled
-        self.parentSelected = parentSelected
-        self.backgroundColour = backgroundColour
+        self.themePaletteColours = themePaletteColours
+        self.parentSelected = False
+
+        self.__baseStyleSheet()
 
     def enterEvent(self, event) -> None:
         """ Sets background of widget when mouse enters item widget """
-        if not self.editEnabled and not self.parentSelected:
-            self.setStyleSheet(f"background: {self.hoverColour};")
+        if not self.parentSelected:
+            self.setStyleSheet(f"background: {self.themePaletteColours['app.hover']};")
 
     def leaveEvent(self, event) -> None:
         """ Sets background of widget when mouse leaves item widget """
-        if not self.editEnabled and not self.parentSelected:
-            self.setStyleSheet(f"background: {self.backgroundColour};")
+        if not self.parentSelected:
+            self.setStyleSheet(f"background: {self.themePaletteColours['listItem.background']};")
+
+    def __baseStyleSheet(self) -> None:
+        """ Sets the style sheet for the widget """
+        self.setStyleSheet(f"QFrame{{background-color: {self.themePaletteColours['listItem.background']};}}")
+        self.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.setFixedHeight(60)
+
+    def __editStyleSheet(self) -> None:
+        """ Sets the style sheet for the widget """
+        self.setStyleSheet(f"QFrame{{background-color: {self.themePaletteColours['listItem.edit']};}}")
+        self.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
+
+    def setSelected(self) -> None:
+        """ Changes stylesheet of widgets to reflect being selected """
+        self.setStyleSheet(f"QFrame{{background-color: {self.themePaletteColours['app.selected']};}}")
+        self.parentSelected = True
+
+    def clearSelection(self) -> None:
+        """ Changes stylesheet of widgets to reflect being selected """
+        self.__baseStyleSheet()
+
+    def setEditMode(self, toggled: bool) -> None:
+        """ Sets the edit mode of the widget """
+        if toggled:
+            self.__editStyleSheet()
+
+        else:
+            self.__baseStyleSheet()
 
 class CustomQLineEdit(QLineEdit):
     """
@@ -391,182 +420,185 @@ def getKeyInput() -> chr:
 
     return __customKeySelectionDialog.getKeyInput()
 
-def ClassSelectionQFrame(QFrame):
+class ClassAttributesFrame(QFrame):
     """
-        Class that creates a class selection frame
+        Class that creates a frame that houses all class attributes
     """
 
-    def __init__(self, parentSelected, editEnabled, hoverColour, backgroundColour):
+    def __init__(self, themePaletteColours, fontRegular):
         super().__init__()
-        self.hoverColour = hoverColour
-        self.editEnabled = editEnabled
-        self.parentSelected = parentSelected
-        self.backgroundColour = backgroundColour
+        self.themePaletteColours = themePaletteColours
+        self.fontRegular = fontRegular
         self.__setupStyleSheet()
 
+        # Display the base frame by default
+        self.editClassAttributesFrame.setVisible(False)
+
     def __setupStyleSheet(self) -> None:
-        """ Sets up the style sheet of frame """
-        self.setStyleSheet(f"QFrame{{background-color: {self.themePaletteColours['listItem.background']};}}")
-        self.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.setFixedHeight(60)
+        """ Sets up the style sheet of the frame """
+        # Create base and edit frames
+        self.baseClassAttributesFrame = self.__createBaseFrame()
+        self.editClassAttributesFrame = self.__createEditFrame()
 
-        # Class attributes frame
-        self.classAttributesFrame = QFrame()
-        self.classAttributesLayout = QHBoxLayout()
-        self.classAttributesLayout.addWidget(self.__baseStyleSheet())
-        self.classAttributesLayout.addWidget(self.__editableStyleSheet())
-        self.classItemWidetLayout.setContentsMargins(0,0,0,0)
-        self.classAttributesFrame.setLayout(classItemWidetLayout)
-
-        # Expand button
-        self.expandFrameBtn = QToolButton()
-        self.expandFrameBtn.setStyleSheet("QToolButton{"
-                                          "border-image: url('icons/icons8-expand-arrow-left-25.png');"
-                                          "background-color: transparent;}"
-                                          "QToolButton:hover{"
-                                          "border-image: url('icons/icons8-expand-arrow-left-hover-25.png');}")
-        self.expandFrameBtn.setFixedWidth(15)
-        self.expandFrameBtn.setFixedHeight(15)
-        self.expandFrameBtn.setCheckable(True)
-        self.expandFrameBtn.setChecked(False)
-
-
-        # Set layout of frame
-        self.classSelectionQFrameLayout = QHBoxLayout()
-        self.classSelectionQFrameLayout.addWidget(self.classAttributesFrame)
-        self.classSelectionQFrameLayout.addWidget(self.expandFrameBtn)
-        self.classItemWidetLayout.setContentsMargins(0,0,5,0)
-        self.setLayout(classSelectionQFrameLayout)
-
-
-    def __baseStyleSheet(self):
-        """ Sets up the base style sheet for the frame """ 
-
+        # Set layout to frame 
+        self.classAttributesFrameLayout = QHBoxLayout()
+        self.classAttributesFrameLayout.addWidget(self.baseClassAttributesFrame)
+        self.classAttributesFrameLayout.addWidget(self.editClassAttributesFrame)
+        self.classAttributesFrameLayout.setContentsMargins(0,0,0,0)  
+        self.setLayout(self.classAttributesFrameLayout)
+    
+    def __createBaseFrame(self) -> QFrame:
+        """ Creates a base frame """
         # Colour picker label
         self.classColourLbl = QLabel()
         self.classColourLbl.setStyleSheet("QLabel{"
-                                            f"background-color: rgb({self.r}, {self.g}, {self.b});"
-                                            "border-radius: 4px;"
-                                            "border-top-right-radius: 0px;"
-                                            "border-bottom-right-radius: 0px;}")
+                                          f"background-color: transparent;"
+                                          "border-radius: 4px;"
+                                          "border-top-right-radius: 0px;"
+                                          "border-bottom-right-radius: 0px;}")
         self.classColourLbl.setFixedWidth(20)
 
         # Class name label
-        self.classItemLbl = QLabel(self.className)
-        self.classItemLbl.setStyleSheet(f"QLabel{{font: 12pt {self.fontRegular};}}")
-        self.classItemLbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        self.classItemLbl.setMinimumSize(20, 30)
-        self.classItemLbl.setMaximumSize(150, 30)
+        self.classNameLbl = QLabel()
+        self.classNameLbl.setStyleSheet(f"QLabel{{font: 12pt {self.fontRegular};}}")
+        self.classNameLbl.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        self.classNameLbl.setMinimumSize(20, 30)
+        self.classNameLbl.setMaximumSize(170, 30)
 
         # Hotkey label
-        self.hotkeyLbl = QLabel()
-        self.hotkeyLbl.setStyleSheet("QLabel{"
-                                    "background-color: transparent;"
-                                    f"border: 2px solid {self.themePaletteColours['buttonFilled.background']};"
-                                    "border-radius: 5px;}")
-        self.hotkeyLbl.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-        self.hotkeyLbl.setFixedWidth(25)
-        self.hotkeyLbl.setFixedHeight(25)
+        self.classHotKeyLbl = QLabel()
+        self.classHotKeyLbl.setStyleSheet("QLabel{"
+                                          "background-color: transparent;"
+                                          f"border: 2px solid {self.themePaletteColours['buttonFilled.background']};"
+                                          "border-radius: 5px;}")
+        self.classHotKeyLbl.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.classHotKeyLbl.setFixedWidth(25)
+        self.classHotKeyLbl.setFixedHeight(25)
 
         # Annotation count label
-        self.annotationCountLbl = QLabel()
-        self.annotationCountLbl.setStyleSheet("QLabel{"
-                                            f"background-color: {self.themePaletteColours['panel.sunken']};"
-                                            f"border: 2px solid {self.themePaletteColours['panel.sunken']};"
-                                            "border-radius: 5px;}")
-        self.annotationCountLbl.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-        self.annotationCountLbl.setFixedWidth(25)
-        self.annotationCountLbl.setFixedHeight(20)
-
-        # Horizontal spacers
-        spacer1 = QSpacerItem(2, 5, QSizePolicy.Policy.Fixed)
-        spacer2 = QSpacerItem(2, 5, QSizePolicy.Policy.Fixed)
-        spacer3 = QSpacerItem(2, 5, QSizePolicy.Policy.Fixed)
-        spacer4 = QSpacerItem(4, 5, QSizePolicy.Policy.Fixed)
-        spacer5 = QSpacerItem(5, 5, QSizePolicy.Policy.Fixed)
-
-
-
+        self.classAnnotationsCountLbl = QLabel()
+        self.classAnnotationsCountLbl.setStyleSheet("QLabel{"
+                                                    f"background-color: {self.themePaletteColours['panel.sunken']};"
+                                                    f"border: 2px solid {self.themePaletteColours['panel.sunken']};"
+                                                    "border-radius: 5px;}")
+        self.classAnnotationsCountLbl.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.classAnnotationsCountLbl.setFixedWidth(25)
+        self.classAnnotationsCountLbl.setFixedHeight(20)
 
         # Setting layout of custom widget 
-        self.classItemWidetLayout = QHBoxLayout()
-        self.classItemWidetLayout.addWidget(self.spacerWidget)
-        self.classItemWidetLayout.addWidget(self.classColourLbl)
-        self.classItemWidetLayout.addWidget(self.classColourBtn)
-        self.classItemWidetLayout.addItem(spacer1)
-        self.classItemWidetLayout.addWidget(self.classItemLbl)
-        self.classItemWidetLayout.addWidget(self.classItemLineEdit)
-        self.classItemWidetLayout.addItem(spacer2)
-        self.classItemWidetLayout.addWidget(self.hotkeyLbl)
-        self.classItemWidetLayout.addWidget(self.hotkeyBtn)
-        self.classItemWidetLayout.addItem(spacer3)
-        self.classItemWidetLayout.addWidget(self.annotationCountLbl)
-        self.classItemWidetLayout.addItem(spacer4)
-        self.classItemWidetLayout.addWidget(self.classDeleteBtn)
-        self.classItemWidetLayout.addWidget(self.expandFrameBtn)
-        self.classItemWidetLayout.addItem(spacer5)
+        self.baseClassAttributesFrameLayout = QHBoxLayout()
+        self.baseClassAttributesFrameLayout.addWidget(self.classColourLbl)
+        self.baseClassAttributesFrameLayout.addWidget(self.classNameLbl)
+        self.baseClassAttributesFrameLayout.addWidget(self.classHotKeyLbl)
+        self.baseClassAttributesFrameLayout.addWidget(self.classAnnotationsCountLbl)
+        self.baseClassAttributesFrameLayout.setContentsMargins(0,0,5,0)  
 
-        self.classItemWidetLayout.setContentsMargins(0,0,0,0)
+        # Create base frame
+        self.baseClassAttributesFrame = QFrame()
+        self.baseClassAttributesFrame.setLayout(self.baseClassAttributesFrameLayout)
 
+        return self.baseClassAttributesFrame
 
-    def __editableStyleSheet(self):
-        """ Sets up the style sheet when frame is in edit mode """  
-        if self.editFrameLayout is None:
-            # Colour picker button
-            self.classColourBtn = QPushButton()
-            self.classColourBtn.setStyleSheet("QPushButton{"
-                                            f"background-color: rgb({self.r}, {self.g}, {self.b});"
-                                            "border-radius: 4px;"
-                                            f"border: 3px solid {self.themePaletteColours['buttonFilled.background']};}}"
-                                            f"QPushButton:hover{{border: 3px solid {self.themePaletteColours['buttonFilled.hover']};}}")
-            self.classColourBtn.setFixedWidth(20)
-            self.classColourBtn.setFixedHeight(20)
-            self.classColourBtn.setVisible(False)
-            self.classColourBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+    def __createEditFrame(self) -> QFrame:
+        """ Creates a frame that will be used when in edit mode """ 
+        # Colour picker button
+        self.classColourBtn = QPushButton()
+        self.classColourBtn.setStyleSheet("QPushButton{"
+                                          f"background-color: transparent;"
+                                          "border-radius: 4px;"
+                                          f"border: 3px solid {self.themePaletteColours['buttonFilled.background']};}}"
+                                          f"QPushButton:hover{{border: 3px solid {self.themePaletteColours['buttonFilled.hover']};}}")
+        self.classColourBtn.setFixedWidth(20)
+        self.classColourBtn.setFixedHeight(20)
+        self.classColourBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
-            # Class name line edit
-            self.classItemLineEdit = ListItemQLineEdit(self.themePaletteColours, f"font: 75 12pt {self.fontRegular};")
-            self.classItemLineEdit.editingFinished.connect(lambda: self.setClassName(self.classItemLineEdit.text()))
-            self.classItemLineEdit.setText(self.className)
-            self.classItemLineEdit.setMinimumSize(100, 30)
-            self.classItemLineEdit.setMaximumSize(150, 30)
-            self.classItemLineEdit.setTextMargins(2,0,2,0)
-            self.classItemLineEdit.setCursorPosition(0)
-            self.classItemLineEdit.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        # Class name line edit
+        self.classNameLineEdit = ListItemQLineEdit(self.themePaletteColours, f"font: 75 12pt {self.fontRegular};")
+        self.classNameLineEdit.setMinimumSize(100, 30)
+        self.classNameLineEdit.setMaximumSize(150, 30)
+        self.classNameLineEdit.setTextMargins(2,0,2,0)
+        self.classNameLineEdit.setCursorPosition(0)
+        self.classNameLineEdit.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        self.classNameLineEdit.setEditMode(True)
 
-            # Hotkey button
-            self.hotkeyBtn = QPushButton()
-            self.hotkeyBtn.setStyleSheet("QPushButton{"
-                                        f"background-color: {self.themePaletteColours['buttonFilled.background']};"
-                                        f"border: 2px solid {self.themePaletteColours['buttonFilled.background']};"
-                                        "border-radius: 5px;}"
-                                        "QPushButton:hover{"
-                                        f"background-color: {self.themePaletteColours['buttonFilled.hover']};"
-                                        f"border: 2px solid {self.themePaletteColours['buttonFilled.hover']};}}")
-            self.hotkeyBtn.setFixedWidth(25)
-            self.hotkeyBtn.setFixedHeight(25)
-            self.hotkeyBtn.setVisible(False)
-            self.hotkeyBtn.setText('a')
-            self.hotkeyBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        # Hotkey button
+        self.classHotKeyBtn = QPushButton()
+        self.classHotKeyBtn.setStyleSheet("QPushButton{"
+                                          f"background-color: {self.themePaletteColours['buttonFilled.background']};"
+                                          f"border: 2px solid {self.themePaletteColours['buttonFilled.background']};"
+                                          "border-radius: 5px;}"
+                                          "QPushButton:hover{"
+                                          f"background-color: {self.themePaletteColours['buttonFilled.hover']};"
+                                          f"border: 2px solid {self.themePaletteColours['buttonFilled.hover']};}}")
+        self.classHotKeyBtn.setFixedWidth(25)
+        self.classHotKeyBtn.setFixedHeight(25)
+        self.classHotKeyBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
-            # Delete button
-            self.classDeleteBtn = QPushButton()
-            self.classDeleteBtn.setStyleSheet("QPushButton{"
-                                            "border-image: url('icons/icons8-trash-can-25.png');"
-                                            "background-color: transparent;}")
-            self.classDeleteBtn.setFixedWidth(20)
-            self.classDeleteBtn.setFixedHeight(20)
-            self.classDeleteBtn.setVisible(False)
-            self.classDeleteBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        # Delete button
+        self.classDeleteBtn = QPushButton()
+        self.classDeleteBtn.setStyleSheet("QPushButton{"
+                                          "border-image: url('icons/icons8-trash-can-25.png');"
+                                          "background-color: transparent;}")
+        self.classDeleteBtn.setFixedWidth(20)
+        self.classDeleteBtn.setFixedHeight(20)
+        self.classDeleteBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
-            # Colour spacer
-            self.spacerWidget = QFrame()
-            self.spacerWidget.setStyleSheet("QFrame{background-color:transparent;}")
-            self.spacerWidget.setFixedWidth(2)
-            self.spacerWidget.setFixedHeight(5)
-            self.spacerWidget.setVisible(False)
+        # Setting layout of custom widget 
+        self.editClassAttributesFrameLayout = QHBoxLayout()
+        self.editClassAttributesFrameLayout.addWidget(self.classColourBtn)
+        self.editClassAttributesFrameLayout.addWidget(self.classNameLineEdit)
+        self.editClassAttributesFrameLayout.addWidget(self.classHotKeyBtn)
+        self.editClassAttributesFrameLayout.addWidget(self.classDeleteBtn)
+        self.editClassAttributesFrameLayout.setContentsMargins(5,0,4,0)
+        self.editClassAttributesFrameLayout.setSpacing(2)
 
+        # Create frame
+        self.editClassAttributesFrame = QFrame()
+        self.editClassAttributesFrame.setLayout(self.editClassAttributesFrameLayout)
+    
+        return self.editClassAttributesFrame
 
+    def setClassNameText(self, className: str) -> None:
+        """ Updates widgets with specified class name """
+        self.classNameLbl.setText(className)
+        self.classNameLineEdit.setText(className)
+        self.update()
+
+    def setHotKeyText(self, hotKeyChar: str) -> None:
+        """ Updates widgets with specified hot key character """
+        self.classHotKeyLbl.setText(hotKeyChar) 
+        self.classHotKeyBtn.setText(hotKeyChar)
+        self.update()  
+
+    def setClassColour(self, colour: tuple) -> None:
+        """ Updates widgets with specified colour """
+        self.classColourLbl.setStyleSheet("QLabel{"
+                                          f"background-color: rgb{colour};"
+                                          "border-radius: 4px;"
+                                          "border-top-right-radius: 0px;"
+                                          "border-bottom-right-radius: 0px;}")
+
+        self.classColourBtn.setStyleSheet("QPushButton{"
+                                          f"background-color: rgb{colour};"
+                                          "border-radius: 4px;"
+                                          f"border: 3px solid {self.themePaletteColours['buttonFilled.background']};}}"
+                                          f"QPushButton:hover{{border: 3px solid {self.themePaletteColours['buttonFilled.hover']};}}")
+        self.update()  
+
+    def setClassAnnotationsCount(self, numberOfAnnotations: int) -> None:
+        """ Updates widgets with specified annotations count """
+        self.classAnnotationsCountLbl.setText(numberOfAnnotations)
+        self.update()  
+
+    def setEditMode(self, toggled: bool) -> None:
+        """ Sets the edit mode of the frame """
+        if toggled:
+            self.baseClassAttributesFrame.setVisible(False)
+            self.editClassAttributesFrame.setVisible(True)
+
+        else:
+            self.baseClassAttributesFrame.setVisible(True)
+            self.editClassAttributesFrame.setVisible(False)      
 
 class CustomClassQListWidget (QListWidget):
     """
