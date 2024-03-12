@@ -212,7 +212,7 @@ class ProjectPage():
         """ Populates the fields for the project page from the project.yaml """
         self.ui.projectNameLbl.setText(self.app.project.name)
         self.ui.projectDescriptionEdit.setText(self.app.project.description)
-        self.ui.datasetPathLbl.setText(self.app.project.dataset)
+        self.ui.datasetPathLbl.setText(self.app.project.datasetPath)
 
     def loadPage(self) -> None:
         """ Loads all information and functionality """

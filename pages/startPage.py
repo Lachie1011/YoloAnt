@@ -51,9 +51,9 @@ class StartPage():
                 self.app.projectPage.loadPage()
         else:
             # opens file explorer
-            projectPath = QFileDialog.getOpenFileName(self.app, 'Open file', os.getcwd())[0]
-            if "project.yaml" in projectPath:
-                self.project.loadProject(projectPath)  # attempt to load project
+            projectDir = str(QFileDialog.getExistingDirectory(self.app, "Select Directory"))        
+            if os.path.exists(projectDir + "/project.yaml"): 
+                self.project.loadProject(projectDir)  # attempt to load project
                 self.app.project = self.project
                 # update navigation panel and switch dir TODO: create functions that wrap the navigation as below
                 self.ui.mlTabBtn.setChecked(False)
