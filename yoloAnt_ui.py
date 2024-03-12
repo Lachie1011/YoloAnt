@@ -220,7 +220,7 @@ class Ui_MainWindow(object):
         self.createProjectBtn.setStyleSheet("")
         self.createProjectBtn.setText("")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("../.designer/backup/icons/createProject.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon5.addPixmap(QtGui.QPixmap("icons/createProject.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.createProjectBtn.setIcon(icon5)
         self.createProjectBtn.setIconSize(QtCore.QSize(200, 200))
         self.createProjectBtn.setObjectName("createProjectBtn")
@@ -264,7 +264,7 @@ class Ui_MainWindow(object):
         self.openProjecBtn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.openProjecBtn.setText("")
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap("../.designer/backup/icons/openProject.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon6.addPixmap(QtGui.QPixmap("icons/openProject.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.openProjecBtn.setIcon(icon6)
         self.openProjecBtn.setIconSize(QtCore.QSize(200, 200))
         self.openProjecBtn.setObjectName("openProjecBtn")
@@ -1996,7 +1996,7 @@ class Ui_MainWindow(object):
         self.menuBar.addAction(self.menutest.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         self.MLRightStackWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

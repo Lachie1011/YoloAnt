@@ -490,7 +490,7 @@ background-color: #151515;</string>
           <enum>QFrame::Raised</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="entryPage">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -548,7 +548,7 @@ background-color: #151515;</string>
                 </property>
                 <property name="icon">
                  <iconset>
-                  <normaloff>../.designer/backup/icons/createProject.png</normaloff>../.designer/backup/icons/createProject.png</iconset>
+                  <normaloff>icons/createProject.png</normaloff>icons/createProject.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -668,7 +668,7 @@ background-color: #151515;</string>
                 </property>
                 <property name="icon">
                  <iconset>
-                  <normaloff>../.designer/backup/icons/openProject.png</normaloff>../.designer/backup/icons/openProject.png</iconset>
+                  <normaloff>icons/openProject.png</normaloff>icons/openProject.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
