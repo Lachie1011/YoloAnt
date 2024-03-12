@@ -14,7 +14,7 @@ from events.hoverEvent import HoverEvent
 # from events.resizeEvent import ResizeEvent
 from events.resizeEvent import ResizeEvent
 from customWidgets.customQObjects import CustomClassQListWidget, UserInputQLineEdit
-from customWidgets.annoPageListWidgetItem import AnnoPageListWidgetItem
+from customWidgets.annotationClassSelectionWidget import AnnotationClassSelectionWidget
 
 
 class NavigationModes(Enum):
@@ -49,10 +49,6 @@ class AnnotationPage():
         # Connecting signals and slots for the page
         self.__connectIconHover()
         self.__connectAnnotationToolButtons()
-
-        # Connect signals and slots
-        self.editSwitchBtn.toggled.connect(lambda toggled: self.classSelectionListWidget.enabledListEditMode(toggled))
-        self.classSearchLineEdit.textChanged.connect(lambda newText: self.__searchForClass(newText))
 
     def loadPage(self):
         """ Loads all information and functionality """
@@ -117,8 +113,8 @@ class AnnotationPage():
         self.ui.annotationToolsFrame.setGraphicsEffect(dropshadowEffect3)
         self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() + 
                                                    f"background: {self.app.theme.colours['panel.background']};")
-        self.ui.classSelectAnnoPageFrame.setStyleSheet(self.ui.classSelectAnnoPageFrame.styleSheet() +
-                                                       f"background: {self.app.theme.colours['panel.sunken']};")    
+        # self.ui.classSelectAnnoPageFrame.setStyleSheet(self.ui.classSelectAnnoPageFrame.styleSheet() +
+        #                                                f"background: {self.app.theme.colours['panel.sunken']};")    
     def __setupStyleSheet(self) -> None:
         """ Sets the style sheet for the page """
         # Setup annotation class selection frame

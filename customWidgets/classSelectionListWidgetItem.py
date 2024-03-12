@@ -1,7 +1,8 @@
 """
-    annoPageListWidgetItem.py
+    classSelectionListWidgetItem.py
 """
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QColor 
 from PyQt6.QtWidgets import (QFrame, QHBoxLayout, QToolButton, QVBoxLayout)
                         
 from customWidgets.customQObjects import *
@@ -17,7 +18,7 @@ class ClassSelectionListWidgetItem (QFrame):
             className - Name of class
             colour - Annotation colour of class in RGB format: _,_,_ 
     """
-    def __init__(self, className: str, colour: tuple, themePaletteColours: dict, fontRegular: str, fontTitle: str, parent=None):
+    def __init__(self, className: str, colour: tuple, themePaletteColours: dict, fontRegular: str, fontTitle: str, page, parent=None):
         super().__init__()
 
         # Member variables
@@ -26,6 +27,7 @@ class ClassSelectionListWidgetItem (QFrame):
         self.themePaletteColours = themePaletteColours
         self.fontRegular = fontRegular
         self.fontTitle = fontTitle
+        self.page = page
         self.parentItem = None
         self.parentSelected = False
         self.editEnabled = False
@@ -142,6 +144,10 @@ class ClassSelectionListWidgetItem (QFrame):
         """ Sets list widget item to selected state """
         self.classSelectionFrame.setSelected()
         self.parentSelected = True
+
+        # If we select an item, update the canvas
+        self.page.ui.annotationCanvasWidget.currentClassColour = QColor(self.colour[0], self.colour[1], self.colour[2])
+        self.page.ui.annotationCanvasWidget.currentClassName = self.className
 
     def clearSelected(self) -> None:
         """ Clears selected state of list widget item """
