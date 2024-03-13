@@ -6,7 +6,8 @@ from PyQt6 import QtCore
 from PyQt6.QtGui import QCursor, QIcon, QColor
 from PyQt6.QtWidgets import QApplication, QHBoxLayout, QLabel, QVBoxLayout, QPushButton, QFrame, QGraphicsDropShadowEffect, QSpacerItem, QSizePolicy
 
-from customWidgets.customQObjects import CustomClassQListWidget, UserInputQLineEdit
+from customWidgets.classSelectionListWidget import ClassSelectionListWidget
+from customWidgets.customQObjects import UserInputQLineEdit
 from customWidgets.classSelectionListWidgetItem import ClassSelectionListWidgetItem
 
 class AnnotationClassSelectionWidget(QFrame):
@@ -73,9 +74,7 @@ class AnnotationClassSelectionWidget(QFrame):
         self.classSelectionUtilityFrame.setLayout(self.classSelectionUtilityLayout)
 
         # Create custom class selection list widget        
-        self.classSelectionListWidget = CustomClassQListWidget(self.themePaletteColours)
-        self.classSelectionListWidget.setObjectName("annotationClassListWidget")
-        self.classSelectionListWidget.setSpacing(3)
+        self.classSelectionListWidget = ClassSelectionListWidget(self.themePaletteColours)
 
         # Apply layout to class selection list frame 
         self.classSelectionListLayout = QVBoxLayout()
@@ -106,5 +105,5 @@ class AnnotationClassSelectionWidget(QFrame):
 
     def addClassSelectionListItem(self, className: str, classColour: tuple) -> None:
         """ Adds a class selection list item to the class selection list widget """
-        self.classSelectionListWidget.addItemToListWidget(ClassSelectionListWidgetItem(className, classColour, 
+        self.classSelectionListWidget.addItemToList(ClassSelectionListWidgetItem(className, classColour, 
                                                           self.themePaletteColours, self.fontRegular, self.fontTitle, page=self))

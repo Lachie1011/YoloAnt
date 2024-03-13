@@ -14,6 +14,10 @@ import pyqtgraph as pg
 from yoloAnt_ui import Ui_MainWindow
 from customWidgets.customQObjects import CustomClassQListWidget, PanelQLineEdit, PanelQTextEdit, ProjectImageQPushButton
 from customWidgets.projectClassListItemWidget import ProjectClassListItemWidget
+from customWidgets.commonWidgets.panelLineEdit import PanelLineEdit
+from customWidgets.commonWidgets.panelTextEdit import PanelTextEdit
+
+
 from dialogs.createClassDialog import CreateClassDialog
 
 class ProjectPage():
@@ -145,14 +149,14 @@ class ProjectPage():
 
     def __setupStyleSheet(self) -> None: 
         """ Sets the style sheet for the page """
-        self.projectNameLineEdit = PanelQLineEdit(self.app.theme.colours, f"font: 75 bold 16pt {self.app.fontTypeRegular};")
+        self.projectNameLineEdit = PanelLineEdit(self.app.theme.colours, self.app.theme.colours['font.header'], f"75 bold 16pt {self.app.fontTypeRegular};")
         self.projectNameLineEdit.setText('Project Name')
         self.projectNameLayout = QHBoxLayout()
         self.projectNameLayout.addWidget(self.projectNameLineEdit)
         self.projectNameLayout.setContentsMargins(0,0,0,0)
         self.ui.projectNameTextFrame.setLayout(self.projectNameLayout)
 
-        self.projectDescriptionEdit = PanelQTextEdit(self.app.theme.colours, self.app.fontTypeRegular)
+        self.projectDescriptionEdit = PanelTextEdit(self.app.theme.colours, self.app.theme.colours['font.header'], f"75 12pt {self.app.fontTypeRegular}", )
         self.projectDescriptionEdit.setText('Project description here.')
         self.projectDescriptionEditLayout = QHBoxLayout()
         self.projectDescriptionEditLayout.addWidget(self.projectDescriptionEdit)

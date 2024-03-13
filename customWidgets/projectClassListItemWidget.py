@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import (QFrame, QLabel, QHBoxLayout, QLineEdit, QProgressBa
                              QSpacerItem, QSizePolicy, QPushButton)
 
 from customWidgets.customQObjects import *
+from customWidgets.commonWidgets.panelLineEdit import PanelLineEdit
 from dialogs.colourSelectorDialog import getColour
 
 class ProjectClassListItemWidget (QFrame):
@@ -56,7 +57,7 @@ class ProjectClassListItemWidget (QFrame):
         self.classColourButton.setFixedHeight(18)
 
         # Class name line edit
-        self.classItemLineEdit = PanelQLineEdit(self.themePaletteColours, f"font: 75 12pt {self.fontRegular};")
+        self.classItemLineEdit = PanelLineEdit(self.themePaletteColours, self.themePaletteColours['font.regular'], f"75 12pt {self.fontRegular};")
         self.classItemLineEdit.editingFinished.connect(lambda: self.setClassName(self.classItemLineEdit.text()))
         self.classItemLineEdit.setText(self.className)
         self.classItemLineEdit.setMinimumSize(100, 30)

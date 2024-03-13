@@ -6,7 +6,7 @@ from PyQt6.QtGui import QPalette, QBrush, QCursor
 from PyQt6.QtWidgets import (QDialog, QFrame, QLineEdit, QAbstractItemView, QListWidgetItem, QPushButton, QSizePolicy,
                              QSizePolicy, QListWidget, QAbstractScrollArea, QListView, QTextEdit, QGraphicsOpacityEffect,
                              QLabel, QHBoxLayout)
-
+from customWidgets.commonWidgets.listWidgetItemLineEdit import ListWidgetItemLineEdit
 class CustomWidgetItemQFrame(QFrame):
     """
         Class that creates a custom QFrame
@@ -513,7 +513,7 @@ class ClassAttributesFrame(QFrame):
         self.classColourBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         # Class name line edit
-        self.classNameLineEdit = ListItemQLineEdit(self.themePaletteColours, f"font: 75 12pt {self.fontRegular};")
+        self.classNameLineEdit = ListWidgetItemLineEdit(self.themePaletteColours, self.themePaletteColours['font.regular'], f"75 12pt {self.fontRegular};")
         self.classNameLineEdit.setMinimumSize(100, 30)
         self.classNameLineEdit.setMaximumSize(150, 30)
         self.classNameLineEdit.setTextMargins(2,0,2,0)

@@ -24,6 +24,9 @@ class StartPage():
         # Member variables
         self.project = None
 
+        # Setup stylesheet
+        self.__setupPageStyleSheet()
+
         # Connecting signals and slots for the page
         self.__connectProjectButtons()
         self.__connectIconHover()
@@ -76,4 +79,4 @@ class StartPage():
 
     def __setupPageStyleSheet(self) -> None:
         self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() + 
-                                                   f'background: {DarkThemePalette.panelColour.value};')
+                                                   f"background: {self.app.theme.colours['panel.background']};")

@@ -6,6 +6,8 @@ from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import (QFrame, QHBoxLayout, QToolButton, QVBoxLayout)
                         
 from customWidgets.customQObjects import *
+from customWidgets.classAttributesFrame import ClassAttributesFrame
+from customWidgets.annotationsListWidget import AnnotationsListWidget
 from utils.expandingFrame import ExpandingFrame
 from dialogs.colourSelectorDialog import getColour
 from customWidgets.annotationsListWidgetItem import AnnotationsListWidgetItem
@@ -48,7 +50,7 @@ class ClassSelectionListWidgetItem (QFrame):
         self.classAttributesFrame.classHotKeyBtn.clicked.connect(lambda: self.setHotKey())
         self.classAttributesFrame.classColourBtn.clicked.connect(lambda: self.selectColour())
         self.classAttributesFrame.classNameLineEdit.editingFinished.connect(lambda: self.setClassName(self.classAttributesFrame.classNameLineEdit.text()))
-        self.classAttributesFrame.classDeleteBtn.clicked.connect(lambda: self.parent().parent().removeItemFromListWidget(self.parentItem))
+        self.classAttributesFrame.classDeleteBtn.clicked.connect(lambda: self.parent().parent().removeItemFromList(self.parentItem))
         self.expandBtn.clicked.connect(lambda checked: self.__expandFrame(checked))
 
     def __setupStyleSheet(self) -> None:
@@ -95,7 +97,7 @@ class ClassSelectionListWidgetItem (QFrame):
         """ Sets up style sheet for annotations frame """
 
         # Create list widget for class annotations
-        self.annotationsListWidget = CustomClassQListWidget(self.themePaletteColours)
+        self.annotationsListWidget = AnnotationsListWidget(self.themePaletteColours)
 
         # Create layout for annotations frame
         self.annotationsFrameLayout = QVBoxLayout()
@@ -142,7 +144,7 @@ class ClassSelectionListWidgetItem (QFrame):
 
     def setSelected(self) -> None:
         """ Sets list widget item to selected state """
-        self.classSelectionFrame.setSelected()
+        self.classSelectionFrame.setToSelectedState()
         self.parentSelected = True
 
         # If we select an item, update the canvas
@@ -173,4 +175,4 @@ class ClassSelectionListWidgetItem (QFrame):
 
     def addAnnotationToClassItem(self, annotationName: str) -> None:
         """ Adds an annotation item to the annotations list widget of class list item """
-        self.annotationsListWidget.addItemToListWidget(AnnotationsListWidgetItem(annotationName, self.themePaletteColours))
+        self.annotationsListWidget.addItemToList(AnnotationsListWidgetItem(annotationName, self.themePaletteColours))
