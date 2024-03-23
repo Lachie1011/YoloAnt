@@ -116,8 +116,7 @@ class AnnotationPage():
                         break
             if closestIndex:
                 self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[closestIndex])
-                self.currentIndex = closestIndex
-        
+                self.currentIndex = closestIndex 
         if navigationType is NavigationModes.previousUnannotated:
             closestIndex = None
             # check the cache first
