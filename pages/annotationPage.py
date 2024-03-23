@@ -25,7 +25,7 @@ class NavigationModes(Enum):
     next=0
     previous=1
     nextUnannotated=2
-    previoudUnannotated=3
+    previousUnannotated=3
 
 
 class Tools(Enum):
@@ -47,20 +47,27 @@ class AnnotationPage():
         self.__setupStyleSheet()
         self.__setupPagePalette()
 
+        # Page attributes:
+        self.currentIndex = 0
+        self.pageInitialised = False
+        
+        # Dict to hold the unannotatedImages TODO: probs could be made into some kind of Kd tree to make searching faster
+        self.unannotatedImages = {}
         # Connecting signals and slots for the page
         self.__connectIconHover()
         self.__connectAnnotationToolButtons()
+        self.__connectImageNavigationButtons()
 
     def loadPage(self):
         """ Loads all information and functionality """ 
-        if len(self.app.project.annotationDataset < 0):
+        if len(self.app.project.annotationDataset) < 0:
             self.app.notificationManager.raiseNotification("Dataset contains no images")
             return
 
         if not self.pageInitialised:
             # Creating metadata for inital image
             self.app.project.annotationDataset[self.currentIndex].createMetadata()
-            self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[self.currentIndex].path)
+            self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[self.currentIndex])
             self.pageInitialised = True
 
     def __connectImageNavigationButtons(self):
@@ -68,30 +75,87 @@ class AnnotationPage():
         self.app.ui.nextImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.next))
         self.app.ui.prevImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.previous))
         self.app.ui.nextUnannoImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.nextUnannotated))
-        self.app.ui.prevUnannoImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.previoudUnannotated))
+        self.app.ui.prevUnannoImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.previousUnannotated))
     
     def __navigateCanvasWidget(self, navigationType):
         """ Logic for page navigation """
         # TODO: this logic assumes that a new image will be found only when moving next not previously
+        self.__checkImageState(self.app.project.annotationDataset[self.currentIndex])
         if navigationType is NavigationModes.next:
             if (self.currentIndex + 1) < len(self.app.project.dataset):
+                # Setup the next image
                 nextImage = self.app.project.annotationDataset[self.currentIndex + 1]
                 nextImage.createMetadata()
-                if nextImage.isValid()
-                    self.app.ui.annotationCanvasWidget.updateImage(nextImage.path)
+                if nextImage.isValid:
+                    # go to next image
+                    self.app.ui.annotationCanvasWidget.updateImage(nextImage)
+                    self.currentIndex = self.currentIndex + 1
                 else:
-                    # TODO: If the image is not valid show blank image:
+                    # TODO: If the image is not valid show blank image / skip ahead to the next valid image??
                     self.app.notificationManager.raiseNotification(f"Image: {0} is not valid", nextImage.path)
-                    pass
-                self.currentIndex = self.currentIndex + 1
         if navigationType is NavigationModes.previous:
-            if (self.currentIndex - 1) > 0:
-                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.dataset[self.currentIndex - 1])
+            if (self.currentIndex - 1) >= 0:
+                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[self.currentIndex - 1])
                 self.currentIndex = self.currentIndex - 1
         if navigationType is NavigationModes.nextUnannotated:
-            pass
-        if navigationType is NavigationModes.previoudUnannotated:
-            pass
+            closestIndex = None
+            # Check cache first
+            if self.unannotatedImages:
+                for _, index in self.unannotatedImages.items():
+                    if index > self.currentIndex:
+                        if closestIndex is None:
+                            closestIndex = index
+                        if (index < closestIndex) and index != self.currentIndex:
+                            closestIndex = index
+                            
+            # If we couldnt find anything in the cache, check annotation dataset 
+            if closestIndex is None:
+                for i in range(self.currentIndex + 1, len(self.app.project.annotationDataset) - 1):
+                    if not self.app.project.annotationDataset[i].annotated:
+                        closestIndex = i
+                        break
+            if closestIndex:
+                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[closestIndex])
+                self.currentIndex = closestIndex
+        
+        if navigationType is NavigationModes.previousUnannotated:
+            closestIndex = None
+            # check the cache first
+            if self.unannotatedImages:
+                print('a')
+                for _, index in self.unannotatedImages.items():
+                    print("here a")
+                    if index < self.currentIndex:
+                        print("here c")
+                        if closestIndex is None:
+                            print("c")
+                            closestIndex = index
+                        if (index > closestIndex) and index != self.currentIndex:
+                            print("d")
+                            closestIndex = index
+                    print(closestIndex)
+                    print(index)
+            # if we couldnt find anything in the cache, check annotation dataset
+            if closestIndex is None:
+                print("b")
+                for i in range(self.currentIndex - 1, len(self.app.project.annotationDataset), -1):
+                    if not self.app.project.annotationDataset[i].annotated:
+                        closestIndex = i
+                        break
+            print(closestIndex)
+            print("hello")
+            if closestIndex:
+                print("got here !!!?!!")
+                print(f"closet {closestIndex}")
+                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[closestIndex])
+                self.currentIndex = closestIndex
+        
+    def __checkImageState(self, image) -> None:
+        """ Checks the current images state and updates related properties """
+        if image.annotated and (image in self.unannotatedImages):
+            self.unannotatedImages.pop(image)
+        if not image.annotated:
+            self.unannotatedImages.update({self.app.project.annotationDataset[self.currentIndex]:self.currentIndex})
 
     def __setupPagePalette(self) -> None:
         """ Sets the colour palette for the page widgets """  

@@ -45,12 +45,12 @@ class AnnotationCanvasWidget(QGraphicsView):
         
         self.setScene(self.scene)
     
-    def updateImage(self, imagePath) -> None:
+    def updateImage(self, image) -> None:
         """ Updates the image currently being shown as a QGraphicsPixmapItem """
         # if we do not have an image, just show the canvas
-        if not Path(imagePath).is_file():
+        if not Path(image.path).is_file():
             return
-        self.imagePixmap = QPixmap(imagePath)
+        self.imagePixmap = QPixmap(image.path)
         self.resetScene()
 
     def resetScene(self):
