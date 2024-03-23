@@ -114,38 +114,26 @@ class AnnotationPage():
                     if not self.app.project.annotationDataset[i].annotated:
                         closestIndex = i
                         break
-            if closestIndex:
+            if closestIndex is not None:
                 self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[closestIndex])
                 self.currentIndex = closestIndex 
         if navigationType is NavigationModes.previousUnannotated:
             closestIndex = None
             # check the cache first
             if self.unannotatedImages:
-                print('a')
                 for _, index in self.unannotatedImages.items():
-                    print("here a")
                     if index < self.currentIndex:
-                        print("here c")
                         if closestIndex is None:
-                            print("c")
                             closestIndex = index
                         if (index > closestIndex) and index != self.currentIndex:
-                            print("d")
                             closestIndex = index
-                    print(closestIndex)
-                    print(index)
             # if we couldnt find anything in the cache, check annotation dataset
             if closestIndex is None:
-                print("b")
                 for i in range(self.currentIndex - 1, len(self.app.project.annotationDataset), -1):
                     if not self.app.project.annotationDataset[i].annotated:
                         closestIndex = i
                         break
-            print(closestIndex)
-            print("hello")
-            if closestIndex:
-                print("got here !!!?!!")
-                print(f"closet {closestIndex}")
+            if closestIndex is not None:
                 self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[closestIndex])
                 self.currentIndex = closestIndex
         
