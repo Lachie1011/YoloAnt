@@ -48,6 +48,10 @@ class AnnotationCanvasWidget(QGraphicsView):
     
     def updateImage(self, image) -> None:
         """ Updates the image currently being shown as a QGraphicsPixmapItem """
+        
+        # Saving bounding boxes on the previous image
+        self.generateBoundingBoxes()
+
         # if we do not have an image, just show the canvas
         self.image = image
         if not Path(self.image.path).is_file():
@@ -76,11 +80,11 @@ class AnnotationCanvasWidget(QGraphicsView):
         self.imageItem.setZValue(-1)  # Make sure that this is always on the lowest z value
         self.scene.addItem(self.imageItem)
     
-    def generateBoundingBoxes(self, x, y) -> None:
+    def generateBoundingBoxes(self) -> None:
         """ Loops through all of the rectangles and stores bounding boxes. Update respective image object """
         boundingBoxes = []
         for rect in self.rects:
-            boundingBox = BoundingBox(x, y, rect.rect().width(), rect.rect().height(), rect.classColour)
+            boundingBox = BoundingBox(rect.x() + self.rect().x(), rect.y() + self.rect().y(), rect.rect().width(), rect.rect().height(), rect.classColour)
             boundingBoxes.append(boundingBox)
         self.image.updateBoundingBoxes(boundingBoxes)
 

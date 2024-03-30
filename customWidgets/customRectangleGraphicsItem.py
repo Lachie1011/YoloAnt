@@ -50,7 +50,6 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
 
         if change == QGraphicsItem.GraphicsItemChange.ItemPositionChange:
             # Update bounding boxes on position change
-            self.canvas.generateBoundingBoxes(self.x() + self.rect().x(), self.y() + self.rect().y())
         return super().itemChange(change, value)
 
     def toggleEditMode(self, editable: bool) -> None:
@@ -97,7 +96,6 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
         if (width * height) <= self.MIN_AREA:
             return
 
-        self.canvas.generateBoundingBoxes(self.x() + x, self.y() + y)  # For some reason a rectangle resize isnt detected as an item change :( probs would be nicer if this was a signal
         self.setRect(x, y, width, height)
         self.updateHandlePositions(handle, False)
 
