@@ -22,6 +22,7 @@ class AnnotationCanvasWidget(QGraphicsView):
         self.rectEnd = None
         self.boundingBoxes = []
         self.imagePath = None  #TODO: this will need to be on each new image
+        self.rects = []  # QGraphicsRectItem list of bounding boxes
 
         # Annotation canvas attributes
         self.mode = Tools.mouseTool
@@ -38,7 +39,7 @@ class AnnotationCanvasWidget(QGraphicsView):
         self.scene.setSceneRect(self.x(), self.y(), self.width(), self.height())
         self.scene.setBackgroundBrush(QColor(255,255,255))
 
-        # Creating initial canvas
+       # Creating initial canvas
         self.imagePixmap = QPixmap()
         self.imageItem = QGraphicsPixmapItem(self.imagePixmap)
         self.scene.addItem(self.imageItem)
@@ -56,24 +57,26 @@ class AnnotationCanvasWidget(QGraphicsView):
     def resetScene(self):
         """ Resets the scene environment """
         # Clearing the scene of all the rectangles that dont need to be there
-        self.scene.clear()
+        for item in self.scene.items():
+            if item not in self.rects and isinstance(item, CustomRectangleGraphicsItem):
+                # Check that the item isnt a child item of the one of the rects
+                self.scene.removeItem(item)
 
         # Adding the image item back immediately after clearing
         self.imageItem = QGraphicsPixmapItem(self.imagePixmap)
+        self.imageItem.setZValue(-1)  # Make sure that this is always on the lowest z value
         self.scene.addItem(self.imageItem)
-        
-        # Adding stored rectangles back to the canvas
-        for boundingBox in self.boundingBoxes:
-            self.createRect(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, False, boundingBox.colour)
 
     def createRect(self, x: float, y: float, width: float, height: float, store: bool, colour):
         """ Creates a rectangle based on mouse location and adds the rectangle to the scene """
         # Creating the rectangle
-        # rect = self.scene.addRect(x, y, width, height)
         rect = CustomRectangleGraphicsItem(x, y, width, height, self.scene, colour)
         self.scene.addItem(rect)
 
         if store:
+            # Adding rect to list
+            self.rects.append(rect)            
+            # TODO: this should just be adding to the image objects collection of bounding boxes / when we change anything, we will have to update this list
             boundingBox = BoundingBox(x, y, width, height, self.currentClassColour)
             self.boundingBoxes.append(boundingBox)
 

@@ -123,7 +123,7 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
 
     def addHandles(self) -> None:
         """ Adds editable handles to the rectItem """
-        # Only add handles once 
+        # Only add handles once
         if not self.handles:
             # Creating top-left, top-right, bottom-left, bottom-right handles, this also adds them to the scene
             self.topLeftHandle = CustomEllipseGraphicsItem(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, 
