@@ -48,12 +48,14 @@ class AnnotationCanvasWidget(QGraphicsView):
     
     def updateImage(self, image) -> None:
         """ Updates the image currently being shown as a QGraphicsPixmapItem """
+        # Save previous image attributes
+        if self.image:
+            self.generateBoundingBoxes()
         
-        # Saving bounding boxes on the previous image
-        self.generateBoundingBoxes()
-
-        # if we do not have an image, just show the canvas
+        # Set up for new image
         self.image = image
+        
+        # Setup for new image
         if not Path(self.image.path).is_file():
             return
         self.imagePixmap = QPixmap(image.path)
@@ -84,7 +86,7 @@ class AnnotationCanvasWidget(QGraphicsView):
         """ Loops through all of the rectangles and stores bounding boxes. Update respective image object """
         boundingBoxes = []
         for rect in self.rects:
-            boundingBox = BoundingBox(rect.x() + self.rect().x(), rect.y() + self.rect().y(), rect.rect().width(), rect.rect().height(), rect.classColour)
+            boundingBox = BoundingBox(rect.x() + rect.rect().x(), rect.y() + rect.rect().y(), rect.rect().width(), rect.rect().height(), rect.classColour)
             boundingBoxes.append(boundingBox)
         self.image.updateBoundingBoxes(boundingBoxes)
 
@@ -96,8 +98,6 @@ class AnnotationCanvasWidget(QGraphicsView):
         if store:
             # Adding rect to list
             self.rects.append(rect)
-            # Add boundingbox when created
-            self.generateBoundingBoxes(rect.rect().x(), rect.rect().y())
     
     def mousePressEvent(self, event):
         """ Event to capture mouse press and update rect coords """

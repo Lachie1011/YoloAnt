@@ -48,8 +48,6 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
             else:
                 self.toggleEditMode(False)
 
-        if change == QGraphicsItem.GraphicsItemChange.ItemPositionChange:
-            # Update bounding boxes on position change
         return super().itemChange(change, value)
 
     def toggleEditMode(self, editable: bool) -> None:
