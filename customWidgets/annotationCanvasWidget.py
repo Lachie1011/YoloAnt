@@ -18,9 +18,9 @@ class AnnotationCanvasWidget(QGraphicsView):
         super(AnnotationCanvasWidget, self).__init__(parent)
 
         # Attributes
+        self.image = None
         self.rectBegin = None
         self.rectEnd = None
-        self.boundingBoxes = []
         self.imagePath = None  #TODO: this will need to be on each new image
         self.rects = []  # QGraphicsRectItem list of bounding boxes
 
@@ -49,9 +49,18 @@ class AnnotationCanvasWidget(QGraphicsView):
     def updateImage(self, image) -> None:
         """ Updates the image currently being shown as a QGraphicsPixmapItem """
         # if we do not have an image, just show the canvas
-        if not Path(image.path).is_file():
+        self.image = image
+        if not Path(self.image.path).is_file():
             return
         self.imagePixmap = QPixmap(image.path)
+        
+        # Clear working rects
+        self.rects = []
+
+        # Create rectangles from bounding boxes
+        for boundingBox in self.image.boundingBoxes:
+            self.createRect(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, boundingBox.colour, True, True)
+        
         self.resetScene()
 
     def resetScene(self):
@@ -66,20 +75,26 @@ class AnnotationCanvasWidget(QGraphicsView):
         self.imageItem = QGraphicsPixmapItem(self.imagePixmap)
         self.imageItem.setZValue(-1)  # Make sure that this is always on the lowest z value
         self.scene.addItem(self.imageItem)
+    
+    def generateBoundingBoxes(self, x, y) -> None:
+        """ Loops through all of the rectangles and stores bounding boxes. Update respective image object """
+        boundingBoxes = []
+        for rect in self.rects:
+            boundingBox = BoundingBox(x, y, rect.rect().width(), rect.rect().height(), rect.classColour)
+            boundingBoxes.append(boundingBox)
+        self.image.updateBoundingBoxes(boundingBoxes)
 
-    def createRect(self, x: float, y: float, width: float, height: float, store: bool, colour):
+    def createRect(self, x: float, y: float, width: float, height: float, colour, store: bool, reload: bool):
         """ Creates a rectangle based on mouse location and adds the rectangle to the scene """
         # Creating the rectangle
-        rect = CustomRectangleGraphicsItem(x, y, width, height, self.scene, colour)
+        rect = CustomRectangleGraphicsItem(x, y, width, height, self.scene, colour, self)
         self.scene.addItem(rect)
-
         if store:
             # Adding rect to list
-            self.rects.append(rect)            
-            # TODO: this should just be adding to the image objects collection of bounding boxes / when we change anything, we will have to update this list
-            boundingBox = BoundingBox(x, y, width, height, self.currentClassColour)
-            self.boundingBoxes.append(boundingBox)
-
+            self.rects.append(rect)
+            # Add boundingbox when created
+            self.generateBoundingBoxes(rect.rect().x(), rect.rect().y())
+    
     def mousePressEvent(self, event):
         """ Event to capture mouse press and update rect coords """
         super(AnnotationCanvasWidget, self).mousePressEvent(event)
@@ -93,7 +108,7 @@ class AnnotationCanvasWidget(QGraphicsView):
         # Only add rectangle if in annotation mode
         if self.mode == Tools.annotationTool:
             self.resetScene()
-            self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), False, self.currentClassColour)
+            self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), self.currentClassColour, False, False)
 
     def mouseReleaseEvent(self, event):
         """ Event to capture mouse release and update rect coords """
@@ -102,5 +117,5 @@ class AnnotationCanvasWidget(QGraphicsView):
         # Only add rectangle if in annotation mode
         if self.mode == Tools.annotationTool:
             self.resetScene()
-            self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), True, self.currentClassColour)
+            self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), self.currentClassColour, True, False)
 

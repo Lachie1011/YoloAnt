@@ -15,6 +15,8 @@ class Image():
         
         self.metadataCreated = False
 
+        self.boundingBoxes = []
+        
         # Image related attributes
         self.height = None
         self.width = None
@@ -24,6 +26,13 @@ class Image():
         self.annotated = False
         self.needsWork = False
     
+    def updateBoundingBoxes(self, boundingBoxes) -> None:
+        """ Updates list of bounding boxs """
+        self.boundingBoxes = boundingBoxes
+
+        if len(self.boundingBoxes) > 0:
+            self.annotated = True
+
     def createMetadata(self) -> None:
         """ Creates basic metadata for the image"""
         

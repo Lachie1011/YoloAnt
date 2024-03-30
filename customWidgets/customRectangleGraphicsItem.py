@@ -2,7 +2,7 @@
     customRectangleGraphicsItem.py  
 """
 
-from PyQt6.QtCore import Qt, QEvent, QPointF, QPoint, QRect
+from PyQt6.QtCore import Qt, QEvent, QPointF, QPoint, QRect, pyqtSignal
 from PyQt6.QtGui import QPixmap, QColor, QPen, QBrush
 from PyQt6.QtWidgets import QGraphicsRectItem, QGraphicsItem, QGraphicsEllipseItem
 
@@ -11,11 +11,12 @@ from customWidgets.customEllipseGraphicsItem import CustomEllipseGraphicsItem, H
 
 class CustomRectangleGraphicsItem(QGraphicsRectItem):
     """ A custom graphics item that reimplements QGraphicsRectItem """
-    def __init__(self, x, y, width, height, scene, classColour):
+    def __init__(self, x, y, width, height, scene, classColour, canvas):
         super().__init__(x, y, width, height)
 
         self.scene = scene
         self.classColour = classColour
+        self.canvas = canvas
 
         # Handle definitions
         self.DIAMETER = 12    # technically you set a length and width for the ellipse but diameter
@@ -38,7 +39,7 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
         self.setFlags(QGraphicsItem.GraphicsItemFlag.ItemIsMovable | 
                         QGraphicsItem.GraphicsItemFlag.ItemIsSelectable | 
                         QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges)
-
+        
     def itemChange(self, change, value):
         """ Reimplements the itemChange function """
         if change == QGraphicsItem.GraphicsItemChange.ItemSelectedChange:
@@ -46,6 +47,10 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
                 self.toggleEditMode(True)
             else:
                 self.toggleEditMode(False)
+
+        if change == QGraphicsItem.GraphicsItemChange.ItemPositionChange:
+            # Update bounding boxes on position change
+            self.canvas.generateBoundingBoxes(self.x() + self.rect().x(), self.y() + self.rect().y())
         return super().itemChange(change, value)
 
     def toggleEditMode(self, editable: bool) -> None:
@@ -92,6 +97,7 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
         if (width * height) <= self.MIN_AREA:
             return
 
+        self.canvas.generateBoundingBoxes(self.x() + x, self.y() + y)  # For some reason a rectangle resize isnt detected as an item change :( probs would be nicer if this was a signal
         self.setRect(x, y, width, height)
         self.updateHandlePositions(handle, False)
 
