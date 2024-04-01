@@ -20,6 +20,7 @@ class Project:
         self.dataset = None
         self.datasetPath = None
         self.description = None
+        self.annotationDataset = []
 
     def loadProject(self, projectDir: str) -> None:
         """ Function to load a project's metadata """
@@ -45,7 +46,10 @@ class Project:
                     self.dataset = yaml.safe_load(stream)
                 except Exception as exc:
                     print(exc)
-        
+
+        # create dataset that is used for annotating
+        self.createDataset(self.dataset)
+                
     def createProject(self, name: str, dataset: str) -> None:
         """ Function to create a  project"""
         # check that project doesnt exist
@@ -79,4 +83,9 @@ class Project:
                 print(exc)
 
         self.loadProject(projectPath)
+
+    def createDataset(self, datasetPaths):
+        """ Creates a list of image objects to be used in annotation """
+        for path in datasetPaths:
+            self.annotationDataset.append(Image(path))
 

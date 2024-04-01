@@ -2,7 +2,7 @@
     customRectangleGraphicsItem.py  
 """
 
-from PyQt6.QtCore import Qt, QEvent, QPointF, QPoint, QRect
+from PyQt6.QtCore import Qt, QEvent, QPointF, QPoint, QRect, pyqtSignal
 from PyQt6.QtGui import QPixmap, QColor, QPen, QBrush
 from PyQt6.QtWidgets import QGraphicsRectItem, QGraphicsItem, QGraphicsEllipseItem
 
@@ -11,11 +11,12 @@ from customWidgets.customEllipseGraphicsItem import CustomEllipseGraphicsItem, H
 
 class CustomRectangleGraphicsItem(QGraphicsRectItem):
     """ A custom graphics item that reimplements QGraphicsRectItem """
-    def __init__(self, x, y, width, height, scene, classColour):
+    def __init__(self, x, y, width, height, scene, classColour, canvas):
         super().__init__(x, y, width, height)
 
         self.scene = scene
         self.classColour = classColour
+        self.canvas = canvas
 
         # Handle definitions
         self.DIAMETER = 12    # technically you set a length and width for the ellipse but diameter
@@ -38,7 +39,7 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
         self.setFlags(QGraphicsItem.GraphicsItemFlag.ItemIsMovable | 
                         QGraphicsItem.GraphicsItemFlag.ItemIsSelectable | 
                         QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges)
-
+        
     def itemChange(self, change, value):
         """ Reimplements the itemChange function """
         if change == QGraphicsItem.GraphicsItemChange.ItemSelectedChange:
@@ -46,6 +47,7 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
                 self.toggleEditMode(True)
             else:
                 self.toggleEditMode(False)
+
         return super().itemChange(change, value)
 
     def toggleEditMode(self, editable: bool) -> None:
@@ -123,7 +125,7 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
 
     def addHandles(self) -> None:
         """ Adds editable handles to the rectItem """
-        # Only add handles once 
+        # Only add handles once
         if not self.handles:
             # Creating top-left, top-right, bottom-left, bottom-right handles, this also adds them to the scene
             self.topLeftHandle = CustomEllipseGraphicsItem(self.rect().left() - self.X_BORDER - self.DIAMETER / 2, 
