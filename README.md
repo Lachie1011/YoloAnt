@@ -16,3 +16,5 @@ https://icons8.com/icons/set/notification-do-not-disturb
 https://icons8.com/icons/set/close
 https://icons8.com/icons/set/information
 https://icons8.com/icons/set/delete-list
+https://icons8.com/icons/set/rubbish-bin
+

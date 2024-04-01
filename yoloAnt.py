@@ -83,7 +83,7 @@ class YoloAnt(QMainWindow):
         self.machineLearningPage = MachineLearningPage(self)
         
         self.installEventFilter(self)
-
+        self.showMaximized()
         self.show()
     
     def eventFilter(self, object, event):

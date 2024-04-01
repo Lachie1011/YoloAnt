@@ -803,6 +803,12 @@ border-radius: 5px;</string>
                  <enum>QFrame::Raised</enum>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_9">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
                  <item>
                   <widget class="QPushButton" name="mouseToolBtn">
                    <property name="text">
@@ -840,6 +846,49 @@ border-radius: 5px;</string>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="Line" name="line">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>4</width>
+                     <height>4</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">background-color: #282828;
+border-radius: 15px;</string>
+                   </property>
+                   <property name="lineWidth">
+                    <number>1</number>
+                   </property>
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="deleteBBBtn">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <normaloff>icons/icons8-waste-30.png</normaloff>icons/icons8-waste-30.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
                    </property>
                   </widget>
                  </item>
@@ -4921,7 +4970,7 @@ border-radius: 5px;</string>
      <x>0</x>
      <y>0</y>
      <width>1100</width>
-     <height>23</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="minimumSize">

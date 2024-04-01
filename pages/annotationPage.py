@@ -225,7 +225,11 @@ class AnnotationPage():
         self.ui.annotateToolBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.annotateBtnHoverEvent = HoverEvent(self.ui.annotateToolBtn, "icons/bounding-inactive.png", "icons/bounding-active.png")
         self.ui.annotateToolBtn.installEventFilter(self.annotateBtnHoverEvent)
-    
+        
+        self.ui.deleteBBBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.deleteBBBtnHoverEvent = HoverEvent(self.ui.deleteBBBtn, "icons/icons8-waste-30.png", "icons/icons8-waste-30-selected.png")
+        self.ui.deleteBBBtn.installEventFilter(self.deleteBBBtnHoverEvent)
+
     def __connectAnnotationToolButtons(self) -> None:
         """ Connects the annotation buttons to update the mouse icon as well as checked state """
         self.ui.mouseToolBtn.clicked.connect(lambda: self.__connectAnnotationToolSelected(Tools.mouseTool))
