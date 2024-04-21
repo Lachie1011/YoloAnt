@@ -12,8 +12,9 @@ from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
 from yoloAnt_ui import Ui_MainWindow
-from customWidgets.customQObjects import CustomClassQListWidget, PanelQLineEdit, PanelQTextEdit, ProjectImageQPushButton
+from customWidgets.customQObjects import CustomClassQListWidget, CustomPanelQLineEdit, CustomPanelQTextEdit
 from customWidgets.projectClassListItemWidget import ProjectClassListItemWidget
+from customWidgets.projectImagePushButton import ProjectImagePushButton
 from dialogs.createClassDialog import CreateClassDialog
 
 class ProjectPage():
@@ -120,10 +121,6 @@ class ProjectPage():
                                                 f"font: 75 bold 16pt {self.app.fontTypeHeader};"
                                                 f"color: {self.app.theme.colours['font.header']};}}")
 
-        # self.ui.datasetLbl.setStyleSheet("QLabel{"
-        #                                 f"font: 75 13pt {self.app.fontTypeTitle};"
-        #                                 f"color: {self.app.theme.colours['font.header']};}}")
-
         self.ui.mdlSelLbl.setStyleSheet("QLabel{"
                                         f"font: 75 13pt {self.app.fontTypeTitle};"
                                         f"color: {self.app.theme.colours['font.header']};}}")
@@ -145,21 +142,21 @@ class ProjectPage():
 
     def __setupStyleSheet(self) -> None: 
         """ Sets the style sheet for the page """
-        self.projectNameLineEdit = PanelQLineEdit(self.app.theme.colours, f"font: 75 bold 16pt {self.app.fontTypeRegular};")
+        self.projectNameLineEdit = CustomPanelQLineEdit(self.app.theme.colours, f"font: 75 bold 16pt {self.app.fontTypeRegular};")
         self.projectNameLineEdit.setText('Project Name')
         self.projectNameLayout = QHBoxLayout()
         self.projectNameLayout.addWidget(self.projectNameLineEdit)
         self.projectNameLayout.setContentsMargins(0,0,0,0)
         self.ui.projectNameTextFrame.setLayout(self.projectNameLayout)
 
-        self.projectDescriptionEdit = PanelQTextEdit(self.app.theme.colours, self.app.fontTypeRegular)
+        self.projectDescriptionEdit = CustomPanelQTextEdit(self.app.theme.colours, self.app.fontTypeRegular)
         self.projectDescriptionEdit.setText('Project description here.')
         self.projectDescriptionEditLayout = QHBoxLayout()
         self.projectDescriptionEditLayout.addWidget(self.projectDescriptionEdit)
         self.projectDescriptionEditLayout.setContentsMargins(0,0,0,0)
         self.ui.projectDescriptionEditFrame.setLayout(self.projectDescriptionEditLayout)
 
-        self.projectImageBtn = ProjectImageQPushButton(self.app.theme.colours)
+        self.projectImageBtn = ProjectImagePushButton(self.app.theme.colours)
         self.projectImageLayout = QVBoxLayout()
         self.projectImageLayout.addWidget(self.projectImageBtn)
         self.projectImageLayout.setContentsMargins(0,0,0,0)
@@ -183,15 +180,6 @@ class ProjectPage():
                                           f"border : 1px solid {self.app.theme.colours['buttonFilled.hover']};}}")                      
         self.ui.addDatasetHealthWidgetBtn.setIcon(QIcon("icons/icons8-plus-button-24.png"))
 
-        # self.ui.datasetProjectBtn.setStyleSheet("QPushButton{"
-        #                                   f"background-color: {self.app.theme.colours['buttonFilled.background']};"
-        #                                   f"border : 1px solid {self.app.theme.colours['buttonFilled.background']};"
-        #                                   "border-radius: 10px;}"
-        #                                   "QPushButton::hover{"
-        #                                   f"background-color: {self.app.theme.colours['buttonFilled.hover']};"
-        #                                   f"border : 1px solid {self.app.theme.colours['buttonFilled.hover']};}}")                      
-        # self.ui.datasetProjectBtn.setIcon(QIcon("icons/icons8-three-dots-26.png"))
-
         self.ui.mlModelComboBox.setStyleSheet("QComboBox{"
                                               f"font: 75 12pt {self.app.fontTypeRegular};"
                                               "border-radius: 5px;"
@@ -204,19 +192,8 @@ class ProjectPage():
                                               "QComboBox::down-arrow{"
                                               "image: url(icons/icons8-drop-down-arrow-10.png)}")
 
-        # self.ui.projectImageLbl.setStyleSheet("QLabel{"
-        #                                       f"background-color: {self.app.theme.colours['panel.sunken']};}}")
-
-
-    def __populateFields(self) -> None:
-        """ Populates the fields for the project page from the project.yaml """
-        self.ui.projectNameLbl.setText(self.app.project.name)
-        self.ui.projectDescriptionEdit.setText(self.app.project.description)
-        self.ui.datasetPathLbl.setText(self.app.project.datasetPath)
-
     def loadPage(self) -> None:
         """ Loads all information and functionality """
-        self.__populateFields()
         self.__createPlot()
 
     def __createPlot(self) -> None: 

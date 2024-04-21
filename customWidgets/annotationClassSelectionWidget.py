@@ -6,7 +6,7 @@ from PyQt6 import QtCore
 from PyQt6.QtGui import QCursor, QIcon, QColor
 from PyQt6.QtWidgets import QApplication, QHBoxLayout, QLabel, QVBoxLayout, QPushButton, QFrame, QGraphicsDropShadowEffect, QSpacerItem, QSizePolicy
 
-from customWidgets.customQObjects import CustomClassQListWidget, UserInputQLineEdit
+from customWidgets.customQObjects import CustomClassQListWidget, CustomUserInputQLineEdit
 from customWidgets.classSelectionListWidgetItem import ClassSelectionListWidgetItem
 
 class AnnotationClassSelectionWidget(QFrame):
@@ -43,7 +43,7 @@ class AnnotationClassSelectionWidget(QFrame):
                                                    f"background: {self.themePaletteColours['panel.sunken']};}}")   
 
         # Create search line edit widget
-        self.classSearchLineEdit = UserInputQLineEdit(self.themePaletteColours, self.fontRegular)
+        self.classSearchLineEdit = CustomUserInputQLineEdit(self.themePaletteColours, self.fontRegular)
         self.classSearchLineEdit.setPlaceholderText('Search class...')
         self.classSearchLineEdit.setMinimumSize(0, 25)
         self.classSearchLineEdit.setMaximumSize(170, 25)
