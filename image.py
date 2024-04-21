@@ -8,14 +8,14 @@ import cv2
 
 class Image():
     """ A class to abstractly represent an image """
-    def __init__(self, imagePath) -> None:
+    def __init__(self, imagePath, boundingBoxes = []) -> None:
         self.path = imagePath 
        
         self.isValid = True
         
         self.metadataCreated = False
 
-        self.boundingBoxes = []
+        self.boundingBoxes = boundingBoxes
         
         # Image related attributes
         self.height = None
@@ -25,9 +25,13 @@ class Image():
         # Annotation related attributes
         self.annotated = False
         self.needsWork = False
+        
+        if self.boundingBoxes:
+            self.annotated = True
     
+
     def updateBoundingBoxes(self, boundingBoxes) -> None:
-        """ Updates list of bounding boxs """
+        """ Updates list of bounding boxes """
         self.boundingBoxes = boundingBoxes
 
         if len(self.boundingBoxes) > 0:

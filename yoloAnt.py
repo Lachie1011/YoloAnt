@@ -83,6 +83,9 @@ class YoloAnt(QMainWindow):
         self.machineLearningPage = MachineLearningPage(self)
         
         self.installEventFilter(self)
+        
+        #TODO: bind this to some setting
+        self.showMaximized()
 
         self.show()
     
@@ -96,6 +99,10 @@ class YoloAnt(QMainWindow):
 
     def closeEvent(self, event) -> None:
         """ Overrides the close event on the main window """
+        # Save annotations
+        if self.project:
+            self.project.writeAnnotations()
+
         # Ensure all notifications are closed
         self.notificationManager.closeNotifications()
         # For now manually close info dialog TODO: have this close nicer

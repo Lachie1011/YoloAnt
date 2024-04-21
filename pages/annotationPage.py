@@ -79,10 +79,11 @@ class AnnotationPage():
     
     def __navigateCanvasWidget(self, navigationType):
         """ Logic for page navigation """
+        #TODO: not the best place for this, but have to save the image somewhere else as well, i.e. not only when navigating :(
         # TODO: this logic assumes that a new image will be found only when moving next not previously
         self.__checkImageState(self.app.project.annotationDataset[self.currentIndex])
         if navigationType is NavigationModes.next:
-            if (self.currentIndex + 1) < len(self.app.project.dataset):
+            if (self.currentIndex + 1) < len(self.app.project.imageDataset):
                 # Setup the next image
                 nextImage = self.app.project.annotationDataset[self.currentIndex + 1]
                 nextImage.createMetadata()
@@ -139,8 +140,10 @@ class AnnotationPage():
         
     def __checkImageState(self, image) -> None:
         """ Checks the current images state and updates related properties """
+        # this removes the image from the unannotated list if it has been annotated
         if image.annotated and (image in self.unannotatedImages):
             self.unannotatedImages.pop(image)
+        # adds image to unannotated list if not annotated
         if not image.annotated:
             self.unannotatedImages.update({self.app.project.annotationDataset[self.currentIndex]:self.currentIndex})
 

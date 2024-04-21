@@ -12,3 +12,4 @@ class BoundingBox():
         self.width = width
         self.height = height
         self.colour = colour  #TODO: in the future this should be a class label which is then mapped to a colour
+

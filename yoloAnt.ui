@@ -24,7 +24,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../.designer/backup/icons/icons8-ant-head-96.png</normaloff>../.designer/backup/icons/icons8-ant-head-96.png</iconset>
+    <normaloff>icons/icons8-ant-head-96.png</normaloff>icons/icons8-ant-head-96.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(0, 0, 0);
@@ -4921,7 +4921,7 @@ border-radius: 5px;</string>
      <x>0</x>
      <y>0</y>
      <width>1100</width>
-     <height>23</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="minimumSize">
