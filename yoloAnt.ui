@@ -471,6 +471,12 @@ background-color: #151515;</string>
        </property>
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize">
           <size>
            <width>862</width>
@@ -756,6 +762,12 @@ background-color: #151515;</string>
            </property>
            <item>
             <widget class="QFrame" name="leftBarFrame">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="maximumSize">
               <size>
                <width>50</width>
@@ -874,6 +886,12 @@ border-radius: 5px;</string>
               <size>
                <width>600</width>
                <height>700</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
               </size>
              </property>
              <property name="layoutDirection">
@@ -1192,7 +1210,7 @@ border-radius: 5px;</string>
            <item>
             <widget class="QFrame" name="informationFrame">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -1205,7 +1223,7 @@ border-radius: 5px;</string>
              </property>
              <property name="maximumSize">
               <size>
-               <width>16777215</width>
+               <width>400</width>
                <height>16777215</height>
               </size>
              </property>
@@ -1375,15 +1393,56 @@ border-radius: 5px;
                      <number>3</number>
                     </property>
                     <item>
+                     <widget class="QLabel" name="label_2">
+                      <property name="maximumSize">
+                       <size>
+                        <width>60</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Gotham Rounded</family>
+                        <pointsize>12</pointsize>
+                        <weight>75</weight>
+                        <italic>false</italic>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
+color: rgb(136, 138, 133);</string>
+                      </property>
+                      <property name="text">
+                       <string>Image:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
                      <widget class="QLabel" name="imageName">
+                      <property name="font">
+                       <font>
+                        <family>Gotham Rounded</family>
+                        <pointsize>12</pointsize>
+                        <weight>75</weight>
+                        <italic>false</italic>
+                        <bold>true</bold>
+                       </font>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
                       </property>
                       <property name="text">
-                       <string>PictureOfDog.png</string>
+                       <string>image.png</string>
+                      </property>
+                      <property name="scaledContents">
+                       <bool>false</bool>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                      </property>
+                      <property name="wordWrap">
+                       <bool>false</bool>
                       </property>
                      </widget>
                     </item>
@@ -1443,24 +1502,25 @@ border-radius: 5px;
                      <widget class="QLabel" name="imageSizeLbl">
                       <property name="maximumSize">
                        <size>
-                        <width>130</width>
+                        <width>105</width>
                         <height>16777215</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
                         <family>Gotham Rounded</family>
-                        <pointsize>11</pointsize>
-                        <weight>9</weight>
+                        <pointsize>12</pointsize>
+                        <weight>75</weight>
                         <italic>false</italic>
-                        <bold>false</bold>
+                        <bold>true</bold>
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">color: #f4f4f4</string>
+                       <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
+color: rgb(136, 138, 133);</string>
                       </property>
                       <property name="text">
-                       <string>Image Size</string>
+                       <string>Dimensions:</string>
                       </property>
                      </widget>
                     </item>
@@ -1489,7 +1549,7 @@ border-radius: 5px;
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QLabel" name="label_8">
+                        <widget class="QLabel" name="imageDimLbl">
                          <property name="minimumSize">
                           <size>
                            <width>0</width>
@@ -1502,34 +1562,14 @@ border-radius: 5px;
                            <height>16777215</height>
                           </size>
                          </property>
+                         <property name="styleSheet">
+                          <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
+                         </property>
                          <property name="text">
-                          <string>640</string>
+                          <string>640x480</string>
                          </property>
                          <property name="alignment">
-                          <set>Qt::AlignCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="label_11">
-                         <property name="text">
-                          <string>x</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="label_10">
-                         <property name="maximumSize">
-                          <size>
-                           <width>16777215</width>
-                           <height>16777215</height>
-                          </size>
-                         </property>
-                         <property name="text">
-                          <string>480</string>
+                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -1576,15 +1616,32 @@ border-radius: 5px;
                      <widget class="QLabel" name="statusLbl">
                       <property name="maximumSize">
                        <size>
-                        <width>130</width>
+                        <width>60</width>
                         <height>16777215</height>
                        </size>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">color: #f4f4f4</string>
+                       <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
+color: rgb(136, 138, 133);</string>
                       </property>
                       <property name="text">
-                       <string>Status</string>
+                       <string>Status:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="annotationStatusLbl">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
+                      </property>
+                      <property name="text">
+                       <string>Unannotated</string>
                       </property>
                      </widget>
                     </item>
@@ -1598,13 +1655,14 @@ border-radius: 5px;
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>10</width>
-                        <height>10</height>
+                        <width>15</width>
+                        <height>15</height>
                        </size>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">background-color: rgb(115, 210, 22);
-border-radius: 3px;</string>
+border-radius: 3px;
+</string>
                       </property>
                       <property name="text">
                        <string/>
@@ -1627,35 +1685,6 @@ border-radius: 3px;</string>
                       </property>
                      </spacer>
                     </item>
-                    <item>
-                     <widget class="QComboBox" name="statusComboBox">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>25</height>
-                       </size>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">background-color: #333333;
-</string>
-                      </property>
-                      <item>
-                       <property name="text">
-                        <string> Unannotated</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string> Further Work</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string> Annotated</string>
-                       </property>
-                      </item>
-                     </widget>
-                    </item>
                    </layout>
                   </widget>
                  </item>
@@ -1668,7 +1697,7 @@ border-radius: 3px;</string>
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true"/>
+                    <string notr="true">font: 75 bold 11pt &quot;Gotham Rounded&quot;;</string>
                    </property>
                    <property name="frameShape">
                     <enum>QFrame::StyledPanel</enum>
@@ -1709,7 +1738,7 @@ border-radius: 3px;</string>
                      </spacer>
                     </item>
                     <item>
-                     <widget class="QLabel" name="label_4">
+                     <widget class="QLabel" name="imageNumberLbl">
                       <property name="minimumSize">
                        <size>
                         <width>100</width>
@@ -1735,6 +1764,12 @@ border-radius: 3px;</string>
                     </item>
                     <item>
                      <widget class="QProgressBar" name="datasetProgressBar">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
@@ -1752,7 +1787,12 @@ border-radius: 3px;</string>
 
  QProgressBar::chunk {
      background-color: #058ddb;
+	 alternate-background-color:#058ddb;
+	 color:  #058ddb;
  }</string>
+                      </property>
+                      <property name="minimum">
+                       <number>0</number>
                       </property>
                       <property name="value">
                        <number>24</number>
