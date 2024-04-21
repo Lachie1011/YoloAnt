@@ -68,6 +68,7 @@ class AnnotationPage():
             # Creating metadata for inital image
             self.app.project.annotationDataset[self.currentIndex].createMetadata()
             self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[self.currentIndex])
+            self.__updateImageInformationPanel()
             self.pageInitialised = True
 
     def __connectImageNavigationButtons(self):
@@ -80,7 +81,7 @@ class AnnotationPage():
     def __navigateCanvasWidget(self, navigationType):
         """ Logic for page navigation """
         #TODO: not the best place for this, but have to save the image somewhere else as well, i.e. not only when navigating :(
-        # TODO: this logic assumes that a new image will be found only when moving next not previously
+        #TODO: this logic assumes that a new image will be found only when moving next not previously
         self.__checkImageState(self.app.project.annotationDataset[self.currentIndex])
         if navigationType is NavigationModes.next:
             if (self.currentIndex + 1) < len(self.app.project.imageDataset):
@@ -138,6 +139,9 @@ class AnnotationPage():
                 self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[closestIndex])
                 self.currentIndex = closestIndex
         
+        # after switching image - update image information panel
+        self.__updateImageInformationPanel()
+
     def __checkImageState(self, image) -> None:
         """ Checks the current images state and updates related properties """
         # this removes the image from the unannotated list if it has been annotated
@@ -146,6 +150,36 @@ class AnnotationPage():
         # adds image to unannotated list if not annotated
         if not image.annotated:
             self.unannotatedImages.update({self.app.project.annotationDataset[self.currentIndex]:self.currentIndex})
+    
+    def __updateImageInformationPanel(self):
+        """ Updates the image information panel with info from the latest image """
+        image = self.app.project.annotationDataset[self.currentIndex]
+        if not image.isValid:
+            self.app.notificationManager.raiseNotification(f"Image {image.path} is not valid")
+            return
+
+        self.app.ui.imageName.setText(image.path.split("/")[-1])  # dont think we need the whole path ?
+        self.app.ui.imageDimLbl.setText(f"{image.width}x{image.height}")
+        self.app.ui.imageNumberLbl.setText(f"{self.currentIndex + 1} of {len(self.app.project.annotationDataset)}")
+        self.app.ui.datasetProgressBar.setValue(self.currentIndex / len(self.app.project.annotationDataset) * 100)
+        self.app.ui.datasetProgressBar.repaint()
+
+        annotationStatusTxt = None
+        annotationStatusColour = None
+        if image.annotated:
+            annotationStatusTxt = "annotated"
+            annotationStatusColour = "background-color: rgb(115,210,22); border-radius: 3px;"
+        elif not image.annotated:
+            annotationStatusTxt = "unannotated"
+            annotationStatusColour = "background-color: rgb(204,0,0); border-radius: 3px;"
+        elif image.needsWork:  # no way to set this yet :( - TODO: revisit and makes these states an enum
+            annotationStatusTxt = "needs work"
+            annotationStatusColour = "background-color: rgb(245,121,22); border-radius: 3px;"
+        
+        if annotationStatusTxt:
+            self.app.ui.annotationStatusLbl.setText(annotationStatusTxt)
+            self.app.ui.statusColourIndicatorLbl.setStyleSheet(annotationStatusColour)
+
 
     def __setupPagePalette(self) -> None:
         """ Sets the colour palette for the page widgets """  
@@ -184,18 +218,6 @@ class AnnotationPage():
         """ Sets the style sheet for the page """
         # Setup annotation class selection frame
         self.annotationClassSelectionWidget = AnnotationClassSelectionWidget(self.ui, self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle)
-
-        # Status combobox style
-        self.ui.statusComboBox.setStyleSheet("QComboBox{"
-                                             f"font: 75 12pt {self.app.fontTypeRegular};"
-                                             f"background-color: {self.app.theme.colours['panel.sunken']};}}"
-                                             "QComboBox::drop-down:button{"
-                                             f"background-color: {self.app.theme.colours['panel.sunken']};"
-                                             "border-radius: 5px}"
-                                             "QComboBox::drop-down{"
-                                             f"color: {self.app.theme.colours['panel.sunken']};}}"
-                                             "QComboBox::down-arrow{"
-                                             "image: url(icons/icons8-drop-down-arrow-10.png)}")
 
     def __connectIconHover(self) -> None:
         """ 
