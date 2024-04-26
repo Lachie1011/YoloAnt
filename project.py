@@ -24,10 +24,12 @@ class Project:
     def __init__(self) -> None:
         """ init """
         self.name = None
-        self.datasetPath = None  # path to the directory that contains all of the images
+        self.description = None
+        self.datasetDir = None  # path to the directory that contains all of the images
         self.datasetFilePath = None  # path to the stored list of images to be worked on
         self.annotationsFilePath = None  # path to the annotations associated with the project
-        self.description = None
+        self.modelsDir = None  # path to the directory which stores all of the models
+        self.modelsFilePath = None  # path to the models info file
         
         self.imageDataset = None
         self.annotationDataset = []
@@ -46,10 +48,12 @@ class Project:
             try:
                 project = yaml.safe_load(stream)
                 self.name = project["name"]
-                self.datasetPath = project["datasetPath"]
+                self.description = project["description"]
+                self.datasetDir = project["datasetDir"]
                 self.datasetFilePath = project["datasetFilePath"]
                 self.annotationsFilePath = project["annotationsFilePath"]
-                self.description = project["description"]
+                self.modelsDir = project["modelsDir"]
+                self.modelsFilePath = project["modelsFilePath"]
                 self.projectValidated = True
             except Exception as exc:
                 print(exc)
@@ -80,20 +84,27 @@ class Project:
             # TODO: return with more info lol 
             return None
 
-        # create a folder within yoloant's 'projects' dir TODO: default setting
+        # create a projects directory
         os.makedirs(projectPath)
         
+        # create a machine learning models directory
+        modelsDir = projectPath + "/models"
+        os.makedirs(modelsDir)
+
         # yaml file paths 
         projectFile = projectPath + "/project.yaml"
         annotationsFilePath = projectPath + "/annotations.yaml"
         datasetFilePath = projectPath + "/dataset.yaml"
-        
-        # dumping project info
-        project = {"name": name, 
-                   "datasetPath": dataset, 
-                   "datasetFilePath":datasetFilePath, 
-                   "annotationsFilePath":annotationsFilePath, 
+        modelsFilePath  = modelsDir + "/models.yaml"
+
+        # create project file
+        project = {"name": name,  
                    "description": "TODO", 
+                   "datasetDir": dataset, 
+                   "datasetFilePath":datasetFilePath, 
+                   "annotationsFilePath":annotationsFilePath,
+                   "modelsDir":modelsDir,
+                   "modelsFilePath":modelsFilePath,
                    "projectCreated":currDatetime, 
                    "lastUpdated":currDatetime }
         with open(projectFile, "x") as file:
@@ -122,6 +133,16 @@ class Project:
             except Exception as exc:
                 print(exc)
 
+
+        # create machine learning model file 
+        modelInfo = {"Project": name, "LastUpdated":currDatetime, "Models":{}} 
+        with open(modelsFilePath, "x") as file:
+            try:
+                yaml.dump(modelInfo, file, sort_keys=False, Dumper=NoAliasDumper)
+            except Exception as exc:
+                print(exc)
+
+        # load project
         self.loadProject(projectPath)
 
     def createAnnotationDataset(self, imageDataset, annotationsDataset):

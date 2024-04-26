@@ -61,6 +61,8 @@ class StartPage():
                 self.ui.projectsTabBtn.setChecked(True)
                 self.ui.stackedWidget.setCurrentIndex(2)
                 self.app.projectPage.loadPage()
+            else:
+                self.app.notificationManager.raiseNotification(f"Could not find a .project file in {projectDir}")
 
     def __connectIconHover(self) -> None:
         """ Connects the hover over functionality to icons """
@@ -77,3 +79,4 @@ class StartPage():
     def __setupPageStyleSheet(self) -> None:
         self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() + 
                                                    f'background: {DarkThemePalette.panelColour.value};')
+
