@@ -191,9 +191,15 @@ class ProjectPage():
                                               f"color: {self.app.theme.colours['panel.sunken']};}}"
                                               "QComboBox::down-arrow{"
                                               "image: url(icons/icons8-drop-down-arrow-10.png)}")
-
+    def __populateFields(self) -> None:
+        """ Populates the fields for the project page from the project.yaml """
+        self.projectNameLineEdit.setText(self.app.project.name)
+        self.projectDescriptionEdit.setText(self.app.project.description)
+        # self.ui.datasetPathLbl.setText(self.app.project.datasetPath)
+    
     def loadPage(self) -> None:
         """ Loads all information and functionality """
+        self.__populateFields()
         self.__createPlot()
 
     def __createPlot(self) -> None: 
