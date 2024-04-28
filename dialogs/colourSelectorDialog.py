@@ -10,7 +10,7 @@ from typing import Union
 from PyQt6.QtGui import QColor
 from PyQt6.QtCore import QPoint, Qt
 from PyQt6.QtWidgets import QApplication, QDialog, QGraphicsDropShadowEffect, QHBoxLayout
-from customWidgets.customQObjects import UserInputQLineEdit
+from customWidgets.customQObjects import CustomUserInputQLineEdit
 from dialogs.ui.colourSelector_ui import Ui_colourSelector
 
 class ColourSelectorDialog(QDialog):
@@ -71,7 +71,7 @@ class ColourSelectorDialog(QDialog):
                                                   f"background-color: {self.themePaletteColours['panel.background']};"
                                                   "border-radius: 10px;}")
 
-        self.redLineEdit = UserInputQLineEdit(self.themePaletteColours, self.fontRegular)
+        self.redLineEdit = CustomUserInputQLineEdit(self.themePaletteColours, self.fontRegular)
         self.redLineEdit.setCursorPosition(0)
         self.redLineEdit.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         self.redLineEditFrameLayout = QHBoxLayout()
@@ -79,7 +79,7 @@ class ColourSelectorDialog(QDialog):
         self.redLineEditFrameLayout.setContentsMargins(0,0,0,0)
         self.ui.redLineEditFrame.setLayout(self.redLineEditFrameLayout)
 
-        self.greenLineEdit = UserInputQLineEdit(self.themePaletteColours, self.fontRegular)
+        self.greenLineEdit = CustomUserInputQLineEdit(self.themePaletteColours, self.fontRegular)
         self.greenLineEdit.setCursorPosition(0)
         self.greenLineEdit.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         self.greenLineEditFrameLayout = QHBoxLayout()
@@ -87,7 +87,7 @@ class ColourSelectorDialog(QDialog):
         self.greenLineEditFrameLayout.setContentsMargins(0,0,0,0)
         self.ui.greenLineEditFrame.setLayout(self.greenLineEditFrameLayout)
 
-        self.blueLineEdit = UserInputQLineEdit(self.themePaletteColours, self.fontRegular)
+        self.blueLineEdit = CustomUserInputQLineEdit(self.themePaletteColours, self.fontRegular)
         self.blueLineEdit.setCursorPosition(0)
         self.blueLineEdit.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         self.blueLineEditFrameLayout = QHBoxLayout()
@@ -95,7 +95,7 @@ class ColourSelectorDialog(QDialog):
         self.blueLineEditFrameLayout.setContentsMargins(0,0,0,0)
         self.ui.blueLineEditFrame.setLayout(self.blueLineEditFrameLayout)
 
-        self.hexLineEdit = UserInputQLineEdit(self.themePaletteColours, self.fontRegular)
+        self.hexLineEdit = CustomUserInputQLineEdit(self.themePaletteColours, self.fontRegular)
         self.hexLineEdit.setCursorPosition(0)
         self.hexLineEdit.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
         self.hexLineEditFrameLayout = QHBoxLayout()

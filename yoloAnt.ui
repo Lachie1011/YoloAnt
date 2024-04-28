@@ -496,7 +496,7 @@ background-color: #151515;</string>
           <enum>QFrame::Raised</enum>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="entryPage">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -2086,19 +2086,6 @@ border-radius: 5px;</string>
                           <enum>QFrame::Raised</enum>
                          </property>
                         </widget>
-                       </item>
-                       <item>
-                        <spacer name="verticalSpacer_15">
-                         <property name="orientation">
-                          <enum>Qt::Vertical</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                          <size>
-                           <width>20</width>
-                           <height>40</height>
-                          </size>
-                         </property>
-                        </spacer>
                        </item>
                       </layout>
                      </widget>
