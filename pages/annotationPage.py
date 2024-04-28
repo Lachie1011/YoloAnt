@@ -14,7 +14,6 @@ from image import Image
 from events.hoverEvent import HoverEvent
 from events.resizeEvent import ResizeEvent
 
-from customWidgets.customQObjects import CustomClassQListWidget, UserInputQLineEdit
 from customWidgets.annotationClassSelectionWidget import AnnotationClassSelectionWidget
 
 class NavigationModes(Enum):

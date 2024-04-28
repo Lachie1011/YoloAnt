@@ -23,6 +23,7 @@ class AnnotationsListWidgetItem(QFrame):
 
         # Setup signals and slots
         self.hideAnnotationBtn.clicked.connect(lambda: self.__displayedHideAnnotationIcon())
+        self.annotationDeleteButton.clicked.connect(lambda: self.parent().parent().removeItemFromListWidget(self.parentItem))
     
     def enterEvent(self, event) -> None:
         """ Sets background of widget when mouse enters item widget """

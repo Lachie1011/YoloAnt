@@ -24,7 +24,7 @@ class AnnotationClassSelectionWidget(QFrame):
         self.__setupStyleSheet()
 
         # Test calls        
-        # self.addClassSelectionListItem("Dog", (0, 201, 52))
+        self.addClassSelectionListItem("Dog", (0, 201, 52))
         # self.addClassSelectionListItem("Cat", (0, 90, 255))
         
         # Connect signals and slots
