@@ -6,6 +6,7 @@ When updating the ui run the following to generate the new _ui python file:
 ``` 
 pyuic6 -o yoloAnt_ui.py yoloAnt.ui
 ```
+For the moment, when making layout changes in designer, make sure the start page is the first page in the stack - otherwise things wont be fun
 
 # Icons
 https://icons8.com/icon/Oy7ABoKhzle4/ant-head
@@ -16,3 +17,4 @@ https://icons8.com/icons/set/notification-do-not-disturb
 https://icons8.com/icons/set/close
 https://icons8.com/icons/set/information
 https://icons8.com/icons/set/delete-list
+

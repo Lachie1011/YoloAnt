@@ -14,9 +14,26 @@ class MachineLearningPage():
         # TODO: fix up app type to yoloant app involes add futyure annotations and some if typing
         self.app = app
         self.ui = app.ui
+        self.readOnly = True
+
+        # Initially set up machine learning page with readonly set to True
+        self.__setEditMode(self.readOnly)
+
+        # Connecting signals and slots
+        self.ui.editPageBtn.toggled.connect(lambda toggled: self.__setEditMode(not toggled)) 
 
         # for now just load the page at start TODO: this will have to change based on selected model
         self.load_page()
+    
+    def __setEditMode(self, toggled):
+        """ Connects the edit button to editable widgets """ 
+        self.ui.batchLineEdit.setReadOnly(toggled)
+        self.ui.deviceLineEdit.setReadOnly(toggled)
+        self.ui.epochLineEdit.setReadOnly(toggled)
+        self.ui.imageSizeLineEdit.setReadOnly(toggled)
+        self.ui.modelTypeLineEdit.setReadOnly(toggled)
+        self.ui.modelNameLineEdit.setReadOnly(toggled)
+        self.ui.workersLineEdit.setReadOnly(toggled)
 
     def load_page(self) -> None:
         """ Loads all information and functionality """
@@ -48,3 +65,4 @@ class MachineLearningPage():
         self.ui.lossPlotWidget.plotItem.getAxis('left').setPen(pen)
         self.ui.lossPlotWidget.plotItem.getAxis('bottom').setPen(pen)
         self.ui.lossPlotWidget.plot(xData, yData, pen=pen)
+

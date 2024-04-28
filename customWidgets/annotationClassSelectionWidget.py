@@ -29,6 +29,7 @@ class AnnotationClassSelectionWidget(QFrame):
         
         # Connect signals and slots
         self.classSearchLineEdit.textChanged.connect(lambda searchInput: self.__searchForClass(searchInput))
+        self.ui.editPageBtn.toggled.connect(lambda toggled: self.classSelectionListWidget.setEditMode(toggled))
 
     def __setupStyleSheet(self) -> None:
         """ Sets the style sheet for the custom widget """
@@ -106,4 +107,4 @@ class AnnotationClassSelectionWidget(QFrame):
     def addClassSelectionListItem(self, className: str, classColour: tuple) -> None:
         """ Adds a class selection list item to the class selection list widget """
         self.classSelectionListWidget.addItemToListWidget(ClassSelectionListWidgetItem(className, classColour, 
-                                                          self.themePaletteColours, self.fontRegular, self.fontTitle))
+                                                          self.themePaletteColours, self.fontRegular, self.fontTitle, page=self))

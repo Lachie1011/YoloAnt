@@ -10,8 +10,11 @@ from PyQt6.QtGui import QCursor, QIcon, QColor
 from PyQt6.QtWidgets import QApplication, QGraphicsDropShadowEffect
 
 from yoloAnt_ui import Ui_MainWindow
+from image import Image
 from events.hoverEvent import HoverEvent
 from events.resizeEvent import ResizeEvent
+
+from customWidgets.customQObjects import CustomClassQListWidget, UserInputQLineEdit
 from customWidgets.annotationClassSelectionWidget import AnnotationClassSelectionWidget
 
 class NavigationModes(Enum):
@@ -21,7 +24,7 @@ class NavigationModes(Enum):
     next=0
     previous=1
     nextUnannotated=2
-    previoudUnannotated=3
+    previousUnannotated=3
 
 
 class Tools(Enum):
@@ -43,44 +46,142 @@ class AnnotationPage():
         self.__setupStyleSheet()
         self.__setupPagePalette()
 
+        # Page attributes:
+        self.currentIndex = 0
+        self.pageInitialised = False
+        
+        # Dict to hold the unannotatedImages TODO: probs could be made into some kind of Kd tree to make searching faster
+        self.unannotatedImages = {}
         # Connecting signals and slots for the page
         self.__connectIconHover()
         self.__connectAnnotationToolButtons()
+        self.__connectImageNavigationButtons()
 
         # Connect signals and slots
         self.ui.editPageBtn.toggled.connect(lambda toggled: self.annotationClassSelectionWidget.classSelectionListWidget.setEditMode(toggled))
 
     def loadPage(self):
-        """ Loads all information and functionality """
-        # Set initial image in the annotation canvas TODO: image defaults to first in dataset, should be a setting to default to first unannotated 
-        if len(self.app.project.dataset) > 0:
-            self.app.ui.annotationCanvasWidget.updateImage(self.app.project.dataset[self.currentIndex])
-        else:
+        """ Loads all information and functionality """ 
+        if len(self.app.project.annotationDataset) < 0:
             self.app.notificationManager.raiseNotification("Dataset contains no images")
-        
-        # TODO: load all class information here
+            return
+
+        if not self.pageInitialised:
+            # Creating metadata for inital image
+            self.app.project.annotationDataset[self.currentIndex].createMetadata()
+            self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[self.currentIndex])
+            self.__updateImageInformationPanel()
+            self.pageInitialised = True
 
     def __connectImageNavigationButtons(self):
         """ Connects the buttons used to navigate throughout the canvas"""
         self.app.ui.nextImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.next))
         self.app.ui.prevImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.previous))
         self.app.ui.nextUnannoImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.nextUnannotated))
-        self.app.ui.prevUnannoImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.previoudUnannotated))
+        self.app.ui.prevUnannoImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.previousUnannotated))
     
     def __navigateCanvasWidget(self, navigationType):
         """ Logic for page navigation """
+        #TODO: not the best place for this, but have to save the image somewhere else as well, i.e. not only when navigating :(
+        #TODO: this logic assumes that a new image will be found only when moving next not previously
+        self.__checkImageState(self.app.project.annotationDataset[self.currentIndex])
         if navigationType is NavigationModes.next:
-            if (self.currentIndex + 1) < len(self.app.project.dataset):
-                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.dataset[self.currentIndex + 1])
-                self.currentIndex = self.currentIndex + 1
+            if (self.currentIndex + 1) < len(self.app.project.imageDataset):
+                # Setup the next image
+                nextImage = self.app.project.annotationDataset[self.currentIndex + 1]
+                nextImage.createMetadata()
+                if nextImage.isValid:
+                    # go to next image
+                    self.app.ui.annotationCanvasWidget.updateImage(nextImage)
+                    self.currentIndex = self.currentIndex + 1
+                else:
+                    # TODO: If the image is not valid show blank image / skip ahead to the next valid image??
+                    self.app.notificationManager.raiseNotification(f"Image: {0} is not valid", nextImage.path)
         if navigationType is NavigationModes.previous:
-            if (self.currentIndex - 1) > 0:
-                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.dataset[self.currentIndex - 1])
+            if (self.currentIndex - 1) >= 0:
+                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[self.currentIndex - 1])
                 self.currentIndex = self.currentIndex - 1
         if navigationType is NavigationModes.nextUnannotated:
-            pass
-        if navigationType is NavigationModes.previoudUnannotated:
-            pass
+            closestIndex = None
+            # Check cache first
+            if self.unannotatedImages:
+                for _, index in self.unannotatedImages.items():
+                    if index > self.currentIndex:
+                        if closestIndex is None:
+                            closestIndex = index
+                        if (index < closestIndex) and index != self.currentIndex:
+                            closestIndex = index
+                            
+            # If we couldnt find anything in the cache, check annotation dataset 
+            if closestIndex is None:
+                for i in range(self.currentIndex + 1, len(self.app.project.annotationDataset) - 1):
+                    if not self.app.project.annotationDataset[i].annotated:
+                        closestIndex = i
+                        break
+            if closestIndex is not None:
+                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[closestIndex])
+                self.currentIndex = closestIndex 
+        if navigationType is NavigationModes.previousUnannotated:
+            closestIndex = None
+            # check the cache first
+            if self.unannotatedImages:
+                for _, index in self.unannotatedImages.items():
+                    if index < self.currentIndex:
+                        if closestIndex is None:
+                            closestIndex = index
+                        if (index > closestIndex) and index != self.currentIndex:
+                            closestIndex = index
+            # if we couldnt find anything in the cache, check annotation dataset
+            if closestIndex is None:
+                for i in range(self.currentIndex - 1, len(self.app.project.annotationDataset), -1):
+                    if not self.app.project.annotationDataset[i].annotated:
+                        closestIndex = i
+                        break
+            if closestIndex is not None:
+                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[closestIndex])
+                self.currentIndex = closestIndex
+        
+        # after switching image - update image information panel
+        self.__updateImageInformationPanel()
+
+    def __checkImageState(self, image) -> None:
+        """ Checks the current images state and updates related properties """
+        # this removes the image from the unannotated list if it has been annotated
+        if image.annotated and (image in self.unannotatedImages):
+            self.unannotatedImages.pop(image)
+        # adds image to unannotated list if not annotated
+        if not image.annotated:
+            self.unannotatedImages.update({self.app.project.annotationDataset[self.currentIndex]:self.currentIndex})
+    
+    def __updateImageInformationPanel(self):
+        """ Updates the image information panel with info from the latest image """
+        image = self.app.project.annotationDataset[self.currentIndex]
+        if not image.isValid:
+            self.app.notificationManager.raiseNotification(f"Image {image.path} is not valid")
+            return
+
+        self.app.ui.imageName.setText(image.path.split("/")[-1])  # dont think we need the whole path ?
+        self.app.ui.imageDimLbl.setText(f"{image.width}x{image.height}")
+        self.app.ui.imageNumberLbl.setText(f"{self.currentIndex + 1} of {len(self.app.project.annotationDataset)}")
+        self.app.ui.datasetProgressBar.setValue(self.currentIndex / len(self.app.project.annotationDataset) * 100)
+        self.app.ui.datasetProgressBar.repaint()
+
+        annotationStatusTxt = None
+        annotationStatusColour = None
+        if image.annotated:
+            annotationStatusTxt = "annotated"
+            annotationStatusColour = "background-color: rgb(115,210,22); border-radius: 3px;"
+        elif not image.annotated:
+            annotationStatusTxt = "unannotated"
+            annotationStatusColour = "background-color: rgb(204,0,0); border-radius: 3px;"
+        elif image.needsWork:  # no way to set this yet :( - TODO: revisit and makes these states an enum
+            annotationStatusTxt = "needs work"
+            annotationStatusColour = "background-color: rgb(245,121,22); border-radius: 3px;"
+        
+        if annotationStatusTxt:
+            self.app.ui.annotationStatusLbl.setText(annotationStatusTxt)
+            self.app.ui.statusColourIndicatorLbl.setStyleSheet(annotationStatusColour)
+
 
     def __setupPagePalette(self) -> None:
         """ Sets the colour palette for the page widgets """  
@@ -113,23 +214,10 @@ class AnnotationPage():
         self.ui.annotationToolsFrame.setGraphicsEffect(dropshadowEffect3)
         self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() + 
                                                    f"background: {self.app.theme.colours['panel.background']};")
-  
     def __setupStyleSheet(self) -> None:
         """ Sets the style sheet for the page """
         # Setup annotation class selection frame
         self.annotationClassSelectionWidget = AnnotationClassSelectionWidget(self.ui, self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle)
-
-        # Status combobox style
-        self.ui.statusComboBox.setStyleSheet("QComboBox{"
-                                             f"font: 75 12pt {self.app.fontTypeRegular};"
-                                             f"background-color: {self.app.theme.colours['panel.sunken']};}}"
-                                             "QComboBox::drop-down:button{"
-                                             f"background-color: {self.app.theme.colours['panel.sunken']};"
-                                             "border-radius: 5px}"
-                                             "QComboBox::drop-down{"
-                                             f"color: {self.app.theme.colours['panel.sunken']};}}"
-                                             "QComboBox::down-arrow{"
-                                             "image: url(icons/icons8-drop-down-arrow-10.png)}")
 
     def __connectIconHover(self) -> None:
         """ 
@@ -189,5 +277,3 @@ class AnnotationPage():
 
             # Updating annotationCanvasWidget mode
             self.ui.annotationCanvasWidget.mode = Tools.annotationTool
-
-

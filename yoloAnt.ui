@@ -24,7 +24,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../.designer/backup/icons/icons8-ant-head-96.png</normaloff>../.designer/backup/icons/icons8-ant-head-96.png</iconset>
+    <normaloff>icons/icons8-ant-head-96.png</normaloff>icons/icons8-ant-head-96.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(0, 0, 0);
@@ -471,6 +471,12 @@ background-color: #151515;</string>
        </property>
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize">
           <size>
            <width>862</width>
@@ -569,14 +575,14 @@ background-color: #151515;</string>
                 <property name="font">
                  <font>
                   <family>Gotham Rounded</family>
-                  <pointsize>11</pointsize>
-                  <weight>9</weight>
+                  <pointsize>12</pointsize>
+                  <weight>75</weight>
                   <italic>false</italic>
-                  <bold>false</bold>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">font: 75 11pt &quot;Gotham Rounded&quot;;</string>
+                 <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
                 </property>
                 <property name="text">
                  <string>Create Project</string>
@@ -693,7 +699,7 @@ background-color: #151515;</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">font: 75 11pt &quot;Gotham Rounded&quot;;</string>
+                 <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
                 </property>
                 <property name="frameShape">
                  <enum>QFrame::NoFrame</enum>
@@ -756,6 +762,12 @@ background-color: #151515;</string>
            </property>
            <item>
             <widget class="QFrame" name="leftBarFrame">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="maximumSize">
               <size>
                <width>50</width>
@@ -874,6 +886,12 @@ border-radius: 5px;</string>
               <size>
                <width>600</width>
                <height>700</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
               </size>
              </property>
              <property name="layoutDirection">
@@ -1192,7 +1210,7 @@ border-radius: 5px;</string>
            <item>
             <widget class="QFrame" name="informationFrame">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -1205,7 +1223,7 @@ border-radius: 5px;</string>
              </property>
              <property name="maximumSize">
               <size>
-               <width>16777215</width>
+               <width>400</width>
                <height>16777215</height>
               </size>
              </property>
@@ -1375,15 +1393,56 @@ border-radius: 5px;
                      <number>3</number>
                     </property>
                     <item>
+                     <widget class="QLabel" name="label_2">
+                      <property name="maximumSize">
+                       <size>
+                        <width>60</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Gotham Rounded</family>
+                        <pointsize>12</pointsize>
+                        <weight>75</weight>
+                        <italic>false</italic>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
+color: rgb(136, 138, 133);</string>
+                      </property>
+                      <property name="text">
+                       <string>Image:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
                      <widget class="QLabel" name="imageName">
+                      <property name="font">
+                       <font>
+                        <family>Gotham Rounded</family>
+                        <pointsize>12</pointsize>
+                        <weight>75</weight>
+                        <italic>false</italic>
+                        <bold>true</bold>
+                       </font>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
                       </property>
                       <property name="text">
-                       <string>PictureOfDog.png</string>
+                       <string>image.png</string>
+                      </property>
+                      <property name="scaledContents">
+                       <bool>false</bool>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                      </property>
+                      <property name="wordWrap">
+                       <bool>false</bool>
                       </property>
                      </widget>
                     </item>
@@ -1443,24 +1502,25 @@ border-radius: 5px;
                      <widget class="QLabel" name="imageSizeLbl">
                       <property name="maximumSize">
                        <size>
-                        <width>130</width>
+                        <width>105</width>
                         <height>16777215</height>
                        </size>
                       </property>
                       <property name="font">
                        <font>
                         <family>Gotham Rounded</family>
-                        <pointsize>11</pointsize>
-                        <weight>9</weight>
+                        <pointsize>12</pointsize>
+                        <weight>75</weight>
                         <italic>false</italic>
-                        <bold>false</bold>
+                        <bold>true</bold>
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">color: #f4f4f4</string>
+                       <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
+color: rgb(136, 138, 133);</string>
                       </property>
                       <property name="text">
-                       <string>Image Size</string>
+                       <string>Dimensions:</string>
                       </property>
                      </widget>
                     </item>
@@ -1489,7 +1549,7 @@ border-radius: 5px;
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QLabel" name="label_8">
+                        <widget class="QLabel" name="imageDimLbl">
                          <property name="minimumSize">
                           <size>
                            <width>0</width>
@@ -1502,34 +1562,14 @@ border-radius: 5px;
                            <height>16777215</height>
                           </size>
                          </property>
+                         <property name="styleSheet">
+                          <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
+                         </property>
                          <property name="text">
-                          <string>640</string>
+                          <string>640x480</string>
                          </property>
                          <property name="alignment">
-                          <set>Qt::AlignCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="label_11">
-                         <property name="text">
-                          <string>x</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLabel" name="label_10">
-                         <property name="maximumSize">
-                          <size>
-                           <width>16777215</width>
-                           <height>16777215</height>
-                          </size>
-                         </property>
-                         <property name="text">
-                          <string>480</string>
+                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -1576,15 +1616,32 @@ border-radius: 5px;
                      <widget class="QLabel" name="statusLbl">
                       <property name="maximumSize">
                        <size>
-                        <width>130</width>
+                        <width>60</width>
                         <height>16777215</height>
                        </size>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">color: #f4f4f4</string>
+                       <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
+color: rgb(136, 138, 133);</string>
                       </property>
                       <property name="text">
-                       <string>Status</string>
+                       <string>Status:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="annotationStatusLbl">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;</string>
+                      </property>
+                      <property name="text">
+                       <string>Unannotated</string>
                       </property>
                      </widget>
                     </item>
@@ -1598,13 +1655,14 @@ border-radius: 5px;
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>10</width>
-                        <height>10</height>
+                        <width>15</width>
+                        <height>15</height>
                        </size>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">background-color: rgb(115, 210, 22);
-border-radius: 3px;</string>
+border-radius: 3px;
+</string>
                       </property>
                       <property name="text">
                        <string/>
@@ -1627,35 +1685,6 @@ border-radius: 3px;</string>
                       </property>
                      </spacer>
                     </item>
-                    <item>
-                     <widget class="QComboBox" name="statusComboBox">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>25</height>
-                       </size>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">background-color: #333333;
-</string>
-                      </property>
-                      <item>
-                       <property name="text">
-                        <string> Unannotated</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string> Further Work</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string> Annotated</string>
-                       </property>
-                      </item>
-                     </widget>
-                    </item>
                    </layout>
                   </widget>
                  </item>
@@ -1668,7 +1697,7 @@ border-radius: 3px;</string>
                     </size>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true"/>
+                    <string notr="true">font: 75 bold 11pt &quot;Gotham Rounded&quot;;</string>
                    </property>
                    <property name="frameShape">
                     <enum>QFrame::StyledPanel</enum>
@@ -1709,7 +1738,7 @@ border-radius: 3px;</string>
                      </spacer>
                     </item>
                     <item>
-                     <widget class="QLabel" name="label_4">
+                     <widget class="QLabel" name="imageNumberLbl">
                       <property name="minimumSize">
                        <size>
                         <width>100</width>
@@ -1735,6 +1764,12 @@ border-radius: 3px;</string>
                     </item>
                     <item>
                      <widget class="QProgressBar" name="datasetProgressBar">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
@@ -1752,7 +1787,12 @@ border-radius: 3px;</string>
 
  QProgressBar::chunk {
      background-color: #058ddb;
+	 alternate-background-color:#058ddb;
+	 color:  #058ddb;
  }</string>
+                      </property>
+                      <property name="minimum">
+                       <number>0</number>
                       </property>
                       <property name="value">
                        <number>24</number>
@@ -3513,49 +3553,17 @@ QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_19">
-              <property name="spacing">
-               <number>15</number>
-              </property>
-              <item>
-               <widget class="QComboBox" name="MLModelComboBox">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>250</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(65, 66, 64);
-border: 5px solid;
-border-radius: 5px;
-border-color: rgb(65, 66, 64);
-font: 75 bold 16pt &quot;Gotham Rounded&quot;;
-color: rgb(255, 255, 255);</string>
-                </property>
-                <property name="currentText">
-                 <string>YoloV7-100</string>
-                </property>
-                <property name="sizeAdjustPolicy">
-                 <enum>QComboBox::AdjustToContents</enum>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>YoloV7-100</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
+             <layout class="QVBoxLayout" name="verticalLayout_27">
               <item>
                <widget class="QFrame" name="MlInfoFrame">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="styleSheet">
-                 <string notr="true">background-color: rgb(65, 66, 64);
+                 <string notr="true">background-color: #454545;
 border-radius: 5px;</string>
                 </property>
                 <property name="frameShape">
@@ -3564,30 +3572,106 @@ border-radius: 5px;</string>
                 <property name="frameShadow">
                  <enum>QFrame::Raised</enum>
                 </property>
-                <layout class="QVBoxLayout" name="verticalLayout_26">
-                 <property name="spacing">
-                  <number>10</number>
-                 </property>
+                <layout class="QVBoxLayout" name="verticalLayout_28">
                  <item>
-                  <widget class="QFrame" name="AttributeFrame">
+                  <widget class="QFrame" name="modelNameFrame">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>50</height>
+                    </size>
+                   </property>
                    <property name="frameShape">
                     <enum>QFrame::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
                    </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_27">
+                   <layout class="QVBoxLayout" name="verticalLayout_37">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="modelNameComboBox">
+                   <property name="styleSheet">
+                    <string notr="true">font: 75 bold 16pt &quot;Gotham Rounded&quot;;
+</string>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>0</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="frame">
+                    <bool>false</bool>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>YOLOV7-100</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="attributeFrame">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_34">
                     <property name="spacing">
                      <number>15</number>
                     </property>
                     <property name="leftMargin">
                      <number>0</number>
                     </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
                     <property name="rightMargin">
                      <number>0</number>
                     </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
                     <item>
-                     <widget class="QLabel" name="attributesLbl">
+                     <widget class="QLabel" name="attributesLbl_2">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>50</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>50</height>
+                       </size>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">font: 75 bold 14pt &quot;Gotham Rounded&quot;;
 </string>
@@ -3598,11 +3682,11 @@ border-radius: 5px;</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QFrame" name="stateFrame">
+                     <widget class="QFrame" name="stateFrame_2">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
-                        <height>30</height>
+                        <height>50</height>
                        </size>
                       </property>
                       <property name="maximumSize">
@@ -3617,7 +3701,7 @@ border-radius: 5px;</string>
                       <property name="frameShadow">
                        <enum>QFrame::Raised</enum>
                       </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_10">
+                      <layout class="QHBoxLayout" name="horizontalLayout_37">
                        <property name="leftMargin">
                         <number>0</number>
                        </property>
@@ -3631,7 +3715,13 @@ border-radius: 5px;</string>
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QLabel" name="stateLbl">
+                        <widget class="QLabel" name="stateLbl_2">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>0</height>
+                          </size>
+                         </property>
                          <property name="maximumSize">
                           <size>
                            <width>50</width>
@@ -3648,7 +3738,19 @@ color: rgb(136, 138, 133);</string>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="stateLineEdit">
+                        <widget class="QLineEdit" name="stateLineEdit_2">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>25</height>
+                          </size>
+                         </property>
                          <property name="styleSheet">
                           <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
 color: rgb(255, 255, 255);
@@ -3657,17 +3759,20 @@ color: rgb(255, 255, 255);
                          <property name="text">
                           <string>Not trained</string>
                          </property>
+                         <property name="readOnly">
+                          <bool>true</bool>
+                         </property>
                         </widget>
                        </item>
                       </layout>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QFrame" name="modelTypeFrame">
+                     <widget class="QFrame" name="annotatedImagesFrame_2">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
-                        <height>30</height>
+                        <height>50</height>
                        </size>
                       </property>
                       <property name="maximumSize">
@@ -3682,7 +3787,7 @@ color: rgb(255, 255, 255);
                       <property name="frameShadow">
                        <enum>QFrame::Raised</enum>
                       </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_22">
+                      <layout class="QHBoxLayout" name="horizontalLayout_39">
                        <property name="leftMargin">
                         <number>0</number>
                        </property>
@@ -3696,72 +3801,13 @@ color: rgb(255, 255, 255);
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QLabel" name="modelTypeLbl">
-                         <property name="maximumSize">
+                        <widget class="QLabel" name="annotatedImagesLbl_2">
+                         <property name="minimumSize">
                           <size>
-                           <width>16777215</width>
-                           <height>50</height>
+                           <width>0</width>
+                           <height>0</height>
                           </size>
                          </property>
-                         <property name="styleSheet">
-                          <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
-color: rgb(136, 138, 133);</string>
-                         </property>
-                         <property name="text">
-                          <string>Model Type:</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QLineEdit" name="modelTypelineEdit">
-                         <property name="styleSheet">
-                          <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
-color: rgb(255, 255, 255);
-</string>
-                         </property>
-                         <property name="text">
-                          <string>YoloV7</string>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QFrame" name="annotatedImagesFrame">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>50</height>
-                       </size>
-                      </property>
-                      <property name="frameShape">
-                       <enum>QFrame::StyledPanel</enum>
-                      </property>
-                      <property name="frameShadow">
-                       <enum>QFrame::Raised</enum>
-                      </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_25">
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <widget class="QLabel" name="annotatedImagesLbl">
                          <property name="styleSheet">
                           <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
 color: rgb(136, 138, 133);</string>
@@ -3772,7 +3818,19 @@ color: rgb(136, 138, 133);</string>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="annotatedImagesLineEdit">
+                        <widget class="QLineEdit" name="annotatedImagesLineEdit_2">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>25</height>
+                          </size>
+                         </property>
                          <property name="styleSheet">
                           <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
 color: rgb(255, 255, 255);
@@ -3781,17 +3839,20 @@ color: rgb(255, 255, 255);
                          <property name="text">
                           <string>100</string>
                          </property>
+                         <property name="readOnly">
+                          <bool>true</bool>
+                         </property>
                         </widget>
                        </item>
                       </layout>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QFrame" name="classImbalanceFrame">
+                     <widget class="QFrame" name="classImbalanceFrame_2">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
-                        <height>30</height>
+                        <height>50</height>
                        </size>
                       </property>
                       <property name="maximumSize">
@@ -3806,7 +3867,7 @@ color: rgb(255, 255, 255);
                       <property name="frameShadow">
                        <enum>QFrame::Raised</enum>
                       </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_27">
+                      <layout class="QHBoxLayout" name="horizontalLayout_40">
                        <property name="leftMargin">
                         <number>0</number>
                        </property>
@@ -3820,7 +3881,13 @@ color: rgb(255, 255, 255);
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QLabel" name="classImbalanceLbl">
+                        <widget class="QLabel" name="classImbalanceLbl_2">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>0</height>
+                          </size>
+                         </property>
                          <property name="styleSheet">
                           <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
 color: rgb(136, 138, 133);</string>
@@ -3831,7 +3898,19 @@ color: rgb(136, 138, 133);</string>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="classImbalanclineEdit">
+                        <widget class="QLineEdit" name="classImbalanclineEdit_2">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>25</height>
+                          </size>
+                         </property>
                          <property name="styleSheet">
                           <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
 color: rgb(255, 255, 255);
@@ -3840,23 +3919,26 @@ color: rgb(255, 255, 255);
                          <property name="text">
                           <string>Balanced</string>
                          </property>
+                         <property name="readOnly">
+                          <bool>true</bool>
+                         </property>
                         </widget>
                        </item>
                       </layout>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QFrame" name="classInfoMLFrame">
+                     <widget class="QFrame" name="classInfoMLFrame_2">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
-                        <height>75</height>
+                        <height>50</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
                         <width>16777215</width>
-                        <height>75</height>
+                        <height>50</height>
                        </size>
                       </property>
                       <property name="frameShape">
@@ -3865,7 +3947,7 @@ color: rgb(255, 255, 255);
                       <property name="frameShadow">
                        <enum>QFrame::Raised</enum>
                       </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_26">
+                      <layout class="QHBoxLayout" name="horizontalLayout_41">
                        <property name="spacing">
                         <number>20</number>
                        </property>
@@ -3882,7 +3964,13 @@ color: rgb(255, 255, 255);
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QLabel" name="classInfoLbl">
+                        <widget class="QLabel" name="classInfoLbl_2">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>0</height>
+                          </size>
+                         </property>
                          <property name="styleSheet">
                           <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
 color: rgb(136, 138, 133);</string>
@@ -3891,70 +3979,9 @@ color: rgb(136, 138, 133);</string>
                           <string>Classes present:</string>
                          </property>
                          <property name="alignment">
-                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                          </property>
                         </widget>
-                       </item>
-                       <item>
-                        <widget class="QListWidget" name="classInfoListWidget">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>16777215</width>
-                           <height>100</height>
-                          </size>
-                         </property>
-                         <property name="font">
-                          <font>
-                           <family>Gotham Rounded</family>
-                           <pointsize>12</pointsize>
-                           <weight>75</weight>
-                           <italic>false</italic>
-                           <bold>true</bold>
-                          </font>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
-border: 3px solid;
-border-radius: 5px; 
-border-color: rgb(255, 255, 255);
-color: rgb(255, 255, 255);
-</string>
-                         </property>
-                         <item>
-                          <property name="text">
-                           <string>Test</string>
-                          </property>
-                         </item>
-                         <item>
-                          <property name="text">
-                           <string>Test 1</string>
-                          </property>
-                         </item>
-                         <item>
-                          <property name="text">
-                           <string>Test 2</string>
-                          </property>
-                         </item>
-                        </widget>
-                       </item>
-                       <item>
-                        <spacer name="horizontalSpacer_5">
-                         <property name="orientation">
-                          <enum>Qt::Horizontal</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                          <size>
-                           <width>40</width>
-                           <height>20</height>
-                          </size>
-                         </property>
-                        </spacer>
                        </item>
                       </layout>
                      </widget>
@@ -3963,14 +3990,20 @@ color: rgb(255, 255, 255);
                   </widget>
                  </item>
                  <item>
-                  <widget class="QFrame" name="parametersframe">
+                  <widget class="QFrame" name="parametersframe_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="frameShape">
                     <enum>QFrame::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
                    </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_28">
+                   <layout class="QVBoxLayout" name="verticalLayout_35">
                     <property name="spacing">
                      <number>15</number>
                     </property>
@@ -3984,7 +4017,19 @@ color: rgb(255, 255, 255);
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QLabel" name="parameterLbl">
+                     <widget class="QLabel" name="parameterLbl_2">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>50</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>50</height>
+                       </size>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">font: 75 bold 14pt &quot;Gotham Rounded&quot;;
 </string>
@@ -3995,11 +4040,11 @@ color: rgb(255, 255, 255);
                      </widget>
                     </item>
                     <item>
-                     <widget class="QFrame" name="nameFrame">
+                     <widget class="QFrame" name="nameFrame_2">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
-                        <height>30</height>
+                        <height>50</height>
                        </size>
                       </property>
                       <property name="maximumSize">
@@ -4014,7 +4059,7 @@ color: rgb(255, 255, 255);
                       <property name="frameShadow">
                        <enum>QFrame::Raised</enum>
                       </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_24">
+                      <layout class="QHBoxLayout" name="horizontalLayout_42">
                        <property name="leftMargin">
                         <number>0</number>
                        </property>
@@ -4028,7 +4073,7 @@ color: rgb(255, 255, 255);
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QLabel" name="nameLbl">
+                        <widget class="QLabel" name="nameLbl_2">
                          <property name="minimumSize">
                           <size>
                            <width>150</width>
@@ -4045,7 +4090,7 @@ color: rgb(136, 138, 133);</string>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="nameLineEdit">
+                        <widget class="QLineEdit" name="modelNameLineEdit">
                          <property name="minimumSize">
                           <size>
                            <width>300</width>
@@ -4054,7 +4099,7 @@ color: rgb(136, 138, 133);</string>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>26</width>
+                           <width>300</width>
                            <height>16777215</height>
                           </size>
                          </property>
@@ -4071,10 +4116,13 @@ border-color:  rgb(85, 87, 83);</string>
                          <property name="alignment">
                           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                          </property>
+                         <property name="readOnly">
+                          <bool>true</bool>
+                         </property>
                         </widget>
                        </item>
                        <item>
-                        <spacer name="horizontalSpacer_18">
+                        <spacer name="horizontalSpacer_27">
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
                          </property>
@@ -4093,11 +4141,11 @@ border-color:  rgb(85, 87, 83);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QFrame" name="deviceFrame">
+                     <widget class="QFrame" name="modelTypeFrame_2">
                       <property name="minimumSize">
                        <size>
-                        <width>0</width>
-                        <height>30</height>
+                        <width>300</width>
+                        <height>50</height>
                        </size>
                       </property>
                       <property name="maximumSize">
@@ -4112,7 +4160,108 @@ border-color:  rgb(85, 87, 83);</string>
                       <property name="frameShadow">
                        <enum>QFrame::Raised</enum>
                       </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_21">
+                      <layout class="QHBoxLayout" name="horizontalLayout_38">
+                       <property name="spacing">
+                        <number>6</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="modelTypeLbl">
+                         <property name="minimumSize">
+                          <size>
+                           <width>150</width>
+                           <height>0</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
+color: rgb(136, 138, 133);</string>
+                         </property>
+                         <property name="text">
+                          <string>Model Type:</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLineEdit" name="modelTypeLineEdit">
+                         <property name="minimumSize">
+                          <size>
+                           <width>300</width>
+                           <height>25</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>300</width>
+                           <height>16777215</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
+color: rgb(255, 255, 255);
+background-color: rgb(85, 87, 83);
+border: 5px solid;
+border-color:  rgb(85, 87, 83);</string>
+                         </property>
+                         <property name="text">
+                          <string>YoloV7</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                         </property>
+                         <property name="readOnly">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <spacer name="horizontalSpacer_5">
+                         <property name="orientation">
+                          <enum>Qt::Horizontal</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>40</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </spacer>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QFrame" name="deviceFrame_2">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>50</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>50</height>
+                       </size>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_43">
                        <property name="leftMargin">
                         <number>0</number>
                        </property>
@@ -4126,7 +4275,7 @@ border-color:  rgb(85, 87, 83);</string>
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QLabel" name="deviceLbl">
+                        <widget class="QLabel" name="deviceLbl_2">
                          <property name="minimumSize">
                           <size>
                            <width>150</width>
@@ -4135,7 +4284,7 @@ border-color:  rgb(85, 87, 83);</string>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>70</width>
+                           <width>16777215</width>
                            <height>16777215</height>
                           </size>
                          </property>
@@ -4175,10 +4324,13 @@ border-color:  rgb(85, 87, 83);</string>
                          <property name="alignment">
                           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                          </property>
+                         <property name="readOnly">
+                          <bool>true</bool>
+                         </property>
                         </widget>
                        </item>
                        <item>
-                        <spacer name="horizontalSpacer_12">
+                        <spacer name="horizontalSpacer_28">
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
                          </property>
@@ -4194,11 +4346,11 @@ border-color:  rgb(85, 87, 83);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QFrame" name="imageSizeFrame">
+                     <widget class="QFrame" name="imageSizeFrame_3">
                       <property name="minimumSize">
                        <size>
                         <width>300</width>
-                        <height>30</height>
+                        <height>50</height>
                        </size>
                       </property>
                       <property name="maximumSize">
@@ -4213,7 +4365,7 @@ border-color:  rgb(85, 87, 83);</string>
                       <property name="frameShadow">
                        <enum>QFrame::Raised</enum>
                       </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_20">
+                      <layout class="QHBoxLayout" name="horizontalLayout_44">
                        <property name="leftMargin">
                         <number>0</number>
                        </property>
@@ -4227,7 +4379,7 @@ border-color:  rgb(85, 87, 83);</string>
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QLabel" name="imageSizeLbl">
+                        <widget class="QLabel" name="imageSizeLbl_3">
                          <property name="minimumSize">
                           <size>
                            <width>150</width>
@@ -4239,7 +4391,7 @@ border-color:  rgb(85, 87, 83);</string>
 color: rgb(136, 138, 133);</string>
                          </property>
                          <property name="text">
-                          <string>Image Size:</string>
+                          <string>Dimensions:</string>
                          </property>
                         </widget>
                        </item>
@@ -4248,12 +4400,12 @@ color: rgb(136, 138, 133);</string>
                          <property name="minimumSize">
                           <size>
                            <width>300</width>
-                           <height>30</height>
+                           <height>25</height>
                           </size>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>100</width>
+                           <width>300</width>
                            <height>16777215</height>
                           </size>
                          </property>
@@ -4270,10 +4422,13 @@ border-color:  rgb(85, 87, 83);</string>
                          <property name="alignment">
                           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                          </property>
+                         <property name="readOnly">
+                          <bool>true</bool>
+                         </property>
                         </widget>
                        </item>
                        <item>
-                        <spacer name="horizontalSpacer_14">
+                        <spacer name="horizontalSpacer_29">
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
                          </property>
@@ -4289,11 +4444,11 @@ border-color:  rgb(85, 87, 83);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QFrame" name="epochFrame">
+                     <widget class="QFrame" name="epochFrame_2">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
-                        <height>30</height>
+                        <height>50</height>
                        </size>
                       </property>
                       <property name="maximumSize">
@@ -4313,7 +4468,7 @@ color: rgb(136, 138, 133);
                       <property name="frameShadow">
                        <enum>QFrame::Raised</enum>
                       </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_14">
+                      <layout class="QHBoxLayout" name="horizontalLayout_45">
                        <property name="leftMargin">
                         <number>0</number>
                        </property>
@@ -4327,7 +4482,7 @@ color: rgb(136, 138, 133);
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QLabel" name="epochLbl">
+                        <widget class="QLabel" name="epochLbl_2">
                          <property name="minimumSize">
                           <size>
                            <width>150</width>
@@ -4356,7 +4511,7 @@ color: rgb(136, 138, 133);</string>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>50</width>
+                           <width>300</width>
                            <height>16777215</height>
                           </size>
                          </property>
@@ -4373,10 +4528,13 @@ border-color:  rgb(85, 87, 83);</string>
                          <property name="alignment">
                           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                          </property>
+                         <property name="readOnly">
+                          <bool>true</bool>
+                         </property>
                         </widget>
                        </item>
                        <item>
-                        <spacer name="horizontalSpacer_15">
+                        <spacer name="horizontalSpacer_30">
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
                          </property>
@@ -4392,11 +4550,11 @@ border-color:  rgb(85, 87, 83);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QFrame" name="batchFrame">
+                     <widget class="QFrame" name="batchFrame_2">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
-                        <height>30</height>
+                        <height>50</height>
                        </size>
                       </property>
                       <property name="maximumSize">
@@ -4411,7 +4569,7 @@ border-color:  rgb(85, 87, 83);</string>
                       <property name="frameShadow">
                        <enum>QFrame::Raised</enum>
                       </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_19">
+                      <layout class="QHBoxLayout" name="horizontalLayout_46">
                        <property name="leftMargin">
                         <number>0</number>
                        </property>
@@ -4425,7 +4583,7 @@ border-color:  rgb(85, 87, 83);</string>
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QLabel" name="batchLbl">
+                        <widget class="QLabel" name="batchLbl_2">
                          <property name="minimumSize">
                           <size>
                            <width>150</width>
@@ -4451,7 +4609,7 @@ color: rgb(136, 138, 133);</string>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>40</width>
+                           <width>300</width>
                            <height>16777215</height>
                           </size>
                          </property>
@@ -4468,10 +4626,13 @@ border-color:  rgb(85, 87, 83);</string>
                          <property name="alignment">
                           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                          </property>
+                         <property name="readOnly">
+                          <bool>true</bool>
+                         </property>
                         </widget>
                        </item>
                        <item>
-                        <spacer name="horizontalSpacer_16">
+                        <spacer name="horizontalSpacer_31">
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
                          </property>
@@ -4487,11 +4648,11 @@ border-color:  rgb(85, 87, 83);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QFrame" name="workersFrame">
+                     <widget class="QFrame" name="workersFrame_2">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
-                        <height>30</height>
+                        <height>50</height>
                        </size>
                       </property>
                       <property name="maximumSize">
@@ -4506,7 +4667,7 @@ border-color:  rgb(85, 87, 83);</string>
                       <property name="frameShadow">
                        <enum>QFrame::Raised</enum>
                       </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_23">
+                      <layout class="QHBoxLayout" name="horizontalLayout_47">
                        <property name="leftMargin">
                         <number>0</number>
                        </property>
@@ -4520,7 +4681,7 @@ border-color:  rgb(85, 87, 83);</string>
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QLabel" name="workersLbl">
+                        <widget class="QLabel" name="workersLbl_2">
                          <property name="minimumSize">
                           <size>
                            <width>150</width>
@@ -4546,7 +4707,7 @@ color: rgb(136, 138, 133);</string>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>30</width>
+                           <width>300</width>
                            <height>16777215</height>
                           </size>
                          </property>
@@ -4563,10 +4724,13 @@ border-color:  rgb(85, 87, 83);</string>
                          <property name="alignment">
                           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                          </property>
+                         <property name="readOnly">
+                          <bool>true</bool>
+                         </property>
                         </widget>
                        </item>
                        <item>
-                        <spacer name="horizontalSpacer_17">
+                        <spacer name="horizontalSpacer_32">
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
                          </property>
@@ -4586,19 +4750,6 @@ border-color:  rgb(85, 87, 83);</string>
                  </item>
                 </layout>
                </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_11">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
               </item>
              </layout>
             </widget>
@@ -4628,7 +4779,7 @@ border-color:  rgb(85, 87, 83);</string>
                <item>
                 <widget class="QFrame" name="ConsoleOverallFrame">
                  <property name="styleSheet">
-                  <string notr="true">background-color: rgb(65, 66, 64);
+                  <string notr="true">background-color: #454545;
 border-radius: 5px;</string>
                  </property>
                  <property name="frameShape">
@@ -4647,7 +4798,7 @@ border: 5px solid;
 </string>
                     </property>
                     <property name="text">
-                     <string>Training not started</string>
+                     <string>Model not loaded</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -4745,7 +4896,7 @@ border-radius: 5px;</string>
        <item>
         <widget class="QFrame" name="bottomBarFrame">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -4754,6 +4905,12 @@ border-radius: 5px;</string>
           <size>
            <width>0</width>
            <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>35</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -4779,7 +4936,7 @@ border-radius: 5px;</string>
            <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>2</number>
+           <number>5</number>
           </property>
           <item>
            <spacer name="horizontalSpacer_13">
@@ -4829,11 +4986,15 @@ border-radius: 5px;</string>
                <property name="font">
                 <font>
                  <family>Gotham Rounded</family>
-                 <pointsize>11</pointsize>
-                 <weight>9</weight>
+                 <pointsize>12</pointsize>
+                 <weight>75</weight>
                  <italic>false</italic>
-                 <bold>false</bold>
+                 <bold>true</bold>
                 </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
+color: rgb(136, 138, 133);</string>
                </property>
                <property name="text">
                 <string>Edit:</string>
@@ -4908,7 +5069,7 @@ border-radius: 5px;</string>
      <x>0</x>
      <y>0</y>
      <width>1100</width>
-     <height>23</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="minimumSize">
