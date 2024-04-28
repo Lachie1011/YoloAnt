@@ -11,11 +11,11 @@ class CustomWidgetItemQFrame(QFrame):
     """
         Class that creates a custom QFrame
     """
-    def __init__(self, themePaletteColours):
+    def __init__(self, themePaletteColours, parentSelected):
+        """ init """
         super().__init__()
         self.themePaletteColours = themePaletteColours
-        self.parentSelected = False
-
+        self.parentSelected = parentSelected
         self.__baseStyleSheet()
 
     def enterEvent(self, event) -> None:
@@ -61,6 +61,7 @@ class CustomQLineEdit(QLineEdit):
         Class that creates a custom line edit widget
     """
     def __init__(self, themePaletteColours, fontRegular):
+        """ init """
         super().__init__()
         self.themePaletteColours = themePaletteColours
         self.fontRegular = fontRegular
@@ -150,6 +151,7 @@ class CustomPanelQLineEdit(QLineEdit):
         Class that creates a custom line edit widget for application panel
     """
     def __init__(self, themePaletteColours, fontStyle):
+        """ init """
         super().__init__()
         self.editableState = False
         self.themePaletteColours = themePaletteColours
@@ -350,7 +352,6 @@ class CustomClassQListWidget(QListWidget):
 
     def __setupStyleSheet(self) -> None:
         self.setMinimumSize(0, 0)
-        # self.setDragEnabled(True)
         self.setSelectionRectVisible(False)
         self.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
         self.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
