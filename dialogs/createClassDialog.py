@@ -5,7 +5,7 @@
 from PyQt6.QtWidgets import QDialog, QLabel, QListWidget, QHBoxLayout
 
 from dialogs.ui.createClassDialog_ui import Ui_createClassDialog
-from customWidgets.customQObjects import UserInputQLineEdit
+from customWidgets.customQObjects import CustomUserInputQLineEdit
 from customWidgets.projectClassListItemWidget import ProjectClassListItemWidget
 from dialogs.colourSelectorDialog import getColour
 
@@ -72,7 +72,7 @@ class CreateClassDialog(QDialog):
                                         f"color: {self.themePaletteColours['font.regular']};}}")
         self.classNameLbl.setFixedWidth(110)
 
-        self.classNameLineEdit = UserInputQLineEdit(self.themePaletteColours, self.fontRegular)
+        self.classNameLineEdit = CustomUserInputQLineEdit(self.themePaletteColours, self.fontRegular)
         self.classNameLineEdit.setFixedWidth(262)
         self.classNameLineEdit.setCursorPosition(0)
 

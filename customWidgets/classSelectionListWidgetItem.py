@@ -6,6 +6,8 @@ from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import (QFrame, QHBoxLayout, QToolButton, QVBoxLayout)
                         
 from customWidgets.customQObjects import *
+from customWidgets.classAttributesFrame import ClassAttributesFrame
+from dialogs.keySelectionDialog import getKeyInput
 from utils.expandingFrame import ExpandingFrame
 from dialogs.colourSelectorDialog import getColour
 from customWidgets.annotationsListWidgetItem import AnnotationsListWidgetItem
@@ -70,7 +72,7 @@ class ClassSelectionListWidgetItem (QFrame):
         self.expandBtn.setChecked(False)
 
         # Setup class selection frame
-        self.classSelectionFrame = CustomWidgetItemQFrame(self.themePaletteColours)
+        self.classSelectionFrame = CustomWidgetItemQFrame(self.themePaletteColours, self.parentSelected)
 
         self.classSelectionFrameLayout = QHBoxLayout()
         self.classSelectionFrameLayout.addWidget(self.classAttributesFrame)
@@ -80,7 +82,13 @@ class ClassSelectionListWidgetItem (QFrame):
         self.classSelectionFrame.setLayout(self.classSelectionFrameLayout)
 
         # Class annotations frame
-        self.classAnnotationsFrame = self.__setUpAnnotationsFrame()
+        self.annotationsListWidget = CustomClassQListWidget(self.themePaletteColours)
+
+        # Create layout for annotations frame
+        self.annotationsFrameLayout = QVBoxLayout()
+        self.annotationsFrameLayout.addWidget(self.annotationsListWidget)
+        self.annotationsFrameLayout.setContentsMargins(0,0,0,0)
+        self.classAnnotationsFrame = ExpandingFrame(self.annotationsFrameLayout)
 
         # Apply contents to widget item
         self.annotationPageListWidgetItemLayout = QVBoxLayout()
@@ -91,23 +99,9 @@ class ClassSelectionListWidgetItem (QFrame):
         self.annotationPageListWidgetItemLayout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.setLayout(self.annotationPageListWidgetItemLayout)
 
-    def __setUpAnnotationsFrame(self) -> QFrame:
-        """ Sets up style sheet for annotations frame """
-
-        # Create list widget for class annotations
-        self.annotationsListWidget = CustomClassQListWidget(self.themePaletteColours)
-
-        # Create layout for annotations frame
-        self.annotationsFrameLayout = QVBoxLayout()
-        self.annotationsFrameLayout.addWidget(self.annotationsListWidget)
-        self.annotationsFrameLayout.setContentsMargins(0,0,0,0)
-        self.annotationsFrame = ExpandingFrame(self.annotationsFrameLayout)
-
-        return self.annotationsFrame
-
     def __expandFrame(self, checked) -> None:
         """ Expands and shrinks the annotations frame when expand arrow is toggled """
-        self.annotationsFrame.start_animation(checked)
+        self.classAnnotationsFrame.start_animation(checked)
 
         if checked: 
             self.expandBtn.setStyleSheet("QToolButton{"
@@ -143,6 +137,7 @@ class ClassSelectionListWidgetItem (QFrame):
     def setSelected(self) -> None:
         """ Sets list widget item to selected state """
         self.classSelectionFrame.setSelected()
+        self.classSelectionFrame.parentSelected = True
         self.parentSelected = True
 
         # If we select an item, update the canvas
@@ -152,6 +147,7 @@ class ClassSelectionListWidgetItem (QFrame):
     def clearSelected(self) -> None:
         """ Clears selected state of list widget item """
         self.classSelectionFrame.clearSelection()
+        self.classSelectionFrame.parentSelected = False
         self.parentSelected = False
 
     def setClassName(self, className: str) -> None:

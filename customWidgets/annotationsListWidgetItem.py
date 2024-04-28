@@ -23,6 +23,7 @@ class AnnotationsListWidgetItem(QFrame):
 
         # Setup signals and slots
         self.hideAnnotationBtn.clicked.connect(lambda: self.__displayedHideAnnotationIcon())
+        self.annotationDeleteButton.clicked.connect(lambda: self.parent().parent().removeItemFromListWidget(self.parentItem))
     
     def enterEvent(self, event) -> None:
         """ Sets background of widget when mouse enters item widget """
@@ -95,3 +96,15 @@ class AnnotationsListWidgetItem(QFrame):
                                                  "border-image: url('icons/icons8-eye-open-25.png');}"
                                                  "QPushButton:hover{"
                                                  "border-image: url('icons/icons8-eye-open-hover-25.png');}")
+
+    def setSelected(self) -> None:
+        """ Sets list widget item to selected state """
+        self.annotationNameLbl.setStyleSheet("QLabel{"
+                                             f"color: {self.themePaletteColours['font.hover']};}}")
+        self.parentSelected = True
+
+    def clearSelected(self) -> None:
+        """ Clears selected state of list widget item """
+        self.annotationNameLbl.setStyleSheet("QLabel{"
+                                             f"color: {self.themePaletteColours['font.regular']};}}")
+        self.parentSelected = False
