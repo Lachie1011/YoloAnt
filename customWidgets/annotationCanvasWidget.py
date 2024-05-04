@@ -48,10 +48,6 @@ class AnnotationCanvasWidget(QGraphicsView):
     
     def updateImage(self, image) -> None:
         """ Updates the image currently being shown as a QGraphicsPixmapItem """
-        # Save previous image attributes
-        if self.image:
-            self.generateBoundingBoxes()
-        
         # Set up for new image
         self.image = image
         
@@ -84,6 +80,8 @@ class AnnotationCanvasWidget(QGraphicsView):
     
     def generateBoundingBoxes(self) -> None:
         """ Loops through all of the rectangles and stores bounding boxes. Update respective image object """
+        if not self.image:
+            return
         boundingBoxes = []
         for rect in self.rects:
             boundingBox = BoundingBox(rect.x() + rect.rect().x(), rect.y() + rect.rect().y(), rect.rect().width(), rect.rect().height(), rect.classColour)
@@ -121,5 +119,8 @@ class AnnotationCanvasWidget(QGraphicsView):
         # Only add rectangle if in annotation mode
         if self.mode == Tools.annotationTool:
             self.resetScene()
-            self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), self.currentClassColour, True, False)
+            self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), self.currentClassColour, True, False) 
+ 
+        # update image reference to bounding box list 
+        self.generateBoundingBoxes()
 
