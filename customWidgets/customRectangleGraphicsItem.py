@@ -96,6 +96,8 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
 
         self.setRect(x, y, width, height)
         self.updateHandlePositions(handle, False)
+        # after position change update image annotations ref
+        self.canvas.generateBoundingBoxes()
 
     def updateHandlePositions(self, handle, mouseUpdate) -> None:
         """ Handles updates to handle positions """
