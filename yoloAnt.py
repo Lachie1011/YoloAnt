@@ -8,7 +8,7 @@ from enum import Enum
 
 from PyQt6 import QtCore
 from PyQt6.QtCore import QEvent
-from PyQt6.QtGui import QCursor, QIcon, QFontDatabase
+from PyQt6.QtGui import QCursor, QIcon, QFontDatabase, QKeySequence, QShortcut
 from PyQt6.QtWidgets import QApplication, QMainWindow, QHBoxLayout
 
 from yoloAnt_ui import Ui_MainWindow
@@ -67,6 +67,8 @@ class YoloAnt(QMainWindow):
         self.__connectIconHover()
         self.__connectInformationButton()
         self.__connectNotificationButton()
+
+        self.__setupKeyBindings()
 
         # Add application font to database
         QFontDatabase.addApplicationFont(f"assets/fonts/{self.theme.colours['fontType.header']}")
@@ -235,6 +237,17 @@ class YoloAnt(QMainWindow):
         self.ui.leftMenuSubContainer.setStyleSheet(self.ui.leftMenuSubContainer.styleSheet() + f"background: {self.theme.colours['navigationbar.background']};")
         self.ui.bottomBarFrame.setStyleSheet(self.ui.bottomBarFrame.styleSheet() + f"background: {self.theme.colours['navigationbar.background']};")
         self.ui.stackedWidget.setStyleSheet(self.ui.stackedWidget.styleSheet() + f"background: {self.theme.colours['app.background']};")
+    
+    def __toggleEditMode(self) -> None:
+        """ Toggles the edit mode button """
+        self.ui.editPageBtn.setChecked(not self.ui.editPageBtn.isChecked())
+
+    def __setupKeyBindings(self) -> None:
+        """ Sets up some keybindings for the applicatio """
+        # for the moment, hardcode these here - might be rebindable in some keybindings manager
+        EDIT_SHORTCUT = "Ctrl+e"
+        self.editModeShortCut = QShortcut(QKeySequence(EDIT_SHORTCUT), self)
+        self.editModeShortCut.activated.connect(self.__toggleEditMode)
 
 def signal_handler(sig, frame) -> None:
     """ Handles unix signals """
