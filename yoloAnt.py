@@ -120,11 +120,6 @@ class YoloAnt(QMainWindow):
         # Connects the currentChanged signal for the stacked widget
         self.ui.stackedWidget.currentChanged.connect(self.__onPageChange)
 
-        # Updates stacked widget index
-        self.ui.annotTabBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))    
-        self.ui.projectsTabBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(2))    
-        self.ui.mlTabBtn.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(3))
-
         # Updates the state of the navigation buttons
         self.ui.annotTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.AnnotationPage))
         self.ui.projectsTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.ProjectPage))
@@ -132,7 +127,25 @@ class YoloAnt(QMainWindow):
 
     def __updateStateOfNavigationButtons(self, page: Pages) -> None:
         """ Updates the state of the navigation buttons """
+        if not self.project:
+            self.ui.stackedWidget.setCurrentIndex(0)
+            self.currentPage = Pages.StartPage
+            self.ui.annotTabBtn.setChecked(False)
+            self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
+            self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{self.theme.colours['navigationbar.background']};}}")
+            self.ui.projectsTabBtn.setChecked(False)
+            self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
+            self.ui.projectsTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
+            self.ui.mlTabBtn.setChecked(False)
+            self.ui.mlTabBtn.setIcon(QIcon("icons/icons8-ant-head-50.png"))
+            self.ui.mlTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
+            self.ui.infoBtn.setChecked(False)
+            self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
+            self.notificationManager.raiseNotification("No active project. Please open or create a new project.")
+            return
+
         if(page is Pages.AnnotationPage):
+            self.ui.stackedWidget.setCurrentIndex(1)
             self.currentPage = Pages.AnnotationPage
             # Because of hover event, update check and also icon TODO: explore a cleaner alternative to checking / unchecking
             self.ui.annotTabBtn.setChecked(True)
@@ -148,6 +161,7 @@ class YoloAnt(QMainWindow):
             self.annotationPage.loadPage()
 
         elif(page is Pages.ProjectPage):
+            self.ui.stackedWidget.setCurrentIndex(2)
             self.currentPage = Pages.ProjectPage
             self.ui.projectsTabBtn.setChecked(True)
             self.ui.projectsTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['focus.foreground']};}}")
@@ -162,6 +176,7 @@ class YoloAnt(QMainWindow):
             self.projectPage.loadPage()
 
         elif(page is Pages.MachineLearningPage):
+            self.ui.stackedWidget.setCurrentIndex(3)
             self.currentPage = Pages.MachineLearningPage
             self.ui.mlTabBtn.setChecked(True)
             self.ui.mlTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['focus.foreground']};}}")
