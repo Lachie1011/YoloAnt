@@ -199,9 +199,7 @@ class YoloAnt(QMainWindow):
     
     def __openInfoDialog(self, displayInfoDialog: bool) -> None:
         """ Handles the display of the info dialog box"""
-        self.infoDialog = InfoDialog()
-        self.notificationManager.raiseNotification("test")
-        
+        self.infoDialog = InfoDialog()        
         if(displayInfoDialog and not self.infoDialog.isVisible()):
             self.infoDialog.exec()    
 
