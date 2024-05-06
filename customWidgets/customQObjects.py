@@ -5,7 +5,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPalette, QBrush, QCursor
 from PyQt6.QtWidgets import (QDialog, QFrame, QLineEdit, QAbstractItemView, QListWidgetItem, QPushButton, QSizePolicy,
                              QSizePolicy, QListWidget, QAbstractScrollArea, QListView, QTextEdit, QGraphicsOpacityEffect,
-                             QLabel, QHBoxLayout)
+                             QLabel, QHBoxLayout, QComboBox)
 
 class CustomWidgetItemQFrame(QFrame):
     """
@@ -324,6 +324,27 @@ class CustomUserInputQLineEdit(QLineEdit):
                            f"color: {self.themePaletteColours['font.regular']};"
                            f"background-color: {self.themePaletteColours['panel.sunken']};"
                            f"border: 1px solid {self.themePaletteColours['userInput.border']};}}")
+
+class CustomQComboBox(QComboBox):
+    def __init__(self, themePaletteColours, fontRegular):
+        super().__init__()
+        self.themePaletteColours = themePaletteColours
+        self.fontRegular = fontRegular
+        self.__baseStyleSheet()
+
+    def __baseStyleSheet(self) -> None:
+        self.setStyleSheet("QComboBox{"
+                           f"font: 75 12pt {self.fontRegular};"
+                           "border-radius: 5px;"
+                           f"border: 1px solid {self.themePaletteColours['userInput.border']};"
+                           f"background-color: {self.themePaletteColours['panel.sunken']};}}"
+                           "QComboBox::drop-down:button{"
+                           f"background-color: {self.themePaletteColours['panel.sunken']};"
+                           "border-radius: 5px}"
+                           "QComboBox::drop-down{"
+                           f"color: {self.themePaletteColours['panel.sunken']};}}"
+                           "QComboBox::down-arrow{"
+                           "image: url(icons/icons8-drop-down-arrow-10.png)}")
 
 class CustomClassQListWidget(QListWidget):
     """

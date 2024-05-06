@@ -3,7 +3,11 @@
 """
 
 import pyqtgraph as pg
+from PyQt6.QtWidgets import QGraphicsDropShadowEffect, QHBoxLayout
+from PyQt6.QtGui import QColor
+from PyQt6.QtWidgets import QSizePolicy
 
+from customWidgets.customQObjects import CustomUserInputQLineEdit, CustomQComboBox
 from yoloAnt_ui import Ui_MainWindow
 
 class MachineLearningPage():
@@ -22,18 +26,127 @@ class MachineLearningPage():
         # Connecting signals and slots
         self.ui.editPageBtn.toggled.connect(lambda toggled: self.__setEditMode(not toggled)) 
 
+        self.__setupPagePalette()
+        self.__setupStyleSheet()
+
         # for now just load the page at start TODO: this will have to change based on selected model
         self.load_page()
-    
+
+
+    def __setupPagePalette(self) -> None:
+        dropshadowEffect = QGraphicsDropShadowEffect()
+        dropshadowEffect.setBlurRadius(10)
+        color = QColor(self.app.theme.colours['app.dropshadow'])
+        dropshadowEffect.setColor(color)
+        dropshadowEffect.setOffset(0,2)
+
+        self.ui.ConsoleOverallFrame.setGraphicsEffect(dropshadowEffect)
+        self.ui.ConsoleOverallFrame.setStyleSheet("QFrame{"
+                                                  "border-radius: 5px;"
+                                                  f"background-color: {self.app.theme.colours['panel.background']};}}")    
+
+        dropshadowEffect2 = QGraphicsDropShadowEffect()
+        dropshadowEffect2.setBlurRadius(10)
+        color = QColor(self.app.theme.colours['app.dropshadow'])
+        dropshadowEffect2.setColor(color)
+        dropshadowEffect2.setOffset(0,2)
+
+        self.ui.MlInfoFrame.setGraphicsEffect(dropshadowEffect2)
+        self.ui.MlInfoFrame.setStyleSheet("QFrame{"
+                                          "border-radius: 5px;"
+                                          f"background-color: {self.app.theme.colours['panel.background']};}}")       
+
+        self.ui.stateLineEdit_2.setStyleSheet("QLineEdit{"
+                                              f"color: {self.app.theme.colours['font.regular']};"
+                                              f"font: 75 bold 12pt {self.app.fontTypeRegular};"
+                                              f"background-color: {self.app.theme.colours['panel.background']};}}")   
+
+        self.ui.annotatedImagesLineEdit_2.setStyleSheet("QLineEdit{"
+                                              f"color: {self.app.theme.colours['font.regular']};"
+                                              f"font: 75 bold 12pt {self.app.fontTypeRegular};"
+                                              f"background-color: {self.app.theme.colours['panel.background']};}}")    
+
+        self.ui.classImbalanclineEdit_2.setStyleSheet("QLineEdit{"
+                                              f"color: {self.app.theme.colours['font.regular']};"
+                                              f"font: 75 bold 12pt {self.app.fontTypeRegular};"
+                                              f"background-color: {self.app.theme.colours['panel.background']};}}")          
+
+    def __setupStyleSheet(self) -> None:
+        self.modelNameComboBox = CustomQComboBox(self.app.theme.colours, self.app.fontTypeRegular)
+        self.modelNameComboBox.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.modelNameComboLayout = QHBoxLayout()
+        self.modelNameComboLayout.addWidget(self.modelNameComboBox)
+        self.modelNameComboLayout.setContentsMargins(0,0,0,0)
+        self.ui.modelNameComboFrame.setLayout(self.modelNameComboLayout)
+
+        self.modelTypeComboBox = CustomQComboBox(self.app.theme.colours, self.app.fontTypeRegular)
+        self.modelTypeComboBox.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.modelTypeLayout = QHBoxLayout()
+        self.modelTypeLayout.addWidget(self.modelTypeComboBox)
+        self.modelTypeLayout.setContentsMargins(0,0,0,0)
+        self.ui.modelTypeComboFrame.setLayout(self.modelTypeLayout)
+
+        self.deviceComboBox = CustomQComboBox(self.app.theme.colours, self.app.fontTypeRegular)
+        self.deviceComboBox.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.deviceLayout = QHBoxLayout()
+        self.deviceLayout.addWidget(self.deviceComboBox)
+        self.deviceLayout.setContentsMargins(0,0,0,0)
+        self.ui.deviceComboFrame.setLayout(self.deviceLayout)
+
+        self.modelNameLineEdit = CustomUserInputQLineEdit(self.app.theme.colours, self.app.fontTypeRegular)
+        self.modelNameLineEdit.setText('Project-V1-Test')
+        self.modelNameLayout = QHBoxLayout()
+        self.modelNameLayout.addWidget(self.modelNameLineEdit)
+        self.modelNameLayout.setContentsMargins(0,0,0,0)
+        self.ui.modelNameInputFrame.setLayout(self.modelNameLayout)
+        self.modelNameLineEdit.editingFinished.connect(lambda: self.modelNameLineEdit.clearFocus())
+
+        self.epochsLineEdit = CustomUserInputQLineEdit(self.app.theme.colours, self.app.fontTypeRegular)
+        self.epochsLineEdit.setText('100')
+        self.epochsLayout = QHBoxLayout()
+        self.epochsLayout.addWidget(self.epochsLineEdit)
+        self.epochsLayout.setContentsMargins(0,0,0,0)
+        self.ui.epochsInputFrame.setLayout(self.epochsLayout)
+        self.epochsLineEdit.editingFinished.connect(lambda: self.epochsLineEdit.clearFocus())
+
+        self.batchsizeLineEdit = CustomUserInputQLineEdit(self.app.theme.colours, self.app.fontTypeRegular)
+        self.batchsizeLineEdit.setText('64')
+        self.batchsizeLayout = QHBoxLayout()
+        self.batchsizeLayout.addWidget(self.batchsizeLineEdit)
+        self.batchsizeLayout.setContentsMargins(0,0,0,0)
+        self.ui.batchsizeInputFrame.setLayout(self.batchsizeLayout)
+        self.batchsizeLineEdit.editingFinished.connect(lambda: self.batchsizeLineEdit.clearFocus())
+
+        self.workersLineEdit = CustomUserInputQLineEdit(self.app.theme.colours, self.app.fontTypeRegular)
+        self.workersLineEdit.setText('64')
+        self.workersLayout = QHBoxLayout()
+        self.workersLayout.addWidget(self.workersLineEdit)
+        self.workersLayout.setContentsMargins(0,0,0,0)
+        self.ui.workersInputFrame.setLayout(self.workersLayout)
+        self.workersLineEdit.editingFinished.connect(lambda: self.workersLineEdit.clearFocus())
+
+        self.widthLineEdit = CustomUserInputQLineEdit(self.app.theme.colours, self.app.fontTypeRegular)
+        self.widthLineEdit.setText('64')
+        self.widthLayout = QHBoxLayout()
+        self.widthLayout.addWidget(self.widthLineEdit)
+        self.widthLayout.setContentsMargins(0,0,0,0)
+        self.ui.widthInputFrame.setLayout(self.widthLayout)
+        self.widthLineEdit.editingFinished.connect(lambda: self.widthLineEdit.clearFocus())
+
+        self.heightLineEdit = CustomUserInputQLineEdit(self.app.theme.colours, self.app.fontTypeRegular)
+        self.heightLineEdit.setText('64')
+        self.heightLayout = QHBoxLayout()
+        self.heightLayout.addWidget(self.heightLineEdit)
+        self.heightLayout.setContentsMargins(0,0,0,0)
+        self.ui.heightInputFrame.setLayout(self.heightLayout)
+        self.heightLineEdit.editingFinished.connect(lambda: self.heightLineEdit.clearFocus())
+
+
     def __setEditMode(self, toggled):
         """ Connects the edit button to editable widgets """ 
-        self.ui.batchLineEdit.setReadOnly(toggled)
-        self.ui.deviceLineEdit.setReadOnly(toggled)
-        self.ui.epochLineEdit.setReadOnly(toggled)
-        self.ui.imageSizeLineEdit.setReadOnly(toggled)
-        self.ui.modelTypeLineEdit.setReadOnly(toggled)
-        self.ui.modelNameLineEdit.setReadOnly(toggled)
-        self.ui.workersLineEdit.setReadOnly(toggled)
+        # self.ui.deviceLineEdit.setReadOnly(toggled)
+        # self.ui.imageSizeLineEdit.setReadOnly(toggled)
+        # self.ui.modelTypeLineEdit.setReadOnly(toggled)
 
     def load_page(self) -> None:
         """ Loads all information and functionality """
