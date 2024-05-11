@@ -6,7 +6,8 @@ from PyQt6 import QtCore
 from PyQt6.QtGui import QCursor, QIcon, QColor
 from PyQt6.QtWidgets import QApplication, QHBoxLayout, QLabel, QVBoxLayout, QPushButton, QFrame, QGraphicsDropShadowEffect, QSpacerItem, QSizePolicy
 
-from customWidgets.customQObjects import CustomClassQListWidget, CustomUserInputQLineEdit
+from customWidgets.customBaseObjects.customClassQListWidget import CustomClassQListWidget
+from customWidgets.customBaseObjects.customUserInputQLineEdit import CustomUserInputQLineEdit
 from customWidgets.classSelectionListWidgetItem import ClassSelectionListWidgetItem
 
 class AnnotationClassSelectionWidget(QFrame):

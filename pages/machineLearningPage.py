@@ -3,11 +3,12 @@
 """
 
 import pyqtgraph as pg
-from PyQt6.QtWidgets import QGraphicsDropShadowEffect, QHBoxLayout
+from PyQt6.QtWidgets import QGraphicsDropShadowEffect, QHBoxLayout, QLabel
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QSizePolicy
 
-from customWidgets.customQObjects import CustomUserInputQLineEdit, CustomQComboBox
+from customWidgets.customBaseObjects.customUserInputQLineEdit import CustomUserInputQLineEdit
+from customWidgets.customBaseObjects.customQComboBox import CustomQComboBox
 from yoloAnt_ui import Ui_MainWindow
 
 class MachineLearningPage():
@@ -54,24 +55,41 @@ class MachineLearningPage():
         self.ui.MlInfoFrame.setGraphicsEffect(dropshadowEffect2)
         self.ui.MlInfoFrame.setStyleSheet("QFrame{"
                                           "border-radius: 5px;"
-                                          f"background-color: {self.app.theme.colours['panel.background']};}}")       
-
-        self.ui.stateLineEdit_2.setStyleSheet("QLineEdit{"
-                                              f"color: {self.app.theme.colours['font.regular']};"
-                                              f"font: 75 bold 12pt {self.app.fontTypeRegular};"
-                                              f"background-color: {self.app.theme.colours['panel.background']};}}")   
-
-        self.ui.annotatedImagesLineEdit_2.setStyleSheet("QLineEdit{"
-                                              f"color: {self.app.theme.colours['font.regular']};"
-                                              f"font: 75 bold 12pt {self.app.fontTypeRegular};"
-                                              f"background-color: {self.app.theme.colours['panel.background']};}}")    
-
-        self.ui.classImbalanclineEdit_2.setStyleSheet("QLineEdit{"
-                                              f"color: {self.app.theme.colours['font.regular']};"
-                                              f"font: 75 bold 12pt {self.app.fontTypeRegular};"
-                                              f"background-color: {self.app.theme.colours['panel.background']};}}")          
+                                          f"background-color: {self.app.theme.colours['panel.background']};}}")            
 
     def __setupStyleSheet(self) -> None:
+
+        self.stateInfoLabel = QLabel()
+        self.stateInfoLabel.setText('Not Trained')
+        self.stateInfoLabel.setStyleSheet("QLabel{"
+                                          f"color: {self.app.theme.colours['font.regular']};"
+                                          f"font: 75 bold 12pt {self.app.fontTypeRegular};}}")
+        self.stateInfoLayout = QHBoxLayout()
+        self.stateInfoLayout.addWidget(self.stateInfoLabel)
+        self.stateInfoLayout.setContentsMargins(0,0,0,0)
+        self.ui.stateInfoFrame.setLayout(self.stateInfoLayout)
+
+        self.imagesAnnoInfoLabel = QLabel()
+        self.imagesAnnoInfoLabel.setText('100')
+        self.imagesAnnoInfoLabel.setStyleSheet("QLabel{"
+                                          f"color: {self.app.theme.colours['font.regular']};"
+                                          f"font: 75 bold 12pt {self.app.fontTypeRegular};}}")
+        self.imagesAnnoInfoLayout = QHBoxLayout()
+        self.imagesAnnoInfoLayout.addWidget(self.imagesAnnoInfoLabel)
+        self.imagesAnnoInfoLayout.setContentsMargins(0,0,0,0)
+        self.ui.imagesAnnoInfoFrame.setLayout(self.imagesAnnoInfoLayout)
+
+
+        self.classImbalInforLabel = QLabel()
+        self.classImbalInforLabel.setText('Not Balanced')
+        self.classImbalInforLabel.setStyleSheet("QLabel{"
+                                          f"color: {self.app.theme.colours['font.regular']};"
+                                          f"font: 75 bold 12pt {self.app.fontTypeRegular};}}")
+        self.classImbalInforLayout = QHBoxLayout()
+        self.classImbalInforLayout.addWidget(self.classImbalInforLabel)
+        self.classImbalInforLayout.setContentsMargins(0,0,0,0)
+        self.ui.classImbalInforFrame.setLayout(self.classImbalInforLayout)
+
         self.modelNameComboBox = CustomQComboBox(self.app.theme.colours, self.app.fontTypeRegular)
         self.modelNameComboBox.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.modelNameComboLayout = QHBoxLayout()
@@ -126,7 +144,7 @@ class MachineLearningPage():
         self.workersLineEdit.editingFinished.connect(lambda: self.workersLineEdit.clearFocus())
 
         self.widthLineEdit = CustomUserInputQLineEdit(self.app.theme.colours, self.app.fontTypeRegular)
-        self.widthLineEdit.setText('64')
+        self.widthLineEdit.setPlaceholderText('width')
         self.widthLayout = QHBoxLayout()
         self.widthLayout.addWidget(self.widthLineEdit)
         self.widthLayout.setContentsMargins(0,0,0,0)
@@ -134,13 +152,21 @@ class MachineLearningPage():
         self.widthLineEdit.editingFinished.connect(lambda: self.widthLineEdit.clearFocus())
 
         self.heightLineEdit = CustomUserInputQLineEdit(self.app.theme.colours, self.app.fontTypeRegular)
-        self.heightLineEdit.setText('64')
+        self.heightLineEdit.setPlaceholderText('height')
         self.heightLayout = QHBoxLayout()
         self.heightLayout.addWidget(self.heightLineEdit)
         self.heightLayout.setContentsMargins(0,0,0,0)
         self.ui.heightInputFrame.setLayout(self.heightLayout)
         self.heightLineEdit.editingFinished.connect(lambda: self.heightLineEdit.clearFocus())
 
+        self.ui.trainBtn.setStyleSheet("QPushButton{"
+                                       f"background-color: {self.app.theme.colours['buttonFilled.background']};"
+                                       f"border : 1px solid {self.app.theme.colours['buttonFilled.background']};"
+                                       "border-radius: 10px;"
+                                       f"font: 75 bold 12pt {self.app.fontTypeTitle};}}"
+                                       "QPushButton::hover{"
+                                       f"background-color: {self.app.theme.colours['buttonFilled.hover']};"
+                                       f"border : 1px solid {self.app.theme.colours['buttonFilled.hover']};}}")
 
     def __setEditMode(self, toggled):
         """ Connects the edit button to editable widgets """ 

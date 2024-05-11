@@ -5,7 +5,9 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor 
 from PyQt6.QtWidgets import (QFrame, QHBoxLayout, QToolButton, QVBoxLayout)
                         
-from customWidgets.customQObjects import *
+from customWidgets.customBaseObjects.customWidgetItemQFrame import CustomWidgetItemQFrame
+from customWidgets.customBaseObjects.customClassQListWidget import CustomClassQListWidget
+
 from customWidgets.classAttributesFrame import ClassAttributesFrame
 from dialogs.keySelectionDialog import getKeyInput
 from utils.expandingFrame import ExpandingFrame
