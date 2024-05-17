@@ -3573,8 +3573,11 @@ border-radius: 5px;</string>
                  <enum>QFrame::Raised</enum>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_28">
+                 <property name="rightMargin">
+                  <number>9</number>
+                 </property>
                  <item>
-                  <widget class="QFrame" name="modelNameFrame">
+                  <widget class="QFrame" name="modelHeaderFrame">
                    <property name="maximumSize">
                     <size>
                      <width>16777215</width>
@@ -3587,9 +3590,9 @@ border-radius: 5px;</string>
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
                    </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_37">
+                   <layout class="QHBoxLayout" name="horizontalLayout_10">
                     <property name="spacing">
-                     <number>0</number>
+                     <number>10</number>
                     </property>
                     <property name="leftMargin">
                      <number>0</number>
@@ -3603,29 +3606,82 @@ border-radius: 5px;</string>
                     <property name="bottomMargin">
                      <number>0</number>
                     </property>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QComboBox" name="modelNameComboBox">
-                   <property name="styleSheet">
-                    <string notr="true">font: 75 bold 16pt &quot;Gotham Rounded&quot;;
+                    <item>
+                     <widget class="QComboBox" name="modelNameComboBox_2">
+                      <property name="maximumSize">
+                       <size>
+                        <width>150</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">font: 75 bold 16pt &quot;Gotham Rounded&quot;;
 </string>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>0</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="frame">
-                    <bool>false</bool>
-                   </property>
-                   <item>
-                    <property name="text">
-                     <string>YOLOV7-100</string>
-                    </property>
-                   </item>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>0</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="frame">
+                       <bool>false</bool>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>YOLOV7-100</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_12">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="createModelBtn">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>130</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>130</width>
+                        <height>30</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color: #656565;
+border : 1px solid;
+border-radius: 5px;
+border-color:  rgb(85, 87, 83);
+font: 75 bold 12pt &quot;Gotham Rounded&quot;;
+
+QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
+                      </property>
+                      <property name="text">
+                       <string>+ Add Model</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </widget>
                  </item>
                  <item>
@@ -3738,7 +3794,7 @@ color: rgb(136, 138, 133);</string>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="stateLineEdit_2">
+                        <widget class="QLineEdit" name="stateLineEdit">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                            <horstretch>0</horstretch>
@@ -3818,7 +3874,7 @@ color: rgb(136, 138, 133);</string>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="annotatedImagesLineEdit_2">
+                        <widget class="QLineEdit" name="annotatedImagesLineEdit">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                            <horstretch>0</horstretch>
@@ -3898,7 +3954,7 @@ color: rgb(136, 138, 133);</string>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="classImbalanclineEdit_2">
+                        <widget class="QLineEdit" name="classImbalanclineEdit">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                            <horstretch>0</horstretch>
@@ -4102,6 +4158,9 @@ color: rgb(136, 138, 133);</string>
                            <width>300</width>
                            <height>16777215</height>
                           </size>
+                         </property>
+                         <property name="focusPolicy">
+                          <enum>Qt::StrongFocus</enum>
                          </property>
                          <property name="styleSheet">
                           <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;

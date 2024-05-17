@@ -97,6 +97,9 @@ class YoloAnt(QMainWindow):
             # resize notifications
             self.notificationManager.resizeNotifications()
             return False
+        if event.type() == QEvent.Type.KeyPress:
+            if event.modifiers() & QtCore.Qt.KeyboardModifier.ControlModifier and event.key() == QtCore.Qt.Key.Key_E:
+                print(object)
         return False
 
     def closeEvent(self, event) -> None:
@@ -188,6 +191,7 @@ class YoloAnt(QMainWindow):
             self.ui.projectsTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
             self.ui.infoBtn.setChecked(False)
             self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
+            self.machineLearningPage.loadPage(None)
 
     def __onPageChange(self) -> None: 
         """ Resets some application attributes on a page change """
@@ -256,11 +260,11 @@ class YoloAnt(QMainWindow):
         self.ui.editPageBtn.setChecked(not self.ui.editPageBtn.isChecked())
 
     def __setupKeyBindings(self) -> None:
-        """ Sets up some keybindings for the applicatio """
+        """ Sets up some keybindings for the application """
         # for the moment, hardcode these here - might be rebindable in some keybindings manager
-        EDIT_SHORTCUT = "Ctrl+e"
-        self.editModeShortCut = QShortcut(QKeySequence(EDIT_SHORTCUT), self)
-        self.editModeShortCut.activated.connect(self.__toggleEditMode)
+        EDIT_SHORTCUT = "Ctrl+E"
+        #self.editModeShortCut = QShortcut(QKeySequence(EDIT_SHORTCUT), self)
+        #self.editModeShortCut.activated.connect(self.__toggleEditMode)
 
 def signal_handler(sig, frame) -> None:
     """ Handles unix signals """
