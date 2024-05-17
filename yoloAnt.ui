@@ -496,7 +496,7 @@ background-color: #151515;</string>
           <enum>QFrame::Raised</enum>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="entryPage">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -3946,7 +3946,7 @@ color: rgb(136, 138, 133);</string>
                        </property>
                        <item>
                         <widget class="QLabel" name="classImbalanceLbl_2">
-                         <property name="minimumSize">z
+                         <property name="minimumSize">
                           <size>
                            <width>0</width>
                            <height>0</height>
@@ -5287,7 +5287,7 @@ color: rgb(136, 138, 133);</string>
      <x>0</x>
      <y>0</y>
      <width>1100</width>
-     <height>23</height>
+     <height>24</height>
     </rect>
    </property>
    <property name="minimumSize">
