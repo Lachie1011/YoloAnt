@@ -5,7 +5,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QFrame, QLineEdit, QPushButton, QSizePolicy, QLabel, QHBoxLayout)
 
-from customWidgets.customQObjects import *
+from customWidgets.customBaseObjects.customListItemQLineEdit import CustomListItemQLineEdit
 
 class ClassAttributesFrame(QFrame):
     """

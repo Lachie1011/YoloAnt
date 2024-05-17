@@ -12,7 +12,10 @@ from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
 from yoloAnt_ui import Ui_MainWindow
-from customWidgets.customQObjects import CustomClassQListWidget, CustomPanelQLineEdit, CustomPanelQTextEdit
+
+from customWidgets.customBaseObjects.customClassQListWidget import CustomClassQListWidget
+from customWidgets.customBaseObjects.customPanelQLineEdit import CustomPanelQLineEdit
+from customWidgets.customBaseObjects.customPanelQTextEdit import CustomPanelQTextEdit
 from customWidgets.projectClassListItemWidget import ProjectClassListItemWidget
 from customWidgets.projectImagePushButton import ProjectImagePushButton
 from dialogs.createClassDialog import CreateClassDialog

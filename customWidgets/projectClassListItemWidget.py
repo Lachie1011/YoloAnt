@@ -6,7 +6,6 @@ from PyQt6.QtGui import QCursor, QFont
 from PyQt6.QtWidgets import (QFrame, QLabel, QHBoxLayout, QLineEdit, QProgressBar, 
                              QSpacerItem, QSizePolicy, QPushButton)
 
-from customWidgets.customQObjects import *
 from dialogs.colourSelectorDialog import getColour
 
 class ProjectClassListItemWidget (QFrame):

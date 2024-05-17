@@ -10,7 +10,7 @@ from typing import Union
 from PyQt6.QtGui import QColor
 from PyQt6.QtCore import QPoint, Qt
 from PyQt6.QtWidgets import QApplication, QDialog, QGraphicsDropShadowEffect, QHBoxLayout
-from customWidgets.customQObjects import CustomUserInputQLineEdit
+from customWidgets.customBaseObjects.customUserInputQLineEdit import CustomUserInputQLineEdit
 from dialogs.ui.colourSelector_ui import Ui_colourSelector
 
 class ColourSelectorDialog(QDialog):

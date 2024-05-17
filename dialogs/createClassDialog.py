@@ -5,7 +5,7 @@
 from PyQt6.QtWidgets import QDialog, QLabel, QListWidget, QHBoxLayout
 
 from dialogs.ui.createClassDialog_ui import Ui_createClassDialog
-from customWidgets.customQObjects import CustomUserInputQLineEdit
+from customWidgets.customBaseObjects.customUserInputQLineEdit import CustomUserInputQLineEdit
 from customWidgets.projectClassListItemWidget import ProjectClassListItemWidget
 from dialogs.colourSelectorDialog import getColour
 
