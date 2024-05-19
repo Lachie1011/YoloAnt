@@ -33,6 +33,29 @@ class CreateModelDialog(QDialog):
         self.ui.importModelBtn.clicked.connect(self.__importModel)
         self.show()
 
+    def __validateUserInputs(self) -> bool:
+        """ Validates all user inputs """
+        if self.ui.modelLineEdit.text() == "":
+            return False
+        return True
+
+    def __createModel(self) -> None:
+        """ Returns new model name """
+        if not self.__validateUserInputs():
+            return
+
+        self.modelName = self.ui.modelLineEdit.text()
+
+        return self.done(1)
+    
+    def __importModel(self) -> None:
+        """ Imports existing model """
+        if not self.__validateUserInputs():
+            return
+        
+        # TODO: open file explorer, get path from exising model, verify model type from ext.
+        return
+
     def __setupPagePalette(self) -> None:
         """ Sets the colour palette for the page widgets """
         self.ui.mainFrame.setStyleSheet("QFrame{"
@@ -64,26 +87,3 @@ class CreateModelDialog(QDialog):
                                              f"background-color : {self.themePaletteColours['buttonFilled.hover']};"
                                              f"border : 1px solid {self.themePaletteColours['buttonFilled.hover']};}}")
     
-    def __validateUserInputs(self) -> bool:
-        """ Validates all user inputs """
-        if self.ui.modelLineEdit.text() == "":
-            return False
-        return True
-
-    def __createModel(self) -> None:
-        """ Returns new model name """
-        if not self.__validateUserInputs():
-            return
-
-        self.modelName = self.ui.modelLineEdit.text()
-
-        return self.done(1)
-    
-    def __importModel(self) -> None:
-        """ Imports existing model """
-        if not self.__validateUserInputs():
-            return
-        
-        # TODO: open file explorer, get path from exising model, verify model type from ext.
-        return
-
