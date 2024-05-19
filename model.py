@@ -19,14 +19,14 @@ class Model():
     def __init__(self, modelName) -> None:
         self.state = States.NOT_TRAINED 
         self.modelName = modelName
-        self.modelType = None  # perhaps these can be defaulted via settings
-        self.device = None
-        self.dimensions = None
-        self.epochs = None
-        self.batchSize = None
-        self.workers = None
+        self.modelType = "YoloV7"  # perhaps these can be defaulted via settings
+        self.device = "CPU"
+        self.dimensions = [480, 640]
+        self.epochs = "100"
+        self.batchSize = "64"
+        self.workers = "8"
 
     def isValid(self) -> bool:
         """ Validates model """
         return True
-        
+

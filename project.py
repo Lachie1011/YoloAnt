@@ -7,6 +7,7 @@ from typing import Any
 from datetime import datetime
 from PyQt6.QtGui import QColor
 
+from model import Model
 from image import Image
 from boundingBox import BoundingBox
 
@@ -29,11 +30,11 @@ class Project:
         self.datasetFilePath = None  # path to the stored list of images to be worked on
         self.annotationsFilePath = None  # path to the annotations associated with the project
         self.modelsDir = None  # path to the directory which stores all of the models
-        self.modelsFilePath = None  # path to the models info file
         
         self.imageDataset = None
         self.annotationDataset = []
         self.projectValidated = False
+        self.modelDataset = []
 
     def loadProject(self, projectDir: str) -> None:
         """ Function to load a project's metadata """
@@ -53,7 +54,6 @@ class Project:
                 self.datasetFilePath = project["datasetFilePath"]
                 self.annotationsFilePath = project["annotationsFilePath"]
                 self.modelsDir = project["modelsDir"]
-                self.modelsFilePath = project["modelsFilePath"]
                 self.projectValidated = True
             except Exception as exc:
                 print(exc)
@@ -64,7 +64,27 @@ class Project:
                 self.imageDataset = yaml.safe_load(stream)
             except Exception as exc:
                 print(exc)
-        
+
+        # load models stored
+        availableModels = os.listdir(self.modelsDir)
+        for modelFile in availableModels:
+            with open(self.modelsDir + "/" + modelFile, "r") as stream:
+                try:
+                    modelYaml = yaml.safe_load(stream)
+                    model = Model(modelYaml["Name"])
+                    model.modelType = modelYaml["Type"]
+                    model.device = modelYaml["Device"]
+                    model.dimensions = modelYaml["Dimensions"]
+                    model.epochs = modelYaml["Epochs"]
+                    model.batchSize = modelYaml["BatchSize"]
+                    model.workers = modelYaml["Workers"]
+                    if model.isValid():
+                        self.modelDataset.append(model)
+                    else:
+                        print(f"Could not load model from {modelFile}")
+                except Exception as exc:
+                    print(exc)
+
         # read annotation dataset
         with open(self.annotationsFilePath, "r") as stream:
             try:
@@ -95,7 +115,6 @@ class Project:
         projectFile = projectPath + "/project.yaml"
         annotationsFilePath = projectPath + "/annotations.yaml"
         datasetFilePath = projectPath + "/dataset.yaml"
-        modelsFilePath  = modelsDir + "/models.yaml"
 
         # create project file
         project = {"name": name,  
@@ -104,7 +123,6 @@ class Project:
                    "datasetFilePath":datasetFilePath, 
                    "annotationsFilePath":annotationsFilePath,
                    "modelsDir":modelsDir,
-                   "modelsFilePath":modelsFilePath,
                    "projectCreated":currDatetime, 
                    "lastUpdated":currDatetime }
         with open(projectFile, "x") as file:
@@ -133,15 +151,6 @@ class Project:
             except Exception as exc:
                 print(exc)
 
-
-        # create machine learning model file 
-        modelInfo = {"Project": name, "LastUpdated":currDatetime, "Models":{}} 
-        with open(modelsFilePath, "x") as file:
-            try:
-                yaml.dump(modelInfo, file, sort_keys=False, Dumper=NoAliasDumper)
-            except Exception as exc:
-                print(exc)
-
         # load project
         self.loadProject(projectPath)
 
@@ -166,7 +175,7 @@ class Project:
             self.annotationDataset.append(Image(path, boundingBoxes))          
 
     def writeAnnotations(self) -> None:
-        """ Writes out all annotations """
+        """ Writes out all annotations to disk """
         annotations = {} 
         for image in self.annotationDataset:
             if image.annotated:
@@ -182,4 +191,18 @@ class Project:
                 yaml.dump(annotationInfo, file, sort_keys=False, Dumper=NoAliasDumper)
             except Exception as exc:
                 print(exc)
+
+    def writeModels(self) -> None:
+        """ Writes out all models to disk """
+        currDatetime = datetime.now()
+        for model in self.modelDataset:
+            modelFilePath = self.modelsDir + "/" + model.modelName + ".yaml"
+            modelInfo = {"Name": model.modelName, "Type": model.modelType, "Device": model.device,
+                         "Dimensions": model.dimensions, "Epochs": model.epochs, "BatchSize": model.batchSize, 
+                         "Workers": model.workers, "LastUpdated": currDatetime}
+            with open(modelFilePath, "w") as file:
+                try:
+                    yaml.dump(modelInfo, file, sort_keys=False, Dumper=NoAliasDumper)
+                except:
+                    print(exc)
 

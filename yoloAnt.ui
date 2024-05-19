@@ -3354,8 +3354,14 @@ color: rgb(255, 255, 255);</string>
                       </property>
                       <property name="minimumSize">
                        <size>
-                        <width>110</width>
+                        <width>90</width>
                         <height>30</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>90</width>
+                        <height>16777215</height>
                        </size>
                       </property>
                       <property name="cursor">
@@ -3371,7 +3377,7 @@ font: 75 bold 12pt &quot;Gotham Rounded&quot;;
 QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
                       </property>
                       <property name="text">
-                       <string>+ Add Class</string>
+                       <string>+ Class</string>
                       </property>
                      </widget>
                     </item>
@@ -3557,7 +3563,7 @@ QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
               <item>
                <widget class="QFrame" name="MlInfoFrame">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -3571,7 +3577,7 @@ QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>800</height>
+                  <height>16777215</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -3595,6 +3601,18 @@ QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
                  </property>
                  <item>
                   <widget class="QFrame" name="modelHeaderFrame">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>50</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
                      <width>16777215</width>
@@ -3623,6 +3641,75 @@ QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
                     <property name="bottomMargin">
                      <number>0</number>
                     </property>
+                    <item>
+                     <widget class="QFrame" name="modelNameComboFrame">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>350</width>
+                        <height>50</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>350</width>
+                        <height>49</height>
+                       </size>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_28">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="createModelBtn">
+                      <property name="minimumSize">
+                       <size>
+                        <width>90</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>90</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color: #656565;
+border : 1px solid;
+border-radius: 10px;
+border-color:  rgb(85, 87, 83);
+font: 75 bold 12pt &quot;Gotham Rounded&quot;;
+
+QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
+                      </property>
+                      <property name="text">
+                       <string>+ Model</string>
+                      </property>
+                     </widget>
+                    </item>
                    </layout>
                   </widget>
                  </item>
@@ -3642,7 +3729,7 @@ QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_34">
                     <property name="spacing">
-                     <number>10</number>
+                     <number>20</number>
                     </property>
                     <property name="leftMargin">
                      <number>0</number>
@@ -3657,64 +3744,9 @@ QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QFrame" name="frame_10">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>50</height>
-                       </size>
-                      </property>
-                      <property name="frameShape">
-                       <enum>QFrame::StyledPanel</enum>
-                      </property>
-                      <property name="frameShadow">
-                       <enum>QFrame::Raised</enum>
-                      </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_23">
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <widget class="QFrame" name="modelNameComboFrame">
-                         <property name="minimumSize">
-                          <size>
-                           <width>0</width>
-                           <height>0</height>
-                          </size>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>16777215</width>
-                           <height>50</height>
-                          </size>
-                         </property>
-                         <property name="frameShape">
-                          <enum>QFrame::StyledPanel</enum>
-                         </property>
-                         <property name="frameShadow">
-                          <enum>QFrame::Raised</enum>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="verticalSpacer_13">
+                     <spacer name="verticalSpacer_15">
                       <property name="orientation">
                        <enum>Qt::Vertical</enum>
-                      </property>
-                      <property name="sizeType">
-                       <enum>QSizePolicy::Fixed</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -3758,7 +3790,7 @@ QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
                       <property name="maximumSize">
                        <size>
                         <width>16777215</width>
-                        <height>40</height>
+                        <height>30</height>
                        </size>
                       </property>
                       <property name="frameShape">
@@ -3785,7 +3817,7 @@ QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
                          <property name="minimumSize">
                           <size>
                            <width>0</width>
-                           <height>0</height>
+                           <height>30</height>
                           </size>
                          </property>
                          <property name="maximumSize">
@@ -3805,6 +3837,12 @@ color: rgb(136, 138, 133);</string>
                        </item>
                        <item>
                         <widget class="QFrame" name="stateInfoFrame">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>30</height>
+                          </size>
+                         </property>
                          <property name="frameShape">
                           <enum>QFrame::StyledPanel</enum>
                          </property>
@@ -3840,7 +3878,7 @@ color: rgb(136, 138, 133);</string>
                       <property name="maximumSize">
                        <size>
                         <width>16777215</width>
-                        <height>40</height>
+                        <height>30</height>
                        </size>
                       </property>
                       <property name="frameShape">
@@ -3867,7 +3905,7 @@ color: rgb(136, 138, 133);</string>
                          <property name="minimumSize">
                           <size>
                            <width>0</width>
-                           <height>0</height>
+                           <height>30</height>
                           </size>
                          </property>
                          <property name="maximumSize">
@@ -3887,6 +3925,12 @@ color: rgb(136, 138, 133);</string>
                        </item>
                        <item>
                         <widget class="QFrame" name="imagesAnnoInfoFrame">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>30</height>
+                          </size>
+                         </property>
                          <property name="frameShape">
                           <enum>QFrame::StyledPanel</enum>
                          </property>
@@ -3922,7 +3966,7 @@ color: rgb(136, 138, 133);</string>
                       <property name="maximumSize">
                        <size>
                         <width>16777215</width>
-                        <height>40</height>
+                        <height>30</height>
                        </size>
                       </property>
                       <property name="frameShape">
@@ -3949,7 +3993,7 @@ color: rgb(136, 138, 133);</string>
                          <property name="minimumSize">
                           <size>
                            <width>0</width>
-                           <height>0</height>
+                           <height>30</height>
                           </size>
                          </property>
                          <property name="maximumSize">
@@ -3969,6 +4013,12 @@ color: rgb(136, 138, 133);</string>
                        </item>
                        <item>
                         <widget class="QFrame" name="classImbalInforFrame">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>30</height>
+                          </size>
+                         </property>
                          <property name="frameShape">
                           <enum>QFrame::StyledPanel</enum>
                          </property>
@@ -3998,13 +4048,13 @@ color: rgb(136, 138, 133);</string>
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
-                        <height>25</height>
+                        <height>30</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
                         <width>16777215</width>
-                        <height>50</height>
+                        <height>30</height>
                        </size>
                       </property>
                       <property name="frameShape">
@@ -4034,7 +4084,13 @@ color: rgb(136, 138, 133);</string>
                          <property name="minimumSize">
                           <size>
                            <width>0</width>
-                           <height>0</height>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>30</height>
                           </size>
                          </property>
                          <property name="styleSheet">
@@ -4054,22 +4110,6 @@ color: rgb(136, 138, 133);</string>
                     </item>
                    </layout>
                   </widget>
-                 </item>
-                 <item>
-                  <spacer name="verticalSpacer_15">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>20</width>
-                     <height>60</height>
-                    </size>
-                   </property>
-                  </spacer>
                  </item>
                  <item>
                   <widget class="QFrame" name="parametersframe_2">
@@ -4099,6 +4139,22 @@ color: rgb(136, 138, 133);</string>
                      <number>0</number>
                     </property>
                     <item>
+                     <spacer name="verticalSpacer_13">
+                      <property name="orientation">
+                       <enum>Qt::Vertical</enum>
+                      </property>
+                      <property name="sizeType">
+                       <enum>QSizePolicy::Fixed</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>20</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
                      <widget class="QLabel" name="parameterLbl_2">
                       <property name="minimumSize">
                        <size>
@@ -4122,84 +4178,6 @@ color: rgb(136, 138, 133);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QFrame" name="nameFrame_2">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true"/>
-                      </property>
-                      <property name="frameShape">
-                       <enum>QFrame::StyledPanel</enum>
-                      </property>
-                      <property name="frameShadow">
-                       <enum>QFrame::Raised</enum>
-                      </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_42">
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <widget class="QLabel" name="nameLbl_2">
-                         <property name="minimumSize">
-                          <size>
-                           <width>150</width>
-                           <height>0</height>
-                          </size>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">font: 75 bold 12pt &quot;Gotham Rounded&quot;;
-color: rgb(136, 138, 133);</string>
-                         </property>
-                         <property name="text">
-                          <string>Model Name:</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QFrame" name="modelNameInputFrame">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="minimumSize">
-                          <size>
-                           <width>300</width>
-                           <height>30</height>
-                          </size>
-                         </property>
-                         <property name="frameShape">
-                          <enum>QFrame::StyledPanel</enum>
-                         </property>
-                         <property name="frameShadow">
-                          <enum>QFrame::Raised</enum>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
                      <widget class="QFrame" name="modelTypeFrame_2">
                       <property name="minimumSize">
                        <size>
@@ -4210,7 +4188,7 @@ color: rgb(136, 138, 133);</string>
                       <property name="maximumSize">
                        <size>
                         <width>16777215</width>
-                        <height>16777215</height>
+                        <height>30</height>
                        </size>
                       </property>
                       <property name="frameShape">
@@ -4257,6 +4235,12 @@ color: rgb(136, 138, 133);</string>
                          <property name="minimumSize">
                           <size>
                            <width>300</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
                            <height>30</height>
                           </size>
                          </property>
@@ -4402,6 +4386,12 @@ color: rgb(136, 138, 133);</string>
                           <size>
                            <width>300</width>
                            <height>0</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>40</height>
                           </size>
                          </property>
                          <property name="styleSheet">
@@ -4835,23 +4825,7 @@ color: rgb(136, 138, 133);</string>
                   </widget>
                  </item>
                  <item>
-                  <spacer name="verticalSpacer_16">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>20</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QFrame" name="frame_7">
+                  <widget class="QFrame" name="trainFrame">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -4897,13 +4871,13 @@ color: rgb(136, 138, 133);</string>
                      <widget class="QPushButton" name="trainBtn">
                       <property name="minimumSize">
                        <size>
-                        <width>110</width>
+                        <width>70</width>
                         <height>30</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>110</width>
+                        <width>70</width>
                         <height>30</height>
                        </size>
                       </property>
@@ -4928,19 +4902,6 @@ QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
                   </widget>
                  </item>
                  <item>
-                  <spacer name="verticalSpacer_17">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>20</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
                   <spacer name="verticalSpacer_11">
                    <property name="orientation">
                     <enum>Qt::Vertical</enum>
@@ -4955,19 +4916,6 @@ QPushButton::hover{background-color : rgb(105, 105, 105); }</string>
                  </item>
                 </layout>
                </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_18">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
               </item>
              </layout>
             </widget>
