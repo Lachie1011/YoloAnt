@@ -36,8 +36,9 @@ class CreateClassDialog(QDialog):
         # Connect signals and slots
         self.ui.classColourBtn.clicked.connect(lambda: self.__selectColour())
         self.ui.createClassBtn.clicked.connect(lambda: self.createClass(numOfClasses))
-
+        
         self.show()
+
     def __setupPagePalette(self) -> None:
         """ Sets the colour palette for the page widgets """
         self.ui.mainFrame.setStyleSheet("QFrame{"
