@@ -17,11 +17,13 @@ class AnnotationCanvasWidget(QGraphicsView):
     def __init__(self, parent):
         super(AnnotationCanvasWidget, self).__init__(parent)
 
+        self.app = None  # TODO: wanted to avoid passing in app, but not sure how else to get the next annotation ID 
+
         # Attributes
         self.image = None
         self.rectBegin = None
         self.rectEnd = None
-        self.imagePath = None  #TODO: this will need to be on each new image
+        self.imagePath = None
         self.rects = []  # QGraphicsRectItem list of bounding boxes
 
         # Annotation canvas attributes
@@ -61,7 +63,7 @@ class AnnotationCanvasWidget(QGraphicsView):
 
         # Create rectangles from bounding boxes
         for boundingBox in self.image.boundingBoxes:
-            self.createRect(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, boundingBox.colour, True, True)
+            self.createRect(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, boundingBox.colour, boundingBox.className, boundingBox.id, True, True)
         
         self.resetScene()
 
@@ -84,14 +86,20 @@ class AnnotationCanvasWidget(QGraphicsView):
             return
         boundingBoxes = []
         for rect in self.rects:
-            boundingBox = BoundingBox(rect.x() + rect.rect().x(), rect.y() + rect.rect().y(), rect.rect().width(), rect.rect().height(), rect.classColour)
+            boundingBox = BoundingBox(rect.x() + rect.rect().x(),
+                                      rect.y() + rect.rect().y(),
+                                      rect.rect().width(),
+                                      rect.rect().height(),
+                                      rect.classColour,
+                                      rect.className,
+                                      rect.id)
             boundingBoxes.append(boundingBox)
         self.image.updateBoundingBoxes(boundingBoxes)
 
-    def createRect(self, x: float, y: float, width: float, height: float, colour, store: bool, reload: bool):
+    def createRect(self, x: float, y: float, width: float, height: float, colour, className: str, id: int, store: bool, reload: bool):
         """ Creates a rectangle based on mouse location and adds the rectangle to the scene """
         # Creating the rectangle
-        rect = CustomRectangleGraphicsItem(x, y, width, height, self.scene, colour, self)
+        rect = CustomRectangleGraphicsItem(x, y, width, height, self.scene, colour, className, id, self)
         self.scene.addItem(rect)
         if store:
             # Add rect to list
@@ -111,7 +119,15 @@ class AnnotationCanvasWidget(QGraphicsView):
         # Only add rectangle if in annotation mode
         if self.mode == Tools.annotationTool:
             self.resetScene()
-            self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), self.currentClassColour, False, False)
+            self.createRect(self.rectBegin.x(),
+                            self.rectBegin.y(),
+                            abs(self.rectEnd.x() - self.rectBegin.x()),
+                            abs(self.rectEnd.y() - self.rectBegin.y()),
+                            self.currentClassColour,
+                            self.currentClassName,
+                            None,
+                            False,
+                            False)
 
     def mouseReleaseEvent(self, event):
         """ Event to capture mouse release and update rect coords """
@@ -120,7 +136,15 @@ class AnnotationCanvasWidget(QGraphicsView):
         # Only add rectangle if in annotation mode
         if self.mode == Tools.annotationTool:
             self.resetScene()
-            self.createRect(self.rectBegin.x(), self.rectBegin.y(), abs(self.rectEnd.x() - self.rectBegin.x()), abs(self.rectEnd.y() - self.rectBegin.y()), self.currentClassColour, True, False) 
+            self.createRect(self.rectBegin.x(),
+                            self.rectBegin.y(),
+                            abs(self.rectEnd.x() - self.rectBegin.x()),
+                            abs(self.rectEnd.y() - self.rectBegin.y()),
+                            self.currentClassColour,
+                            self.currentClassName,
+                            self.app.project.getNextAnnotationID(),
+                            True,
+                            False) 
  
         # update image reference to bounding box list 
         self.generateBoundingBoxes()

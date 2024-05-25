@@ -40,6 +40,7 @@ class Project:
         self.projectValidated = False
         self.modelDataset = []
         self.projectFile = None
+        self.highestID = 0
 
     def loadProject(self, projectDir: str) -> None:
         """ Function to load a project's metadata """
@@ -200,9 +201,19 @@ class Project:
                                                      QColor(annotation[4][0], 
                                                             annotation[4][1],
                                                             annotation[4][2],
-                                                            annotation[4][3])))
-            
+                                                            annotation[4][3]),
+                                                     annotation[5],
+                                                     int(annotation[6])))
+                    if int(annotation[6]) > self.highestID:
+                        self.highestID = int(annotation[6])
+
             self.annotationDataset.append(Image(path, boundingBoxes))          
+
+    def getNextAnnotationID(self) -> int:
+        """ Returns the next ID to be used for an annotation """
+        nextID = self.highestID + 1
+        self.highestID = nextID
+        return nextID
 
     def writeProject(self) -> None:
         """ Write project out to disk """
@@ -249,7 +260,7 @@ class Project:
             if image.annotated:
                 boundingBoxes = []
                 for boundingBox in image.boundingBoxes:
-                    boundingBoxes.append([boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, boundingBox.colour.getRgb()])
+                    boundingBoxes.append([boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, boundingBox.colour.getRgb(), boundingBox.className, boundingBox.id])
                 annotations.update({image.path:boundingBoxes})
         
         currDatetime = datetime.now() 

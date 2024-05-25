@@ -42,6 +42,9 @@ class AnnotationPage():
         # TODO: fix up app type to yoloant app involes add future annotations and some if typing
         self.app = app
         self.ui = app.ui
+
+        self.ui.annotationCanvasWidget.app = app
+
         self.__setupStyleSheet()
         self.__setupPagePalette()
 
@@ -51,6 +54,7 @@ class AnnotationPage():
         
         # Dict to hold the unannotatedImages TODO: probs could be made into some kind of Kd tree to make searching faster
         self.unannotatedImages = {}
+
         # Connecting signals and slots for the page
         self.__connectIconHover()
         self.__connectAnnotationToolButtons()
@@ -77,6 +81,8 @@ class AnnotationPage():
     def __populateWidgets(self) -> None:
         """ Populates the widgets for the page """
         self.updateAnnotationToolSelected(Tools.mouseTool)
+
+        self.annotationClassSelectionWidget.classSelectionListWidget.clear()
         for mlClass in self.app.project.classesDataset:
             self.annotationClassSelectionWidget.addClassSelectionListItem(mlClass.className, mlClass.classColour)
 
