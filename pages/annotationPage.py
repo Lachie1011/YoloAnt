@@ -10,10 +10,12 @@ from PyQt6.QtGui import QCursor, QIcon, QColor
 from PyQt6.QtWidgets import QApplication, QGraphicsDropShadowEffect
 
 from yoloAnt_ui import Ui_MainWindow
+
+from mlClass import MLClass
 from image import Image
 from events.hoverEvent import HoverEvent
 from events.resizeEvent import ResizeEvent
-
+from dialogs.createClassDialog import CreateClassDialog
 from customWidgets.annotationClassSelectionWidget import AnnotationClassSelectionWidget
 
 class NavigationModes(Enum):
@@ -61,6 +63,7 @@ class AnnotationPage():
         self.__connectImageNavigationButtons()
 
         # Connect signals and slots
+        self.annotationClassSelectionWidget.classAddAnnoPageBtn.clicked.connect(self.__openCreateClassDialog)
         self.ui.editPageBtn.toggled.connect(lambda toggled: self.annotationClassSelectionWidget.classSelectionListWidget.setEditMode(toggled))
 
     def loadPage(self):
@@ -194,6 +197,15 @@ class AnnotationPage():
         if annotationStatusTxt:
             self.app.ui.annotationStatusLbl.setText(annotationStatusTxt)
             self.app.ui.statusColourIndicatorLbl.setStyleSheet(annotationStatusColour)
+
+    def __openCreateClassDialog(self) -> None:
+        """ Opens the create class dialog """
+        self.createClassDialog = CreateClassDialog(self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeHeader)
+        self.createClassDialog.exec()
+        if self.createClassDialog.isValid:
+            mlClass = MLClass(self.createClassDialog.className, self.createClassDialog.selectedColour)
+            self.app.project.classesDataset.append(mlClass) 
+            self.__populateWidgets()
 
     def __setupPagePalette(self) -> None:
         """ Sets the colour palette for the page widgets """  

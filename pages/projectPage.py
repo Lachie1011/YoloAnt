@@ -51,7 +51,7 @@ class ProjectPage():
         # Connect tracked editable widgets
         self.__connectTrackedEditableWidgets()
 
-    def __populateFields(self) -> None:
+    def __populateWidgets(self) -> None:
         """ Populates the fields for the project page from the project.yaml """
         self.projectNameLineEdit.setText(self.app.project.name)
         self.projectDescriptionEdit.setText(self.app.project.description)
@@ -74,7 +74,7 @@ class ProjectPage():
     def loadPage(self) -> None:
         """ Loads all information and functionality """
         if self.app.project:
-            self.__populateFields()
+            self.__populateWidgets()
             self.__createPlot()
 
     def __updateProjectIcon(self) -> None:
@@ -145,7 +145,7 @@ class ProjectPage():
         if self.createClassDialog.isValid:
             mlClass = MLClass(self.createClassDialog.className, self.createClassDialog.selectedColour)
             self.app.project.classesDataset.append(mlClass) 
-            self.__populateFields()
+            self.__populateWidgets()
 
     def setEditMode(self, toggled) -> None:
         """ Enables edit mode for the project page """

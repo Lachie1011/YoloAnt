@@ -58,7 +58,7 @@ class AnnotationClassSelectionWidget(QFrame):
                                                f"background-color : {self.themePaletteColours['buttonFilled.hover']};"
                                                f"color: {self.themePaletteColours['font.header']};}}")
         self.classAddAnnoPageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.classAddAnnoPageBtn.setText('+ Add Class')
+        self.classAddAnnoPageBtn.setText('+ Class')
         self.classAddAnnoPageBtn.setFixedHeight(25)
 
         # Apply layout to utility frame
