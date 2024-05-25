@@ -26,8 +26,8 @@ class AnnotationCanvasWidget(QGraphicsView):
 
         # Annotation canvas attributes
         self.mode = Tools.mouseTool
-        self.currentClassName = ""
-        self.currentClassColour = QColor(0,0,0)
+        self.currentClassName = None
+        self.currentClassColour = None
 
         # Setting alignment
         self.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)

@@ -189,7 +189,6 @@ class AnnotationPage():
             self.app.ui.annotationStatusLbl.setText(annotationStatusTxt)
             self.app.ui.statusColourIndicatorLbl.setStyleSheet(annotationStatusColour)
 
-
     def __setupPagePalette(self) -> None:
         """ Sets the colour palette for the page widgets """  
         self.ui.imageFrame.setStyleSheet(self.ui.imageFrame.styleSheet() +
@@ -278,6 +277,17 @@ class AnnotationPage():
             self.ui.annotationCanvasWidget.mode = Tools.mouseTool
 
         if tool is Tools.annotationTool:
+            if len(self.app.project.classesDataset) == 0:
+                # A class is required to perform annotations
+                self.app.notificationManager.raiseNotification("Please add a class before annotating")
+                self.updateAnnotationToolSelected(Tools.mouseTool)
+                return
+            if self.ui.annotationCanvasWidget.currentClassName is None:
+                # A class is required to be selected to perform annotations TODO: maybe in future default selected class
+                self.app.notificationManager.raiseNotification("Please select a class before annotating")
+                self.updateAnnotationToolSelected(Tools.mouseTool)
+                return
+
             # updating checked state
             self.ui.annotateToolBtn.setChecked(True)
             self.ui.annotateToolBtn.setIcon(QIcon("icons/bounding.active.png"))
