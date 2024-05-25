@@ -1,13 +1,15 @@
 """
     customPanelQTextEdit.py
 """
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, pyqtSignal as Signal 
 from PyQt6.QtWidgets import QTextEdit
 
 class CustomPanelQTextEdit(QTextEdit):
     """
         Class that creates a custom text edit widget for application panel
     """
+    editingFinished = Signal() 
+
     def __init__(self, themePaletteColours, fontType):
         super().__init__()
         self.editableState = False
@@ -56,6 +58,7 @@ class CustomPanelQTextEdit(QTextEdit):
         if self.editableState:
             super().focusOutEvent(event)
             self.__editableStyleSheet()
+            self.editingFinished.emit()
 
     def setEditMode(self, toggled) -> None:
         """ Sets the edit mode of the widget """

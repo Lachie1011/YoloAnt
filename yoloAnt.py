@@ -106,6 +106,8 @@ class YoloAnt(QMainWindow):
         """ Overrides the close event on the main window """
         # Save annotations
         if self.project:
+            self.project.writeProject()
+            self.project.writeClasses()
             self.project.writeModels()
             self.project.writeAnnotations()
 

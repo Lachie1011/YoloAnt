@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import (QFrame, QLabel, QHBoxLayout, QLineEdit, QProgressBa
                              QSpacerItem, QSizePolicy, QPushButton)
 
 from dialogs.colourSelectorDialog import getColour
+from customWidgets.customBaseObjects.customPanelQLineEdit import CustomPanelQLineEdit
 
 class ProjectClassListItemWidget (QFrame):
     """
@@ -30,6 +31,9 @@ class ProjectClassListItemWidget (QFrame):
         self.className = className
         self.numOfAnnotations = numOfAnnotations
         self.numClassAnnotations = numClassAnnotations
+        if self.numOfAnnotations == 0:
+            self.numOfAnnotations = 1  # this prevents (initially) the busy animation from playing on the QProgressBar
+
         self.themePaletteColours = themePaletteColours
 
         self.editEnabled = False
@@ -55,7 +59,7 @@ class ProjectClassListItemWidget (QFrame):
         self.classColourButton.setFixedHeight(18)
 
         # Class name line edit
-        self.classItemLineEdit = PanelQLineEdit(self.themePaletteColours, f"font: 75 12pt {self.fontRegular};")
+        self.classItemLineEdit = CustomPanelQLineEdit(self.themePaletteColours, f"font: 75 12pt {self.fontRegular};")
         self.classItemLineEdit.editingFinished.connect(lambda: self.setClassName(self.classItemLineEdit.text()))
         self.classItemLineEdit.setText(self.className)
         self.classItemLineEdit.setMinimumSize(100, 30)
@@ -180,3 +184,4 @@ class ProjectClassListItemWidget (QFrame):
                                                 f"border: 3px solid {self.themePaletteColours['listItemButton.background']}}}"
                                                 f"QPushButton:hover{{border-color: {self.themePaletteColours['listItemButton.hover']}}}")
             self.classColourButton.repaint()
+

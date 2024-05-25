@@ -7,6 +7,7 @@ from typing import Any
 from datetime import datetime
 from PyQt6.QtGui import QColor
 
+from mlClass import MLClass
 from model import Model
 from image import Image
 from boundingBox import BoundingBox
@@ -28,13 +29,17 @@ class Project:
         self.description = None
         self.datasetDir = None  # path to the directory that contains all of the images
         self.datasetFilePath = None  # path to the stored list of images to be worked on
+        self.imageIconPath = None  # path to the icon used for the project
         self.annotationsFilePath = None  # path to the annotations associated with the project
         self.modelsDir = None  # path to the directory which stores all of the models
-        
-        self.imageDataset = None
+        self.projectCreated = None  # datetime of project creation
+
+        self.imageDataset = []
+        self.classesDataset = []
         self.annotationDataset = []
         self.projectValidated = False
         self.modelDataset = []
+        self.projectFile = None
 
     def loadProject(self, projectDir: str) -> None:
         """ Function to load a project's metadata """
@@ -44,16 +49,21 @@ class Project:
 
         #TODO: Add some project validation: dataset.yaml exists, annotations.yaml exists, hash over dataset file is same as stored
 
+        self.projectFile = projectDir + "/project.yaml"
+
         # attempt to load project yaml
-        with open(projectDir + "/project.yaml", "r") as stream:
+        with open(self.projectFile, "r") as stream:
             try:
                 project = yaml.safe_load(stream)
-                self.name = project["name"]
-                self.description = project["description"]
-                self.datasetDir = project["datasetDir"]
-                self.datasetFilePath = project["datasetFilePath"]
-                self.annotationsFilePath = project["annotationsFilePath"]
-                self.modelsDir = project["modelsDir"]
+                self.name = project["Name"]
+                self.description = project["Description"]
+                self.datasetDir = project["DatasetDir"]
+                self.datasetFilePath = project["DatasetFilePath"]
+                self.classesFilePath = project["ClassesFilePath"]
+                self.imageIconPath = project["ImageIconPath"]
+                self.annotationsFilePath = project["AnnotationsFilePath"]
+                self.modelsDir = project["ModelsDir"]
+                self.projectCreated = project["ProjectCreated"]
                 self.projectValidated = True
             except Exception as exc:
                 print(exc)
@@ -62,6 +72,16 @@ class Project:
         with open(self.datasetFilePath, "r") as stream:
             try:
                 self.imageDataset = yaml.safe_load(stream)
+            except Exception as exc:
+                print(exc)
+
+        # load classes from project
+        with open(self.classesFilePath, "r") as stream:
+            try:
+                classesYaml = yaml.safe_load(stream)
+                classes = classesYaml["Classes"]
+                for mlClass in classes:
+                    self.classesDataset.append(MLClass(mlClass[0], tuple(mlClass[1])))
             except Exception as exc:
                 print(exc)
 
@@ -115,16 +135,19 @@ class Project:
         projectFile = projectPath + "/project.yaml"
         annotationsFilePath = projectPath + "/annotations.yaml"
         datasetFilePath = projectPath + "/dataset.yaml"
+        classesFilePath = projectPath + "/classes.yaml"
 
         # create project file
-        project = {"name": name,  
-                   "description": "TODO", 
-                   "datasetDir": dataset, 
-                   "datasetFilePath":datasetFilePath, 
-                   "annotationsFilePath":annotationsFilePath,
-                   "modelsDir":modelsDir,
-                   "projectCreated":currDatetime, 
-                   "lastUpdated":currDatetime }
+        project = {"Name": name,  
+                   "Description": "", 
+                   "DatasetDir": dataset, 
+                   "DatasetFilePath":datasetFilePath,
+                   "ClassesFilePath":classesFilePath,
+                   "ImageIconPath": "",
+                   "AnnotationsFilePath":annotationsFilePath,
+                   "ModelsDir":modelsDir,
+                   "ProjectCreated":currDatetime, 
+                   "LastUpdated":currDatetime }
         with open(projectFile, "x") as file:
             try:
                 yaml.dump(project, file, sort_keys=False, Dumper=NoAliasDumper)  # Dont want sorting present
@@ -143,6 +166,14 @@ class Project:
             except Exception as exc:
                 print(exc)
 
+        # create classes file
+        classesInfo = {"Classes":[], "LastUpdated":currDatetime}
+        with open(classesFilePath, "x") as file:
+            try:
+                yaml.dump(classesInfo, file, sort_keys=False, Dumper=NoAliasDumper)
+            except:
+                print(exc)
+
         # create annotations file
         annotationInfo = {"Project": name, "LastUpdated":currDatetime, "Annotations":{}}
         with open(annotationsFilePath, "x") as file:
@@ -150,7 +181,6 @@ class Project:
                 yaml.dump(annotationInfo, file, sort_keys=False, Dumper=NoAliasDumper)
             except Exception as exc:
                 print(exc)
-
         # load project
         self.loadProject(projectPath)
 
@@ -174,6 +204,44 @@ class Project:
             
             self.annotationDataset.append(Image(path, boundingBoxes))          
 
+    def writeProject(self) -> None:
+        """ Write project out to disk """
+        if not self.projectValidated:
+            return
+
+        currDatetime = datetime.now()
+        
+        # create project file
+        projectInfo = {"Name": self.name,  
+                   "Description": self.description, 
+                   "DatasetDir": self.datasetDir, 
+                   "DatasetFilePath":self.datasetFilePath,
+                   "ClassesFilePath":self.classesFilePath,
+                   "ImageIconPath": self.imageIconPath,
+                   "AnnotationsFilePath":self.annotationsFilePath,
+                   "ModelsDir":self.modelsDir,
+                   "ProjectCreated":self.projectCreated, 
+                   "LastUpdated":currDatetime }
+
+        with open(self.projectFile, "w") as file:
+            try:
+                yaml.dump(projectInfo, file, sort_keys=False, Dumper=NoAliasDumper)  # Dont want sorting present
+            except Exception as exc:
+                print(exc)
+    
+    def writeClasses(self) -> None:
+        """ Writes all classes out to disk """
+        currDatetime = datetime.now()
+        mlClasses = []
+        for mlClass in self.classesDataset:
+            mlClasses.append([mlClass.className, mlClass.classColour])
+        classesInfo = {"Classes":mlClasses, "LastUpdated":currDatetime}
+        with open(self.classesFilePath, "w") as file:
+            try:
+                yaml.dump(classesInfo, file, sort_keys=False, Dumper=NoAliasDumper)
+            except Exception as exc:
+                print(exc)
+
     def writeAnnotations(self) -> None:
         """ Writes out all annotations to disk """
         annotations = {} 
@@ -181,7 +249,7 @@ class Project:
             if image.annotated:
                 boundingBoxes = []
                 for boundingBox in image.boundingBoxes:
-                    boundingBoxes.append([boundingBox.x, boundingBox.y, boundingBox.height, boundingBox.width, boundingBox.colour.getRgb()])
+                    boundingBoxes.append([boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, boundingBox.colour.getRgb()])
                 annotations.update({image.path:boundingBoxes})
         
         currDatetime = datetime.now() 
@@ -197,9 +265,14 @@ class Project:
         currDatetime = datetime.now()
         for model in self.modelDataset:
             modelFilePath = self.modelsDir + "/" + model.modelName + ".yaml"
-            modelInfo = {"Name": model.modelName, "Type": model.modelType, "Device": model.device,
-                         "Dimensions": model.dimensions, "Epochs": model.epochs, "BatchSize": model.batchSize, 
-                         "Workers": model.workers, "LastUpdated": currDatetime}
+            modelInfo = {"Name": model.modelName,
+                         "Type": model.modelType,
+                         "Device": model.device,
+                         "Dimensions": model.dimensions,
+                         "Epochs": model.epochs,
+                         "BatchSize": model.batchSize,
+                         "Workers": model.workers,
+                         "LastUpdated": currDatetime}
             with open(modelFilePath, "w") as file:
                 try:
                     yaml.dump(modelInfo, file, sort_keys=False, Dumper=NoAliasDumper)

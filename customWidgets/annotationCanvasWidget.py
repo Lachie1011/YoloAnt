@@ -94,9 +94,10 @@ class AnnotationCanvasWidget(QGraphicsView):
         rect = CustomRectangleGraphicsItem(x, y, width, height, self.scene, colour, self)
         self.scene.addItem(rect)
         if store:
-            # Adding rect to list
+            # Add rect to list
             self.rects.append(rect)
-    
+            # Add rect to annotation manager widget
+
     def mousePressEvent(self, event):
         """ Event to capture mouse press and update rect coords """
         super(AnnotationCanvasWidget, self).mousePressEvent(event)

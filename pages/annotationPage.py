@@ -61,6 +61,8 @@ class AnnotationPage():
 
     def loadPage(self):
         """ Loads all information and functionality """ 
+        self.__populateWidgets()
+
         if len(self.app.project.annotationDataset) < 0:
             self.app.notificationManager.raiseNotification("Dataset contains no images")
             return
@@ -71,6 +73,12 @@ class AnnotationPage():
             self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[self.currentIndex])
             self.__updateImageInformationPanel()
             self.pageInitialised = True
+
+    def __populateWidgets(self) -> None:
+        """ Populates the widgets for the page """
+        self.updateAnnotationToolSelected(Tools.mouseTool)
+        for mlClass in self.app.project.classesDataset:
+            self.annotationClassSelectionWidget.addClassSelectionListItem(mlClass.className, mlClass.classColour)
 
     def __connectImageNavigationButtons(self):
         """ Connects the buttons used to navigate throughout the canvas"""
@@ -252,13 +260,15 @@ class AnnotationPage():
     
     def __connectAnnotationToolButtons(self) -> None:
         """ Connects the annotation buttons to update the mouse icon as well as checked state """
-        self.ui.mouseToolBtn.clicked.connect(lambda: self.__connectAnnotationToolSelected(Tools.mouseTool))
-        self.ui.annotateToolBtn.clicked.connect(lambda: self.__connectAnnotationToolSelected(Tools.annotationTool))
+        self.ui.mouseToolBtn.clicked.connect(lambda: self.updateAnnotationToolSelected(Tools.mouseTool))
+        self.ui.annotateToolBtn.clicked.connect(lambda: self.updateAnnotationToolSelected(Tools.annotationTool))
 
-    def __connectAnnotationToolSelected(self, tool: Tools) -> None:
+    def updateAnnotationToolSelected(self, tool: Tools) -> None:
         """ Updates the mouse icon based on selected tool """
         if tool is Tools.mouseTool:
             # updating checked state
+            self.ui.mouseToolBtn.setChecked(True)
+            self.ui.mouseToolBtn.setIcon(QIcon("icons/cursor-active.png")) 
             self.ui.annotateToolBtn.setChecked(False)
             self.ui.annotateToolBtn.setIcon(QIcon("icons/bounding-inactive.png"))
             # update mouse icon
@@ -269,6 +279,8 @@ class AnnotationPage():
 
         if tool is Tools.annotationTool:
             # updating checked state
+            self.ui.annotateToolBtn.setChecked(True)
+            self.ui.annotateToolBtn.setIcon(QIcon("icons/bounding.active.png"))
             self.ui.mouseToolBtn.setChecked(False)
             self.ui.mouseToolBtn.setIcon(QIcon("icons/cursor-inactive.png"))
             # update mouse icon
@@ -276,3 +288,4 @@ class AnnotationPage():
 
             # Updating annotationCanvasWidget mode
             self.ui.annotationCanvasWidget.mode = Tools.annotationTool
+

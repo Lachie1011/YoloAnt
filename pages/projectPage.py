@@ -2,10 +2,11 @@
     projectPage.py
 """
 
+import cv2
 import sys
 
 from PyQt6 import QtWidgets, QtCore, QtGui
-from PyQt6.QtWidgets import QListWidget, QSizePolicy, QVBoxLayout, QSpacerItem, QGraphicsDropShadowEffect, QHBoxLayout
+from PyQt6.QtWidgets import QListWidget, QSizePolicy, QVBoxLayout, QSpacerItem, QGraphicsDropShadowEffect, QHBoxLayout, QFileDialog
 from PyQt6.QtGui import QCursor, QFont, QColor, QIcon
 from pyqtgraph import PlotWidget, plot
 
@@ -13,6 +14,7 @@ import pyqtgraph as pg
 
 from yoloAnt_ui import Ui_MainWindow
 
+from mlClass import MLClass
 from customWidgets.customBaseObjects.customClassQListWidget import CustomClassQListWidget
 from customWidgets.customBaseObjects.customPanelQLineEdit import CustomPanelQLineEdit
 from customWidgets.customBaseObjects.customPanelQTextEdit import CustomPanelQTextEdit
@@ -39,10 +41,119 @@ class ProjectPage():
         self.__createClassList()
 
         self.numOfClasses = 30
+        self.readOnly = True
 
         # Connect signals and slots
         self.ui.addClassBtn.clicked.connect(lambda: self.__instantiateCreateClassDialog())
         self.ui.editPageBtn.toggled.connect(lambda toggled: self.setEditMode(toggled))
+        self.projectImageBtn.clicked.connect(lambda: self.__updateProjectIcon())
+
+        # Connect tracked editable widgets
+        self.__connectTrackedEditableWidgets()
+
+    def __populateFields(self) -> None:
+        """ Populates the fields for the project page from the project.yaml """
+        self.projectNameLineEdit.setText(self.app.project.name)
+        self.projectDescriptionEdit.setText(self.app.project.description)
+        if self.app.project.imageIconPath:
+            self.__setProjectIcon(self.app.project.imageIconPath)
+        self.__updateClassList()
+        
+    def __updateClassList(self) -> None:
+        self.classListWidget.clear()
+        for mlClass in self.app.project.classesDataset:
+            classListItem = ProjectClassListItemWidget(mlClass.className,
+                                                       0,
+                                                       0,
+                                                       mlClass.classColour,
+                                                       self.app.theme.colours,
+                                                       self.app.fontTypeRegular,
+                                                       self.app.fontTypeHeader)
+            self.classListWidget.addItemToListWidget(classListItem)
+
+    def loadPage(self) -> None:
+        """ Loads all information and functionality """
+        if self.app.project:
+            self.__populateFields()
+            self.__createPlot()
+
+    def __updateProjectIcon(self) -> None:
+        """ Updates the projects icon """
+        if self.readOnly:
+            return
+        # ERROR: For some reason when trying to use the native dialog - it hangs the app - tf??
+        # Something to do with threading and the COM connection maybe?? 
+        iconPath = QFileDialog.getOpenFileName(self.app, caption="Select Project Icon", options=QFileDialog.Option.DontUseNativeDialog) 
+        self.__setProjectIcon(iconPath[0])
+
+    def __setProjectIcon(self, iconPath) -> None:
+        """ Sets the projects icon """
+        if (iconPath is not None):
+            image = cv2.imread(iconPath)
+            if image is not None:
+                self.projectImageBtn.setIcon(QtGui.QIcon(iconPath))
+                self.projectImageBtn.setIconSize(QtCore.QSize(140,140))
+                self.app.project.imageIconPath = iconPath
+
+    def __connectTrackedEditableWidgets(self) -> None:
+        """ Connects tracked editable widgets """
+        self.projectNameLineEdit.editingFinished.connect(self.__updateProjectName)
+        self.projectDescriptionEdit.editingFinished.connect(self.__updateProjectDescription)
+
+    def __updateProjectName(self) -> None:
+        """ Updates the project name """
+        # Note this only updates the project yaml and in app, the project dir still remains the setObjectName
+        if self.app.project:
+            self.app.project.name = self.projectNameLineEdit.text()
+
+    def __updateProjectDescription(self) -> None:
+        """ Updates the project's description """
+        if self.app.project:
+            self.app.project.description = self.projectDescriptionEdit.toPlainText()
+
+    def __createPlot(self) -> None: 
+        """ Creates a plot """
+        # Updating plot stlying
+        self.ui.graphWidget.setBackground((65, 66, 64))
+        self.ui.graphWidget.setStyleSheet("border : 1px solid; border-color: rgb(65, 66, 64);")
+    
+        # TODO: placeholder plot atm
+        xData = [1,2,3,4,5,6,7,8,9,10]
+        yData = [30,32,34,32,33,31,29,32,35,45]
+
+        # plot data: x, y values
+        pen = pg.mkPen(color=(255,255,200), width=2)
+        self.ui.graphWidget.plotItem.getAxis('left').setPen(pen)
+        self.ui.graphWidget.plotItem.getAxis('bottom').setPen(pen)
+        self.ui.graphWidget.plot(xData, yData, pen=pen)
+
+    def __createClassList(self) -> None:
+        """ Creates the class list """
+
+        self.classListWidget = CustomClassQListWidget(self.app.theme.colours, False)
+        self.classListWidget.setObjectName("classListProjectPageWidget")
+        self.veritcalSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.classListLayout = QVBoxLayout()
+        self.classListLayout.addWidget(self.classListWidget)
+        self.classListLayout.addItem(self.veritcalSpacer)
+        self.ui.classListFrame.setLayout(self.classListLayout)
+
+    def __instantiateCreateClassDialog(self) -> None:
+        """ Instanciates the create class dialog """
+        self.createClassDialog = CreateClassDialog(self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeHeader)
+        self.createClassDialog.exec()
+        if self.createClassDialog.isValid:
+            mlClass = MLClass(self.createClassDialog.className, self.createClassDialog.selectedColour)
+            self.app.project.classesDataset.append(mlClass) 
+            self.__populateFields()
+
+    def setEditMode(self, toggled) -> None:
+        """ Enables edit mode for the project page """
+        self.readOnly = not self.readOnly
+        self.projectNameLineEdit.setEditMode(toggled)
+        self.projectDescriptionEdit.setEditMode(toggled)
+        self.projectImageBtn.setEditMode(toggled)
+        self.classListWidget.setEditMode(toggled)
 
     def __setupPagePalette(self) -> None:
 
@@ -194,56 +305,4 @@ class ProjectPage():
                                               f"color: {self.app.theme.colours['panel.sunken']};}}"
                                               "QComboBox::down-arrow{"
                                               "image: url(icons/icons8-drop-down-arrow-10.png)}")
-    def __populateFields(self) -> None:
-        """ Populates the fields for the project page from the project.yaml """
-        self.projectNameLineEdit.setText(self.app.project.name)
-        self.projectDescriptionEdit.setText(self.app.project.description)
-        # self.ui.datasetPathLbl.setText(self.app.project.datasetPath)
-    
-    def loadPage(self) -> None:
-        """ Loads all information and functionality """
-        self.__populateFields()
-        self.__createPlot()
-
-    def __createPlot(self) -> None: 
-        """ Creates a plot """
-        # Updating plot stlying
-        self.ui.graphWidget.setBackground((65, 66, 64))
-        self.ui.graphWidget.setStyleSheet("border : 1px solid; border-color: rgb(65, 66, 64);")
-    
-        # TODO: placeholder plot atm
-        xData = [1,2,3,4,5,6,7,8,9,10]
-        yData = [30,32,34,32,33,31,29,32,35,45]
-
-        # plot data: x, y values
-        pen = pg.mkPen(color=(255,255,200), width=2)
-        self.ui.graphWidget.plotItem.getAxis('left').setPen(pen)
-        self.ui.graphWidget.plotItem.getAxis('bottom').setPen(pen)
-        self.ui.graphWidget.plot(xData, yData, pen=pen)
-
-    def __createClassList(self) -> None:
-        """ Creates the class list """
-
-        self.classListWidget = CustomClassQListWidget(self.app.theme.colours, False)
-        self.classListWidget.setObjectName("classListProjectPageWidget")
-        self.veritcalSpacer = QSpacerItem(0, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        self.classListLayout = QVBoxLayout()
-        self.classListLayout.addWidget(self.classListWidget)
-        self.classListLayout.addItem(self.veritcalSpacer)
-        self.ui.classListFrame.setLayout(self.classListLayout)
-
-    def __instantiateCreateClassDialog(self) -> None:
-        """ Instanciates the create class dialog """
-        self.createClassDialog = CreateClassDialog(self.classListWidget, self.numOfClasses, self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeHeader)
-
-    def setEditMode(self, toggled) -> None:
-        """ Enables edit mode for the project page """
-        self.projectNameLineEdit.setEditMode(toggled)
-        self.projectDescriptionEdit.setEditMode(toggled)
-        self.projectImageBtn.setEditMode(toggled)
-        self.classListWidget.setEditMode(toggled)
-
-
-        
-
 
