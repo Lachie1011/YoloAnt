@@ -45,8 +45,8 @@ class ClassSelectionListWidgetItem (QFrame):
         self.classAttributesFrame.setHotKeyText('a')
         self.classAttributesFrame.setClassAnnotationsCount('0')
 
-        # Test calls
-        self.addAnnotationToClassItem("Dog 1")
+#        # Test calls
+#        self.addAnnotationToClassItem("Dog 1")
         
         # Connect signals and slots
         self.classAttributesFrame.classHotKeyBtn.clicked.connect(lambda: self.setHotKey())
@@ -172,3 +172,4 @@ class ClassSelectionListWidgetItem (QFrame):
     def addAnnotationToClassItem(self, annotationName: str) -> None:
         """ Adds an annotation item to the annotations list widget of class list item """
         self.annotationsListWidget.addItemToListWidget(AnnotationsListWidgetItem(annotationName, self.themePaletteColours))
+

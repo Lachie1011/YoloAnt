@@ -13,7 +13,7 @@ class CreateClassDialog(QDialog):
     """
         Class that creates a dialog window to create a class
     """
-    def __init__(self, classListWidget: QListWidget, numOfClasses: int, themePaletteColours: dict, fontRegular: str, fontTitle: str) -> None:
+    def __init__(self, themePaletteColours: dict, fontRegular: str, fontTitle: str) -> None:
         """ init """
         super().__init__()
 
@@ -24,19 +24,20 @@ class CreateClassDialog(QDialog):
         self.setModal(True)
 
         # Member variables
-        self.selectedColour = (200, 66, 64)
-        self.classListWidget = classListWidget
         self.themePaletteColours = themePaletteColours
         self.fontRegular = fontRegular
         self.fontTitle = fontTitle
+
+        self.selectedColour = (0,0,0)  # Defaulted to this TODO: should be able to pass None in and the getcoloutr function witll just handle  
+        self.isValid = False
 
         self.__setupStyleSheet()
         self.__setupPagePalette()
 
         # Connect signals and slots
         self.ui.classColourBtn.clicked.connect(lambda: self.__selectColour())
-        self.ui.createClassBtn.clicked.connect(lambda: self.createClass(numOfClasses))
-
+        self.ui.createClassBtn.clicked.connect(lambda: self.__validateDialogInputs())
+        
         self.show()
 
     def __setupPagePalette(self) -> None:
@@ -99,26 +100,21 @@ class CreateClassDialog(QDialog):
         """
             Validates the text input for the dialog and returns the class name
         """
+        valid = True   
+
         className = self.classNameLineEdit.text()
 
         # Validating input
-        valid = True   
         if className == "":
             valid = False
             
         self.classNameLineEdit.validTextInput(valid)
 
+        self.isValid = valid
         if not valid:
             return
         
         self.className = className
 
-        return True
+        return self.done(1)
 
-
-    def createClass(self, numOfClasses) -> None:
-        """ Creats a user specified class if inputs are valid """
-        if self.__validateDialogInputs():
-            classListItemWidget = ProjectClassListItemWidget(self.className, 0, numOfClasses, self.selectedColour, self.themePaletteColours, self.fontRegular, self.fontTitle) 
-            self.classListWidget.addItemToListWidget(classListItemWidget)
-            self.done(1)

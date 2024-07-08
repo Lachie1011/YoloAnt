@@ -11,11 +11,13 @@ from customWidgets.customEllipseGraphicsItem import CustomEllipseGraphicsItem, H
 
 class CustomRectangleGraphicsItem(QGraphicsRectItem):
     """ A custom graphics item that reimplements QGraphicsRectItem """
-    def __init__(self, x, y, width, height, scene, classColour, canvas):
+    def __init__(self, x, y, width, height, scene, classColour, className, id, canvas):
         super().__init__(x, y, width, height)
 
         self.scene = scene
+        self.id = id
         self.classColour = classColour
+        self.className = className
         self.canvas = canvas
 
         # Handle definitions

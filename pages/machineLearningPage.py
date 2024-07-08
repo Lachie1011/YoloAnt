@@ -146,11 +146,10 @@ class MachineLearningPage():
             # When loading a new model, reset fields
             self.__resetPage()
             self.model = model
-        
         if (not model) and (not self.model) :
             # Attempt to load an existing model
             self.__resetPage()
-            if len(self.app.project.modelDataset) > 1:
+            if len(self.app.project.modelDataset) > 0:
                 # Load last model in the list as this corresponds to the combobox
                 self.model = self.app.project.modelDataset[0]
 
@@ -372,3 +371,4 @@ class MachineLearningPage():
                                        "QPushButton::hover{"
                                        f"background-color: {self.app.theme.colours['buttonFilled.hover']};"
                                        f"border : 1px solid {self.app.theme.colours['buttonFilled.hover']};}}")
+

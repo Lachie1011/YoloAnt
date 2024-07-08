@@ -52,3 +52,4 @@ class CustomUserInputQLineEdit(QLineEdit):
         """ Sets background colour of widget when it loses focus """
         super().focusOutEvent(event)
         self.__baseStyleSheet()
+

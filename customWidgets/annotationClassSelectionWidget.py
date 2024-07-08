@@ -23,11 +23,7 @@ class AnnotationClassSelectionWidget(QFrame):
 
         # Setup stylesheet of frame
         self.__setupStyleSheet()
-
-        # Test calls        
-        self.addClassSelectionListItem("Dog", (0, 201, 52))
-        # self.addClassSelectionListItem("Cat", (0, 90, 255))
-        
+ 
         # Connect signals and slots
         self.classSearchLineEdit.textChanged.connect(lambda searchInput: self.__searchForClass(searchInput))
         self.ui.editPageBtn.toggled.connect(lambda toggled: self.classSelectionListWidget.setEditMode(toggled))
@@ -62,7 +58,7 @@ class AnnotationClassSelectionWidget(QFrame):
                                                f"background-color : {self.themePaletteColours['buttonFilled.hover']};"
                                                f"color: {self.themePaletteColours['font.header']};}}")
         self.classAddAnnoPageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.classAddAnnoPageBtn.setText('+ Add Class')
+        self.classAddAnnoPageBtn.setText('+ Class')
         self.classAddAnnoPageBtn.setFixedHeight(25)
 
         # Apply layout to utility frame
@@ -109,3 +105,4 @@ class AnnotationClassSelectionWidget(QFrame):
         """ Adds a class selection list item to the class selection list widget """
         self.classSelectionListWidget.addItemToListWidget(ClassSelectionListWidgetItem(className, classColour, 
                                                           self.themePaletteColours, self.fontRegular, self.fontTitle, page=self))
+
