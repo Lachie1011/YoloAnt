@@ -55,6 +55,10 @@ class ClassSelectionListWidgetItem (QFrame):
         self.classAttributesFrame.classDeleteBtn.clicked.connect(lambda: self.parent().parent().removeItemFromListWidget(self.parentItem))
         self.expandBtn.clicked.connect(lambda checked: self.__expandFrame(checked))
 
+    def addAnnotationToClassItem(self, annotationName: str) -> None:
+        """ Adds an annotation item to the annotations list widget of class list item """
+        self.annotationsListWidget.addItemToListWidget(AnnotationsListWidgetItem(annotationName, self.themePaletteColours))
+
     def __setupStyleSheet(self) -> None:
         """ Sets up style sheet for list widget item"""
 
@@ -168,8 +172,3 @@ class ClassSelectionListWidgetItem (QFrame):
         """ Gets a selected colour from the user sets it as the class colour """
         self.colour = getColour(self.themePaletteColours, self.fontRegular, self.fontTitle, self.colour)
         self.classAttributesFrame.setClassColour(self.colour)
-
-    def addAnnotationToClassItem(self, annotationName: str) -> None:
-        """ Adds an annotation item to the annotations list widget of class list item """
-        self.annotationsListWidget.addItemToListWidget(AnnotationsListWidgetItem(annotationName, self.themePaletteColours))
-

@@ -88,6 +88,7 @@ class AnnotationPage():
         self.annotationClassSelectionWidget.classSelectionListWidget.clear()
         for mlClass in self.app.project.classesDataset:
             self.annotationClassSelectionWidget.addClassSelectionListItem(mlClass.className, mlClass.classColour)
+            # TODO: add annotations to class list items
 
     def __connectImageNavigationButtons(self):
         """ Connects the buttons used to navigate throughout the canvas"""

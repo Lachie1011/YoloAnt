@@ -41,7 +41,7 @@ class AnnotationCanvasWidget(QGraphicsView):
         self.scene.setSceneRect(self.x(), self.y(), self.width(), self.height())
         self.scene.setBackgroundBrush(QColor(255,255,255))
 
-       # Creating initial canvas
+        # Creating initial canvas
         self.imagePixmap = QPixmap()
         self.imageItem = QGraphicsPixmapItem(self.imagePixmap)
         self.scene.addItem(self.imageItem)
@@ -64,7 +64,7 @@ class AnnotationCanvasWidget(QGraphicsView):
         # Create rectangles from bounding boxes
         for boundingBox in self.image.boundingBoxes:
             self.createRect(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, boundingBox.colour, boundingBox.className, boundingBox.id, True, True)
-        
+
         self.resetScene()
 
     def resetScene(self):

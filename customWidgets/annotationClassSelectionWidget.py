@@ -21,12 +21,32 @@ class AnnotationClassSelectionWidget(QFrame):
         self.fontRegular = fontRegular
         self.fontTitle = fontTitle
 
+        self.classListItems = []
+
         # Setup stylesheet of frame
         self.__setupStyleSheet()
  
         # Connect signals and slots
         self.classSearchLineEdit.textChanged.connect(lambda searchInput: self.__searchForClass(searchInput))
         self.ui.editPageBtn.toggled.connect(lambda toggled: self.classSelectionListWidget.setEditMode(toggled))
+
+    def generateItems(self, image: Any) -> None:
+        """ Generates the Class and the annotation item entries for an image """
+
+
+    def addClassSelectionListItem(self, className: str, classColour: tuple) -> None:
+        """ Adds a class item to the class selection list widget """
+        classListItem = ClassSelectionListWidgetItem(className, classColour, self.themePaletteColours, self.fontRegular, self.fontTitle, page=self)
+        self.classListItems.append(classListItem)
+        self.classSelectionListWidget.addItemToListWidget(classListItem)
+
+    def addAnnotationToClassItem(self, className str, annotationID: str) -> None:
+        """
+        Adds an annotation item to a class item
+        """
+        for classListItem in self.classListItems:
+            if classListItem.name == className:
+                classListItem.addAnnotationToClassItem(annotationID)
 
     def __setupStyleSheet(self) -> None:
         """ Sets the style sheet for the custom widget """
@@ -100,9 +120,3 @@ class AnnotationClassSelectionWidget(QFrame):
 
             elif searchInput.lower() not in widgetInItem.className.lower():
                 listItem.setHidden(True)
-
-    def addClassSelectionListItem(self, className: str, classColour: tuple) -> None:
-        """ Adds a class selection list item to the class selection list widget """
-        self.classSelectionListWidget.addItemToListWidget(ClassSelectionListWidgetItem(className, classColour, 
-                                                          self.themePaletteColours, self.fontRegular, self.fontTitle, page=self))
-
