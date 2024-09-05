@@ -1,8 +1,8 @@
 """
     annotationListWidgetItem.py
 """
-from PyQt6.QtCore import Qt, QEvent
-from PyQt6.QtGui import QCursor, QIcon
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QFrame, QLabel, QHBoxLayout, QSpacerItem, QPushButton, QSizePolicy)
 
 class AnnotationsListWidgetItem(QFrame):

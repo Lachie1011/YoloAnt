@@ -81,8 +81,8 @@ class Project:
             try:
                 classesYaml = yaml.safe_load(stream)
                 classes = classesYaml["Classes"]
-                for mlClass in classes:
-                    self.classesDataset.append(MLClass(mlClass[0], tuple(mlClass[1])))
+                for _class in classes:
+                    self.classesDataset.append(MLClass(_class[0], tuple(_class[1])))
             except Exception as exc:
                 print(exc)
 

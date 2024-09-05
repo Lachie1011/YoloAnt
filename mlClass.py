@@ -5,7 +5,7 @@
 
 class MLClass():
     """ A class to abstractly represent a class for ML """
-    def __init__(self, className, classColour) -> None:
+    def __init__(self, className: str, classColour: tuple) -> None:
         self.className = className
         self.classColour = classColour
        

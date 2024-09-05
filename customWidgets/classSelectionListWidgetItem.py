@@ -44,9 +44,6 @@ class ClassSelectionListWidgetItem (QFrame):
         self.classAttributesFrame.setClassNameText(self.className)
         self.classAttributesFrame.setHotKeyText('a')
         self.classAttributesFrame.setClassAnnotationsCount('0')
-
-#        # Test calls
-#        self.addAnnotationToClassItem("Dog 1")
         
         # Connect signals and slots
         self.classAttributesFrame.classHotKeyBtn.clicked.connect(lambda: self.setHotKey())

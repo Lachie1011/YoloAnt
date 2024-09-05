@@ -3,7 +3,7 @@
 """
 
 from pathlib import Path
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, pyqtSignal as Signal
 from PyQt6.QtGui import QPixmap, QColor, QPen
 from PyQt6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QGraphicsItem
 
@@ -14,6 +14,9 @@ from customWidgets.customRectangleGraphicsItem import CustomRectangleGraphicsIte
 
 class AnnotationCanvasWidget(QGraphicsView):
     """ A custom widget for the annotation canvas used for drawing bounding boxes """
+    # Signals
+    new_annotation = Signal(BoundingBox) 
+    
     def __init__(self, parent):
         super(AnnotationCanvasWidget, self).__init__(parent)
 
@@ -105,6 +108,13 @@ class AnnotationCanvasWidget(QGraphicsView):
             # Add rect to list
             self.rects.append(rect)
             # Add rect to annotation manager widget
+            self.new_annotation.emit(BoundingBox(rect.x() + rect.rect().x(),
+                                      rect.y() + rect.rect().y(),
+                                      rect.rect().width(),
+                                      rect.rect().height(),
+                                      rect.classColour,
+                                      rect.className,
+                                      rect.id))
 
     def mousePressEvent(self, event):
         """ Event to capture mouse press and update rect coords """

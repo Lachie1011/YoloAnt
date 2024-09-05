@@ -4,6 +4,7 @@
 
 import sys
 from enum import Enum
+from typing import Any
 
 from PyQt6 import QtCore
 from PyQt6.QtGui import QCursor, QIcon, QColor
@@ -65,30 +66,7 @@ class AnnotationPage():
         # Connect signals and slots
         self.annotationClassSelectionWidget.classAddAnnoPageBtn.clicked.connect(self.__openCreateClassDialog)
         self.ui.editPageBtn.toggled.connect(lambda toggled: self.annotationClassSelectionWidget.classSelectionListWidget.setEditMode(toggled))
-
-    def loadPage(self):
-        """ Loads all information and functionality """ 
-        self.__populateWidgets()
-
-        if len(self.app.project.annotationDataset) < 0:
-            self.app.notificationManager.raiseNotification("Dataset contains no images")
-            return
-
-        if not self.pageInitialised:
-            # Creating metadata for inital image
-            self.app.project.annotationDataset[self.currentIndex].createMetadata()
-            self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[self.currentIndex])
-            self.__updateImageInformationPanel()
-            self.pageInitialised = True
-
-    def __populateWidgets(self) -> None:
-        """ Populates the widgets for the page """
-        self.updateAnnotationToolSelected(Tools.mouseTool)
-
-        self.annotationClassSelectionWidget.classSelectionListWidget.clear()
-        for mlClass in self.app.project.classesDataset:
-            self.annotationClassSelectionWidget.addClassSelectionListItem(mlClass.className, mlClass.classColour)
-            # TODO: add annotations to class list items
+        self.ui.annotationCanvasWidget.new_annotation.connect(lambda annotation: self.annotationClassSelectionWidget.generateAnnotationItem(annotation))
 
     def __connectImageNavigationButtons(self):
         """ Connects the buttons used to navigate throughout the canvas"""
@@ -96,6 +74,95 @@ class AnnotationPage():
         self.app.ui.prevImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.previous))
         self.app.ui.nextUnannoImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.nextUnannotated))
         self.app.ui.prevUnannoImageBtn.clicked.connect(lambda: self.__navigateCanvasWidget(NavigationModes.previousUnannotated))
+
+    def __connectAnnotationToolButtons(self) -> None:
+        """ Connects the annotation buttons to update the mouse icon as well as checked state """
+        self.ui.mouseToolBtn.clicked.connect(lambda: self.updateAnnotationToolSelected(Tools.mouseTool))
+        self.ui.annotateToolBtn.clicked.connect(lambda: self.updateAnnotationToolSelected(Tools.annotationTool))
+
+    def loadPage(self):
+        """ Loads all information and functionality """ 
+        if len(self.app.project.annotationDataset) < 0:
+            self.app.notificationManager.raiseNotification("Dataset contains no images")
+            return
+
+        if not self.pageInitialised:
+            # Creating metadata for inital image
+            self.app.project.annotationDataset[self.currentIndex].createMetadata()
+            self.pageInitialised = True
+
+        # Updating widgets
+        self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[self.currentIndex])
+        self.updateAnnotationToolSelected(Tools.mouseTool)
+        self.__updateImageInformationPanel()
+        self.__updateAnnotationClassSelectionWidget(self.app.project.annotationDataset[self.currentIndex]) 
+
+    def updateAnnotationToolSelected(self, tool: Tools) -> None:
+        """ Updates the mouse icon based on selected tool """
+        if tool is Tools.mouseTool:
+            # updating checked state
+            self.ui.mouseToolBtn.setChecked(True)
+            self.ui.mouseToolBtn.setIcon(QIcon("icons/cursor-active.png")) 
+            self.ui.annotateToolBtn.setChecked(False)
+            self.ui.annotateToolBtn.setIcon(QIcon("icons/bounding-inactive.png"))
+            # update mouse icon
+            QApplication.restoreOverrideCursor()
+
+            # Updating annotationCanvasWidget mode
+            self.ui.annotationCanvasWidget.mode = Tools.mouseTool
+
+        if tool is Tools.annotationTool:
+            if (len(self.app.project.classesDataset) == 0) or (self.ui.annotationCanvasWidget.currentClassName is None):
+                # A class is required to perform annotations
+                self.app.notificationManager.raiseNotification("Please add a class before annotating")
+                self.updateAnnotationToolSelected(Tools.mouseTool)
+                return
+
+            # updating checked state
+            self.ui.annotateToolBtn.setChecked(True)
+            self.ui.annotateToolBtn.setIcon(QIcon("icons/bounding.active.png"))
+            self.ui.mouseToolBtn.setChecked(False)
+            self.ui.mouseToolBtn.setIcon(QIcon("icons/cursor-inactive.png"))
+            # update mouse icon
+            QApplication.setOverrideCursor(QtCore.Qt.CursorShape.CrossCursor)
+
+            # Updating annotationCanvasWidget mode
+            self.ui.annotationCanvasWidget.mode = Tools.annotationTool
+
+    def __updateImageInformationPanel(self):
+        """ Updates the image information panel with info from the latest image """
+        image = self.app.project.annotationDataset[self.currentIndex]
+        if not image.isValid:
+            self.app.notificationManager.raiseNotification(f"Image {image.path} is not valid")
+            return
+
+        self.app.ui.imageName.setText(image.path.split("/")[-1])  # dont think we need the whole path ?
+        self.app.ui.imageDimLbl.setText(f"{image.width}x{image.height}")
+        self.app.ui.imageNumberLbl.setText(f"{self.currentIndex + 1} of {len(self.app.project.annotationDataset)}")
+        self.app.ui.datasetProgressBar.setValue(self.currentIndex / len(self.app.project.annotationDataset) * 100)
+        self.app.ui.datasetProgressBar.repaint()
+
+        annotationStatusTxt = None
+        annotationStatusColour = None
+        if image.annotated:
+            annotationStatusTxt = "annotated"
+            annotationStatusColour = "background-color: rgb(115,210,22); border-radius: 3px;"
+        elif not image.annotated:
+            annotationStatusTxt = "unannotated"
+            annotationStatusColour = "background-color: rgb(204,0,0); border-radius: 3px;"
+        elif image.needsWork:  # no way to set this yet :( - TODO: revisit and makes these states an enum
+            annotationStatusTxt = "needs work"
+            annotationStatusColour = "background-color: rgb(245,121,22); border-radius: 3px;"
+        
+        if annotationStatusTxt:
+            self.app.ui.annotationStatusLbl.setText(annotationStatusTxt)
+            self.app.ui.statusColourIndicatorLbl.setStyleSheet(annotationStatusColour)
+
+    def __updateAnnotationClassSelectionWidget(self, image: Any) -> None:
+        """ Updates the annotation class selection widget"""
+        self.annotationClassSelectionWidget.reset()
+        self.annotationClassSelectionWidget.generateClassItems()
+        self.annotationClassSelectionWidget.generateAnnotationItems(image)
     
     def __navigateCanvasWidget(self, navigationType):
         """ Logic for page navigation """
@@ -158,8 +225,9 @@ class AnnotationPage():
                 self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[closestIndex])
                 self.currentIndex = closestIndex
         
-        # after switching image - update image information panel
+        # after switching image - update widgets
         self.__updateImageInformationPanel()
+        self.__updateAnnotationClassSelectionWidget(self.app.project.annotationDataset[self.currentIndex])
 
     def __checkImageState(self, image) -> None:
         """ Checks the current images state and updates related properties """
@@ -170,43 +238,14 @@ class AnnotationPage():
         if not image.annotated:
             self.unannotatedImages.update({self.app.project.annotationDataset[self.currentIndex]:self.currentIndex})
     
-    def __updateImageInformationPanel(self):
-        """ Updates the image information panel with info from the latest image """
-        image = self.app.project.annotationDataset[self.currentIndex]
-        if not image.isValid:
-            self.app.notificationManager.raiseNotification(f"Image {image.path} is not valid")
-            return
-
-        self.app.ui.imageName.setText(image.path.split("/")[-1])  # dont think we need the whole path ?
-        self.app.ui.imageDimLbl.setText(f"{image.width}x{image.height}")
-        self.app.ui.imageNumberLbl.setText(f"{self.currentIndex + 1} of {len(self.app.project.annotationDataset)}")
-        self.app.ui.datasetProgressBar.setValue(self.currentIndex / len(self.app.project.annotationDataset) * 100)
-        self.app.ui.datasetProgressBar.repaint()
-
-        annotationStatusTxt = None
-        annotationStatusColour = None
-        if image.annotated:
-            annotationStatusTxt = "annotated"
-            annotationStatusColour = "background-color: rgb(115,210,22); border-radius: 3px;"
-        elif not image.annotated:
-            annotationStatusTxt = "unannotated"
-            annotationStatusColour = "background-color: rgb(204,0,0); border-radius: 3px;"
-        elif image.needsWork:  # no way to set this yet :( - TODO: revisit and makes these states an enum
-            annotationStatusTxt = "needs work"
-            annotationStatusColour = "background-color: rgb(245,121,22); border-radius: 3px;"
-        
-        if annotationStatusTxt:
-            self.app.ui.annotationStatusLbl.setText(annotationStatusTxt)
-            self.app.ui.statusColourIndicatorLbl.setStyleSheet(annotationStatusColour)
-
     def __openCreateClassDialog(self) -> None:
         """ Opens the create class dialog """
         self.createClassDialog = CreateClassDialog(self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeHeader)
         self.createClassDialog.exec()
         if self.createClassDialog.isValid:
-            mlClass = MLClass(self.createClassDialog.className, self.createClassDialog.selectedColour)
-            self.app.project.classesDataset.append(mlClass) 
-            self.__populateWidgets()
+            _class = MLClass(self.createClassDialog.className, self.createClassDialog.selectedColour)
+            self.app.project.classesDataset.append(_class) 
+            self.annotationClassSelectionWidget.generateClassItem(_class.className, _class.classColour)
 
     def __setupPagePalette(self) -> None:
         """ Sets the colour palette for the page widgets """  
@@ -242,7 +281,7 @@ class AnnotationPage():
     def __setupStyleSheet(self) -> None:
         """ Sets the style sheet for the page """
         # Setup annotation class selection frame
-        self.annotationClassSelectionWidget = AnnotationClassSelectionWidget(self.ui, self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle)
+        self.annotationClassSelectionWidget = AnnotationClassSelectionWidget(self.app, self.ui, self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle)
 
     def __connectIconHover(self) -> None:
         """ 
@@ -275,46 +314,4 @@ class AnnotationPage():
         self.ui.annotateToolBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.annotateBtnHoverEvent = HoverEvent(self.ui.annotateToolBtn, "icons/bounding-inactive.png", "icons/bounding-active.png")
         self.ui.annotateToolBtn.installEventFilter(self.annotateBtnHoverEvent)
-    
-    def __connectAnnotationToolButtons(self) -> None:
-        """ Connects the annotation buttons to update the mouse icon as well as checked state """
-        self.ui.mouseToolBtn.clicked.connect(lambda: self.updateAnnotationToolSelected(Tools.mouseTool))
-        self.ui.annotateToolBtn.clicked.connect(lambda: self.updateAnnotationToolSelected(Tools.annotationTool))
-
-    def updateAnnotationToolSelected(self, tool: Tools) -> None:
-        """ Updates the mouse icon based on selected tool """
-        if tool is Tools.mouseTool:
-            # updating checked state
-            self.ui.mouseToolBtn.setChecked(True)
-            self.ui.mouseToolBtn.setIcon(QIcon("icons/cursor-active.png")) 
-            self.ui.annotateToolBtn.setChecked(False)
-            self.ui.annotateToolBtn.setIcon(QIcon("icons/bounding-inactive.png"))
-            # update mouse icon
-            QApplication.restoreOverrideCursor()
-
-            # Updating annotationCanvasWidget mode
-            self.ui.annotationCanvasWidget.mode = Tools.mouseTool
-
-        if tool is Tools.annotationTool:
-            if len(self.app.project.classesDataset) == 0:
-                # A class is required to perform annotations
-                self.app.notificationManager.raiseNotification("Please add a class before annotating")
-                self.updateAnnotationToolSelected(Tools.mouseTool)
-                return
-            if self.ui.annotationCanvasWidget.currentClassName is None:
-                # A class is required to be selected to perform annotations TODO: maybe in future default selected class
-                self.app.notificationManager.raiseNotification("Please select a class before annotating")
-                self.updateAnnotationToolSelected(Tools.mouseTool)
-                return
-
-            # updating checked state
-            self.ui.annotateToolBtn.setChecked(True)
-            self.ui.annotateToolBtn.setIcon(QIcon("icons/bounding.active.png"))
-            self.ui.mouseToolBtn.setChecked(False)
-            self.ui.mouseToolBtn.setIcon(QIcon("icons/cursor-inactive.png"))
-            # update mouse icon
-            QApplication.setOverrideCursor(QtCore.Qt.CursorShape.CrossCursor)
-
-            # Updating annotationCanvasWidget mode
-            self.ui.annotationCanvasWidget.mode = Tools.annotationTool
 
