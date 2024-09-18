@@ -15,11 +15,11 @@ import pyqtgraph as pg
 from yoloAnt_ui import Ui_MainWindow
 
 from mlClass import MLClass
-from customWidgets.customBaseObjects.customClassQListWidget import CustomClassQListWidget
-from customWidgets.customBaseObjects.customPanelQLineEdit import CustomPanelQLineEdit
-from customWidgets.customBaseObjects.customPanelQTextEdit import CustomPanelQTextEdit
-from customWidgets.projectClassListItemWidget import ProjectClassListItemWidget
-from customWidgets.projectImagePushButton import ProjectImagePushButton
+from custom_widgets.customBaseObjects.customClassQListWidget import CustomClassQListWidget
+from custom_widgets.customBaseObjects.customPanelQLineEdit import CustomPanelQLineEdit
+from custom_widgets.customBaseObjects.customPanelQTextEdit import CustomPanelQTextEdit
+from custom_widgets.projectClassListItemWidget import ProjectClassListItemWidget
+from custom_widgets.projectImagePushButton import ProjectImagePushButton
 from dialogs.createClassDialog import CreateClassDialog
 
 class ProjectPage():

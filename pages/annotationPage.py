@@ -17,7 +17,7 @@ from image import Image
 from events.hoverEvent import HoverEvent
 from events.resizeEvent import ResizeEvent
 from dialogs.createClassDialog import CreateClassDialog
-from customWidgets.annotationClassSelectionWidget import AnnotationClassSelectionWidget
+from custom_widgets.annotation_manager.annotationManager import AnnotationManager
 
 class NavigationModes(Enum):
     """ 
@@ -46,16 +46,20 @@ class AnnotationPage():
         self.app = app
         self.ui = app.ui
 
-        self.ui.annotationCanvasWidget.app = app
+        self.ui.annotationCanvas.app = app
 
-        self.__setupStyleSheet()
+        self.annotationManager = AnnotationManager(self.app, self.ui, self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle)
+        self.annotationManager.annotation_selected.connect(lambda id: self.ui.annotationCanvas.selectAnnotation(id))
+        self.annotationManager.annotation_removed.connect(lambda id: self.ui.annotationCanvas.removeAnnotation(id))
+        self.annotationManager.annotation_hidden.connect(lambda id, hidden: self.ui.annotationCanvas.hideAnnotation(id, hidden))
+
         self.__setupPagePalette()
 
         # Page attributes:
         self.currentIndex = 0
         self.pageInitialised = False
         
-        # Dict to hold the unannotatedImages TODO: probs could be made into some kind of Kd tree to make searching faster
+        # Dict to hold the unannotatedImages
         self.unannotatedImages = {}
 
         # Connecting signals and slots for the page
@@ -64,9 +68,9 @@ class AnnotationPage():
         self.__connectImageNavigationButtons()
 
         # Connect signals and slots
-        self.annotationClassSelectionWidget.classAddAnnoPageBtn.clicked.connect(self.__openCreateClassDialog)
-        self.ui.editPageBtn.toggled.connect(lambda toggled: self.annotationClassSelectionWidget.classSelectionListWidget.setEditMode(toggled))
-        self.ui.annotationCanvasWidget.new_annotation.connect(lambda annotation: self.annotationClassSelectionWidget.generateAnnotationItem(annotation))
+        self.annotationManager.classAddAnnoPageBtn.clicked.connect(self.__openCreateClassDialog)
+        self.ui.editPageBtn.toggled.connect(lambda toggled: self.annotationManager.classSelectionListWidget.setEditMode(toggled))
+        self.ui.annotationCanvas.new_annotation.connect(lambda annotation: self.annotationManager.generateAnnotationItem(annotation))
 
     def __connectImageNavigationButtons(self):
         """ Connects the buttons used to navigate throughout the canvas"""
@@ -92,10 +96,10 @@ class AnnotationPage():
             self.pageInitialised = True
 
         # Updating widgets
-        self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[self.currentIndex])
+        self.app.ui.annotationCanvas.updateImage(self.app.project.annotationDataset[self.currentIndex])
         self.updateAnnotationToolSelected(Tools.mouseTool)
         self.__updateImageInformationPanel()
-        self.__updateAnnotationClassSelectionWidget(self.app.project.annotationDataset[self.currentIndex]) 
+        self.__updateAnnotationManager(self.app.project.annotationDataset[self.currentIndex]) 
 
     def updateAnnotationToolSelected(self, tool: Tools) -> None:
         """ Updates the mouse icon based on selected tool """
@@ -108,11 +112,11 @@ class AnnotationPage():
             # update mouse icon
             QApplication.restoreOverrideCursor()
 
-            # Updating annotationCanvasWidget mode
-            self.ui.annotationCanvasWidget.mode = Tools.mouseTool
+            # Updating annotationCanvas mode
+            self.ui.annotationCanvas.mode = Tools.mouseTool
 
         if tool is Tools.annotationTool:
-            if (len(self.app.project.classesDataset) == 0) or (self.ui.annotationCanvasWidget.currentClassName is None):
+            if (len(self.app.project.classesDataset) == 0) or (self.ui.annotationCanvas.currentClassName is None):
                 # A class is required to perform annotations
                 self.app.notificationManager.raiseNotification("Please add a class before annotating")
                 self.updateAnnotationToolSelected(Tools.mouseTool)
@@ -126,8 +130,8 @@ class AnnotationPage():
             # update mouse icon
             QApplication.setOverrideCursor(QtCore.Qt.CursorShape.CrossCursor)
 
-            # Updating annotationCanvasWidget mode
-            self.ui.annotationCanvasWidget.mode = Tools.annotationTool
+            # Updating annotationCanvas mode
+            self.ui.annotationCanvas.mode = Tools.annotationTool
 
     def __updateImageInformationPanel(self):
         """ Updates the image information panel with info from the latest image """
@@ -158,11 +162,11 @@ class AnnotationPage():
             self.app.ui.annotationStatusLbl.setText(annotationStatusTxt)
             self.app.ui.statusColourIndicatorLbl.setStyleSheet(annotationStatusColour)
 
-    def __updateAnnotationClassSelectionWidget(self, image: Any) -> None:
+    def __updateAnnotationManager(self, image: Any) -> None:
         """ Updates the annotation class selection widget"""
-        self.annotationClassSelectionWidget.reset()
-        self.annotationClassSelectionWidget.generateClassItems()
-        self.annotationClassSelectionWidget.generateAnnotationItems(image)
+        self.annotationManager.reset()
+        self.annotationManager.generateClassItems()
+        self.annotationManager.generateAnnotationItems(image)
     
     def __navigateCanvasWidget(self, navigationType):
         """ Logic for page navigation """
@@ -176,14 +180,14 @@ class AnnotationPage():
                 nextImage.createMetadata()
                 if nextImage.isValid:
                     # go to next image
-                    self.app.ui.annotationCanvasWidget.updateImage(nextImage)
+                    self.app.ui.annotationCanvas.updateImage(nextImage)
                     self.currentIndex = self.currentIndex + 1
                 else:
                     # TODO: If the image is not valid show blank image / skip ahead to the next valid image??
                     self.app.notificationManager.raiseNotification(f"Image: {0} is not valid", nextImage.path)
         if navigationType is NavigationModes.previous:
             if (self.currentIndex - 1) >= 0:
-                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[self.currentIndex - 1])
+                self.app.ui.annotationCanvas.updateImage(self.app.project.annotationDataset[self.currentIndex - 1])
                 self.currentIndex = self.currentIndex - 1
         if navigationType is NavigationModes.nextUnannotated:
             closestIndex = None
@@ -203,7 +207,7 @@ class AnnotationPage():
                         closestIndex = i
                         break
             if closestIndex is not None:
-                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[closestIndex])
+                self.app.ui.annotationCanvas.updateImage(self.app.project.annotationDataset[closestIndex])
                 self.currentIndex = closestIndex 
         if navigationType is NavigationModes.previousUnannotated:
             closestIndex = None
@@ -222,12 +226,12 @@ class AnnotationPage():
                         closestIndex = i
                         break
             if closestIndex is not None:
-                self.app.ui.annotationCanvasWidget.updateImage(self.app.project.annotationDataset[closestIndex])
+                self.app.ui.annotationCanvas.updateImage(self.app.project.annotationDataset[closestIndex])
                 self.currentIndex = closestIndex
         
         # after switching image - update widgets
         self.__updateImageInformationPanel()
-        self.__updateAnnotationClassSelectionWidget(self.app.project.annotationDataset[self.currentIndex])
+        self.__updateAnnotationManager(self.app.project.annotationDataset[self.currentIndex])
 
     def __checkImageState(self, image) -> None:
         """ Checks the current images state and updates related properties """
@@ -245,7 +249,7 @@ class AnnotationPage():
         if self.createClassDialog.isValid:
             _class = MLClass(self.createClassDialog.className, self.createClassDialog.selectedColour)
             self.app.project.classesDataset.append(_class) 
-            self.annotationClassSelectionWidget.generateClassItem(_class.className, _class.classColour)
+            self.annotationManager.generateClassItem(_class.className, _class.classColour)
 
     def __setupPagePalette(self) -> None:
         """ Sets the colour palette for the page widgets """  
@@ -278,10 +282,6 @@ class AnnotationPage():
         self.ui.annotationToolsFrame.setGraphicsEffect(dropshadowEffect3)
         self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() + 
                                                    f"background: {self.app.theme.colours['panel.background']};")
-    def __setupStyleSheet(self) -> None:
-        """ Sets the style sheet for the page """
-        # Setup annotation class selection frame
-        self.annotationClassSelectionWidget = AnnotationClassSelectionWidget(self.app, self.ui, self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle)
 
     def __connectIconHover(self) -> None:
         """ 

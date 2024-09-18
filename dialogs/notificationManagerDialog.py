@@ -11,7 +11,7 @@ from dialogs.notificationDialog import State
 from dialogs.notificationDialog import NotificationLevel
 from dialogs.ui.notificationManager_ui import Ui_MainDialog
 
-from customWidgets.notificationListItemWidget import NotificationListItemWidget
+from custom_widgets.notificationListItemWidget import NotificationListItemWidget
 
 
 class NotificationManagerDialog(QDialog):

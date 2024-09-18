@@ -6,7 +6,7 @@ from PyQt6.QtCore import Qt, QEvent, QPointF, QPoint, QRect, pyqtSignal
 from PyQt6.QtGui import QPixmap, QColor, QPen, QBrush
 from PyQt6.QtWidgets import QGraphicsRectItem, QGraphicsItem, QGraphicsEllipseItem
 
-from customWidgets.customEllipseGraphicsItem import CustomEllipseGraphicsItem, Handles
+from custom_widgets.annotation_canvas.customEllipseGraphicsItem import CustomEllipseGraphicsItem, Handles
 
 
 class CustomRectangleGraphicsItem(QGraphicsRectItem):

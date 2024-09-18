@@ -1,5 +1,5 @@
 """
-    annotationCanvasWidget.py
+    annotationCanvas.py
 """
 
 from pathlib import Path
@@ -9,16 +9,16 @@ from PyQt6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, 
 
 from boundingBox import BoundingBox
 from pages.annotationPage import Tools
-from customWidgets.customRectangleGraphicsItem import CustomRectangleGraphicsItem
+from custom_widgets.annotation_canvas.customRectangleGraphicsItem import CustomRectangleGraphicsItem
 
 
-class AnnotationCanvasWidget(QGraphicsView):
+class AnnotationCanvas(QGraphicsView):
     """ A custom widget for the annotation canvas used for drawing bounding boxes """
     # Signals
-    new_annotation = Signal(BoundingBox) 
-    
+    new_annotation = Signal(BoundingBox)
+
     def __init__(self, parent):
-        super(AnnotationCanvasWidget, self).__init__(parent)
+        super(AnnotationCanvas, self).__init__(parent)
 
         self.app = None  # TODO: wanted to avoid passing in app, but not sure how else to get the next annotation ID 
 
@@ -116,15 +116,48 @@ class AnnotationCanvasWidget(QGraphicsView):
                                       rect.className,
                                       rect.id))
 
+    def selectAnnotation(self, id: str):
+        """ Selects an annotation """
+        rect = None
+        for _rect in self.rects:
+            _rect.setSelected(False)
+            if str(_rect.id) == id:
+                rect = _rect
+        if rect:
+            rect.setSelected(True)
+
+    def removeAnnotation(self, id: str):
+        """ Removes an annotation """
+        rect = None
+        for _rect in self.rects:
+            if str(_rect.id) == id:
+                rect = _rect
+        if rect:
+            self.scene.removeItem(rect)
+            self.rects.remove(rect)
+            self.generateBoundingBoxes()
+
+    def hideAnnotation(self, id: str, hidden: bool):
+        """ Hides an annotation """
+        rect = None
+        for _rect in self.rects:
+            if str(_rect.id) == id:
+                rect = _rect
+        if rect:
+            if hidden:
+                rect.hide()
+            else:
+                rect.show()
+
     def mousePressEvent(self, event):
         """ Event to capture mouse press and update rect coords """
-        super(AnnotationCanvasWidget, self).mousePressEvent(event)
+        super(AnnotationCanvas, self).mousePressEvent(event)
         self.rectBegin = self.mapToScene(event.pos())
         self.rectEnd = self.mapToScene(event.pos())
 
     def mouseMoveEvent(self, event):
         """ Event to capture mouse move and update rect coords """
-        super(AnnotationCanvasWidget, self).mouseMoveEvent(event)
+        super(AnnotationCanvas, self).mouseMoveEvent(event)
         self.rectEnd = self.mapToScene(event.pos())
         # Only add rectangle if in annotation mode
         if self.mode == Tools.annotationTool:
@@ -141,7 +174,7 @@ class AnnotationCanvasWidget(QGraphicsView):
 
     def mouseReleaseEvent(self, event):
         """ Event to capture mouse release and update rect coords """
-        super(AnnotationCanvasWidget, self).mouseReleaseEvent(event)
+        super(AnnotationCanvas, self).mouseReleaseEvent(event)
         self.rectEnd = self.mapToScene(event.pos())
         # Only add rectangle if in annotation mode
         if self.mode == Tools.annotationTool:

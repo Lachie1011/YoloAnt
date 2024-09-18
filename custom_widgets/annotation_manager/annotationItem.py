@@ -1,20 +1,23 @@
 """
-    annotationListWidgetItem.py
+    annotationItem.py
 """
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, pyqtSignal as Signal
 from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import (QFrame, QLabel, QHBoxLayout, QSpacerItem, QPushButton, QSizePolicy)
 
-class AnnotationsListWidgetItem(QFrame):
+class AnnotationItem(QFrame):
     """
         Class that creates a custom annotation item widget for annotation list.
-
-        params:
-
     """
+    # Signals
+    selected = Signal(str)
+    removed = Signal(str)
+    hidden = Signal(str, bool)
+
     def __init__(self, annotationName, themePaletteColours):
         super().__init__()
         self.annotationName = annotationName
+
         self.parentItem = None
         self.themePaletteColours = themePaletteColours
 
@@ -22,9 +25,12 @@ class AnnotationsListWidgetItem(QFrame):
         self.__setupStyleSheet()
 
         # Setup signals and slots
-        self.hideAnnotationBtn.clicked.connect(lambda: self.__displayedHideAnnotationIcon())
+        self.annotationDeleteButton.clicked.connect(lambda: self.removed.emit(self.annotationName))
         self.annotationDeleteButton.clicked.connect(lambda: self.parent().parent().removeItemFromListWidget(self.parentItem))
     
+        self.hideAnnotationBtn.clicked.connect(lambda: self.hidden.emit(self.annotationName, self.hideAnnotationBtn.isChecked()))
+        self.hideAnnotationBtn.clicked.connect(lambda: self.__displayedHideAnnotationIcon())
+
     def enterEvent(self, event) -> None:
         """ Sets background of widget when mouse enters item widget """
         if not self.parentItem.isSelected():
@@ -36,6 +42,34 @@ class AnnotationsListWidgetItem(QFrame):
         if not self.parentItem.isSelected():
             self.annotationNameLbl.setStyleSheet("QLabel{"
                                                  f"color: {self.themePaletteColours['font.regular']};}}")
+    def setSelected(self) -> None:
+        """ Sets list widget item to selected state """
+        self.annotationNameLbl.setStyleSheet("QLabel{"
+                                             f"color: {self.themePaletteColours['font.hover']};}}")
+        self.parentSelected = True
+        self.selected.emit(self.annotationName)
+
+    def clearSelected(self) -> None:
+        """ Clears selected state of list widget item """
+        self.annotationNameLbl.setStyleSheet("QLabel{"
+                                             f"color: {self.themePaletteColours['font.regular']};}}")
+        self.parentSelected = False
+
+    def __displayedHideAnnotationIcon(self) -> None:
+        """ Changes the icon depending on checked status """
+        if self.hideAnnotationBtn.isChecked():
+            self.hideAnnotationBtn.setStyleSheet("QPushButton{"
+                                                 "background-color: transparent;"
+                                                 "border-image: url('icons/icons8-eye-closed-25.png');}"
+                                                 "QPushButton:hover{"
+                                                 "border-image: url('icons/icons8-eye-closed-hover-25.png');}")
+
+        else:
+            self.hideAnnotationBtn.setStyleSheet("QPushButton{"
+                                                 "background-color: transparent;"
+                                                 "border-image: url('icons/icons8-eye-open-25.png');}"
+                                                 "QPushButton:hover{"
+                                                 "border-image: url('icons/icons8-eye-open-hover-25.png');}")
 
     def __setupStyleSheet(self) -> None:
         """ Sets up style sheet for annotation selection frame """
@@ -80,31 +114,3 @@ class AnnotationsListWidgetItem(QFrame):
         self.annotaitonWidgetItemLayout.addWidget(self.hideAnnotationBtn)
         self.annotaitonWidgetItemLayout.addWidget(self.annotationDeleteButton)
         self.setLayout(self.annotaitonWidgetItemLayout)
-
-    def __displayedHideAnnotationIcon(self) -> None:
-        """ Changes the icon depending on checked status """
-        if self.hideAnnotationBtn.isChecked():
-            self.hideAnnotationBtn.setStyleSheet("QPushButton{"
-                                                 "background-color: transparent;"
-                                                 "border-image: url('icons/icons8-eye-closed-25.png');}"
-                                                 "QPushButton:hover{"
-                                                 "border-image: url('icons/icons8-eye-closed-hover-25.png');}")
-
-        else:
-            self.hideAnnotationBtn.setStyleSheet("QPushButton{"
-                                                 "background-color: transparent;"
-                                                 "border-image: url('icons/icons8-eye-open-25.png');}"
-                                                 "QPushButton:hover{"
-                                                 "border-image: url('icons/icons8-eye-open-hover-25.png');}")
-
-    def setSelected(self) -> None:
-        """ Sets list widget item to selected state """
-        self.annotationNameLbl.setStyleSheet("QLabel{"
-                                             f"color: {self.themePaletteColours['font.hover']};}}")
-        self.parentSelected = True
-
-    def clearSelected(self) -> None:
-        """ Clears selected state of list widget item """
-        self.annotationNameLbl.setStyleSheet("QLabel{"
-                                             f"color: {self.themePaletteColours['font.regular']};}}")
-        self.parentSelected = False

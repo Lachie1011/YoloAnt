@@ -1,21 +1,28 @@
 """
-    annotationClassSelectionWidget.py
+    annotationManager.py
 """
 
 from typing import Any
 from PyQt6 import QtCore
+from PyQt6.QtCore import pyqtSignal as Signal
 from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import QHBoxLayout, QVBoxLayout, QPushButton, QFrame
 
-from customWidgets.customBaseObjects.customClassQListWidget import CustomClassQListWidget
-from customWidgets.customBaseObjects.customUserInputQLineEdit import CustomUserInputQLineEdit
-from customWidgets.classSelectionListWidgetItem import ClassSelectionListWidgetItem
+from custom_widgets.customBaseObjects.customClassQListWidget import CustomClassQListWidget
+from custom_widgets.customBaseObjects.customUserInputQLineEdit import CustomUserInputQLineEdit
+from custom_widgets.annotation_manager.classItem import ClassItem
 
-class AnnotationClassSelectionWidget(QFrame):
-    """ A custom widget for the annotation class selection for selecting and searching for classes """
+class AnnotationManager(QFrame):
+    """ 
+        A custom widget for the annotation class selection for selecting and searching for classes 
+    """
+    annotation_selected = Signal(str)
+    annotation_removed = Signal(str)
+    annotation_hidden = Signal(str, bool)
+
     def __init__(self, app, ui, themePaletteColours: dict, fontRegular, fontTitle):
-        super(AnnotationClassSelectionWidget, self).__init__()
-        
+        super(AnnotationManager, self).__init__()
+
         # Member variables
         self.app = app
         self.ui = ui
@@ -74,7 +81,11 @@ class AnnotationClassSelectionWidget(QFrame):
 
     def addClassSelectionListItem(self, className: str, classColour: tuple) -> None:
         """ Adds a class item to the class selection list widget """
-        classListItem = ClassSelectionListWidgetItem(className, classColour, self.themePaletteColours, self.fontRegular, self.fontTitle, page=self)
+        classListItem = ClassItem(className, classColour, self.themePaletteColours, self.fontRegular, self.fontTitle, page=self)
+        classListItem.annotation_selected.connect(lambda annotation_id: self.annotation_selected.emit(annotation_id))
+        classListItem.annotation_removed.connect(lambda annotation_id: self.annotation_removed.emit(annotation_id))
+        classListItem.annotation_hidden.connect(lambda annotation_id, hidden: self.annotation_hidden.emit(annotation_id, hidden))
+
         self.classListItems.append(classListItem)
         self.classSelectionListWidget.addItemToListWidget(classListItem)
 

@@ -1,27 +1,29 @@
 """
-    classSelectionListWidgetItem.py
+    classItem.py
 """
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, pyqtSignal as Signal
 from PyQt6.QtGui import QColor 
 from PyQt6.QtWidgets import (QFrame, QHBoxLayout, QToolButton, QVBoxLayout)
                         
-from customWidgets.customBaseObjects.customWidgetItemQFrame import CustomWidgetItemQFrame
-from customWidgets.customBaseObjects.customClassQListWidget import CustomClassQListWidget
+from custom_widgets.customBaseObjects.customWidgetItemQFrame import CustomWidgetItemQFrame
+from custom_widgets.customBaseObjects.customClassQListWidget import CustomClassQListWidget
 
-from customWidgets.classAttributesFrame import ClassAttributesFrame
 from dialogs.keySelectionDialog import getKeyInput
-from utils.expandingFrame import ExpandingFrame
 from dialogs.colourSelectorDialog import getColour
-from customWidgets.annotationsListWidgetItem import AnnotationsListWidgetItem
+from utils.expandingFrame import ExpandingFrame
 
-class ClassSelectionListWidgetItem (QFrame):
+from custom_widgets.annotation_manager.classAttributesFrame import ClassAttributesFrame
+from custom_widgets.annotation_manager.annotationItem import AnnotationItem
+
+class ClassItem (QFrame):
     """
         Class that creates a custom class item widget for class list.
-
-        params:
-            className - Name of class
-            colour - Annotation colour of class in RGB format: _,_,_ 
     """
+    # Annotation signals
+    annotation_selected = Signal(str)
+    annotation_removed = Signal(str)
+    annotation_hidden = Signal(str, bool)
+
     def __init__(self, className: str, colour: tuple, themePaletteColours: dict, fontRegular: str, fontTitle: str, page, parent=None):
         super().__init__()
 
@@ -54,7 +56,56 @@ class ClassSelectionListWidgetItem (QFrame):
 
     def addAnnotationToClassItem(self, annotationName: str) -> None:
         """ Adds an annotation item to the annotations list widget of class list item """
-        self.annotationsListWidget.addItemToListWidget(AnnotationsListWidgetItem(annotationName, self.themePaletteColours))
+        annotationItem = AnnotationItem(annotationName, self.themePaletteColours)
+        annotationItem.selected.connect(lambda id: self.annotation_selected.emit(id))
+        annotationItem.removed.connect(lambda id: self.annotation_removed.emit(id))
+        annotationItem.hidden.connect(lambda id, hidden: self.annotation_hidden.emit(id, hidden))
+
+        self.annotationsListWidget.addItemToListWidget(annotationItem)
+
+    def enableEdit(self) -> None:
+        """ Sets the list widget item into edit mode """
+        self.classSelectionFrame.setEditMode(True)
+        self.classAttributesFrame.setEditMode(True)
+        
+    def disableEdit(self) -> None:
+        """ Disables edit mode of list widget item """
+        self.classSelectionFrame.setEditMode(False)
+        self.classAttributesFrame.setEditMode(False)
+
+    def setSelected(self) -> None:
+        """ Sets list widget item to selected state """
+        self.classSelectionFrame.setSelected()
+        self.classSelectionFrame.parentSelected = True
+        self.parentSelected = True
+
+        # If we select an item, update the canvas
+        self.page.ui.annotationCanvas.currentClassColour = QColor(self.colour[0], self.colour[1], self.colour[2])
+        self.page.ui.annotationCanvas.currentClassName = self.className
+
+    def clearSelected(self) -> None:
+        """ Clears selected state of list widget item """
+        self.classSelectionFrame.clearSelection()
+        self.classSelectionFrame.parentSelected = False
+        self.parentSelected = False
+
+    def setClassName(self, className: str) -> None:
+        """ Sets the name of the class """
+        self.className = className
+        self.classAttributesFrame.setClassNameText(className)
+        if self.classAttributesFrame.classNameLineEdit.hasFocus():
+            self.classAttributesFrame.classNameLineEdit.clearFocus()
+
+    def setHotKey(self) -> None:
+        """ Gets a hotkey input from the user and sets the hotkey for the class """
+        keyInput = getKeyInput()
+        self.classAttributesFrame.setHotKeyText(keyInput.lower())
+
+    def selectColour(self) -> None:
+        """ Gets a selected colour from the user sets it as the class colour """
+        self.colour = getColour(self.themePaletteColours, self.fontRegular, self.fontTitle, self.colour)
+        self.classAttributesFrame.setClassColour(self.colour)
+
 
     def __setupStyleSheet(self) -> None:
         """ Sets up style sheet for list widget item"""
@@ -126,46 +177,3 @@ class ClassSelectionListWidgetItem (QFrame):
 
         if self.parentItem:
             self.parentItem.setSizeHint(self.sizeHint())
-
-    def enableEdit(self) -> None:
-        """ Sets the list widget item into edit mode """
-        self.classSelectionFrame.setEditMode(True)
-        self.classAttributesFrame.setEditMode(True)
-        
-    def disableEdit(self) -> None:
-        """ Disables edit mode of list widget item """
-        self.classSelectionFrame.setEditMode(False)
-        self.classAttributesFrame.setEditMode(False)
-
-    def setSelected(self) -> None:
-        """ Sets list widget item to selected state """
-        self.classSelectionFrame.setSelected()
-        self.classSelectionFrame.parentSelected = True
-        self.parentSelected = True
-
-        # If we select an item, update the canvas
-        self.page.ui.annotationCanvasWidget.currentClassColour = QColor(self.colour[0], self.colour[1], self.colour[2])
-        self.page.ui.annotationCanvasWidget.currentClassName = self.className
-
-    def clearSelected(self) -> None:
-        """ Clears selected state of list widget item """
-        self.classSelectionFrame.clearSelection()
-        self.classSelectionFrame.parentSelected = False
-        self.parentSelected = False
-
-    def setClassName(self, className: str) -> None:
-        """ Sets the name of the class """
-        self.className = className
-        self.classAttributesFrame.setClassNameText(className)
-        if self.classAttributesFrame.classNameLineEdit.hasFocus():
-            self.classAttributesFrame.classNameLineEdit.clearFocus()
-
-    def setHotKey(self) -> None:
-        """ Gets a hotkey input from the user and sets the hotkey for the class """
-        keyInput = getKeyInput()
-        self.classAttributesFrame.setHotKeyText(keyInput.lower())
-
-    def selectColour(self) -> None:
-        """ Gets a selected colour from the user sets it as the class colour """
-        self.colour = getColour(self.themePaletteColours, self.fontRegular, self.fontTitle, self.colour)
-        self.classAttributesFrame.setClassColour(self.colour)
