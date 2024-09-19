@@ -81,7 +81,7 @@ class AnnotationManager(QFrame):
 
     def addClassSelectionListItem(self, className: str, classColour: tuple) -> None:
         """ Adds a class item to the class selection list widget """
-        classListItem = ClassItem(className, classColour, self.themePaletteColours, self.fontRegular, self.fontTitle, page=self)
+        classListItem = ClassItem(className, classColour, self.themePaletteColours, self.fontRegular, self.fontTitle, app=self)
         classListItem.annotation_selected.connect(lambda annotation_id: self.annotation_selected.emit(annotation_id))
         classListItem.annotation_removed.connect(lambda annotation_id: self.annotation_removed.emit(annotation_id))
         classListItem.annotation_hidden.connect(lambda annotation_id, hidden: self.annotation_hidden.emit(annotation_id, hidden))
