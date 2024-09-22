@@ -85,7 +85,7 @@ class AnnotationPage():
         self.ui.annotateToolBtn.clicked.connect(lambda: self.updateAnnotationToolSelected(Tools.annotationTool))
 
     def loadPage(self):
-        """ Loads all information and functionality """ 
+        """ Loads all information and functionality """
         if len(self.app.project.annotationDataset) < 0:
             self.app.notificationManager.raiseNotification("Dataset contains no images")
             return

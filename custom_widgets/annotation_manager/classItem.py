@@ -120,12 +120,12 @@ class ClassItem (QFrame):
 
     def handleDeleteButton(self, id) -> None:
         """ Handles annotation item deletion """
+        print("HERE")
         self.annotations.remove(id)
         if len(self.annotations) == 0:
             self.expandBtn.hide()
             self.expandBtn.setChecked(False)
-        print("here")
-        
+
         self.__expandFrame(self.expandBtn.isChecked())
 
     def __setupStyleSheet(self) -> None:
@@ -164,7 +164,8 @@ class ClassItem (QFrame):
         self.annotationsFrameLayout = QVBoxLayout()
         self.annotationsFrameLayout.addWidget(self.annotationsListWidget)
         self.annotationsFrameLayout.setContentsMargins(0,0,0,0)
-        self.classAnnotationsFrame = ExpandingFrame(self.annotationsFrameLayout)
+        self.classAnnotationsFrame = QFrame() # ExpandingFrame(self.annotationsFrameLayout)
+        self.classAnnotationsFrame.setLayout(self.annotationsFrameLayout)
 
         # Apply contents to widget item
         self.annotationPageListWidgetItemLayout = QVBoxLayout()
@@ -177,8 +178,6 @@ class ClassItem (QFrame):
 
     def __expandFrame(self, checked) -> None:
         """ Expands and shrinks the annotations frame when expand arrow is toggled """
-        self.classAnnotationsFrame.start_animation(checked)
-
         if checked and len(self.annotations) > 0:
             print("a")
             self.expandBtn.setStyleSheet("QToolButton{"
@@ -186,10 +185,10 @@ class ClassItem (QFrame):
                                          "background-color: transparent;}"
                                          "QToolButton:hover{"
                                          "border-image: url('icons/icons8-expand-arrow-down-hover-25.png');}")
-
             self.classAnnotationsFrame.setFixedHeight(self.annotationsFrameLayout.sizeHint().height())
             self.setFixedHeight(self.height() + self.annotationsFrameLayout.sizeHint().height())
-            print(self.classAnnotationsFrame.height())
+            print("Class item is: " + str(self.height()))
+            print("Annotations frame is " + str(self.classAnnotationsFrame.height()))
 
         if not checked and len(self.annotations) > 0:
             print("b")
@@ -199,12 +198,11 @@ class ClassItem (QFrame):
                                          "QToolButton:hover{"
                                          "border-image: url('icons/icons8-expand-arrow-left-hover-25.png');}")
             self.classAnnotationsFrame.setFixedHeight(0)
-            self.setFixedHeight(self.height())
-            print(self.classAnnotationsFrame.height())
-
+            self.setFixedHeight(60)
+            print("Class item is: " + str(self.height()))
+            print("Annotations frame is " + str(self.classAnnotationsFrame.height()))
 
         if not checked and len(self.annotations) == 0:
-            print("c")
             self.expandBtn.setStyleSheet("QToolButton{"
                                          "border-image: url('icons/icons8-expand-arrow-left-25.png');"
                                          "background-color: transparent;}"
@@ -212,10 +210,7 @@ class ClassItem (QFrame):
                                          "border-image: url('icons/icons8-expand-arrow-left-hover-25.png');}")
             self.classAnnotationsFrame.setFixedHeight(0)
             self.setFixedHeight(self.height())
-            print(self.classAnnotationsFrame.height())
 
         if self.parentItem:
-            print("d")
             self.parentItem.setSizeHint(self.sizeHint())
-            print(self.classAnnotationsFrame.height())
 

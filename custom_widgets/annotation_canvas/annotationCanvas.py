@@ -66,7 +66,7 @@ class AnnotationCanvas(QGraphicsView):
 
         # Create rectangles from bounding boxes
         for boundingBox in self.image.boundingBoxes:
-            self.createRect(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, boundingBox.colour, boundingBox.className, boundingBox.id, True, True)
+            self.createRect(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height, boundingBox.colour, boundingBox.className, boundingBox.id, True, True, True)
 
         self.resetScene()
 
@@ -99,7 +99,7 @@ class AnnotationCanvas(QGraphicsView):
             boundingBoxes.append(boundingBox)
         self.image.updateBoundingBoxes(boundingBoxes)
 
-    def createRect(self, x: float, y: float, width: float, height: float, colour, className: str, id: int, store: bool, reload: bool):
+    def createRect(self, x: float, y: float, width: float, height: float, colour, className: str, id: int, store: bool, reload: bool, load: bool):
         """ Creates a rectangle based on mouse location and adds the rectangle to the scene """
         # Creating the rectangle
         rect = CustomRectangleGraphicsItem(x, y, width, height, self.scene, colour, className, id, self)
@@ -107,14 +107,15 @@ class AnnotationCanvas(QGraphicsView):
         if store:
             # Add rect to list
             self.rects.append(rect)
-            # Add rect to annotation manager widget
-            self.new_annotation.emit(BoundingBox(rect.x() + rect.rect().x(),
-                                      rect.y() + rect.rect().y(),
-                                      rect.rect().width(),
-                                      rect.rect().height(),
-                                      rect.classColour,
-                                      rect.className,
-                                      rect.id))
+            if not load:
+                # Dont emit new annotation when loading existing annotations
+                self.new_annotation.emit(BoundingBox(rect.x() + rect.rect().x(),
+                                          rect.y() + rect.rect().y(),
+                                          rect.rect().width(),
+                                          rect.rect().height(),
+                                          rect.classColour,
+                                          rect.className,
+                                          rect.id))
 
     def selectAnnotation(self, id: str):
         """ Selects an annotation """
@@ -170,6 +171,7 @@ class AnnotationCanvas(QGraphicsView):
                             self.currentClassName,
                             None,
                             False,
+                            False,
                             False)
 
     def mouseReleaseEvent(self, event):
@@ -187,7 +189,8 @@ class AnnotationCanvas(QGraphicsView):
                             self.currentClassName,
                             self.app.project.getNextAnnotationID(),
                             True,
-                            False) 
+                            False,
+                            False)
  
         # update image reference to bounding box list 
         self.generateBoundingBoxes()
