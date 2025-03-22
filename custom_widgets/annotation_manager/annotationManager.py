@@ -1,22 +1,25 @@
 """
-    annotationManager.py
+    annotationManagerold.py
 """
 
-from typing import Any
 from PyQt6 import QtCore
+from typing import Any
 from PyQt6.QtCore import pyqtSignal as Signal
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QCursor
-from PyQt6.QtWidgets import QHBoxLayout, QVBoxLayout, QPushButton, QFrame
+from PyQt6.QtWidgets import QHBoxLayout, QVBoxLayout, QPushButton, QFrame, QTreeWidgetItem, QTreeWidget, QHeaderView, \
+    QSizePolicy, QAbstractScrollArea
 
-from custom_widgets.customBaseObjects.customClassQListWidget import CustomClassQListWidget
 from custom_widgets.customBaseObjects.customUserInputQLineEdit import CustomUserInputQLineEdit
-from custom_widgets.annotation_manager.classItem import ClassItem
+from custom_widgets.annotation_manager.classTreeItemWidget import ClassItemTreeWidget
+from custom_widgets.annotation_manager.annotationTreeItemWidget import AnnotationTreeItemWidget
 
 class AnnotationManager(QFrame):
-    """ 
-        A custom widget for the annotation class selection for selecting and searching for classes 
     """
-    annotation_selected = Signal(str)
+        A custom widget for the annotation classes selection for selecting and searching for classes
+    """
+    classItemSelected = Signal(str)
+    annotationItemSelected = Signal(str)
     annotation_removed = Signal(str)
     annotation_hidden = Signal(str, bool)
 
@@ -35,10 +38,10 @@ class AnnotationManager(QFrame):
 
         # Setup stylesheet of frame
         self.__setupStyleSheet()
- 
+        self.classSelected = ""
+
         # Connect signals and slots
         self.classSearchLineEdit.textChanged.connect(lambda searchInput: self.__searchForClass(searchInput))
-        self.ui.editPageBtn.toggled.connect(lambda toggled: self.classSelectionListWidget.setEditMode(toggled))
 
     def reset(self) -> None:
         """ Resets the widget to an empty state """
@@ -52,11 +55,29 @@ class AnnotationManager(QFrame):
             if _class.className not in self._classes:
                 self.generateClassItem(_class.className, _class.classColour)
 
-    def generateClassItem(self, className: str, classColour: tuple ) -> None:
+    def generateClassItem(self, className: str, classColour: tuple) -> None:
         """ Generates a class item """
         if className not in self._classes:
             self.addClassSelectionListItem(className, classColour)
             self._classes.append(className)
+
+    def addClassSelectionListItem(self, className: str, classColour: tuple) -> None:
+        """ Adds a classes item to the classes selection list widget """
+        classItem = QTreeWidgetItem(self.classTreeWidget)
+        classItem.setFlags(classItem.flags() & ~Qt.ItemFlag.ItemIsSelectable)
+        classItem.setChildIndicatorPolicy(QTreeWidgetItem.ChildIndicatorPolicy.DontShowIndicatorWhenChildless)
+        classWidget = ClassItemTreeWidget(
+            className,
+            classItem,
+            self.classTreeWidget,
+            classColour,
+            self.themePaletteColours,
+            self.fontRegular,
+            self.fontTitle,
+            app=self
+        )
+
+        self.classTreeWidget.setItemWidget(classItem, 0, classWidget)
 
     def getClass(self, className: str) -> Any:
         """ Finds an ML Class """
@@ -73,99 +94,153 @@ class AnnotationManager(QFrame):
         """ Generates an annotation item """
         # Finding the annotation's class
         if annotation.className not in self._classes:
-            # An annotation is dependant on its class item being present
+            # An annotation is dependent on its class item being present
             _class = self.getClass(annotation.className)
             self.generateClassItem(_class.className, _class.classColour)
 
         self.addAnnotationToClassItem(annotation.className, annotation.id)
 
-    def addClassSelectionListItem(self, className: str, classColour: tuple) -> None:
-        """ Adds a class item to the class selection list widget """
-        classListItem = ClassItem(className, classColour, self.themePaletteColours, self.fontRegular, self.fontTitle, app=self)
-        classListItem.annotation_selected.connect(lambda annotation_id: self.annotation_selected.emit(annotation_id))
-        classListItem.annotation_removed.connect(lambda annotation_id: self.annotation_removed.emit(annotation_id))
-        classListItem.annotation_hidden.connect(lambda annotation_id, hidden: self.annotation_hidden.emit(annotation_id, hidden))
-
-        self.classListItems.append(classListItem)
-        self.classSelectionListWidget.addItemToListWidget(classListItem)
-
     def addAnnotationToClassItem(self, className: str, annotationID: str) -> None:
-        """
-        Adds an annotation item to a class item
-        """
-        for classListItem in self.classListItems:
-            if classListItem.className == className:
-                classListItem.addAnnotationToClassItem(str(annotationID))
+        """ Adds an annotation item to a classes item """
+        classItem = self.__findClassItem(className)
+        annotationItem = QTreeWidgetItem(classItem)
+        annotationWidget = AnnotationTreeItemWidget(str(annotationID), classItem, self.classTreeWidget, self.themePaletteColours)
+        self.classTreeWidget.setItemWidget(annotationItem, 0, annotationWidget)
 
     def __setupStyleSheet(self) -> None:
-        """ Sets the style sheet for the custom widget """
-        # Create utility frame 
-        self.classSelectionUtilityFrame = QFrame()
-        self.classSelectionUtilityFrame.setMinimumSize(0, 30)
-        self.classSelectionUtilityFrame.setMaximumSize(16777215, 30)
+        """ Configures the main layout of the annotation class selection frame. """
+        self.utilityWidgetsFrame = self.__createUtilityWidgetsFrame()
+        self.classSelectionFrame = self.__createClassSelectionFrame()
+        layout = QVBoxLayout(self.ui.annotationClassSelectionFrame)
+        layout.addWidget(self.utilityWidgetsFrame)
+        layout.addWidget(self.classSelectionFrame)
+        layout.setSpacing(5)
+        layout.setContentsMargins(0, 0, 0, 0)
 
-        # Create class selection list frame
-        self.classSelectionListFrame = QFrame()
-        self.classSelectionListFrame.setStyleSheet("QFrame{"
-                                                   f"background: {self.themePaletteColours['panel.sunken']};}}")   
+    def __createUtilityWidgetsFrame(self) -> QFrame:
+        """ Configures the layout for the class selection utility frame. """
+        frame = QFrame()
+        frame.setMinimumSize(0, 30)
+        frame.setMaximumSize(16777215, 30)
 
-        # Create search line edit widget
-        self.classSearchLineEdit = CustomUserInputQLineEdit(self.themePaletteColours, self.fontRegular)
-        self.classSearchLineEdit.setPlaceholderText('Search class...')
-        self.classSearchLineEdit.setMinimumSize(0, 25)
-        self.classSearchLineEdit.setMaximumSize(170, 25)
-        self.classSearchLineEdit.editingFinished.connect(lambda: self.classSearchLineEdit.clearFocus())
-        self.classSearchLineEdit.setTextMargins(5,0,5,0)
+        self.classSearchLineEdit = self.__createSearchUtilityLineEdit()
+        self.classAddAnnoPageBtn = self.__createAddClassButton()
 
-        # Create class add button widget
-        self.classAddAnnoPageBtn = QPushButton()
-        self.classAddAnnoPageBtn.setStyleSheet("QPushButton{"
-                                               f"font: 75 bold 11pt {self.fontTitle};"
-                                               f"background-color: {self.themePaletteColours['buttonFilled.background']};"
-                                               "border-radius: 8px;}"
-                                               "QPushButton::hover{"
-                                               f"background-color : {self.themePaletteColours['buttonFilled.hover']};"
-                                               f"color: {self.themePaletteColours['font.header']};}}")
-        self.classAddAnnoPageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.classAddAnnoPageBtn.setText('+ Class')
-        self.classAddAnnoPageBtn.setFixedHeight(25)
+        layout = QHBoxLayout(frame)
+        layout.addWidget(self.classSearchLineEdit)
+        layout.addWidget(self.classAddAnnoPageBtn)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(15)
+        return frame
 
-        # Apply layout to utility frame
-        self.classSelectionUtilityLayout = QHBoxLayout()
-        self.classSelectionUtilityLayout.addWidget(self.classSearchLineEdit)
-        self.classSelectionUtilityLayout.addWidget(self.classAddAnnoPageBtn)
-        self.classSelectionUtilityLayout.setContentsMargins(0,0,0,0)
-        self.classSelectionUtilityLayout.setSpacing(15)
-        self.classSelectionUtilityFrame.setLayout(self.classSelectionUtilityLayout)
+    def __createSearchUtilityLineEdit(self) -> CustomUserInputQLineEdit:
+        """ Initializes the search bar for filtering class items. """
+        lineEdit = CustomUserInputQLineEdit(self.themePaletteColours, self.fontRegular)
+        lineEdit.setPlaceholderText('Search class...')
+        lineEdit.setFixedSize(170, 25)
+        lineEdit.setTextMargins(5, 0, 5, 0)
+        lineEdit.editingFinished.connect(lambda: lineEdit.clearFocus())
+        return lineEdit
 
-        # Create custom class selection list widget        
-        self.classSelectionListWidget = CustomClassQListWidget(self.themePaletteColours)
-        self.classSelectionListWidget.setObjectName("annotationClassListWidget")
-        self.classSelectionListWidget.setSpacing(3)
+    def __createAddClassButton(self) -> QPushButton:
+        """ Initializes the button for adding new annotation classes. """
+        pushButton = QPushButton("+ Class")
+        pushButton.setFixedHeight(25)
+        pushButton.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        pushButton.setStyleSheet(
+            "QPushButton{"
+            f"font: 75 bold 11pt {self.fontTitle};"
+            f"background-color: {self.themePaletteColours['buttonFilled.background']};"
+            "border-radius: 8px;}"
+            "QPushButton::hover{"
+            f"background-color : {self.themePaletteColours['buttonFilled.hover']};"
+            f"color: {self.themePaletteColours['font.header']};}}"
+        )
+        return pushButton
 
-        # Apply layout to class selection list frame 
-        self.classSelectionListLayout = QVBoxLayout()
-        self.classSelectionListLayout.addWidget(self.classSelectionListWidget)
-        self.classSelectionListLayout.setSpacing(5)
-        self.classSelectionListLayout.setContentsMargins(3,3,3,3)
-        self.classSelectionListFrame.setLayout(self.classSelectionListLayout)
+    def __createClassSelectionFrame(self) -> QFrame:
+        """ Initializes the list widget for class selection. """
+        frame = QFrame()
+        # frame.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        frame.setStyleSheet(
+            "QFrame{"
+            f"background: {self.themePaletteColours['panel.sunken']};}}"
+        )
 
-        # Apply layout to 
-        self.annotationClassSelectionLayout = QVBoxLayout()
-        self.annotationClassSelectionLayout.addWidget(self.classSelectionUtilityFrame)
-        self.annotationClassSelectionLayout.addWidget(self.classSelectionListFrame)
-        self.annotationClassSelectionLayout.setSpacing(5)
-        self.annotationClassSelectionLayout.setContentsMargins(0,0,0,0)
-        self.ui.annotationClassSelectionFrame.setLayout(self.annotationClassSelectionLayout)
+        self.classTreeWidget = self.__createClassTreeWidget()
+        layout = QVBoxLayout(frame)
+        layout.addWidget(self.classTreeWidget)
+        layout.setContentsMargins(3,3,3,3)
+        return frame
+
+    def __createClassTreeWidget(self) -> QTreeWidget:
+        treeWidget = QTreeWidget()
+        treeWidget.setHeaderHidden(True)
+        treeWidget.header().setMinimumSectionSize(0)
+        treeWidget.setStyleSheet("""
+            QTreeView::branch { background: transparent; }
+            QTreeView::item {
+                padding-left: -20px;
+            }
+        """)
+        treeWidget.setExpandsOnDoubleClick(False)
+        treeWidget.itemClicked.connect(self.__emitSelectionSignal)
+
+        return treeWidget
+
+    def __findClassItem(self, className: str) -> QTreeWidgetItem:
+        classItem = None
+        for i in range(self.classTreeWidget.topLevelItemCount()):  # Iterate over top-level items
+            item = self.classTreeWidget.topLevelItem(i)
+            classWidget = self.classTreeWidget.itemWidget(item, 0)
+            if classWidget.className == className:
+                classItem = item
+                break  # Stop once we find the correct class
+
+        # Step 2: If classItem is not found, return (or optionally create the class)
+        if classItem is None:
+            print(f"Class '{className}' not found!")  # Debugging
+
+        return classItem
+
+    def __emitSelectionSignal(self, item: QTreeWidgetItem):
+        """Determine item type and emit appropriate signal."""
+        if item.parent() is None:
+            self.classItemSelected.emit(self.__getClassNameFromItem(item))
+            self.__setClassItemToSelected(item)
+        else:
+            self.annotationItemSelected.emit(self.__getAnnotationNameFromItem(item))
+
+    def __setClassItemToSelected(self, item) -> None:
+        classWidget = self.classTreeWidget.itemWidget(item, 0)
+        classWidget.setFrameToSelectedState(True)
+        oldSelectedItem = self.__findClassItem(self.classSelected)
+        if oldSelectedItem is not None:
+            oldSelectedWidget = self.classTreeWidget.itemWidget(oldSelectedItem, 0)
+            oldSelectedWidget.setFrameToSelectedState(False)
+        self.classSelected = self.__getClassNameFromItem(item)
+
+    def __getClassNameFromItem(self, item: QTreeWidgetItem) -> str:
+        classWidget = self.classTreeWidget.itemWidget(item, 0)
+        return classWidget.className
+
+    def __getAnnotationNameFromItem(self, item: QTreeWidgetItem) -> str:
+        annotationWidget = self.classTreeWidget.itemWidget(item, 0)
+        return annotationWidget.annotationName
 
     def __searchForClass(self, searchInput: str) -> None:
-        """ Searches and shows the classes that correspond to text """
-        for listItemIndex in range(0,self.classSelectionListWidget.count()):
-            listItem = self.classSelectionListWidget.item(listItemIndex)
-            widgetInItem = self.classSelectionListWidget.itemWidget(listItem)
-        
-            if not searchInput:
-                listItem.setHidden(False)
+        """ Searches and shows the class items that correspond to the text """
+        for i in range(self.classTreeWidget.topLevelItemCount()):
+            classItem = self.classTreeWidget.topLevelItem(i)
+            classWidget = self.classTreeWidget.itemWidget(classItem, 0)
 
-            elif searchInput.lower() not in widgetInItem.className.lower():
-                listItem.setHidden(True)
+            if not classWidget:
+                continue  # Just in case the item has no widget
+
+            if not searchInput:
+                classItem.setHidden(False)
+            elif searchInput.lower() in classWidget.className.lower():
+                classItem.setHidden(False)
+            else:
+                classItem.setHidden(True)
+

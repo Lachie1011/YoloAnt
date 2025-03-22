@@ -40,15 +40,10 @@ class ClassItem (QFrame):
 
         self.annotations = []
 
-        # Setup stylesheet of widget
+        # Setup UI
         self.__setupStyleSheet()
+        self.__initializeClassAttributes()
 
-        # Initialise widget with class attributes
-        self.classAttributesFrame.setClassColour(self.colour)
-        self.classAttributesFrame.setClassNameText(self.className)
-        self.classAttributesFrame.setHotKeyText('a')
-        self.classAttributesFrame.setClassAnnotationsCount('0')
-        
         # Connect signals and slots
         self.classAttributesFrame.classHotKeyBtn.clicked.connect(lambda: self.setHotKey())
         self.classAttributesFrame.classColourBtn.clicked.connect(lambda: self.selectColour())
@@ -62,14 +57,14 @@ class ClassItem (QFrame):
         annotationItem = AnnotationItem(annotationName, self.themePaletteColours)
         annotationItem.selected.connect(lambda id: self.annotation_selected.emit(id))
         annotationItem.removed.connect(lambda id: self.annotation_removed.emit(id))
-        annotationItem.removed.connect(lambda id: self.handleDeleteButton(id))
+        annotationItem.removed.connect(lambda id: self.__handleDeleteButton(id))
         annotationItem.hidden.connect(lambda id, hidden: self.annotation_hidden.emit(id, hidden))
 
         # Add item to list
         self.annotationsListWidget.addItemToListWidget(annotationItem)
         self.annotations.append(annotationName)
 
-        # Update size to accomodate new annotation
+        # Update size to accommodate new annotation
         self.__expandFrame(self.expandBtn.isChecked())
 
         # Show button as there is now an annotation
@@ -118,10 +113,9 @@ class ClassItem (QFrame):
         self.colour = getColour(self.themePaletteColours, self.fontRegular, self.fontTitle, self.colour)
         self.classAttributesFrame.setClassColour(self.colour)
 
-    def handleDeleteButton(self, id) -> None:
+    def __handleDeleteButton(self, annotationID: str) -> None:
         """ Handles annotation item deletion """
-        print("HERE")
-        self.annotations.remove(id)
+        self.annotations.remove(annotationID)
         if len(self.annotations) == 0:
             self.expandBtn.hide()
             self.expandBtn.setChecked(False)
@@ -130,87 +124,115 @@ class ClassItem (QFrame):
 
     def __setupStyleSheet(self) -> None:
         """ Sets up style sheet for list widget item"""
+        self.__setupClassAttributes()
+        self.__setupExpandButton()
+        self.__setupClassSelectionFrame()
+        self.__setupAnnotationsFrame()
+        self.__setupClassItemLayout()
 
-        # Class attributes frame
+    def __setupClassAttributes(self) -> None:
+        """ Creates the class attributes frame. """
         self.classAttributesFrame = ClassAttributesFrame(self.themePaletteColours, self.fontRegular)
 
-        # Expand annotations frame button
+    def __setupExpandButton(self) -> None:
+        """ Creates the expand button for annotation list. """
         self.expandBtn = QToolButton()
-        self.expandBtn.setStyleSheet("QToolButton{"
-                                     "border-image: url('icons/icons8-expand-arrow-left-25.png');"
-                                     "background-color: transparent;}"
-                                     "QToolButton:hover{"
-                                     "border-image: url('icons/icons8-expand-arrow-left-hover-25.png');}")
-        self.expandBtn.setFixedWidth(15)
-        self.expandBtn.setFixedHeight(15)
+        self.expandBtn.setStyleSheet(self.__getExpandButtonStyle(False))
+        self.expandBtn.setFixedSize(15, 15)
         self.expandBtn.setCheckable(True)
         self.expandBtn.setChecked(False)
-        self.expandBtn.hide()  # Only show button when there are anntotaions
+        self.expandBtn.hide()  # Hidden initially
 
-        # Setup class selection frame
+    def __setupClassSelectionFrame(self) -> None:
+        """ Creates the selection frame for the class item. """
         self.classSelectionFrame = CustomWidgetItemQFrame(self.themePaletteColours, self.parentSelected)
+        layout = QHBoxLayout(self.classSelectionFrame)
+        layout.addWidget(self.classAttributesFrame)
+        layout.addWidget(self.expandBtn)
+        layout.setContentsMargins(0, 0, 5, 0)
+        layout.setSpacing(5)
 
-        self.classSelectionFrameLayout = QHBoxLayout()
-        self.classSelectionFrameLayout.addWidget(self.classAttributesFrame)
-        self.classSelectionFrameLayout.addWidget(self.expandBtn)
-        self.classSelectionFrameLayout.setContentsMargins(0,0,5,0)
-        self.classSelectionFrameLayout.setSpacing(5)
-        self.classSelectionFrame.setLayout(self.classSelectionFrameLayout)
-
-        # Class annotations frame
+    def __setupAnnotationsFrame(self) -> None:
+        """ Creates the annotations list frame. """
         self.annotationsListWidget = CustomClassQListWidget(self.themePaletteColours)
+        self.classAnnotationsFrame = QFrame()
+        layout = QVBoxLayout(self.classAnnotationsFrame)
+        layout.addWidget(self.annotationsListWidget)
+        layout.setContentsMargins(0, 0, 0, 0)
 
-        # Create layout for annotations frame
-        self.annotationsFrameLayout = QVBoxLayout()
-        self.annotationsFrameLayout.addWidget(self.annotationsListWidget)
-        self.annotationsFrameLayout.setContentsMargins(0,0,0,0)
-        self.classAnnotationsFrame = QFrame() # ExpandingFrame(self.annotationsFrameLayout)
-        self.classAnnotationsFrame.setLayout(self.annotationsFrameLayout)
+    def __setupClassItemLayout(self) -> None:
+        """ Configures the main layout of the class item. """
+        layout = QVBoxLayout()
+        layout.addWidget(self.classSelectionFrame)
+        layout.addWidget(self.classAnnotationsFrame)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.setLayout(layout)
 
-        # Apply contents to widget item
-        self.annotationPageListWidgetItemLayout = QVBoxLayout()
-        self.annotationPageListWidgetItemLayout.addWidget(self.classSelectionFrame)
-        self.annotationPageListWidgetItemLayout.addWidget(self.classAnnotationsFrame)
-        self.annotationPageListWidgetItemLayout.setContentsMargins(0,0,0,0)
-        self.annotationPageListWidgetItemLayout.setSpacing(0)
-        self.annotationPageListWidgetItemLayout.setAlignment(Qt.AlignmentFlag.AlignTop)
-        self.setLayout(self.annotationPageListWidgetItemLayout)
+    def __initializeClassAttributes(self) -> None:
+        """ Initialise class attributes """
+        self.classAttributesFrame.setClassColour(self.colour)
+        self.classAttributesFrame.setClassNameText(self.className)
+        self.classAttributesFrame.setHotKeyText('a')
+        self.classAttributesFrame.setClassAnnotationsCount('0')
 
-    def __expandFrame(self, checked) -> None:
-        """ Expands and shrinks the annotations frame when expand arrow is toggled """
-        if checked and len(self.annotations) > 0:
-            print("a")
-            self.expandBtn.setStyleSheet("QToolButton{"
-                                         "border-image: url('icons/icons8-expand-arrow-down-25.png');"
-                                         "background-color: transparent;}"
-                                         "QToolButton:hover{"
-                                         "border-image: url('icons/icons8-expand-arrow-down-hover-25.png');}")
-            self.classAnnotationsFrame.setFixedHeight(self.annotationsFrameLayout.sizeHint().height())
-            self.setFixedHeight(self.height() + self.annotationsFrameLayout.sizeHint().height())
-            print("Class item is: " + str(self.height()))
-            print("Annotations frame is " + str(self.classAnnotationsFrame.height()))
+    def __expandFrame(self, checked: bool) -> None:
+        """ Expands or collapses the annotations frame. """
+        if len(self.annotations) == 0:
+            return
 
-        if not checked and len(self.annotations) > 0:
-            print("b")
-            self.expandBtn.setStyleSheet("QToolButton{"
-                                         "border-image: url('icons/icons8-expand-arrow-left-25.png');"
-                                         "background-color: transparent;}"
-                                         "QToolButton:hover{"
-                                         "border-image: url('icons/icons8-expand-arrow-left-hover-25.png');}")
-            self.classAnnotationsFrame.setFixedHeight(0)
-            self.setFixedHeight(60)
-            print("Class item is: " + str(self.height()))
-            print("Annotations frame is " + str(self.classAnnotationsFrame.height()))
-
-        if not checked and len(self.annotations) == 0:
-            self.expandBtn.setStyleSheet("QToolButton{"
-                                         "border-image: url('icons/icons8-expand-arrow-left-25.png');"
-                                         "background-color: transparent;}"
-                                         "QToolButton:hover{"
-                                         "border-image: url('icons/icons8-expand-arrow-left-hover-25.png');}")
-            self.classAnnotationsFrame.setFixedHeight(0)
-            self.setFixedHeight(self.height())
+        self.expandBtn.setStyleSheet(self.__getExpandButtonStyle(checked))
+        self.classAnnotationsFrame.setFixedHeight(self.annotationsListWidget.sizeHint().height() if checked else 0)
+        self.setFixedHeight(self.classSelectionFrame.height() + self.classAnnotationsFrame.height())
 
         if self.parentItem:
             self.parentItem.setSizeHint(self.sizeHint())
 
+    # def __expandFrame(self, checked) -> None:
+    #     """ Expands and shrinks the annotations frame when expand arrow is toggled """
+    #     if checked and len(self.annotations) > 0:
+    #         print("a")
+    #         self.expandBtn.setStyleSheet("QToolButton{"
+    #                                      "border-image: url('icons/icons8-expand-arrow-down-25.png');"
+    #                                      "background-color: transparent;}"
+    #                                      "QToolButton:hover{"
+    #                                      "border-image: url('icons/icons8-expand-arrow-down-hover-25.png');}")
+    #         self.classAnnotationsFrame.setFixedHeight(self.annotationsFrameLayout.sizeHint().height())
+    #         self.setFixedHeight(self.height() + self.annotationsFrameLayout.sizeHint().height())
+    #         print("Class item is: " + str(self.height()))
+    #         print("Annotations frame is " + str(self.classAnnotationsFrame.height()))
+    #
+    #     if not checked and len(self.annotations) > 0:
+    #         print("b")
+    #         self.expandBtn.setStyleSheet("QToolButton{"
+    #                                      "border-image: url('icons/icons8-expand-arrow-left-25.png');"
+    #                                      "background-color: transparent;}"
+    #                                      "QToolButton:hover{"
+    #                                      "border-image: url('icons/icons8-expand-arrow-left-hover-25.png');}")
+    #         self.classAnnotationsFrame.setFixedHeight(0)
+    #         self.setFixedHeight(60)
+    #         print("Class item is: " + str(self.height()))
+    #         print("Annotations frame is " + str(self.classAnnotationsFrame.height()))
+    #
+    #     if not checked and len(self.annotations) == 0:
+    #         self.expandBtn.setStyleSheet("QToolButton{"
+    #                                      "border-image: url('icons/icons8-expand-arrow-left-25.png');"
+    #                                      "background-color: transparent;}"
+    #                                      "QToolButton:hover{"
+    #                                      "border-image: url('icons/icons8-expand-arrow-left-hover-25.png');}")
+    #         self.classAnnotationsFrame.setFixedHeight(0)
+    #         self.setFixedHeight(self.height())
+    #
+    #     if self.parentItem:
+    #         self.parentItem.setSizeHint(self.sizeHint())
+
+    def __getExpandButtonStyle(self, expanded: bool) -> str:
+        """ Returns the stylesheet for the expand button. """
+        state = "down" if expanded else "left"
+        return (f"QToolButton{{"
+                f"border-image: url('icons/icons8-expand-arrow-{state}-25.png');"
+                "background-color: transparent;}"
+                "QToolButton:hover{"
+                f"border-image: url('icons/icons8-expand-arrow-{state}-hover-25.png');"
+                "}}")

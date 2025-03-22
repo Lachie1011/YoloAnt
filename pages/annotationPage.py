@@ -49,7 +49,7 @@ class AnnotationPage():
         self.ui.annotationCanvas.app = app
 
         self.annotationManager = AnnotationManager(self.app, self.ui, self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle)
-        self.annotationManager.annotation_selected.connect(lambda id: self.ui.annotationCanvas.selectAnnotation(id))
+        self.annotationManager.annotationItemSelected.connect(lambda id: self.ui.annotationCanvas.selectAnnotation(id))
         self.annotationManager.annotation_removed.connect(lambda id: self.ui.annotationCanvas.removeAnnotation(id))
         self.annotationManager.annotation_hidden.connect(lambda id, hidden: self.ui.annotationCanvas.hideAnnotation(id, hidden))
 

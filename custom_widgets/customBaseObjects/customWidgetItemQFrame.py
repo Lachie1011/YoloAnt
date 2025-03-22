@@ -9,11 +9,11 @@ class CustomWidgetItemQFrame(QFrame):
     """
         Class that creates a custom QFrame
     """
-    def __init__(self, themePaletteColours, parentSelected):
+    def __init__(self, themePaletteColours):
         """ init """
         super().__init__()
         self.themePaletteColours = themePaletteColours
-        self.parentSelected = parentSelected
+        self.parentSelected = False
         self.__baseStyleSheet()
 
     def enterEvent(self, event) -> None:
@@ -45,6 +45,7 @@ class CustomWidgetItemQFrame(QFrame):
     def clearSelection(self) -> None:
         """ Changes stylesheet of widgets to reflect being selected """
         self.__baseStyleSheet()
+        self.parentSelected = False
 
     def setEditMode(self, toggled: bool) -> None:
         """ Sets the edit mode of the widget """
