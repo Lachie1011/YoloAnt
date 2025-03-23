@@ -92,7 +92,7 @@ class ClassItem (QFrame):
         self.parentSelected = True
 
         # If we select an item, update the canvas
-        self.app.ui.annotationCanvas.currentClassColour = QColor(self.colour[0], self.colour[1], self.colour[2])
+        self.app.ui.annotationCanvas.currentClassColour = QColor(int(self.colour[0]), int(self.colour[1]), int(self.colour[2]))
         self.app.ui.annotationCanvas.currentClassName = self.className
 
     def clearSelected(self) -> None:
