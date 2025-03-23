@@ -49,9 +49,9 @@ class AnnotationPage():
         self.ui.annotationCanvas.app = app
 
         self.annotationManager = AnnotationManager(self.app, self.ui, self.app.theme.colours, self.app.fontTypeRegular, self.app.fontTypeTitle)
-        self.annotationManager.annotationItemSelected.connect(lambda id: self.ui.annotationCanvas.selectAnnotation(id))
-        self.annotationManager.annotation_removed.connect(lambda id: self.ui.annotationCanvas.removeAnnotation(id))
-        self.annotationManager.annotation_hidden.connect(lambda id, hidden: self.ui.annotationCanvas.hideAnnotation(id, hidden))
+        self.annotationManager.annotationItemSelectedSignal.connect(lambda id: self.ui.annotationCanvas.selectAnnotation(id))
+        self.annotationManager.annotationRemovedSignal.connect(lambda id: self.ui.annotationCanvas.removeAnnotation(id))
+        self.annotationManager.annotationHiddenSignal.connect(lambda id, hidden: self.ui.annotationCanvas.hideAnnotation(id, hidden))
 
         self.__setupPagePalette()
 
@@ -69,7 +69,7 @@ class AnnotationPage():
 
         # Connect signals and slots
         self.annotationManager.classAddAnnoPageBtn.clicked.connect(self.__openCreateClassDialog)
-        self.ui.editPageBtn.toggled.connect(lambda toggled: self.annotationManager.classSelectionListWidget.setEditMode(toggled))
+        self.ui.editPageBtn.toggled.connect(lambda toggled: self.annotationManager.setEditMode(toggled))
         self.ui.annotationCanvas.new_annotation.connect(lambda annotation: self.annotationManager.generateAnnotationItem(annotation))
 
     def __connectImageNavigationButtons(self):
@@ -98,8 +98,8 @@ class AnnotationPage():
         # Updating widgets
         self.app.ui.annotationCanvas.updateImage(self.app.project.annotationDataset[self.currentIndex])
         self.updateAnnotationToolSelected(Tools.mouseTool)
-        self.__updateImageInformationPanel()
-        self.__updateAnnotationManager(self.app.project.annotationDataset[self.currentIndex]) 
+        # self.__updateImageInformationPanel()
+        self.__updateAnnotationManager(self.app.project.annotationDataset[self.currentIndex])
 
     def updateAnnotationToolSelected(self, tool: Tools) -> None:
         """ Updates the mouse icon based on selected tool """
