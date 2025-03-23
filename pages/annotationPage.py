@@ -52,6 +52,9 @@ class AnnotationPage():
         self.annotationManager.annotationItemSelectedSignal.connect(lambda id: self.ui.annotationCanvas.selectAnnotation(id))
         self.annotationManager.annotationRemovedSignal.connect(lambda id: self.ui.annotationCanvas.removeAnnotation(id))
         self.annotationManager.annotationHiddenSignal.connect(lambda id, hidden: self.ui.annotationCanvas.hideAnnotation(id, hidden))
+        self.ui.annotationCanvas.annotationSelectedSignal.connect(
+            lambda className, annotationID: self.annotationManager.setAnnotationToSelected(className, annotationID)
+        )
 
         self.__setupPagePalette()
 

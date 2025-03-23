@@ -3,27 +3,35 @@
 """
 from PyQt6.QtWidgets import (
     QWidget, QLabel, QPushButton, QFrame, QHBoxLayout,
-    QVBoxLayout, QSpacerItem, QSizePolicy
+    QVBoxLayout, QSpacerItem, QSizePolicy, QTreeWidgetItem, QTreeWidget
 )
 from PyQt6.QtCore import pyqtSignal as Signal
 from PyQt6.QtGui import QCursor
 from PyQt6.QtCore import Qt
 
+from custom_widgets.annotation_manager.classItem import ClassItem
 
-class AnnotationTreeItemWidget(QWidget):
-    """ The QWidget that is for a annotation tree item. """
+
+class AnnotationItem(QTreeWidgetItem):
+    """ A class for creating an annotation item """
     annotationRemovedSignal = Signal(str)
     annotationHiddenSignal = Signal(str, bool)
 
-    def __init__(self, annotationName, parentTreeItem, treeWidget, themePaletteColours):
-        super().__init__()
-        self.annotationName = annotationName
-        self.parentTreeItem = parentTreeItem
+    def __init__(
+            self,
+            annotationID: int,
+            classItem: ClassItem,
+            treeWidget: QTreeWidget,
+            themePaletteColours
+    ):
+        super().__init__(classItem)
+        self.annotationID = annotationID
         self.treeWidget = treeWidget
+        self.classItem = classItem
         self.themePaletteColours = themePaletteColours
         self.isSelected = False
 
-        self.__setupStyleSheet()
+        self.__setupStyleSheet(treeWidget)
         self.hideAnnotationBtn.clicked.connect(lambda: self.__hideAnnotation())
 
     def enterEvent(self, event) -> None:
@@ -41,10 +49,16 @@ class AnnotationTreeItemWidget(QWidget):
         self.isSelected = isSelected
         self.frame.setStyleSheet(self.__getFrameStyle(hover=False, selected=isSelected))
 
-    def __setupStyleSheet(self):
-        self.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.setFixedHeight(60)
+    def connectSignals(self, onRemove, onHide):
+        """
+        Allows external code to connect callbacks to the delete and hide buttons.
+        Usage:
+            annotationItem.connectSignals(lambda id: ..., lambda id, hidden: ...)
+        """
+        self.onDelete = onRemove
+        self.onHide = onHide
 
+    def __setupStyleSheet(self, treeWidget: QTreeWidget) -> None:
         self.frame = QFrame()
         self.frame.setObjectName("annotationFrame")
         self.frame.setStyleSheet(self.__getFrameStyle())
@@ -64,9 +78,18 @@ class AnnotationTreeItemWidget(QWidget):
         frameLayout.addWidget(self.hideAnnotationBtn)
         frameLayout.addWidget(self.annotationDeleteButton)
 
-        layout = QVBoxLayout(self)
+        widget = QWidget()
+        widget.setStyleSheet(f"""
+            QWidget{{
+                background: {self.themePaletteColours['app.sunken']};
+            }}
+        """)
+        widget.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        widget.setFixedHeight(60)
+        layout = QVBoxLayout(widget)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.frame)
+        treeWidget.setItemWidget(self, 0, widget)
 
     def __getFrameStyle(self, hover=False, selected=False) -> str:
         border = f"2px solid {self.themePaletteColours['focus.foreground']}" if hover or selected else "none"
@@ -80,7 +103,7 @@ class AnnotationTreeItemWidget(QWidget):
 
     def __createAnnotationNameLabel(self) -> QLabel:
         """ Creates the annotation label. """
-        label = QLabel(self.annotationName)
+        label = QLabel(str(self.annotationID))
         label.setStyleSheet(f"color: {self.themePaletteColours['font.regular']};")
         label.setMinimumSize(100, 30)
         return label
@@ -104,10 +127,9 @@ class AnnotationTreeItemWidget(QWidget):
 
     def __hideAnnotation(self) -> None:
         """ Changes the icon depending on checked status and emits signal. """
-        self.annotationHiddenSignal.emit(
-            self.annotationName,
-            self.hideAnnotationBtn.isChecked()
-        )
+        if hasattr(self, "onHide"):
+            self.onHide(str(self.annotationID), self.hideAnnotationBtn.isChecked())
+
         if self.hideAnnotationBtn.isChecked():
             self.hideAnnotationBtn.setStyleSheet("""
                 QPushButton {
@@ -121,14 +143,13 @@ class AnnotationTreeItemWidget(QWidget):
         else:
             self.hideAnnotationBtn.setStyleSheet("""
                 QPushButton {
-                    background-color: transparent;
+                background-color: transparent;
                     border-image: url('icons/icons8-eye-open-25.png');
                 }
                 QPushButton:hover {
                     border-image: url('icons/icons8-eye-open-hover-25.png');
                 }
             """)
-
 
     def __createDeleteButton(self) -> QPushButton:
         """ Creates the delete annotation button. """
@@ -146,15 +167,9 @@ class AnnotationTreeItemWidget(QWidget):
 
     def __deleteAnnotation(self):
         """ Emits the delete signal and removes this item from the tree widget. """
-        self.annotationRemovedSignal.emit(self.annotationName)
+        if hasattr(self, "onRemove"):
+            self.onDelete(str(self.annotationID))
+        self.classItem.removeChild(self)
+        if self.classItem.childCount() == 0:
+            self.classItem.setExpanded(False)
 
-        if self.parentTreeItem is not None:
-            for i in range(self.parentTreeItem.childCount()):
-                child_item = self.parentTreeItem.child(i)
-                widget = self.treeWidget.itemWidget(child_item, 0)
-                if widget == self:
-                    self.parentTreeItem.removeChild(child_item)
-                    del child_item
-                    break
-            if self.parentTreeItem.childCount() == 0:
-                self.parentTreeItem.setExpanded(False)

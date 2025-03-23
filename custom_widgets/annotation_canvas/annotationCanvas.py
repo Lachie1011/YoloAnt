@@ -16,6 +16,7 @@ class AnnotationCanvas(QGraphicsView):
     """ A custom widget for the annotation canvas used for drawing bounding boxes """
     # Signals
     new_annotation = Signal(BoundingBox)
+    annotationSelectedSignal = Signal(str, int)
 
     def __init__(self, parent):
         super(AnnotationCanvas, self).__init__(parent)
@@ -103,6 +104,8 @@ class AnnotationCanvas(QGraphicsView):
         """ Creates a rectangle based on mouse location and adds the rectangle to the scene """
         # Creating the rectangle
         rect = CustomRectangleGraphicsItem(x, y, width, height, self.scene, colour, className, id, self)
+        rect.connectSignals(lambda className, id: self.annotationSelectedSignal.emit(className, id))
+
         self.scene.addItem(rect)
         if store:
             # Add rect to list
@@ -194,4 +197,3 @@ class AnnotationCanvas(QGraphicsView):
  
         # update image reference to bounding box list 
         self.generateBoundingBoxes()
-

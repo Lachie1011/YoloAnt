@@ -17,6 +17,7 @@ class Handles(Enum):
 
 class CustomEllipseGraphicsItem(QGraphicsEllipseItem):
     """ A custom graphics item that reimplements QGraphicsEllipseItem """
+
     def __init__(self, x, y, width, height, parent, classColour, handleType):
         super().__init__(x, y, width, height, parent)
         

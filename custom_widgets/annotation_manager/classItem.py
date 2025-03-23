@@ -1,27 +1,26 @@
 """
     classTreeItemWidget.py
 """
-
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QSizePolicy, QToolButton
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QSizePolicy, QToolButton, QTreeWidgetItem, QTreeWidget
 
 from custom_widgets.annotation_manager.classAttributesFrame import ClassAttributesFrame
 from custom_widgets.customBaseObjects.customWidgetItemQFrame import CustomWidgetItemQFrame
 from dialogs.keySelectionDialog import getKeyInput
 from dialogs.colourSelectorDialog import getColour
 
-class ClassTreeItemWidget(QWidget):
-    """ The QWidget that is for a class tree item. """
+class ClassItem(QTreeWidgetItem):
+    """ A class for creating a class item. """
     def __init__(
             self,
             className,
-            classTreeItem,
             classTreeWidget,
             colour: tuple,
             themePaletteColours: dict,
             fontRegular: str,
             fontTitle: str,
     ):
-        super().__init__()
+        super().__init__(classTreeWidget)
 
         # Member variables
         self.colour = colour
@@ -31,18 +30,17 @@ class ClassTreeItemWidget(QWidget):
         self.fontTitle = fontTitle
         self.parentItem = None
         self.editEnabled = False
-        self.classTreeItem = classTreeItem
-        self.classTreeWidget = classTreeWidget
         self.isExpanded = False
 
-        self.__setupStyleSheet()
+        self.__setupStyleSheet(classTreeWidget)
         self.__initializeClassAttributes()
 
-    def toggleExpand(self):
-        """ Toggle the expansion of annotations under this class. """
-        self.isExpanded = not self.isExpanded
+    def showAnnotations(self, isVisible: bool):
+        """ Shows the annotations under this class. """
+        self.isExpanded = isVisible
         self.expandToolButton.setStyleSheet(self.__getExpandButtonStyle(self.isExpanded))
-        self.classTreeItem.setExpanded(self.isExpanded)
+        self.setExpanded(self.isExpanded)
+        self.expandToolButton.setChecked(self.isExpanded)
 
     def setEditableState(self, isEditable: bool):
         """ Sets the widget into an editable state. """
@@ -73,12 +71,17 @@ class ClassTreeItemWidget(QWidget):
         self.colour = getColour(self.themePaletteColours, self.fontRegular, self.fontTitle, self.colour)
         self.classAttributesFrame.setClassColour(self.colour)
 
-    def __setupStyleSheet(self) -> None:
+    def __setupStyleSheet(self, treeWidget: QTreeWidget) -> None:
         """ Sets up style sheet for list widget item"""
+        self.setFlags(self.flags() & ~Qt.ItemFlag.ItemIsSelectable)
+        self.setChildIndicatorPolicy(QTreeWidgetItem.ChildIndicatorPolicy.DontShowIndicatorWhenChildless)
         self.classSelectionFrame = self.__createClassSelectionFrame()
-        layout = QVBoxLayout(self)
+        widget = QWidget()
+
+        layout = QVBoxLayout(widget)
         layout.addWidget(self.classSelectionFrame)
         layout.setContentsMargins(0, 0, 0, 0)
+        treeWidget.setItemWidget(self, 0, widget)
 
     def __createClassSelectionFrame(self) -> CustomWidgetItemQFrame:
         """ Creates the selection frame for the class item. """
@@ -110,7 +113,7 @@ class ClassTreeItemWidget(QWidget):
         toolButton.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         toolButton.setCheckable(True)
         toolButton.setChecked(False)
-        toolButton.clicked.connect(self.toggleExpand)
+        toolButton.clicked.connect(lambda isChecked: self.showAnnotations(isChecked))
         return toolButton
 
     def __getExpandButtonStyle(self, expanded: bool) -> str:
