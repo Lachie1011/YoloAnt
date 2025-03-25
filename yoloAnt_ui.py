@@ -380,15 +380,15 @@ class Ui_MainWindow(object):
         self.verticalLayout_7.setContentsMargins(30, 30, 30, 30)
         self.verticalLayout_7.setSpacing(0)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
-        self.annotationCanvasWidget = AnnotationCanvasWidget(parent=self.imageFrame)
+        self.annotationCanvas = AnnotationCanvas(parent=self.imageFrame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.annotationCanvasWidget.sizePolicy().hasHeightForWidth())
-        self.annotationCanvasWidget.setSizePolicy(sizePolicy)
-        self.annotationCanvasWidget.setMinimumSize(QtCore.QSize(475, 475))
-        self.annotationCanvasWidget.setObjectName("annotationCanvasWidget")
-        self.verticalLayout_7.addWidget(self.annotationCanvasWidget)
+        sizePolicy.setHeightForWidth(self.annotationCanvas.sizePolicy().hasHeightForWidth())
+        self.annotationCanvas.setSizePolicy(sizePolicy)
+        self.annotationCanvas.setMinimumSize(QtCore.QSize(475, 475))
+        self.annotationCanvas.setObjectName("annotationCanvas")
+        self.verticalLayout_7.addWidget(self.annotationCanvas)
         self.verticalLayout_14.addWidget(self.imageFrame)
         self.navigationFrame = QtWidgets.QFrame(parent=self.stageFrame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.MinimumExpanding)
@@ -2152,6 +2152,6 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Attachments"))
         self.editSwitchLbl.setText(_translate("MainWindow", "Edit:"))
         self.menutest.setTitle(_translate("MainWindow", "File"))
-from customWidgets.annotationCanvasWidget import AnnotationCanvasWidget
+from custom_widgets.annotation_canvas.annotationCanvas import AnnotationCanvas
 from pyqtgraph import PlotWidget
 from utils.switch import Switch

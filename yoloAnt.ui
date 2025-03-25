@@ -972,7 +972,7 @@ border-radius: 5px;</string>
                   <number>30</number>
                  </property>
                  <item>
-                  <widget class="AnnotationCanvasWidget" name="annotationCanvasWidget" native="true">
+                  <widget class="AnnotationCanvas" name="annotationCanvas" native="true">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                      <horstretch>0</horstretch>
@@ -5732,9 +5732,9 @@ color: rgb(255, 255, 255);</string>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>AnnotationCanvasWidget</class>
+   <class>AnnotationCanvas</class>
    <extends>QWidget</extends>
-   <header>customWidgets/annotationCanvasWidget</header>
+   <header>custom_widgets/annotationCanvas</header>
    <container>1</container>
   </customwidget>
   <customwidget>

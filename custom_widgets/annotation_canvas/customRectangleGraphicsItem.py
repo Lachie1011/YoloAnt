@@ -2,15 +2,17 @@
     customRectangleGraphicsItem.py  
 """
 
-from PyQt6.QtCore import Qt, QEvent, QPointF, QPoint, QRect, pyqtSignal
+from PyQt6.QtCore import Qt, QEvent, QPointF, QPoint, QRect, pyqtSignal as Signal
 from PyQt6.QtGui import QPixmap, QColor, QPen, QBrush
 from PyQt6.QtWidgets import QGraphicsRectItem, QGraphicsItem, QGraphicsEllipseItem
 
-from customWidgets.customEllipseGraphicsItem import CustomEllipseGraphicsItem, Handles
+from custom_widgets.annotation_canvas.customEllipseGraphicsItem import CustomEllipseGraphicsItem, Handles
 
 
 class CustomRectangleGraphicsItem(QGraphicsRectItem):
     """ A custom graphics item that reimplements QGraphicsRectItem """
+
+    annotationSelectedSignal = Signal(str, str)
     def __init__(self, x, y, width, height, scene, classColour, className, id, canvas):
         super().__init__(x, y, width, height)
 
@@ -47,6 +49,8 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
         if change == QGraphicsItem.GraphicsItemChange.ItemSelectedChange:
             if(value):
                 self.toggleEditMode(True)
+                if hasattr(self, "onSelected"):
+                    self.onSelected(self.className, self.id)
             else:
                 self.toggleEditMode(False)
 
@@ -160,3 +164,5 @@ class CustomRectangleGraphicsItem(QGraphicsRectItem):
         for handle in self.handles:
             handle.hide()
 
+    def connectSignals(self, onSelected):
+        self.onSelected = onSelected

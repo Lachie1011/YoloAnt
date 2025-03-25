@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (QFrame, QLabel, QHBoxLayout, QLineEdit, QProgressBa
                              QSpacerItem, QSizePolicy, QPushButton)
 
 from dialogs.colourSelectorDialog import getColour
-from customWidgets.customBaseObjects.customPanelQLineEdit import CustomPanelQLineEdit
+from custom_widgets.customBaseObjects.customPanelQLineEdit import CustomPanelQLineEdit
 
 class ProjectClassListItemWidget (QFrame):
     """
