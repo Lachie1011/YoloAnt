@@ -49,13 +49,13 @@ class AnnotationItem(QTreeWidgetItem):
         self.isSelected = isSelected
         self.frame.setStyleSheet(self.__getFrameStyle(hover=False, selected=isSelected))
 
-    def connectSignals(self, onRemove, onHide):
+    def connectSignals(self, onDelete, onHide):
         """
         Allows external code to connect callbacks to the delete and hide buttons.
         Usage:
             annotationItem.connectSignals(lambda id: ..., lambda id, hidden: ...)
         """
-        self.onDelete = onRemove
+        self.onDelete = onDelete
         self.onHide = onHide
 
     def __setupStyleSheet(self, treeWidget: QTreeWidget) -> None:
@@ -167,7 +167,7 @@ class AnnotationItem(QTreeWidgetItem):
 
     def __deleteAnnotation(self):
         """ Emits the delete signal and removes this item from the tree widget. """
-        if hasattr(self, "onRemove"):
+        if hasattr(self, "onDelete"):
             self.onDelete(str(self.annotationID))
         self.classItem.removeChild(self)
         if self.classItem.childCount() == 0:
