@@ -1,0 +1,33 @@
+#MainDialog{
+    background-color: @menu_background;
+}
+
+#openProjectFrame{
+	border: none;
+	background: none;
+}
+
+#createProjectFrame{
+	border: none;
+	background: none;
+}
+
+#openProjecBtn{
+	border: none;
+	background: none;
+}
+
+#openProjecBtn:hover {
+    background-color: @app_hover;
+    border-radius: 20px;
+}
+
+#createProjectBtn{
+	border: none;
+	background: none;
+}
+
+#createProjectBtn:hover {
+    background-color: @app_hover;
+    border-radius: 20px;
+}

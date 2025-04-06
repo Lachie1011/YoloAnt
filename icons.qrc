@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+    <file>icons/icons8-pencil-30.png</file>
+    <file>icons/icons8-pencil-40-selected.png</file>
+    <file>icons/icons8-project-40.png</file>
+    <file>icons/icons8-project-40-selected.png</file>
+    <file>icons/icons8-ant-head-40.png</file>
+    <file>icons/icons8-ant-head-40-selected.png</file>
+    <file>icons/icons8-information-40.png</file>
+    <file>icons/icons8-information-40-selected.png</file>
+    </qresource>
+</RCC>

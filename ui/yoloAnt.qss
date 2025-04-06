@@ -1,0 +1,71 @@
+#leftMenuSubContainer{
+    background-color: @navigationbar_background;
+}
+
+#bottomBarFrame{
+    background-color: @navigationbar_background;
+}
+
+#stackedWidget{
+	background-color: @app_background;
+}
+
+#infoWidget{
+	border: none;
+}
+
+#annotTabIndicatorLbl{
+    background-color: transparent;
+}
+
+#annotTabIndicatorSelectedLbl{
+    background-color: @focus_foreground;
+}
+
+#mlWidget{
+	border: none;
+}
+
+#mlTabIndicatorLbl{
+    background-color: transparent;
+}
+
+#mlTabIndicatorSelectedLbl{
+    background-color: @focus_foreground;
+}
+
+#projectsWidget{
+	border: none;
+}
+
+#projectsTabIndicatorLbl{
+    background-color: transparent;
+}
+
+#projectsTabIndicatorSelectedLbl{
+    background-color: @focus_foreground;
+}
+
+#annotationWidget{
+	border: none;
+}
+
+#annotTabBtn{
+    background-color: transparent;
+}
+
+#projectsTabBtn{
+    background-color: transparent;
+}
+
+#mlTabBtn{
+    background-color: transparent;
+}
+
+#infoBtn{
+    background-color: transparent;
+}
+
+#notificationBtn{
+    background-color: transparent;
+}

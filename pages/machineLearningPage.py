@@ -12,7 +12,7 @@ from model import Model
 from dialogs.createModelDialog import CreateModelDialog
 from custom_widgets.customBaseObjects.customUserInputQLineEdit import CustomUserInputQLineEdit
 from custom_widgets.customBaseObjects.customQComboBox import CustomQComboBox
-from yoloAnt_ui import Ui_MainWindow
+
 
 class MachineLearningPage():
     """

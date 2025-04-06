@@ -1,0 +1,57 @@
+#datasetHealthFrame{
+    background-color: @panel_background;
+    border-radius: 5px;
+}
+
+#classInfoFrame{
+    background-color: @panel_background;
+    border-radius: 5px;
+}
+
+#descriptionFrame{
+    background-color: @panel_background;
+    border-radius: 5px;
+}
+
+#mlInfoFrame{
+    background-color: @panel_background;
+    border-radius: 5px;
+}
+
+#datasetHealthLbl{
+    font: 75 bold 16pt @font_primary;
+    color: @font_header;
+}
+
+#classInfoFrameLbl{
+    font: 75 bold 16pt @font_primary;
+    color: @font_header;
+}
+
+#mlFrameLbl{
+    font: 75 bold 16pt @font_primary;
+    color: @font_header;
+}
+
+#classInfoBar{
+    background-color: @panel_foreground;
+}
+
+#colourHeaderLbl{
+    font: 75 bold 12pt @font_regular;
+    color: @font_header;
+}
+
+#classNameLbl{
+    font: 75 bold 12pt @font_regular;
+    color: @font_header;
+}
+
+#classBalanceHeaderLbl{
+    font: 75 bold 12pt @font_regular;
+    color: @font_header;
+}
+
+#projectImageBtnFrame{
+    background-color: @panel_background;
+}

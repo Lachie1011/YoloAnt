@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>530</width>
+    <width>600</width>
     <height>212</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>530</width>
+    <width>600</width>
     <height>212</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>530</width>
+    <width>600</width>
     <height>212</height>
    </size>
   </property>
@@ -32,12 +32,11 @@
    <string>About - YoloAnt</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(85, 87, 83);
-color: rgb(255, 255, 255);</string>
+   <string notr="true"/>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QFrame" name="MainFrame">
+    <widget class="QFrame" name="mainFrame">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -45,7 +44,7 @@ color: rgb(255, 255, 255);</string>
       </sizepolicy>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: 0;</string>
+      <string notr="true"/>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -91,7 +90,7 @@ color: rgb(255, 255, 255);</string>
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">border: 0;</string>
+         <string notr="true"/>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>

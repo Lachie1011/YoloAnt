@@ -4,25 +4,23 @@
 
 import sys
 import signal
-from enum import Enum
+from dataclasses import dataclass
 
 from PyQt6 import QtCore
 from PyQt6.QtCore import QEvent
-from PyQt6.QtGui import QCursor, QIcon, QFontDatabase, QKeySequence, QShortcut
-from PyQt6.QtWidgets import QApplication, QMainWindow, QHBoxLayout
+from PyQt6.QtGui import QIcon, QFontDatabase
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel
 
-from yoloAnt_ui import Ui_MainWindow
-
+from ui.yoloAnt_ui import Ui_MainWindow
 from pages.startPage import StartPage
 from pages.projectPage import ProjectPage
 from pages.annotationPage import AnnotationPage
 from pages.machineLearningPage import MachineLearningPage
 
 from dialogs.infoDialog import InfoDialog
-from utils.switch import Switch
 from notificationManager import NotificationManager
 
-from events.hoverEvent import HoverEvent
+from events.iconHoverAndCheckedEvent import IconHoverAndCheckedEvent
 
 from theme import *
 
@@ -35,12 +33,20 @@ class Pages(Enum):
     ProjectPage=2
     MachineLearningPage=3
 
+@dataclass
+class NavigationTab:
+    button: QPushButton
+    unselectedIconImagePath: str
+    selectedIconImagePath: str
+    unselectedIndicatorLabel: QLabel
+    selectedIndicatorLabel: QLabel
+
 
 class YoloAnt(QMainWindow):
     """
         Class that creates the yoloant application
     """
-    def __init__(self) -> None:
+    def __init__(self, app) -> None:
         """ init """
         super().__init__()
 
@@ -57,7 +63,8 @@ class YoloAnt(QMainWindow):
         self.theme = Theme()
 
         # Setup style sheet of application
-        self.__setupAppStyleSheet()
+        # self.__setupAppStyleSheet()
+        self.__createNavigationButtonClasses()
         
         # Starting the notification manager
         self.notificationManager = NotificationManager(self)
@@ -85,12 +92,25 @@ class YoloAnt(QMainWindow):
         self.machineLearningPage = MachineLearningPage(self)
         
         self.installEventFilter(self)
-        
-        #TODO: bind this to some setting
-        self.showMaximized()
 
+        #TODO: bind this to some setting
+        # QResource.registerResource("icons.qrc")
+        stylesheet_path = "themes/generated/dark_theme.qss"
+        if os.path.exists(stylesheet_path):
+            with open(stylesheet_path, "r") as f:
+                qss = f.read()
+                print("QSS Loaded:\n", qss)
+                app.setStyleSheet(qss)
+
+        print(self.ui.openProjectLbl.objectName())  # Should print "openProjectLbl"
+        print(self.ui.openProjectLbl.styleSheet())  # Should be "" if not overridden in code
+        self.ui.openProjectLbl.style().unpolish(self.ui.openProjectLbl)
+        self.ui.openProjectLbl.style().polish(self.ui.openProjectLbl)
+        self.ui.openProjectLbl.update()
+
+        self.showMaximized()
         self.show()
-    
+
     def eventFilter(self, object, event):
         """ Application level event filter """
         if event.type() == QEvent.Type.Resize or event.type() == QEvent.Type.Move:
@@ -131,72 +151,86 @@ class YoloAnt(QMainWindow):
         self.ui.projectsTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.ProjectPage))
         self.ui.mlTabBtn.clicked.connect(lambda: self.__updateStateOfNavigationButtons(Pages.MachineLearningPage))
 
+    def __createNavigationButtonClasses(self) -> None:
+        """ Initialises navigation tabs and creates associated data classes. """
+        self.annotationTab = NavigationTab(
+            self.ui.annotTabBtn,
+            "icons/icons8-pencil-30.png",
+            "icons/icons8-pencil-30-selected.png",
+            self.ui.annotTabIndicatorLbl,
+            self.ui.annotTabIndicatorSelectedLbl
+        )
+        self.ui.annotTabIndicatorSelectedLbl.setVisible(False)
+
+        self.projectTab = NavigationTab(
+            self.ui.projectsTabBtn,
+            "icons/icons8-project-30.png",
+            "icons/icons8-project-30-selected.png",
+            self.ui.projectsTabIndicatorLbl,
+            self.ui.projectsTabIndicatorSelectedLbl
+        )
+        self.ui.projectsTabIndicatorSelectedLbl.setVisible(False)
+
+        self.mlTab = NavigationTab(
+            self.ui.mlTabBtn,
+            "icons/icons8-ant-head-30.png",
+            "icons/icons8-ant-head-30-selected.png",
+            self.ui.mlTabIndicatorLbl,
+            self.ui.mlTabIndicatorSelectedLbl
+        )
+        self.ui.mlTabIndicatorSelectedLbl.setVisible(False)
+
+
     def __updateStateOfNavigationButtons(self, page: Pages) -> None:
         """ Updates the state of the navigation buttons """
         if not self.project:
-            self.ui.stackedWidget.setCurrentIndex(0)
+            self.ui.stackedWidget.setCurrentIndex(Pages.StartPage.value)
             self.currentPage = Pages.StartPage
-            self.ui.annotTabBtn.setChecked(False)
-            self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
-            self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{self.theme.colours['navigationbar.background']};}}")
-            self.ui.projectsTabBtn.setChecked(False)
-            self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
-            self.ui.projectsTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
-            self.ui.mlTabBtn.setChecked(False)
-            self.ui.mlTabBtn.setIcon(QIcon("icons/icons8-ant-head-50.png"))
-            self.ui.mlTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
-            self.ui.infoBtn.setChecked(False)
-            self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
+            self.__setNavigationTabToSelected(self.annotationTab, False)
+            self.__setNavigationTabToSelected(self.projectTab, False)
+            self.__setNavigationTabToSelected(self.mlTab, False)
             self.notificationManager.raiseNotification("No active project. Please open or create a new project.")
             return
 
-        if(page is Pages.AnnotationPage):
-            self.ui.stackedWidget.setCurrentIndex(1)
+        if page is Pages.AnnotationPage:
+            self.ui.stackedWidget.setCurrentIndex(Pages.AnnotationPage.value)
             self.currentPage = Pages.AnnotationPage
-            # Because of hover event, update check and also icon TODO: explore a cleaner alternative to checking / unchecking
-            self.ui.annotTabBtn.setChecked(True)
-            self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{self.theme.colours['focus.foreground']};}}")
-            self.ui.projectsTabBtn.setChecked(False)
-            self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
-            self.ui.projectsTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
-            self.ui.mlTabBtn.setChecked(False)
-            self.ui.mlTabBtn.setIcon(QIcon("icons/icons8-ant-head-50.png"))
-            self.ui.mlTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
-            self.ui.infoBtn.setChecked(False)
-            self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
+            self.__setNavigationTabToSelected(self.annotationTab, True)
+            self.__setNavigationTabToSelected(self.projectTab, False)
+            self.__setNavigationTabToSelected(self.mlTab, False)
             self.annotationPage.loadPage()
 
-        elif(page is Pages.ProjectPage):
-            self.ui.stackedWidget.setCurrentIndex(2)
+        elif page is Pages.ProjectPage:
+            self.ui.stackedWidget.setCurrentIndex(Pages.ProjectPage.value)
             self.currentPage = Pages.ProjectPage
-            self.ui.projectsTabBtn.setChecked(True)
-            self.ui.projectsTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['focus.foreground']};}}")
-            self.ui.annotTabBtn.setChecked(False)
-            self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
-            self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{self.theme.colours['navigationbar.background']};}}")
-            self.ui.mlTabBtn.setChecked(False)
-            self.ui.mlTabBtn.setIcon(QIcon("icons/icons8-ant-head-50.png"))
-            self.ui.mlTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
-            self.ui.infoBtn.setChecked(False)
-            self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
+            self.__setNavigationTabToSelected(self.annotationTab, False)
+            self.__setNavigationTabToSelected(self.projectTab, True)
+            self.__setNavigationTabToSelected(self.mlTab, False)
             self.projectPage.loadPage()
 
-        elif(page is Pages.MachineLearningPage):
-            self.ui.stackedWidget.setCurrentIndex(3)
+        elif page is Pages.MachineLearningPage:
+            self.ui.stackedWidget.setCurrentIndex(Pages.MachineLearningPage.value)
             self.currentPage = Pages.MachineLearningPage
-            self.ui.mlTabBtn.setChecked(True)
-            self.ui.mlTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['focus.foreground']};}}")
-            self.ui.annotTabBtn.setChecked(False)
-            self.ui.annotTabBtn.setIcon(QIcon("icons/icons8-pencil-50.png"))
-            self.ui.annotTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color:{self.theme.colours['navigationbar.background']};}}")
-            self.ui.projectsTabBtn.setChecked(False)
-            self.ui.projectsTabBtn.setIcon(QIcon("icons/icons8-project-50.png"))
-            self.ui.projectsTabIndicatorFrame.setStyleSheet(f"QFrame{{background-color: {self.theme.colours['navigationbar.background']};}}")
-            self.ui.infoBtn.setChecked(False)
-            self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-50.png"))
+            self.__setNavigationTabToSelected(self.annotationTab, False)
+            self.__setNavigationTabToSelected(self.projectTab, False)
+            self.__setNavigationTabToSelected(self.mlTab, True)
             self.machineLearningPage.loadPage(None)
 
-    def __onPageChange(self) -> None: 
+        self.ui.infoBtn.setChecked(False)
+        self.ui.infoBtn.setIcon(QIcon("icons/icons8-information-30.png"))
+
+    def __setNavigationTabToSelected(self, navigationTab: NavigationTab, isSelected: bool) -> None:
+        """ Sets a navigation tab to selected state. """
+        navigationTab.button.setChecked(isSelected)
+        navigationTab.unselectedIndicatorLabel.setVisible(not isSelected)
+        navigationTab.selectedIndicatorLabel.setVisible(isSelected)
+
+        if not isSelected:
+            navigationTab.button.setIcon(QIcon(navigationTab.unselectedIconImagePath))
+
+
+
+    def __onPageChange(self) -> None:
         """ Resets some application attributes on a page change """
         # Reset cursor icon
         QApplication.restoreOverrideCursor() 
@@ -219,37 +253,42 @@ class YoloAnt(QMainWindow):
         self.notificationManager.openNotificationManager()
 
     def __connectIconHover(self) -> None:
-        """ 
-            Installs the hover event filter onto the application navigation buttons
-            and updates the cursor icon on hover.
-        """
-        # Applying hover event and cursor change to annotTabBtn
-        self.ui.annotTabBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.annotTabHoverEvent = HoverEvent(self.ui.annotTabBtn, "icons/icons8-pencil-50.png", "icons/icons8-pencil-50-selected.png")
+        """ Installs the hover event filter onto the application navigation buttons. """
+
+        self.annotTabHoverEvent = IconHoverAndCheckedEvent(
+            self.annotationTab.button,
+            self.annotationTab.unselectedIconImagePath,
+            self.annotationTab.selectedIconImagePath
+        )
         self.ui.annotTabBtn.installEventFilter(self.annotTabHoverEvent)
 
-        # Applying hover event and cursor change to projectsTabBtn
-        self.ui.projectsTabBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.projectsTabHoverEvent = HoverEvent(self.ui.projectsTabBtn, "icons/icons8-project-50.png", "icons/icons8-project-50-selected.png")
+        self.projectsTabHoverEvent = IconHoverAndCheckedEvent(
+            self.projectTab.button,
+            self.projectTab.unselectedIconImagePath,
+            self.projectTab.selectedIconImagePath
+        )
         self.ui.projectsTabBtn.installEventFilter(self.projectsTabHoverEvent)
 
-        # Applying hover event and cursor change to mlTabBtn
-        self.ui.mlTabBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.mlTabHoverEvent = HoverEvent(self.ui.mlTabBtn, "icons/icons8-ant-head-50.png", "icons/icons8-ant-head-50-selected.png")
+        self.mlTabHoverEvent = IconHoverAndCheckedEvent(
+            self.mlTab.button,
+            self.mlTab.unselectedIconImagePath,
+            self.mlTab.selectedIconImagePath
+        )
         self.ui.mlTabBtn.installEventFilter(self.mlTabHoverEvent)
 
-        # Applying hover event and cursor change to infoBtn
-        self.ui.infoBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.infoBtnEvent = HoverEvent(self.ui.infoBtn, "icons/icons8-information-50.png", "icons/icons8-information-50-selected.png")
+        self.infoBtnEvent = IconHoverAndCheckedEvent(
+            self.ui.infoBtn,
+            "icons/icons8-information-30.png",
+            "icons/icons8-information-30-selected.png"
+        )
         self.ui.infoBtn.installEventFilter(self.infoBtnEvent)
 
-        # Applying hover event and cursor change to notificationBtn
-        self.ui.notificationBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.ui.notificationBtn.setStyleSheet("QPushButton::hover"
-                                "{"
-                                "background-color : #61635e;"
-                                "border-radius: 20px;"
-                                "}")
+        self.notificationBtnEvent = IconHoverAndCheckedEvent(
+            self.ui.notificationBtn,
+            "icons/icons8-notification-bell-30-inactive.png",
+            "icons/icons8-notification-bell-30-active.png"
+        )
+        self.ui.notificationBtn.installEventFilter(self.notificationBtnEvent)
 
     def __setupAppStyleSheet(self) -> None:
         """ Sets up the colour palette of the application """
@@ -288,9 +327,7 @@ def main() -> None:
     # Starting application
     global app  # Using a global reference for the signal handling - might be something better here
     app = QApplication(sys.argv)
-
-    YoloAnt()
-
+    YoloAnt(app)
     sys.exit(app.exec())
 
 if __name__ == '__main__':

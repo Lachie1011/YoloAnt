@@ -1,0 +1,39 @@
+#annotationToolsFrame{
+    background-color: @panel_background;
+    border-radius: 5px;
+}
+
+#imageFrame{
+    background-color: @menu_background;
+    border-radius: 5px;
+}
+
+#classSelectionFrame{
+    background-color: @panel_background;
+    border-radius: 5px;
+}
+
+#imageInfoFrame{
+    background-color: @panel_background;
+    border-radius: 5px;
+}
+
+#mouseToolBtn{
+    background-color: transparent;
+}
+
+#prevUnannoImageBtn{
+    background-color: transparent;
+}
+
+#prevImageBtn{
+    background-color: transparent;
+}
+
+#nextUnannoImageBtn{
+    background-color: transparent;
+}
+
+#nextImageBtn{
+    background-color: transparent;
+}

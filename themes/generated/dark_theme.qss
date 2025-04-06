@@ -1,0 +1,299 @@
+/* === Ui (custom_widgets.qss) === */
+QPushButton {
+    background-color: #585858;
+    border-radius: 10px;
+    font: 75 bold 12pt Gotham Rounded;
+    color: #ffffff;
+}
+
+QPushButton:hover {
+    background-color: #717171;
+}
+
+QLineEdit {
+    font: 12pt Gotham Rounded;
+    border-radius: 5px;
+    background-color: #404040;
+    border: 1px solid transparent;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #f4f4f4;
+}
+
+QLineEdit:hover {
+    background-color: #505050;
+}
+
+QLineEdit:focus {
+    background-color: #505050;
+    border: 1px solid #00a1f0;
+}
+
+QLabel {
+    font: 75 bold 12pt Gotham Rounded;
+    color: #f4f4f4;
+}
+
+/* === Ui (yoloAnt.qss) === */
+#leftMenuSubContainer{
+    background-color: #151515;
+}
+
+#bottomBarFrame{
+    background-color: #151515;
+}
+
+#stackedWidget{
+	background-color: #353535;
+}
+
+#infoWidget{
+	border: none;
+}
+
+#annotTabIndicatorLbl{
+    background-color: transparent;
+}
+
+#annotTabIndicatorSelectedLbl{
+    background-color: #00a1f0;
+}
+
+#mlWidget{
+	border: none;
+}
+
+#mlTabIndicatorLbl{
+    background-color: transparent;
+}
+
+#mlTabIndicatorSelectedLbl{
+    background-color: #00a1f0;
+}
+
+#projectsWidget{
+	border: none;
+}
+
+#projectsTabIndicatorLbl{
+    background-color: transparent;
+}
+
+#projectsTabIndicatorSelectedLbl{
+    background-color: #00a1f0;
+}
+
+#annotationWidget{
+	border: none;
+}
+
+#annotTabBtn{
+    background-color: transparent;
+}
+
+#projectsTabBtn{
+    background-color: transparent;
+}
+
+#mlTabBtn{
+    background-color: transparent;
+}
+
+#infoBtn{
+    background-color: transparent;
+}
+
+#notificationBtn{
+    background-color: transparent;
+}
+
+/* === Dialogs (informationDialog.qss) === */
+#MainDialog{
+    background-color: #282828;
+}
+
+#mainFrame{
+    border: 0;
+}
+
+#informationFrame{
+    border: 0;
+}
+
+#developersFrame{
+    border: 0;
+}
+
+#developersLbl{
+    font: 75 bold 12pt Gotham Rounded;
+    color: #f4f4f4;
+}
+
+#developersTxt{
+    font: 75 bold 12pt Gotham Rounded;
+    color: #f4f4f4;
+}
+
+#githubFrame{
+    border: 0;
+}
+
+#githubLbl{
+    font: 75 bold 12pt Gotham Rounded;
+    color: #f4f4f4;
+}
+
+#githubTxt{
+    font: 75 bold 12pt Gotham Rounded;
+    color: #f4f4f4;
+}
+
+#versionFrame{
+    border: 0;
+}
+
+#versionLbl{
+    font: 75 bold 12pt Gotham Rounded;
+    color: #f4f4f4;
+}
+
+#versionTxt{
+    font: 75 bold 12pt Gotham Rounded;
+    color: #f4f4f4;
+}
+
+/* === Pages (entryPage.qss) === */
+#MainDialog{
+    background-color: #282828;
+}
+
+#openProjectFrame{
+	border: none;
+	background: none;
+}
+
+#createProjectFrame{
+	border: none;
+	background: none;
+}
+
+#openProjecBtn{
+	border: none;
+	background: none;
+}
+
+#openProjecBtn:hover {
+    background-color: #535353;
+    border-radius: 20px;
+}
+
+#createProjectBtn{
+	border: none;
+	background: none;
+}
+
+#createProjectBtn:hover {
+    background-color: #535353;
+    border-radius: 20px;
+}
+
+/* === Pages (projectPage.qss) === */
+#datasetHealthFrame{
+    background-color: #454545;
+    border-radius: 5px;
+}
+
+#classInfoFrame{
+    background-color: #454545;
+    border-radius: 5px;
+}
+
+#descriptionFrame{
+    background-color: #454545;
+    border-radius: 5px;
+}
+
+#mlInfoFrame{
+    background-color: #454545;
+    border-radius: 5px;
+}
+
+#datasetHealthLbl{
+    font: 75 bold 16pt Gotham Rounded;
+    color: #ffffff;
+}
+
+#classInfoFrameLbl{
+    font: 75 bold 16pt Gotham Rounded;
+    color: #ffffff;
+}
+
+#mlFrameLbl{
+    font: 75 bold 16pt Gotham Rounded;
+    color: #ffffff;
+}
+
+#classInfoBar{
+    background-color: #646464;
+}
+
+#colourHeaderLbl{
+    font: 75 bold 12pt #f4f4f4;
+    color: #ffffff;
+}
+
+#classNameLbl{
+    font: 75 bold 12pt #f4f4f4;
+    color: #ffffff;
+}
+
+#classBalanceHeaderLbl{
+    font: 75 bold 12pt #f4f4f4;
+    color: #ffffff;
+}
+
+#projectImageBtnFrame{
+    background-color: #454545;
+}
+
+/* === Pages (annotationPage.qss) === */
+#annotationToolsFrame{
+    background-color: #454545;
+    border-radius: 5px;
+}
+
+#imageFrame{
+    background-color: #282828;
+    border-radius: 5px;
+}
+
+#classSelectionFrame{
+    background-color: #454545;
+    border-radius: 5px;
+}
+
+#imageInfoFrame{
+    background-color: #454545;
+    border-radius: 5px;
+}
+
+#mouseToolBtn{
+    background-color: transparent;
+}
+
+#prevUnannoImageBtn{
+    background-color: transparent;
+}
+
+#prevImageBtn{
+    background-color: transparent;
+}
+
+#nextUnannoImageBtn{
+    background-color: transparent;
+}
+
+#nextImageBtn{
+    background-color: transparent;
+}
+

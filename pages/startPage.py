@@ -3,12 +3,11 @@
 """
 
 import os
-import sys
+
+from PyQt6.QtGui import QIcon
 
 from project import Project
-from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import QFileDialog
-from yoloAnt_ui import Ui_MainWindow
 from dialogs.createProjectDialog import CreateProjectDialog
 
 class StartPage():
@@ -26,7 +25,7 @@ class StartPage():
 
         # Connecting signals and slots for the page
         self.__connectProjectButtons()
-        self.__connectIconHover()
+        self.__setIcons()
 
     def __connectProjectButtons(self) -> None:
         """ Connects the create and open project buttons"""
@@ -64,19 +63,13 @@ class StartPage():
             else:
                 self.app.notificationManager.raiseNotification(f"Could not find a .project file in {projectDir}")
 
-    def __connectIconHover(self) -> None:
+    def __setIcons(self) -> None:
         """ Connects the hover over functionality to icons """
         # updating stylesheets initially
-        
-        self.ui.openProjecBtn.setStyleSheet("QPushButton::hover{"
-                                            f"background-color : {self.app.theme.colours['app.hover']};"
-                                            "border-radius: 20px;}")
+        self.ui.createProjectBtn.setIcon(QIcon("icons/createProject.png"))
+        self.ui.openProjecBtn.setIcon(QIcon("icons/openProject.png"))
 
-        self.ui.createProjectBtn.setStyleSheet("QPushButton::hover{"
-                                            f"background-color : {self.app.theme.colours['app.hover']};"
-                                            "border-radius: 20px;}")
-
-    def __setupPageStyleSheet(self) -> None:
-        self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() + 
-                                                   f'background: {DarkThemePalette.panelColour.value};')
+    # def __setupPageStyleSheet(self) -> None:
+        # self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() +
+        #                                            f'background: {DarkThemePalette.panelColour.value};')
 

@@ -1,0 +1,53 @@
+#MainDialog{
+    background-color: @app_sunken;
+}
+
+#mainFrame{
+    border: 0;
+}
+
+#informationFrame{
+    border: 0;
+}
+
+#developersFrame{
+    border: 0;
+}
+
+#developersLbl{
+    font: 75 bold 12pt @font_primary;
+    color: @font_regular;
+}
+
+#developersTxt{
+    font: 75 bold 12pt @font_primary;
+    color: @font_regular;
+}
+
+#githubFrame{
+    border: 0;
+}
+
+#githubLbl{
+    font: 75 bold 12pt @font_primary;
+    color: @font_regular;
+}
+
+#githubTxt{
+    font: 75 bold 12pt @font_primary;
+    color: @font_regular;
+}
+
+#versionFrame{
+    border: 0;
+}
+
+#versionLbl{
+    font: 75 bold 12pt @font_primary;
+    color: @font_regular;
+}
+
+#versionTxt{
+    font: 75 bold 12pt @font_primary;
+    color: @font_regular;
+}

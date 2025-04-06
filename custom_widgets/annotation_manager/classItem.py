@@ -85,7 +85,7 @@ class ClassItem(QTreeWidgetItem):
 
     def __createClassSelectionFrame(self) -> CustomWidgetItemQFrame:
         """ Creates the selection frame for the class item. """
-        self.classAttributesFrame = ClassAttributesFrame(self.themePaletteColours, self.fontRegular)
+        self.classAttributesFrame = ClassAttributesFrame()
         self.expandToolButton = self.__createExpandButton()
 
         frame = CustomWidgetItemQFrame(self.themePaletteColours)

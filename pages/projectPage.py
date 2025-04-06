@@ -3,16 +3,13 @@
 """
 
 import cv2
-import sys
 
-from PyQt6 import QtWidgets, QtCore, QtGui
-from PyQt6.QtWidgets import QListWidget, QSizePolicy, QVBoxLayout, QSpacerItem, QGraphicsDropShadowEffect, QHBoxLayout, QFileDialog
-from PyQt6.QtGui import QCursor, QFont, QColor, QIcon
-from pyqtgraph import PlotWidget, plot
+from PyQt6 import QtCore, QtGui
+from PyQt6.QtWidgets import QSizePolicy, QVBoxLayout, QSpacerItem, QGraphicsDropShadowEffect, QHBoxLayout, \
+    QFileDialog, QFrame
+from PyQt6.QtGui import QColor, QIcon
 
 import pyqtgraph as pg
-
-from yoloAnt_ui import Ui_MainWindow
 
 from mlClass import MLClass
 from custom_widgets.customBaseObjects.customClassQListWidget import CustomClassQListWidget
@@ -156,52 +153,10 @@ class ProjectPage():
         self.classListWidget.setEditMode(toggled)
 
     def __setupPagePalette(self) -> None:
-
-        dropshadowEffect = QGraphicsDropShadowEffect()
-        dropshadowEffect.setBlurRadius(10)
-        color = QColor(self.app.theme.colours['app.dropshadow'])
-        dropshadowEffect.setColor(color)
-        dropshadowEffect.setOffset(0,2)
-
-        self.ui.descriptionFrame.setGraphicsEffect(dropshadowEffect)
-        self.ui.descriptionFrame.setStyleSheet("QFrame{"
-                                               "border-radius: 5px;"
-                                               f"background-color: {self.app.theme.colours['panel.background']};}}")    
-
-        dropshadowEffect2 = QGraphicsDropShadowEffect()
-        dropshadowEffect2.setBlurRadius(10)
-        color = QColor(self.app.theme.colours['app.dropshadow'])
-        dropshadowEffect2.setColor(color)
-        dropshadowEffect2.setOffset(0,2)
-
-        self.ui.mlInfoFrame.setGraphicsEffect(dropshadowEffect2)
-        self.ui.mlInfoFrame.setStyleSheet("QFrame{"
-                                          "border-radius: 5px;"
-                                          f"background-color: {self.app.theme.colours['panel.background']};}}")       
-
-        dropshadowEffect3 = QGraphicsDropShadowEffect()
-        dropshadowEffect3.setBlurRadius(10)
-        color = QColor(self.app.theme.colours['app.dropshadow'])
-        dropshadowEffect3.setColor(color)
-        dropshadowEffect3.setOffset(0,2)
-        self.ui.datasetHealthFrame.setGraphicsEffect(dropshadowEffect3)                                                                         
-        self.ui.datasetHealthFrame.setStyleSheet("QFrame{"
-                                                 "border-radius: 5px;"
-                                                 f"background-color: {self.app.theme.colours['panel.background']};}}")  
-
-        dropshadowEffect4 = QGraphicsDropShadowEffect()
-        dropshadowEffect4.setBlurRadius(10)
-        color = QColor(self.app.theme.colours['app.dropshadow'])
-        dropshadowEffect4.setColor(color)
-        dropshadowEffect4.setOffset(0,2)
-        self.ui.classInfoFrame.setGraphicsEffect(dropshadowEffect4)                                                     
-        self.ui.classInfoFrame.setStyleSheet("QFrame{"
-                                             "border-radius: 5px;"
-                                             f"background-color: {self.app.theme.colours['panel.background']};}}")
-
-        self.ui.mlFrameLbl.setStyleSheet("QLabel{"
-                                         f"font: 75 bold 16pt {self.app.fontTypeHeader};"
-                                         f"color: {self.app.theme.colours['font.header']};}}") 
+        self.__applyDropShadow(self.ui.descriptionFrame)
+        self.__applyDropShadow(self.ui.mlInfoFrame)
+        self.__applyDropShadow(self.ui.datasetHealthFrame)
+        self.__applyDropShadow(self.ui.classInfoFrame)
 
         self.ui.mAPLbl.setStyleSheet("QLabel{"
                                          f"font: 75 12pt {self.app.fontTypeTitle};"
@@ -225,34 +180,11 @@ class ProjectPage():
 
         self.ui.recallValueLbl.setStyleSheet("QLabel{"
                                          f"font: 75 bold 14pt {self.app.fontTypeTitle};"
-                                         f"color: {self.app.theme.colours['font.header']};}}") 
-
-        self.ui.healthLbl.setStyleSheet("QLabel{"
-                                        f"font: 75 bold 16pt {self.app.fontTypeHeader};"
-                                        f"color: {self.app.theme.colours['font.header']};}}") 
-
-        self.ui.classInfoFrameLbl.setStyleSheet("QLabel{"
-                                                f"font: 75 bold 16pt {self.app.fontTypeHeader};"
-                                                f"color: {self.app.theme.colours['font.header']};}}")
+                                         f"color: {self.app.theme.colours['font.header']};}}")
 
         self.ui.mdlSelLbl.setStyleSheet("QLabel{"
                                         f"font: 75 13pt {self.app.fontTypeTitle};"
                                         f"color: {self.app.theme.colours['font.header']};}}")
-
-        self.ui.colourHeaderLbl.setStyleSheet("QLabel{"
-                                              f"font: 75 13pt {self.app.fontTypeTitle};"
-                                              f"color: {self.app.theme.colours['font.regular']};}}")
-
-        self.ui.classNameLbl.setStyleSheet("QLabel{"
-                                           f"font: 75 13pt {self.app.fontTypeTitle};"
-                                           f"color: {self.app.theme.colours['font.regular']};}}")
-
-        self.ui.classBalanceHeaderLbl.setStyleSheet("QLabel{"
-                                                    f"font: 75 13pt {self.app.fontTypeTitle};"
-                                                    f"color: {self.app.theme.colours['font.regular']};}}")
-
-        self.ui.classInfoBar.setStyleSheet(self.ui.classInfoBar.styleSheet() +
-                                           f"background: {self.app.theme.colours['panel.foreground']}")
 
     def __setupStyleSheet(self) -> None: 
         """ Sets the style sheet for the page """
@@ -276,22 +208,6 @@ class ProjectPage():
         self.projectImageLayout.setContentsMargins(0,0,0,0)
         self.ui.projectImageBtnFrame.setLayout(self.projectImageLayout)
 
-        self.ui.addClassBtn.setStyleSheet("QPushButton{"
-                                          f"background-color: {self.app.theme.colours['buttonFilled.background']};"
-                                          f"border : 1px solid {self.app.theme.colours['buttonFilled.background']};"
-                                          "border-radius: 10px;"
-                                          f"font: 75 bold 12pt {self.app.fontTypeTitle};}}"
-                                          "QPushButton::hover{"
-                                          f"background-color: {self.app.theme.colours['buttonFilled.hover']};"
-                                          f"border : 1px solid {self.app.theme.colours['buttonFilled.hover']};}}")
-
-        self.ui.addDatasetHealthWidgetBtn.setStyleSheet("QPushButton{"
-                                          f"background-color: {self.app.theme.colours['buttonFilled.background']};"
-                                          f"border : 1px solid {self.app.theme.colours['buttonFilled.background']};"
-                                          "border-radius: 10px;}"
-                                          "QPushButton::hover{"
-                                          f"background-color: {self.app.theme.colours['buttonFilled.hover']};"
-                                          f"border : 1px solid {self.app.theme.colours['buttonFilled.hover']};}}")                      
         self.ui.addDatasetHealthWidgetBtn.setIcon(QIcon("icons/icons8-plus-button-24.png"))
 
         self.ui.mlModelComboBox.setStyleSheet("QComboBox{"
@@ -305,4 +221,11 @@ class ProjectPage():
                                               f"color: {self.app.theme.colours['panel.sunken']};}}"
                                               "QComboBox::down-arrow{"
                                               "image: url(icons/icons8-drop-down-arrow-10.png)}")
+
+    def __applyDropShadow(self, frame: QFrame) -> None:
+        shadow = QGraphicsDropShadowEffect()
+        shadow.setBlurRadius(10)
+        shadow.setColor(QColor(202020))
+        shadow.setOffset(0, 2)
+        frame.setGraphicsEffect(shadow)
 

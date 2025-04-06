@@ -26,7 +26,7 @@ class CreateProjectDialog(QDialog):
 
         # Connecting signals and slots for the dialog
         self.ui.dirSearchBtn.clicked.connect(lambda: self.__getImageDirectory())
-        self.ui.confirmBtn.clicked.connect(lambda: self.__validateDialogInputs())
+        self.ui.createBtn.clicked.connect(lambda: self.__validateDialogInputs())
 
         self.show()
     
@@ -49,28 +49,28 @@ class CreateProjectDialog(QDialog):
         # validating input
         valid = True   
         if projectName == "":
-            self.ui.nameInput.setStyleSheet("QLineEdit"
-                                "{"
-                                "border : 1px solid red;"
-                                "}")
+            # self.ui.nameInput.setStyleSheet("QLineEdit"
+            #                     "{"
+            #                     "border : 1px solid red;"
+            #                     "}")
             valid = False
-        else: 
-            self.ui.nameInput.setStyleSheet("QLineEdit"
-                    "{"
-                    "border : 1px solid #373737;"
-                    "}")
+        # else:
+            # self.ui.nameInput.setStyleSheet("QLineEdit"
+            #         "{"
+            #         "border : 1px solid #373737;"
+            #         "}")
 
         if imageDirectory == "" or not os.path.isdir(imageDirectory): 
-            self.ui.imageDirInput.setStyleSheet("QLineEdit"
-                                "{"
-                                "border : 1px solid red;"
-                                "}")
+            # self.ui.imageDirInput.setStyleSheet("QLineEdit"
+            #                     "{"
+            #                     "border : 1px solid red;"
+            #                     "}")
             valid = False
-        else: 
-            self.ui.imageDirInput.setStyleSheet("QLineEdit"
-                    "{"
-                    "border : 1px solid #373737;"
-                    "}")
+        # else:
+            # self.ui.imageDirInput.setStyleSheet("QLineEdit"
+            #         "{"
+            #         "border : 1px solid #373737;"
+            #         "}")
         if not valid:
             return
         

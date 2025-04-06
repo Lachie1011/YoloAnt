@@ -2,20 +2,15 @@
     annotationPage.py
 """
 
-import sys
 from enum import Enum
 from typing import Any
 
 from PyQt6 import QtCore
-from PyQt6.QtGui import QCursor, QIcon, QColor
+from PyQt6.QtGui import QIcon, QColor
 from PyQt6.QtWidgets import QApplication, QGraphicsDropShadowEffect
 
-from yoloAnt_ui import Ui_MainWindow
-
 from mlClass import MLClass
-from image import Image
-from events.hoverEvent import HoverEvent
-from events.resizeEvent import ResizeEvent
+from events.iconHoverAndCheckedEvent import IconHoverAndCheckedEvent
 from dialogs.createClassDialog import CreateClassDialog
 from custom_widgets.annotation_manager.annotationManager import AnnotationManager
 
@@ -256,8 +251,8 @@ class AnnotationPage():
 
     def __setupPagePalette(self) -> None:
         """ Sets the colour palette for the page widgets """  
-        self.ui.imageFrame.setStyleSheet(self.ui.imageFrame.styleSheet() +
-                                         f"background: {self.app.theme.colours['app.sunken']};")   
+        # self.ui.imageFrame.setStyleSheet(self.ui.imageFrame.styleSheet() +
+        #                                  f"background: {self.app.theme.colours['app.sunken']};")
 
         dropshadowEffect1 = QGraphicsDropShadowEffect()
         dropshadowEffect1.setBlurRadius(10)
@@ -265,8 +260,8 @@ class AnnotationPage():
         dropshadowEffect1.setColor(color)
         dropshadowEffect1.setOffset(0,2)
         self.ui.classSelectionFrame.setGraphicsEffect(dropshadowEffect1)
-        self.ui.classSelectionFrame.setStyleSheet(self.ui.classSelectionFrame.styleSheet() + 
-                                             f"background: {self.app.theme.colours['panel.background']};")   
+        # self.ui.classSelectionFrame.setStyleSheet(self.ui.classSelectionFrame.styleSheet() +
+        #                                      f"background: {self.app.theme.colours['panel.background']};")
 
         dropshadowEffect2 = QGraphicsDropShadowEffect()
         dropshadowEffect2.setBlurRadius(10)
@@ -274,8 +269,8 @@ class AnnotationPage():
         dropshadowEffect2.setColor(color)
         dropshadowEffect2.setOffset(0,2) 
         self.ui.imageInfoFrame.setGraphicsEffect(dropshadowEffect2)
-        self.ui.imageInfoFrame.setStyleSheet(self.ui.imageInfoFrame.styleSheet() +
-                                             f"background: {self.app.theme.colours['panel.background']};") 
+        # self.ui.imageInfoFrame.setStyleSheet(self.ui.imageInfoFrame.styleSheet() +
+        #                                      f"background: {self.app.theme.colours['panel.background']};")
         
         dropshadowEffect3 = QGraphicsDropShadowEffect()
         dropshadowEffect3.setBlurRadius(10)
@@ -283,38 +278,30 @@ class AnnotationPage():
         dropshadowEffect3.setColor(color)
         dropshadowEffect3.setOffset(0,2)  
         self.ui.annotationToolsFrame.setGraphicsEffect(dropshadowEffect3)
-        self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() + 
-                                                   f"background: {self.app.theme.colours['panel.background']};")
+        # self.ui.annotationToolsFrame.setStyleSheet(self.ui.annotationToolsFrame.styleSheet() +
+        #                                            f"background: {self.app.theme.colours['panel.background']};")
 
     def __connectIconHover(self) -> None:
         """ 
             Installs the hover event filter onto the image navigation buttons
             and the annotation tool buttons.
         """
-        
-        # Applying hover events and cursor change to Navigation Buttons
-        self.ui.prevUnannoImageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.prevUnannoBtnHoverEvent = HoverEvent(self.ui.prevUnannoImageBtn, "icons/icons8-chevron-prev-30.png", "icons/icons8-chevron-prev-30-selected.png")
+
+        self.prevUnannoBtnHoverEvent = IconHoverAndCheckedEvent(self.ui.prevUnannoImageBtn, "icons/icons8-chevron-prev-30.png", "icons/icons8-chevron-prev-30-selected.png")
         self.ui.prevUnannoImageBtn.installEventFilter(self.prevUnannoBtnHoverEvent)
 
-        self.ui.prevImageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.prevBtnHoverEvent = HoverEvent(self.ui.prevImageBtn, "icons/icons8-chevron-left-30.png", "icons/icons8-chevron-left-30-selected.png")
+        self.prevBtnHoverEvent = IconHoverAndCheckedEvent(self.ui.prevImageBtn, "icons/icons8-chevron-left-30.png", "icons/icons8-chevron-left-30-selected.png")
         self.ui.prevImageBtn.installEventFilter(self.prevBtnHoverEvent)
 
-        self.ui.nextImageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.nextBtnHoverEvent = HoverEvent(self.ui.nextImageBtn, "icons/icons8-chevron-right-30.png", "icons/icons8-chevron-right-30-selected.png")
+        self.nextBtnHoverEvent = IconHoverAndCheckedEvent(self.ui.nextImageBtn, "icons/icons8-chevron-right-30.png", "icons/icons8-chevron-right-30-selected.png")
         self.ui.nextImageBtn.installEventFilter(self.nextBtnHoverEvent)
 
-        self.ui.nextUnannoImageBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.nextUnannoBtnHoverEvent = HoverEvent(self.ui.nextUnannoImageBtn, "icons/icons8-chevron-next-30.png", "icons/icons8-chevron--next-30-selected.png")
+        self.nextUnannoBtnHoverEvent = IconHoverAndCheckedEvent(self.ui.nextUnannoImageBtn, "icons/icons8-chevron-next-30.png", "icons/icons8-chevron--next-30-selected.png")
         self.ui.nextUnannoImageBtn.installEventFilter(self.nextUnannoBtnHoverEvent)
-      
-        # Applying hover events and cursor change to Tool Selection Buttons 
-        self.ui.mouseToolBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.mouseBtnHoverEvent = HoverEvent(self.ui.mouseToolBtn, "icons/cursor-inactive.png", "icons/cursor-active.png")
+
+        self.mouseBtnHoverEvent = IconHoverAndCheckedEvent(self.ui.mouseToolBtn, "icons/cursor-inactive.png", "icons/cursor-active.png")
         self.ui.mouseToolBtn.installEventFilter(self.mouseBtnHoverEvent)
 
-        self.ui.annotateToolBtn.setCursor(QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.annotateBtnHoverEvent = HoverEvent(self.ui.annotateToolBtn, "icons/bounding-inactive.png", "icons/bounding-active.png")
+        self.annotateBtnHoverEvent = IconHoverAndCheckedEvent(self.ui.annotateToolBtn, "icons/bounding-inactive.png", "icons/bounding-active.png")
         self.ui.annotateToolBtn.installEventFilter(self.annotateBtnHoverEvent)
 

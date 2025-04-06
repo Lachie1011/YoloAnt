@@ -1,0 +1,34 @@
+QPushButton {
+    background-color: @buttonFilled_background;
+    border-radius: 10px;
+    font: 75 bold 12pt @font_primary;
+    color: @font_header;
+}
+
+QPushButton:hover {
+    background-color: @buttonFilled_hover;
+}
+
+QLineEdit {
+    font: 12pt @font_primary;
+    border-radius: 5px;
+    background-color: @listItem_background;
+    border: 1px solid transparent;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: @font_regular;
+}
+
+QLineEdit:hover {
+    background-color: @listItem_edit;
+}
+
+QLineEdit:focus {
+    background-color: @listItem_edit;
+    border: 1px solid @focus_foreground;
+}
+
+QLabel {
+    font: 75 bold 12pt @font_primary;
+    color: @font_regular;
+}
