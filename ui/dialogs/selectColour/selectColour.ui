@@ -17,11 +17,23 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Select Colour</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
-    <widget class="QFrame" name="colourSelectorFrame">
+    <widget class="QFrame" name="mainFrame">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -35,23 +47,31 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(65, 66, 64);
-border-radius: 10px;</string>
+      <string notr="true"/>
      </property>
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
       <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
        <number>0</number>
       </property>
       <item>
        <widget class="QFrame" name="colourSelectionFrame">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -59,7 +79,7 @@ border-radius: 10px;</string>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>220</height>
+          <height>200</height>
          </size>
         </property>
         <property name="frameShape">
@@ -69,8 +89,11 @@ border-radius: 10px;</string>
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
          <property name="topMargin">
-          <number>9</number>
+          <number>0</number>
          </property>
          <property name="rightMargin">
           <number>0</number>
@@ -99,7 +122,7 @@ background-color: qlineargradient(x1:1, x2:0, stop:0 hsl(0%,100%,50%), stop:1 rg
 </string>
            </property>
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::NoFrame</enum>
            </property>
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
@@ -129,7 +152,7 @@ background-color: qlineargradient(x1:1, x2:0, stop:0 hsl(0%,100%,50%), stop:1 rg
 </string>
               </property>
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::NoFrame</enum>
               </property>
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
@@ -232,7 +255,7 @@ border-radius: 5px;</string>
             <string notr="true"/>
            </property>
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::NoFrame</enum>
            </property>
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
@@ -257,7 +280,7 @@ border-radius: 5px;</string>
 border-radius: 5px;</string>
             </property>
             <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
@@ -305,7 +328,7 @@ border-radius: 5px;</string>
              <string notr="true">background-color: none;</string>
             </property>
             <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
@@ -316,19 +339,19 @@ border-radius: 5px;</string>
          <item>
           <widget class="QFrame" name="rgbSelectedFrame">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="minimumSize">
             <size>
-             <width>110</width>
-             <height>200</height>
+             <width>0</width>
+             <height>0</height>
             </size>
            </property>
            <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
+            <enum>QFrame::NoFrame</enum>
            </property>
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
@@ -337,12 +360,15 @@ border-radius: 5px;</string>
             <item>
              <widget class="QFrame" name="selectedColourFrame">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::NoFrame</enum>
               </property>
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">
+               <property name="spacing">
+                <number>0</number>
+               </property>
                <property name="leftMargin">
                 <number>0</number>
                </property>
@@ -385,14 +411,14 @@ background-color: rgb(255, 255, 255);
             <item>
              <widget class="QFrame" name="rgbInputFrame">
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::NoFrame</enum>
               </property>
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_6">
                <property name="spacing">
-                <number>0</number>
+                <number>10</number>
                </property>
                <property name="leftMargin">
                 <number>0</number>
@@ -409,35 +435,50 @@ background-color: rgb(255, 255, 255);
                <item>
                 <widget class="QFrame" name="rFrame">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>120</width>
-                   <height>0</height>
+                   <width>0</width>
+                   <height>40</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>120</width>
+                   <width>16777215</width>
                    <height>16777215</height>
                   </size>
                  </property>
                  <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
+                  <enum>QFrame::NoFrame</enum>
                  </property>
                  <property name="frameShadow">
                   <enum>QFrame::Raised</enum>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0">
+                  <property name="spacing">
+                   <number>10</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
                   <item>
                    <widget class="QLabel" name="redLbl">
                     <property name="maximumSize">
                      <size>
-                      <width>16</width>
+                      <width>16777215</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -452,6 +493,12 @@ font-size: 14pt;</string>
                   </item>
                   <item>
                    <widget class="QFrame" name="redLineEditFrame">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="minimumSize">
                      <size>
                       <width>60</width>
@@ -460,7 +507,7 @@ font-size: 14pt;</string>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>80</width>
+                      <width>16777215</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -481,35 +528,50 @@ font-size: 14pt;</string>
                <item>
                 <widget class="QFrame" name="gFrame">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>120</width>
-                   <height>0</height>
+                   <width>0</width>
+                   <height>40</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>120</width>
+                   <width>16777215</width>
                    <height>16777215</height>
                   </size>
                  </property>
                  <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
+                  <enum>QFrame::NoFrame</enum>
                  </property>
                  <property name="frameShadow">
                   <enum>QFrame::Raised</enum>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
+                  <property name="spacing">
+                   <number>10</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
                   <item>
                    <widget class="QLabel" name="greenLbl">
                     <property name="maximumSize">
                      <size>
-                      <width>16</width>
+                      <width>16777215</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -524,6 +586,12 @@ font-size: 14pt;</string>
                   </item>
                   <item>
                    <widget class="QFrame" name="greenLineEditFrame">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="minimumSize">
                      <size>
                       <width>60</width>
@@ -532,7 +600,7 @@ font-size: 14pt;</string>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>80</width>
+                      <width>16777215</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -553,29 +621,44 @@ font-size: 14pt;</string>
                <item>
                 <widget class="QFrame" name="bFrame">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>120</width>
-                   <height>0</height>
+                   <width>0</width>
+                   <height>40</height>
                   </size>
                  </property>
                  <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
+                  <enum>QFrame::NoFrame</enum>
                  </property>
                  <property name="frameShadow">
                   <enum>QFrame::Raised</enum>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <property name="spacing">
+                   <number>10</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
                   <item>
                    <widget class="QLabel" name="blueLbl">
                     <property name="maximumSize">
                      <size>
-                      <width>16</width>
+                      <width>16777215</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -590,15 +673,21 @@ font-size: 14pt;</string>
                   </item>
                   <item>
                    <widget class="QFrame" name="blueLineEditFrame">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="minimumSize">
                      <size>
-                      <width>60</width>
+                      <width>0</width>
                       <height>0</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>80</width>
+                      <width>16777215</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -619,29 +708,44 @@ font-size: 14pt;</string>
                <item>
                 <widget class="QFrame" name="hexFrame">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>120</width>
-                   <height>0</height>
+                   <width>0</width>
+                   <height>40</height>
                   </size>
                  </property>
                  <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
+                  <enum>QFrame::NoFrame</enum>
                  </property>
                  <property name="frameShadow">
                   <enum>QFrame::Raised</enum>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_6">
+                  <property name="spacing">
+                   <number>10</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
                   <item>
                    <widget class="QLabel" name="hexLbl">
                     <property name="maximumSize">
                      <size>
-                      <width>16</width>
+                      <width>16777215</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -656,15 +760,21 @@ font-size: 14pt;</string>
                   </item>
                   <item>
                    <widget class="QFrame" name="hexLineEditFrame">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="minimumSize">
                      <size>
-                      <width>60</width>
+                      <width>0</width>
                       <height>0</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>80</width>
+                      <width>16777215</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -706,17 +816,23 @@ font-size: 14pt;</string>
          </size>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::NoFrame</enum>
         </property>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
          <property name="topMargin">
-          <number>2</number>
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>5</number>
+          <number>0</number>
          </property>
          <item>
           <spacer name="horizontalSpacer">
@@ -743,14 +859,7 @@ font-size: 14pt;</string>
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(65, 66, 64);
-color: rgb(105, 105, 105);
-border : 3px solid;
-border-radius: 10px;
-border-color:  rgb(105, 105, 105); 
-font: 75 bold 12pt &quot;Gotham Rounded&quot;;
-
-</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>OK</string>
@@ -769,14 +878,7 @@ font: 75 bold 12pt &quot;Gotham Rounded&quot;;
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(65, 66, 64);
-color: rgb(80, 80, 80);
-border : 3px solid;
-border-radius: 10px;
-border-color:  rgb(80, 80, 80); 
-font: 75 bold 12pt &quot;Gotham Rounded&quot;;
-QPushButton::hover{background-color : rgb(255, 122, 112); }
-</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>Cancel</string>

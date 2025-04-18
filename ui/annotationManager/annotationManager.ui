@@ -32,7 +32,7 @@
    <item>
     <widget class="QFrame" name="utilityFrame">
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
@@ -74,6 +74,12 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="minimumSize">
+         <size>
+          <width>90</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
@@ -88,7 +94,7 @@
    <item>
     <widget class="QFrame" name="classSelectionFrame">
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>

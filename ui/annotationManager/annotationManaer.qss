@@ -1,0 +1,9 @@
+#classSelectionFrame{
+    background-color: @panel_sunken;
+    border-radius: 5px;
+}
+
+#classSelectionTreeWidget{
+    background-color: @panel_sunken;
+    border-radius: 5px;
+}
